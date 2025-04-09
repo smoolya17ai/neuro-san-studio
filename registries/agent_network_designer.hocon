@@ -136,6 +136,10 @@ Make agents granular so that you have at least a depth of three agents from the 
                             "type": "string",
                             "description": "comma separated list of the names of agents down-chain to this one."
                         },
+                        "top_agent": {
+                            "type": "string",
+                            "description": "'true' is this is a top agent."
+                        },
                     },
                     "required": ["agent_name", "instructions"]
                 }

@@ -206,6 +206,13 @@ class GetAgentNetworkHocon(CodedTool):
         """
         Returns a full agent network hocon.
         """
+        has_top_agent = False
+        for i, (agent_name, agent) in enumerate(self.agents.items()):
+            if agent["top_agent"] == "true":
+                has_top_agent = True
+        if not has_top_agent:
+            self.agents[0]["top_agent"] = "true"
+
         agent_network_hocon = HOCON_HEADER_START + agent_network_name + HOCON_HEADER_REMAINDER
         for i, (agent_name, agent) in enumerate(self.agents.items()):
             tools = ""
@@ -214,7 +221,7 @@ class GetAgentNetworkHocon(CodedTool):
                     tools = tools + "\"" + down_chain + "\""
                     if j < len(agent["down_chains"]) - 1:
                         tools = tools + ","
-            if i == 0: # top agent
+            if agent["top_agent"] == "true": # top agent
                 an_agent = TOP_AGENT_TEMPLATE % (agent_name, agent["instructions"], tools)
             elif agent["down_chains"]:
                 an_agent = REGULAR_AGENT_TEMPLATE % (agent_name, agent["instructions"], tools)
