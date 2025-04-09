@@ -54,6 +54,7 @@ class AddAgent(CodedTool):
         the_instructions: str = args.get("instructions", "")
         if the_instructions == "":
             return "Error: No agent instructions provided."
+        the_top_agent: str = args.get("top_agent", "")
 
         the_down_chains_input = args.get("down_chains", "")
         the_down_chains = []
@@ -72,13 +73,14 @@ class AddAgent(CodedTool):
         logger.info("Agent Name: %s", str(the_agent_name))
         logger.info("Instructions: %s", str(the_instructions))
         logger.info("Down Chain Agents: %s", str(the_down_chains))
-        the_agent_network_str = self.add_agent(the_agent_name, the_instructions, the_down_chains)
+        logger.info("Top Agent?: %s", str(the_top_agent))
+        the_agent_network_str = self.add_agent(the_agent_name, the_instructions, the_down_chains, the_top_agent)
         logger.info("The resulting agent network: \n %s", str(the_agent_network_str))
         sly_data[AGENT_NETWORK_NAME] = self.agents
         logger.info(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return the_agent_network_str
 
-    def add_agent(self, agent_name: str, instructions: str, down_chains: list):
+    def add_agent(self, agent_name: str, instructions: str, down_chains: list, top_agent:str):
         """
         Adds an agent to the hierarchy.
 
@@ -86,14 +88,16 @@ class AddAgent(CodedTool):
         - agent_name (str): A unique identifier for the agent.
         - instructions (str): A textual description of the agent's role.
         - down_chains (list): A list of agent keys representing the children of this agent.
+        - top_agent (str): A textual indication of whether the agent is the top agent.
 
         Example usage:
-            add_agent("light", "You are a light", ["On", "Off"])
+            add_agent("light", "You are a light", ["On", "Off"], "true")
             add_agent("On", "You turn the light on", [])
             add_agent("Off", "You turn the light off", [])
         """
         self.agents[agent_name] = {
             "instructions": instructions,
-            "down_chains": down_chains
+            "down_chains": down_chains,
+            "top_agent": top_agent
         }
         return str(self.agents[agent_name])
