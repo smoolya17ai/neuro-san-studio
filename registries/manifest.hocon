@@ -21,6 +21,5 @@
     "agent_network_generator.hocon" : true,
     "music_nerd.hocon": true,
     "music_nerd_pro.hocon": true,
-    "agentforce_agent.hocon": true,
     "agentforce.hocon": true,
 }
