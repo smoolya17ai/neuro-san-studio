@@ -1,11 +1,12 @@
 # Music Nerd Pro
 
-This simple agent network with an agent calling a tool.
+This simple agent network consists in a frontman agent and a "tool" agent,
+i.e. an agent that calls Python code.
 This is a good way to get familiar with coded tools.
 It allows to test for:
 - deterministic answers
 - follow-up questions
-- calling a coded tool
+- calling a coded tool (a Python function).
 
 ## Description
 
