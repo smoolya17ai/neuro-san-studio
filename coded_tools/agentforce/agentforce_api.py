@@ -5,7 +5,7 @@
 # You can be released from the terms, and requirements of the Academic Public
 # License by purchasing a commercial license.
 # Purchase of a commercial license is mandatory for any use of the
-# ENN-release SDK Software in commercial settings.
+# neuro-san-demos SDK Software in commercial settings.
 #
 from typing import Any
 from typing import Dict
