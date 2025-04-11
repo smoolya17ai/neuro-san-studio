@@ -3,7 +3,7 @@
 ## Simple agent network
 
 The `music_nerd` agent network is the simple agent network possible: it contains a single agent
-that answers questions about music since the 60s.
+that answers questions about music since the 60s. See its description here: [docs/examples/music_nerd.md](../docs/examples/music_nerd.md).
 
 The steps to start the server and the client are described in the [README](../README.md).
 When starting, the first thing the server will do is load the agent network configurations
