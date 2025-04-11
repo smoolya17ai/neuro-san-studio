@@ -49,7 +49,62 @@ Other models are supported too but will require proper setup.
 
 There are multiple ways in which we can now use the neuro-san server with a client
 
-### Option 1: Command Line Interface
+### Option 1: Using a basic web client interface
+
+Start the server and the client in one single command:
+```bash
+python -m run
+```
+
+The client and server logs will show on the screen,
+and will also be saved to `logs/server.log` and `logs/client.log` respectively.
+As a default, on a web browser you can now navigate to http://127.0.0.1:5003/ to start using the application:
+
+![web_client.png](docs/images/web_client.png)
+
+1. Expand the `Configuration` tab at the bottom of the interface
+2. Choose an Agent Network Name, e.g. "music_nerd", click Update  
+   💡 **Hint**: Check the server logs to see which agent networks are available. For instance:
+   ```
+   SERVER: {"message": "tool_registries found: ['hello_world', 'airline_policy', 'advanced_calculator', 'smart_home', 'smart_home_onf', 'agent_network_designer', 'agent_network_generator', 'music_nerd', 'music_nerd_pro', 'agentforce', 'banking_ops', 'cpg_agents', 'insurance_agents', 'intranet_agents', 'retail_ops_and_customer_service', 'six_thinking_hats', 'telco_network_support']", "user_id": "None", "Timestamp": "2025-04-11T11:20:22.092078", "source": "Agent Server", "message_type": "Other", "request_id": "None"}
+   ```
+   They should match the list of agent networks that are activated in the `registries/manifest.hocon` file.
+3. Type your message in the chat box and press 'Send' to interact with the agent network.
+4. Optional: open the `Agent Network Diagram` tab to visualize the interactions between the agents.
+5. Optional: open the `Agent Communications` tab to see the messages exchanged between the agents.
+
+Run this command to see the various config options for the server and client:
+```bash
+python -m run --help
+```
+
+---
+
+### Option 2: Using `nsflow` as a developer-oriented web client
+If you want to use neuro-san with a FastAPI-based developer-oriented client, follow these steps:
+
+- Install nsflow. Make sure to replace `x.x.x` with the actual version you want to install.
+```bash
+pip install wheels_private/nsflow-x.x.x-py3-none-any.whl
+```
+
+- Start the Backend & Frontend, from project root
+```bash
+python -m nsflow.run
+```
+
+By default:
+- Frontend will be available at: `http://127.0.0.1:4173`
+- OpenAPI specs will be available at: `http://127.0.0.1:4173/docs`
+
+To see the various config options for this app, on terminal
+```bash
+python -m nsflow.run --help
+```
+
+---
+
+### Option 3: Command Line Interface
 
 - Export the following environment variables:
 ```bash
@@ -87,64 +142,6 @@ And it should return something like:
 ... but you are dealing with LLMs. Your results will vary!
 
 Type `quit` to exit the client.
-
----
-
-### Option 2: Using a basic Web Client interface
-
-- Start the server and the client in one single command:
-```bash
-python -m run
-```
-
-The client and server logs will show on the screen,
-and will also be saved to `logs/server.log` and `logs/client.log` respectively.
-As a default, on a web browser you can now navigate to http://127.0.0.1:5003/ to start using the application.
-
-- To see the various config options for this app, on terminal
-```bash
-python -m run -h
-```
-or
-```bash
-python -m run --help
-```
-
-- (Optional) How to run in demo-mode
-
-This is really meant to experience some of the default multi-agent networks that are available in the neuro-san library.
-To use it, start the server and the client in one single command:
-```bash
-python -m run --demo-mode
-```
-
----
-
-### Option 3: Using `nsflow` as a developer-oriented web client
-If you want to use neuro-san with a FastAPI-based developer-oriented client, follow these steps:
-
-- Install nsflow. Make sure to replace `x.x.x` with the actual version you want to install.
-```bash
-pip install wheels_private/nsflow-x.x.x-py3-none-any.whl
-```
-
-- Start the Backend & Frontend, from project root
-```bash
-python -m nsflow.run
-```
-
-By default:
-- Frontend will be available at: `http://127.0.0.1:4173`
-- OpenAPI specs will be available at: `http://127.0.0.1:4173/docs`
-
-To see the various config options for this app, on terminal
-```bash
-python -m nsflow.run -h
-```
-or
-```bash
-python -m nsflow.run --help
-```
 
 ---
 
