@@ -1,6 +1,6 @@
 # Music Nerd
 
-This a very simple agent network with a single agent, used as a "Hello world!" example.
+This is a very simple agent network with a single agent, used as a "Hello world!" example.
 It allows to test for:
 - deterministic answers
 - follow-up questions
