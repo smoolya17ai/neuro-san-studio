@@ -32,11 +32,7 @@ Read the instructions of the agent to see what it does.
 Feel free to modify the instructions to see how it affects the agent's behavior.
 See if you can make it a soccer expert for instance!
 
-We'll come back to the structure of agent networks' .hocon files later.
-
-## LLM configuration
-
-TODO
+We'll describe the structure of agent networks' .hocon files in next section.
 
 ## Hocon files
 
@@ -90,6 +86,47 @@ tool_registries found: ['agent_network_A', 'agent_network_C']
 | model_name  | name of the model to use (i.e. “gpt-4o”, “claude-3-haiku”)                                                                            |
 | *_api_key   | api key value or environment variable to reference to allow access to the LLM provider if different from hosting environment default. |
 | temperature | optional level of randomness 0.0-1.0 to use for LLM results                                                                           |
+
+See next section for more information about how to specify the LLM(s) to use.
+
+## LLM configuration
+
+The `llm_config` section of the agent network configuration file specifies which LLM to use
+for the agents in this file. It can be specified:
+- at the agent network level, to apply to all agents in this file
+- at the agent level, to apply to a specific agent
+
+### OpenAI
+
+To use an OpenAI LLM, set the `OPENAI_API_KEY` environment variable to your OpenAI API key
+and specify which model to use in the `model_name` field:
+```hocon
+    "llm_config": {
+        "model_name": "gpt-4o",
+    },
+```
+
+See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
+
+### Ollama
+
+To use an LLM that runs locally with [Ollama](https://ollama.com/):
+- Make sure the Ollama server is running
+- Make sure the model is downloaded and available in the Ollama server. For instance, `ollama run llama3.1`
+  will download the model and make it available for use.
+- Set the `class` and `model_name` fields in the `llm_config` section of the agent network configuration file:
+```hocon
+    "llm_config": {
+        "class": "ollama",
+        "model_name": "llama3.1",
+    },
+```
+
+See [./examples/music_nerd_pro_local.md](./examples/music_nerd_pro_local.md) for an example.
+
+For more information about how to use Ollama with LangChain,
+see [this page](https://python.langchain.com/docs/integrations/chat/ollama/)
+
 
 ## Multi-agent networks
 
