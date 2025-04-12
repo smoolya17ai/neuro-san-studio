@@ -46,6 +46,7 @@ class NeuroSanRunner:
         parser.add_argument('--server-port', type=int, default=self.neuro_san_server_port, help="Port number for the Neuro SAN server")
         parser.add_argument('--web-client-port', type=int, default=self.neuro_san_web_client_port, help="Port number for the web client")
         parser.add_argument('--thinking-file', type=str, default=self.thinking_file, help="Path to the agent thinking file")
+        parser.add_argument('--no-html', action='store_true', help="Don't generate html for network diagrams")
 
         return vars(parser.parse_args())
 
@@ -131,7 +132,9 @@ class NeuroSanRunner:
         # Set environment variables
         self.set_environment_variables()
 
-        self.generate_html_files()
+        # Generate HTML files unless asked not to
+        if not self.config["no_html"]:
+            self.generate_html_files()
 
         # Ensure logs directory exists
         os.makedirs("logs", exist_ok=True)
