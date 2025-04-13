@@ -46,28 +46,23 @@ class NeuroSanRunner:
         parser.add_argument('--server-port', type=int, default=self.neuro_san_server_port, help="Port number for the Neuro SAN server")
         parser.add_argument('--web-client-port', type=int, default=self.neuro_san_web_client_port, help="Port number for the web client")
         parser.add_argument('--thinking-file', type=str, default=self.thinking_file, help="Path to the agent thinking file")
-        parser.add_argument('--demo-mode', action='store_true', help="Run in demo mode, using default neuro-san settings")
+        parser.add_argument('--no-html', action='store_true', help="Don't generate html for network diagrams")
 
         return vars(parser.parse_args())
 
-    def set_environment_variables(self):
+    @staticmethod
+    def set_environment_variables():
         """Set required environment variables, optionally using neuro-san defaults."""
         os.environ["PYTHONPATH"] = os.getcwd()
-
-        if self.config["demo_mode"]:
-            os.environ.pop("AGENT_MANIFEST_FILE", None)
-            os.environ.pop("AGENT_TOOL_PATH", None)
-            print("Running in **Demo Mode** - Using neuro-san default manifest and tools")
-        else:
-            os.environ["AGENT_MANIFEST_FILE"] = "./registries/manifest.hocon"
-            os.environ["AGENT_TOOL_PATH"] = "./coded_tools"
+        os.environ["AGENT_MANIFEST_FILE"] = "./registries/manifest.hocon"
+        os.environ["AGENT_TOOL_PATH"] = "./coded_tools"
 
         print(f"PYTHONPATH set to: {os.environ['PYTHONPATH']}\n")
-        if not self.config["demo_mode"]:
-            print(f"AGENT_MANIFEST_FILE set to: {os.environ['AGENT_MANIFEST_FILE']}")
-            print(f"AGENT_TOOL_PATH set to: {os.environ['AGENT_TOOL_PATH']}\n")
+        print(f"AGENT_MANIFEST_FILE set to: {os.environ['AGENT_MANIFEST_FILE']}")
+        print(f"AGENT_TOOL_PATH set to: {os.environ['AGENT_TOOL_PATH']}\n")
 
-    def generate_html_files(self):
+    @staticmethod
+    def generate_html_files():
         """Generate .html files for all registry files except manifest.hocon."""
         for file in glob.glob("./registries/*"):
             if os.path.basename(file) != "manifest.hocon":
@@ -80,7 +75,8 @@ class NeuroSanRunner:
                 if result.stderr:
                     print(result.stderr, file=sys.stderr)
 
-    def stream_output(self, pipe, log_file, prefix):
+    @staticmethod
+    def stream_output(pipe, log_file, prefix):
         """Stream subprocess output to console and log file in real-time."""
         with open(log_file, "a") as log:
             for line in iter(pipe.readline, ''):
@@ -136,8 +132,8 @@ class NeuroSanRunner:
         # Set environment variables
         self.set_environment_variables()
 
-        # Generate HTML files if not in demo mode
-        if not self.config["demo_mode"]:
+        # Generate HTML files unless asked not to
+        if not self.config["no_html"]:
             self.generate_html_files()
 
         # Ensure logs directory exists
