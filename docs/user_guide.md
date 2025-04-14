@@ -1,10 +1,11 @@
 # User guide
 
-## Hello World
+## Simple agent network
 
-The `hello_world` agent network is a simple agent network that returns a greeting when prompted.
+The `music_nerd` agent network is the simple agent network possible: it contains a single agent
+that answers questions about music since the 60s. See its description here: [docs/examples/music_nerd.md](../docs/examples/music_nerd.md).
 
-The steps to start the server and the client are described above.
+The steps to start the server and the client are described in the [README](../README.md).
 When starting, the first thing the server will do is load the agent network configurations
 from the "manifest" file. The manifest file is specified by the `AGENT_MANIFEST_FILE` environment variable:
 ```
@@ -13,24 +14,27 @@ AGENT_MANIFEST_FILE="./registries/manifest.hocon"
 Open [./registries/manifest.hocon](../registries/manifest.hocon) and look at its contents. It should look something like this:
 ```hocon
 {
-    # Currently we list each hocon file we want to serve as a key with a boolean value.
-    # Eventually we might have a dictionary value with server specifications for each.
-    "hello_world.hocon": true,
-    # ...
+    # ... other agent networks ... #
+    "music_nerd.hocon": true,
+    # ... other agent networks ... #
 }
 ```
-This tells the server to load the `hello_world.hocon` file from the same `/registries` folder.
+This tells the server to load the `music_nerd.hocon` file from the same `/registries` folder.
 
-Open [./registries/hello_world.hocon](../registries/hello_world.hocon) and have a look at it.
-For now just note that it contains a "Front Man",
-called "announcer", which is the entry point to the agent network.
-The "announcer" tool, also known as an "agent", has 1 tool at its disposal (another agent), called "synonymizer".
-Read the instructions of these 2 agents to see what they do.
-Feel free to modify the instructions to see how the agent network behaves.
+Setting the value to `false` would make the server ignore this agent network.
 
-We'll come back to the structure of .hocon files later.
+Open [./registries/music_nerd.hocon](../registries/hello_world.hocon) and have a look at it.
+For now just note that it contains:
+- an `llm_config` section that specifies which LLM to use by default for the agents in this file
+- a `tools` section that contains a single agent, the "frontman", called `MusicNerd`
 
-## Hello World - custom LLMs
+Read the instructions of the agent to see what it does.
+Feel free to modify the instructions to see how it affects the agent's behavior.
+See if you can make it a soccer expert for instance!
+
+We'll come back to the structure of agent networks' .hocon files later.
+
+## LLM configuration
 
 TODO
 
