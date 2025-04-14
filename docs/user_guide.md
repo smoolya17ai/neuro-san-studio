@@ -112,8 +112,11 @@ See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
 
 To use an LLM that runs locally with [Ollama](https://ollama.com/):
 - Make sure the Ollama server is running
-- Make sure the model is downloaded and available in the Ollama server. For instance, `ollama run llama3.1`
-  will download the model and make it available for use.
+- Make sure the model is downloaded, up-to-date and available in the Ollama server. For instance, `ollama run llama3.1`
+  will download the model and make it available for use. `ollama pull llama3.1`
+  will update the model to the latest version if needed.
+- If the agent network contains tools, make sure the model can call tools:
+  see [Ollama's documentation for models that support tools](https://ollama.com/search?c=tools)
 - Set the `class` and `model_name` fields in the `llm_config` section of the agent network configuration file:
 ```hocon
     "llm_config": {
