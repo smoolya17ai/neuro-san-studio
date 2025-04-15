@@ -1,5 +1,8 @@
 # Examples
 
+## Airline Policy 360 Assistant
+[Airline Policy 360 Assistant](./examples/airline_policy.md) is a sophisticated multi-agent system designed to manage and respond to customer inquiries by referring to related airline policies with structured delegation. It mimics a real-world helpdesk with specialized teams, each handling a specific domain of airline policies such as baggage, flights, international travel, and more.
+
 ## Music Nerd
 
 [Music Nerd](./examples/music_nerd.md) is a very simple agent network with a single agent,
