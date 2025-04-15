@@ -24,7 +24,7 @@ to get the new cost.
 ## Example conversation:
 
 ```
-Human: Which band wrote Yello Submarine?
+Human: Which band wrote Yellow Submarine?
 AI: ... The Beatles ...
     ... running cost ... $1.00 ...
 ```
