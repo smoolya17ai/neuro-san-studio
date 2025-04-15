@@ -5,6 +5,10 @@ It allows to test for:
 - deterministic answers
 - follow-up questions
 
+## File
+
+[music_nerd.hocon](../../registries/music_nerd.hocon)
+
 ## Description
 
 Music nerd is an agent network that can answer questions about music since the 60s.

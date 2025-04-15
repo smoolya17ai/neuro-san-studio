@@ -1,5 +1,5 @@
 # Demos for the neuro-san library
-This repository contains a collection of demos for the neuro-san library.
+This repository contains a collection of demos for the [neuro-san library](https://github.com/leaf-ai/neuro-san).
 They should help developers get started with the library and understand how to create their own agent networks.
 
 ---

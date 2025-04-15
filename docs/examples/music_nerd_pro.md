@@ -8,6 +8,11 @@ It allows to test for:
 - follow-up questions
 - calling a coded tool (a Python function).
 
+## File
+
+[music_nerd_pro.hocon](../../registries/music_nerd_pro.hocon)
+
+
 ## Description
 
 Music nerd Pro is an agent network that can answer questions about music since the 60s.
