@@ -25,6 +25,12 @@ Create a dedicated Python virtual environment:
 python -m venv venv
 ```
 Source it:
+- For Windows:
+```bash
+.\venv\Scripts\activate && export PYTHONPATH=`pwd`
+```
+
+- For Mac:
 ```bash
 source venv/bin/activate && export PYTHONPATH=`pwd`
 ```
