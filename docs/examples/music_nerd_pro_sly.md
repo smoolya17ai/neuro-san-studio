@@ -24,12 +24,27 @@ current `running cost` and pass it down to the Accountant tool,
 like in `music_nerd_pro`, the Accountant tool uses a `running_cost` variable
 in the `sly_data` to keep track of the cost.
 
+The important part of the .hocon file is this section in the frontman agent that
+declares which variables from the `sly_data` should be carried forward by the frontman
+to its upstream caller so that the caller can keep track of the state:
+```hocon
+            "allow": {
+                "to_upstream": {
+                    "sly_data": {
+                        "running_cost": true,
+                    }
+                }
+            },
+
+```
+It means that the "upstream" caller of the frontman, e.g. a neuro-san client session, will receive
+a `running_cost` variable in its `returned_sly_data`, if the sly data contains one.
+
 ## Example conversation:
 
 ```
 Human: Which band wrote Yellow Submarine?
-AI: ... The Beatles ...
-    ... running cost ... $1.00 ...
+AI: { "answer": "The Beatles wrote Yellow Submarine.", "running_cost": 1.0 }
 ```
 Expectation: the answer should contain:
 - "The Beatles".
@@ -38,9 +53,8 @@ Expectation: the answer should contain:
 Follow-up question, to check the conversation history is carried over:
 ```
 Human: Where are they from?
-AI: ... Liverpool ...
-    ... running cost ... $2.00 ...
+AI: { "answer": "The Beatles were from Liverpool, England.", "running_cost": 2.0 }
 ```
 The answer should contain "Liverpool".
 And a running cost of $2.00.
-Debug logs should show that the agent has passed the previous cost to the tool.
+Debug logs should show that the Accountant has computed and returned the cost.
