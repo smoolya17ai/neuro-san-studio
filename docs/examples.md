@@ -18,7 +18,18 @@ Exact copy of [Music Nerd](./examples/music_nerd.md) that uses an LLM that runs 
 
 ## Music Nerd Pro Local
 
-Exact copy of [Music Nerd Pro](./examples/music_nerd_pro.md) that uses a **tool-calling** LLM that runs locally with Ollama.
+Exact copy of [Music Nerd Pro](./examples/music_nerd_pro.md) that uses
+a **tool-calling** LLM that runs locally with Ollama.
+
+## Music Nerd Pro Sly
+
+Copy of [Music Nerd Pro](./examples/music_nerd_pro.md) that uses `sly_data` to keep track of a variable.
+This is a good way to learn about how to manage a state in a conversation.
+
+## Music Nerd Pro Sly Local
+
+Exact copy of [Music Nerd Pro Sly](./examples/music_nerd_pro_sly.md) that uses
+a **tool-calling** LLM that runs locally with Ollama.
 
 ## Airline Policy 360 Assistant
 
