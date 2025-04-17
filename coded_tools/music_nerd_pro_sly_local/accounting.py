@@ -30,6 +30,7 @@ class AccountantSly(CodedTool):
 
         :return: A dictionary containing:
                  "running_cost": the updated running cost.
+                 IMPORTANT: Also UPDATES the sly_data dictionary with the new running cost.
         """
         tool_name = self.__class__.__name__
         print(f"========== Calling {tool_name} ==========")
