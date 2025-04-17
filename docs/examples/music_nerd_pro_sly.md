@@ -2,7 +2,7 @@
 
 This simple agent network consists in a frontman agent and a "tool" agent,
 i.e. an agent that calls Python code.
-This is a good way to get familiar with coded tools.
+This is a good way to get familiar with coded tools and `sly_data to carry a state.
 It allows to test for:
 - deterministic answers
 - follow-up questions
@@ -18,9 +18,11 @@ It allows to test for:
 
 Music nerd Pro is an agent network that can answer questions about music since the 60s.
 It also calls a tool that increments a counter of the number of questions answered.
-The agent knows it has to call the tool to keep track of the "running cost", but it
-has no idea how the cost is calculated. Instead of having to pass the previous cost to the tool,
-like in `music_nerd_pro`, the tool uses `sly_data` to keep track of the cost.
+The agent knows it has to call the tool to keep track of the `running cost`, but it
+has no idea how the cost is calculated. Instead of asking the LLM to figure out the
+current `running cost` and pass it down to the Accountant tool,
+like in `music_nerd_pro`, the Accountant tool uses a `running_cost` variable
+in the `sly_data` to keep track of the cost.
 
 ## Example conversation:
 
