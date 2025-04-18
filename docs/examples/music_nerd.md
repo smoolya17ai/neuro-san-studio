@@ -16,7 +16,7 @@ Music nerd is an agent network that can answer questions about music since the 6
 ## Example conversation:
 
 ```
-Human: Which band wrote Yello Submarine?
+Human: Which band wrote Yellow Submarine?
 AI: ... The Beatles ...
 ```
 Expectation: the answer should contain "The Beatles".

@@ -14,11 +14,26 @@ This is a good way to learn about how to call Python code from an agent.
 
 ## Music Nerd Local
 
-Exact copy of [Music Nerd](./examples/music_nerd.md) that uses an LLM that runs locally with Ollama.
+[Music Nerd Local](./examples/music_nerd_local.md) is an exact copy of
+[Music Nerd](./examples/music_nerd.md) that uses an LLM that runs locally with Ollama.
 
 ## Music Nerd Pro Local
 
-Exact copy of [Music Nerd Pro](./examples/music_nerd_pro.md) that uses a **tool-calling** LLM that runs locally with Ollama.
+[Music Nerd Pro Local](./examples/music_nerd_pro_local.md) is an exact copy of
+[Music Nerd Pro](./examples/music_nerd_pro.md) that uses
+a **tool-calling** LLM that runs locally with Ollama.
+
+## Music Nerd Pro Sly
+
+[Music Nerd Pro Sly](./examples/music_nerd_pro_sly.md) is a copy of
+[Music Nerd Pro](./examples/music_nerd_pro.md) that uses `sly_data` to keep track of a variable.
+This is a good way to learn about how to manage a state in a conversation.
+
+## Music Nerd Pro Sly Local
+
+[Music Nerd Pro Sly Local](./examples/music_nerd_pro_sly_local.md) is a copy of
+[Music Nerd Pro Sly](./examples/music_nerd_pro_sly.md) that uses
+a **tool-calling** LLM that runs locally with Ollama.
 
 ## Airline Policy 360 Assistant
 

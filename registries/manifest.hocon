@@ -23,6 +23,8 @@
     "music_nerd_local.hocon": true,
     "music_nerd_pro.hocon": true,
     "music_nerd_pro_local.hocon": true,
+    "music_nerd_pro_sly.hocon": true,
+    "music_nerd_pro_sly_local.hocon": true,
     "agentforce.hocon": true,
     "banking_ops.hocon": true,
     "cpg_agents.hocon": true,
