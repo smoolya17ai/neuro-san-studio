@@ -12,13 +12,12 @@ Welcome to the **Neuro AI Multi-Agent Accelerator** tutorial. In this guide, we 
   * [1. Introduction](#1-introduction)
   * [2. Project Structure](#2-project-structure)
     * [Key directories and files:](#key-directories-and-files)
-  * [3. The Wheel Files](#3-the-wheel-files)
-  * [4. Setting Up a Working Python Environment](#4-setting-up-a-working-python-environment)
-  * [5. What is an LLM-based Agent?](#5-what-is-an-llm-based-agent)
+  * [3. Setting Up a Working Python Environment](#3-setting-up-a-working-python-environment)
+  * [4. What is an LLM-based Agent?](#4-what-is-an-llm-based-agent)
     * [Agents for Autonomous Decision Making](#agents-for-autonomous-decision-making)
     * [Function Calling with Agents](#function-calling-with-agents)
     * [Data-Driven Agent Network](#data-driven-agent-network)
-  * [6. Creating an Agent Network from Scratch](#6-creating-an-agent-network-from-scratch)
+  * [5. Creating an Agent Network from Scratch](#5-creating-an-agent-network-from-scratch)
     * [Single Agent Network Example](#single-agent-network-example)
       * [Step 1: Create a file `registries/single_agent_example.hocon`:](#step-1-create-a-file-registriessingle_agent_examplehocon)
       * [Step 2: Run the server with this `.hocon` file. You can do so by:](#step-2-run-the-server-with-this-hocon-file-you-can-do-so-by)
@@ -26,18 +25,18 @@ Welcome to the **Neuro AI Multi-Agent Accelerator** tutorial. In this guide, we 
     * [LLM Config](#llm-config)
       * [Notes on `llm_config`:](#notes-on-llm_config)
       * [Running the multi-agent network:](#running-the-multi-agent-network)
-  * [7. How to Switch LLMs Using the HOCON File](#7-how-to-switch-llms-using-the-hocon-file)
+  * [6. How to Switch LLMs Using the HOCON File](#6-how-to-switch-llms-using-the-hocon-file)
     * [Setting Up Ollama Locally](#setting-up-ollama-locally)
     * [Adding Endpoint URL for Any Cloud-Hosted LLM](#adding-endpoint-url-for-any-cloud-hosted-llm)
-  * [8. Coded Tools](#8-coded-tools)
+  * [7. Coded Tools](#7-coded-tools)
     * [What Are Coded Tools?](#what-are-coded-tools)
     * [Adding a Coded Tool](#adding-a-coded-tool)
     * [Simple Calculator Tool](#simple-calculator-tool)
     * [Complex Calculator Tool](#complex-calculator-tool)
-  * [9. How to Access the Logs](#9-how-to-access-the-logs)
-    * [10. How to Stop the Server](#10-how-to-stop-the-server)
-  * [11. Key Aspects of Neuro AI Multi-Agent Accelerator](#11-key-aspects-of-neuro-ai-multi-agent-accelerator)
-  * [12. End Notes](#12-end-notes)
+  * [8. How to Access the Logs](#8-how-to-access-the-logs)
+  * [9. How to Stop the servers](#9-how-to-stop-the-servers)
+  * [10. Key Aspects of Neuro AI Multi-Agent Accelerator](#10-key-aspects-of-neuro-ai-multi-agent-accelerator)
+  * [11. End Notes](#11-end-notes)
 <!-- TOC -->
 
 ---
@@ -70,11 +69,6 @@ Below is a simplified view of the reference project structure. You can adapt it 
 │   └── manifest.hocon
 ├── requirements.txt
 ├── run.py
-└── wheels_private
-    ├── leaf_common-x.x.x-py3-none-any.whl
-    ├── leaf_server_common-x.x.x-py3-none-any.whl
-    ├── neuro_san-x.x.x-py3-none-any.whl
-    └── neuro_san_web_client-x.x.x-py3-none-any.whl
 ```
 
 ### Key directories and files:
@@ -82,8 +76,6 @@ Below is a simplified view of the reference project structure. You can adapt it 
 - `coded_tools/`: Contains custom-coded tool classes (e.g., `calculator_tool.py`).
 - `registries/`: Holds `.hocon` files that define multi-agent networks and their configurations.
 - `logs/`: Where client and server logs are written.
-- `wheels_private/`: Contains wheel files for installing the required packages. 
-    - Note that the wheel file versions might have changed since the time of writing this tutorial.
 - `run.py`: A starter script to run the server and the web client.
 
 - Here are the detailed instructions to run an agent network along with a web client here:
@@ -91,21 +83,7 @@ Below is a simplified view of the reference project structure. You can adapt it 
 
 ---
 
-## 3. The Wheel Files
-To get your environment up and running, you will need to install several wheel files:
-
-1. `neuro_san`:
-    - This is the core library for multi-agent orchestration.
-2. `neuro_san_web_client`:
-    - This package provides a Flask web application UI that interacts with the `neuro-san` backend.
-    - Internally, it uses the pyvis library (specifically `vis-9.1.2`) for rendering network graphs on the web page.
-3. `leaf_common` and `leaf_server_common`:
-    - These packages manage server-side setups for `neuro-san`. Users typically do not need to worry about them for normal usage.
-    - You can find these wheel files in the `wheels_private/` directory.
-
----
-
-## 4. Setting Up a Working Python Environment
+## 3. Setting Up a Working Python Environment
 Follow these steps to set up and activate your Python virtual environment:
 
 ```bash
@@ -123,7 +101,6 @@ python -m venv venv
 source venv/bin/activate && export PYTHONPATH=`pwd`
 
 # 4) Install the required Python packages.
-# That will install the wheels from wheels_private/
 pip install -r requirements.txt
 ```
 
@@ -135,7 +112,7 @@ Note: You may need to adapt the filenames if versions differ.
 
 ---
 
-## 5. What is an LLM-based Agent?
+## 4. What is an LLM-based Agent?
 An **LLM-based Agent** is a component in your agent network that uses a **Large Language Model** to process instructions and make decisions. By embedding the agent’s logic in a data-driven configuration (the `.hocon` file), you can define:
 
 - **Agent roles and responsibilities**
@@ -159,7 +136,7 @@ A Data-Driven Agent Network is composed of multiple agents defined in a `.hocon`
 
 ---
 
-## 6. Creating an Agent Network from Scratch
+## 5. Creating an Agent Network from Scratch
 
 ### Single Agent Network Example
 
@@ -405,7 +382,7 @@ Now, the top-level **Math Geek** agent will parse user queries, pass them to **p
 
 --- 
 
-## 7. How to Switch LLMs Using the HOCON File
+## 6. How to Switch LLMs Using the HOCON File
 Because **Neuro AI Multi-Agent Accelerator** uses `neuro-san`, it is LLM-agnostic, you can switch to different model providers by changing the `llm_config` in your `.hocon` file.
 
 ```hocon
@@ -449,7 +426,7 @@ If you use other providers (e.g., Anthropic, OpenAI, Azure, etc.), simply adjust
 
 ---
 
-## 8. Coded Tools
+## 7. Coded Tools
 
 ### What Are Coded Tools?
 Coded Tools are Python classes that implement the neuro_san.interfaces.coded_tool.CodedTool interface. Agents invoke these tools to perform specialized tasks (like calculations, database lookups, API calls, etc.) without relying on the LLM to do everything.
@@ -499,7 +476,7 @@ A more complete version of the calculator (like the one in this tutorial’s int
 
 ---
 
-## 9. How to Access the Logs
+## 8. How to Access the Logs
 By default, when you run:
 
 ```bash
@@ -516,17 +493,17 @@ Additionally, you will see logs on your terminal. Checking these files is useful
 
 ---
 
-### 10. How to Stop the Server
+## 9. How to Stop the servers
 When you are running the server in the foreground (via `python -m run`), simply press:
 
 - `CTRL + C` on Windows/Mac/Linux terminals
-- This will terminate both the Flask web client and the `neuro_san` server gracefully.
+- This will terminate both the Flask web client server and the `neuro_san` server gracefully.
 
 If you launched them separately, you would stop each process individually (again by `CTRL + C` or sending a kill signal).
 
 ---
 
-## 11. Key Aspects of Neuro AI Multi-Agent Accelerator
+## 10. Key Aspects of Neuro AI Multi-Agent Accelerator
 - **Flexibility of Use**: Define any agent network structure using `.hocon` files, easily adjustable for different use cases and tasks.
 - **LLM Agnostic**: Swap between OpenAI, Anthropic, Ollama, Azure, or your own custom model endpoints with minimal configuration changes.
 - **Cloud Agnostic**: Host your solutions on any cloud or on-prem python environment.
@@ -535,10 +512,10 @@ If you launched them separately, you would stop each process individually (again
 
 ---
 
-## 12. End Notes
+## 11. End Notes
 You’ve now seen how to:
 
-- Set up a Python environment and install the necessary wheels.
+- Set up a Python environment and install the requirements.
 - Create single-agent and multi-agent networks in `.hocon` files.
 - Switch LLM providers (e.g., Ollama, Anthropic, OpenAI).
 - Add coded tools to expand agent capabilities.
