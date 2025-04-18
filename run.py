@@ -14,6 +14,7 @@ import glob
 import sys
 import argparse
 import threading
+from dotenv import load_dotenv
 
 class NeuroSanRunner:
     """Command-line tool to run the Neuro SAN server and web client."""
@@ -22,11 +23,17 @@ class NeuroSanRunner:
         """Initialize configuration and parse CLI arguments."""
         self.is_windows = os.name == "nt"
 
+        # Load environment variables from .env file
+        self.root_dir = os.getcwd()
+        print(f"Root directory: {self.root_dir}")
+        self.load_env_variables()
+
         # Default Configuration
-        self.neuro_san_server_host = "localhost"
-        self.neuro_san_server_port = 30013
-        self.neuro_san_web_client_port = 5003
-        self.thinking_file = "C:\\tmp\\agent_thinking.txt" if self.is_windows else "/tmp/agent_thinking.txt"
+        self.neuro_san_server_host = os.getenv("NEURO_SAN_SERVER_HOST", "localhost")
+        self.neuro_san_server_port = int(os.getenv("NEURO_SAN_SERVER_PORT", 30013))
+        self.neuro_san_web_client_port = int(os.getenv("NEURO_SAN_WEB_CLIENT_PORT", 5003))
+        thinking_file = "C:\\tmp\\agent_thinking.txt" if self.is_windows else "/tmp/agent_thinking.txt"
+        self.thinking_file = os.getenv("THINKING_FILE", thinking_file)
 
         # Parse command-line arguments
         self.config = self.parse_args()
@@ -37,6 +44,15 @@ class NeuroSanRunner:
 
         # Ensure logs directory exists
         os.makedirs("logs", exist_ok=True)
+
+    def load_env_variables(self):
+        """Load .env file from project root and set variables."""
+        env_path = os.path.join(self.root_dir, ".env")
+        if os.path.exists(env_path):
+            load_dotenv(env_path)
+            print(f"Loaded environment variables from: {env_path}")
+        else:
+            print(f"No .env file found at {env_path}. \nUsing defaults.\n")
 
     def parse_args(self):
         """Parses command-line arguments for configuration."""
