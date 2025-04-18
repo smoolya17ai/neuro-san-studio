@@ -10,16 +10,13 @@
 #
 # END COPYRIGHT
 
-# Use ./deploy/build.sh to build this container only *after*
-# you have installed the neuro-san, leaf-server-common and leaf-common wheel files
-# in your own virtual environment.  After a successful build, you can use
-# ./deploy/run.sh to run the built container locally.
+# Use ./deploy/build.sh to build this container. After a successful build,
+# you can use ./deploy/run.sh to run the built container locally.
 #
 # To find server-oriented environment variables to help you configure things
 # how you want, search for "ENV AGENT_" in this file.
 
-# Stage 1: Builder Stage - Use our python and git base image for installations
-# Set python image as base image
+# Stage 1: Set python image as base image
 FROM python:3.12-slim AS builder
 
 # Set the shell and options per hadolint recommendations
@@ -36,10 +33,6 @@ ENV PIP3_VERSION=25.0.1
 
 # Explicitly get the desired pip version
 RUN pip3 install --upgrade pip==${PIP3_VERSION} --no-cache-dir
-
-# Copy in the wheel files to include in the Dockerfile
-ENV WHEEL_DIR=wheels_private
-COPY ./${WHEEL_DIR} ${APP_SOURCE}/${WHEEL_DIR}
 
 # Having a requirements.txt file for your coded_tool dependencies is optional
 COPY ./requirements.txt ${APP_SOURCE}/requirements.txt
