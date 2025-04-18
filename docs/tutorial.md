@@ -162,6 +162,7 @@ A Data-Driven Agent Network is composed of multiple agents defined in a `.hocon`
 ## 6. Creating an Agent Network from Scratch
 
 ### Single Agent Network Example
+
 Let’s start simple. We’ll build a minimal `.hocon` file containing only one agent – the Math Geek. This will show how to run a single-agent network that can handle basic math operations (though it won’t actually do the math by itself unless you also link to or embed the coded tool).
 
 #### Step 1: Create a file `registries/single_agent_example.hocon`:
@@ -205,6 +206,8 @@ Let’s start simple. We’ll build a minimal `.hocon` file containing only one 
     ]
 }
 ```
+
+**Note**: You can also automatically create simple agent networks using our example agent_network_designer agent network (see: [agent_network_designer.md](examples/agent_network_designer.md))
 
 #### Step 2: Run the server with this `.hocon` file. You can do so by:
 

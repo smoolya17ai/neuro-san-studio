@@ -23,3 +23,7 @@ Exact copy of [Music Nerd Pro](./examples/music_nerd_pro.md) that uses a **tool-
 ## Airline Policy 360 Assistant
 
 [Airline Policy 360 Assistant](./examples/airline_policy.md) is a sophisticated multi-agent system designed to manage and respond to customer inquiries by referring to related airline policies with structured delegation. It mimics a real-world helpdesk with specialized teams, each handling a specific domain of airline policies such as baggage, flights, international travel, and more.
+
+## Agent Network Designer
+
+[agent_network_designer.md](examples/agent_network_designer.md) is a multi-agent system to create multi-agent systems. Enter the name of an organization or describe the use-case and will create a agent network hocon for you and save it to your registries directory and give you some usage examples.
