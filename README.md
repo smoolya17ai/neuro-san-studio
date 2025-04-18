@@ -57,6 +57,8 @@ There are multiple ways in which we can now use the neuro-san server with a clie
 
 ### Option 1: Using a basic web client interface
 
+A [basic web client interface](https://github.com/leaf-ai/neuro-san-web-client) is installed by default.
+It's a great, simple example of how to connect to a neuro-san server and interact with it.
 Start the server and the client in one single command:
 ```bash
 python -m run
@@ -87,11 +89,12 @@ python -m run --help
 ---
 
 ### Option 2: Using `nsflow` as a developer-oriented web client
+
 If you want to use neuro-san with a FastAPI-based developer-oriented client, follow these steps:
 
-- Install nsflow. Make sure to replace `x.x.x` with the actual version you want to install.
+- Install [nsflow](https://github.com/leaf-ai/nsflow)
 ```bash
-pip install wheels_private/nsflow-x.x.x-py3-none-any.whl
+pip install nsflow
 ```
 
 - Start the Backend & Frontend, from project root
@@ -108,9 +111,15 @@ To see the various config options for this app, on terminal
 python -m nsflow.run --help
 ```
 
+Screenshot:
+
+![NSFlow UI Snapshot](https://raw.githubusercontent.com/leaf-ai/nsflow/main/docs/snapshot01.png)
+
 ---
 
 ### Option 3: Command Line Interface
+
+You can also use [neuro-san](https://github.com/leaf-ai/neuro-san)'s command line interface (CLI) to start and interact with the server.
 
 - Export the following environment variables:
 ```bash
@@ -137,6 +146,7 @@ python -m neuro_san.client.agent_cli --connection service --agent hello_world
 ```
 
 - Query the client
+
 When prompted, ask a question to the `hello_world` agent network. For example:
 ```
 I am travelling to a new planet and wish to send greetings to the orb.
