@@ -45,7 +45,14 @@ relevant workflows and responsible nodes. Call your network_generator tool for t
 
 4) Once all is done, call the produce_agent_network_hocon tool one time to generate the hocon and return the exact full agent network definition hocon, along with the 3-4 sample queries as example usage.
             """,
-            "tools": ["network_generator", "query_generator", "instruction_refiner", "produce_agent_network_hocon"]
+            "allow": {
+                "to_upstream": {
+                    "sly_data": {
+                        "AutomaticallyDesignedAgentNetwork": true,
+                    }
+                }
+            },
+           "tools": ["network_generator", "query_generator", "instruction_refiner", "produce_agent_network_hocon"]
         },
         {
             "name": "produce_agent_network_hocon",
