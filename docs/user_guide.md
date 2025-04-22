@@ -2,7 +2,7 @@
 
 ## Simple agent network
 
-The `music_nerd` agent network is the simple agent network possible: it contains a single agent
+The `music_nerd` agent network is the simplest agent network possible: it contains a single agent
 that answers questions about music since the 60s. See its description here: [docs/examples/music_nerd.md](../docs/examples/music_nerd.md).
 
 The steps to start the server and the client are described in the [README](../README.md).
@@ -147,6 +147,53 @@ Specific data can be passed to CodeTools via the `sly_data` dictionary.
 The `sly_data` dictionary can be passed along with the chat_request from the client side.
 The LLMs won’t see the `sly_data`, but the coded tools can access it.
 Useful to hold onto a user id and tokens for instance.
+
+This policy is one of securtiy-by-default, whereby no sly_data gets out of the agent network
+at all unless otherwise specified. Suppose you have an agent network that takes in two numbers,
+the name of an opertion (say, addition/subtraction/multiplication/division), and asks a coded
+tool to perform the operation on the numbers. To pass the numbers as sly data to the coded tool,
+you must specify the following in the .hocon file:
+
+```hocon
+"allow": {
+    "to_downstream": {
+        # Specifying this allows specific sly_data
+        # keys from this agent network to be sent
+        # to downstream agents
+        "sly_data": ["x", "y"]
+   }
+}
+```
+
+To get sly-data coming back from a coded tool, i.e., to get the result of adding two numbers,
+you must specify the following in the .hocon file:
+
+```hocon
+"allow": {
+    "from_downstream": {
+        # Specifying this allows specifc sly_data
+        # keys to be ingested from downstream agents
+        # as sly_data for this agent network
+        "sly_data": ["equals"]
+    }
+}
+```
+
+To allow frontman agent to return sly data to the client, you must specify the following in
+the .hocon file:
+
+```hocon
+"allow": {
+    "to_upstream": {
+        # Specifying this allows sly_data keys
+        # from this network to be passed back
+        # to the calling client
+        "sly_data": ["equals"]
+    }
+}
+```
+
+By default, all sly data is redacted. If you want to pass sly data to a CodedTool, you must override the redacting via the following
 
 ## Toolbox
 
