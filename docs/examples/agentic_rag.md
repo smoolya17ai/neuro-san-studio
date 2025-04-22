@@ -56,8 +56,10 @@ These criteria are used to assess the suitability of proposals and ensure they m
 
 1. **website_search**
    - Powered by `Bing Search` via LangChain.
+   - Required `BING_SUBSCRIPTION_KEY`.
    - Retrieves up-to-date web results based on the query.
    - Configured to return the top 3 search results.
+   - Additional info on [Bing Search](https://python.langchain.com/docs/integrations/tools/bing_search/).
 
 2. **rag_retriever**
    - Uses a Retrieval-Augmented Generation pipeline.
