@@ -35,6 +35,10 @@ This is a good way to learn about how to manage a state in a conversation.
 [Music Nerd Pro Sly](./examples/music_nerd_pro_sly.md) that uses
 a **tool-calling** LLM that runs locally with Ollama.
 
+## Agentic RAG Assistant
+
+[Agentic RAG Assistant](./examples/agentic_rag.md) is a modular multi-agent system that answers user queries by retrieving information from the web, PDF documents, and Slack channels. It mimics a smart assistant that delegates tasks to specialized tools and compiles responses into clear, helpful answers.
+
 ## Airline Policy 360 Assistant
 
 [Airline Policy 360 Assistant](./examples/airline_policy.md) is a sophisticated multi-agent system designed to manage and respond to customer inquiries by referring to related airline policies with structured delegation. It mimics a real-world helpdesk with specialized teams, each handling a specific domain of airline policies such as baggage, flights, international travel, and more.
