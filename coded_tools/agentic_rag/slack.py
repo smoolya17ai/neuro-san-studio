@@ -49,9 +49,6 @@ class Slack(CodedTool):
                 by the agent chain implementation and the coded_tool
                 implementation adding the data is not invoke()-ed more than
                 once.
-
-                Keys expected for this implementation are:
-                    None
         """
 
     async def async_invoke(
