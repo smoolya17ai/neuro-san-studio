@@ -21,7 +21,6 @@
         # ChatNvidia: ['nvidia-llama-3.1-405b-instruct', 'nvidia-llama-3.3-70b-instruct', 'nvidia-deepseek-r1']
 
         "model_name": "gpt-4o",
-        "verbose": true
     },
     "commondefs":{
         "replacement_strings":{
