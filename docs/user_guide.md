@@ -152,20 +152,20 @@ This policy is one of securtiy-by-default, whereby no `sly_data` gets out of the
 at all unless otherwise specified. It's only when a boundary is crossed that the question of
 what goes through arises. There are 3 boundaries:
 
-1.  What goes out to sub networks (`to_downstream`). For instance, you may not want to send
+1.  What goes out to external networks (`to_downstream`). For instance, you may not want to send
     credentials to an agent network that lives on another server.
-2.  What comes in from sub networks (`from_upstream`). For instance, you might not trust what's
+2.  What comes in from external networks (`from_upstream`). For instance, you might not trust what's
     coming from an agent network that lives on another server.
 3.  What goes back to the client (`to_upstream`). For instance, you might not want secrets from
     the server side to be share with the clients that connect to it.
 
-So by default nothing is shared and you have explicitly state what goes through.
+So by default nothing is shared and you have to explicitly state what goes through.
 
 Suppose you have an agent network that takes in two numbers,
 the name of an opertion (say, addition/subtraction/multiplication/division), and asks another
-agent network to perform the operation on the numbers. To pass the numbers as `sly-data` to the
+agent network to perform the operation on the numbers. To pass the numbers as `sly_data` to the
 downstream agent network you must specify the following in the .hocon file of the agent that
-is connecting to the down stream agent network:
+is connecting to the downstream agent network:
 
 ```hocon
 "allow": {
@@ -178,9 +178,9 @@ is connecting to the down stream agent network:
 }
 ```
 
-To get `sly-data` coming back from a down stream agent network, i.e., to get the result of
+To get `sly_data` coming back from a downstream agent network, i.e., to get the result of
 adding two numbers, you must specify the following in the .hocon file of the agent that is
-connecting to the down stream agent network:
+connecting to the downstream agent network:
 
 ```hocon
 "allow": {
@@ -193,7 +193,7 @@ connecting to the down stream agent network:
 }
 ```
 
-To allow frontman agent to return `sly-data` to the client, you must specify the following in
+To allow frontman agent to return `sly_data` to the client, you must specify the following in
 the .hocon file of the frontman (the only agent that is connected to the client):
 
 ```hocon
