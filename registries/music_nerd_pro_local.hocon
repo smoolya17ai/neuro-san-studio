@@ -13,7 +13,6 @@
     "llm_config": {
         "class": "ollama",
         "model_name": "llama3.1",
-        "verbose": true,
     },
     "tools": [
         # These tool definitions do not have to be in any particular order
