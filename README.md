@@ -41,13 +41,31 @@ pip install -r requirements.txt
 ```
 
 **IMPORTANT**: By default the server relies on OpenAI's `gpt-4o` model. 
-Set the OpenAI API key, and add it to your shell configuration so it's available in future sessions:  
+Set the OpenAI API key, and add it to your shell configuration so it's available in future sessions.
+
+You can get your OpenAI API key from https://platform.openai.com/signup. After signing up, create a new API key in the API keys section in your profile.
+
 **NOTE**: Replace `XXX` with your actual OpenAI API key.  
-**NOTE**: This is OS dependent. This command is for macOS and Linux.
-```bash
-export OPENAI_API_KEY="XXX" && echo 'export OPENAI_API_KEY="XXX"' >> ~/.zshrc
-```
-Other models are supported too but will require proper setup.
+**NOTE**: This is OS dependent. 
+
+- For macOS and Linux.
+    ```bash
+    export OPENAI_API_KEY="XXX" && echo 'export OPENAI_API_KEY="XXX"' >> ~/.zshrc
+    ```
+
+- For Windows:
+
+    - on command prompt
+        ```bash
+        set OPENAI_API_KEY=XXX
+        ```
+
+    - or on Powershell:
+        ```bash
+        $env:OPENAI_API_KEY="XXX"
+        ```
+
+Other providers and models are supported too but will require proper setup.
 
 ---
 
@@ -88,19 +106,14 @@ python -m run --help
 
 ---
 
-### Option 2: Using `nsflow` as a developer-oriented web client
+### Option 2: Using [`nsflow`](https://github.com/leaf-ai/nsflow) as a developer-oriented web client
 
 If you want to use neuro-san with a FastAPI-based developer-oriented client, follow these steps:
 
-- Install [nsflow](https://github.com/leaf-ai/nsflow)
-```bash
-pip install nsflow
-```
-
 - Start the Backend & Frontend, from project root
-```bash
-python -m nsflow.run
-```
+    ```bash
+    python -m nsflow.run
+    ```
 
 By default:
 - Frontend will be available at: `http://127.0.0.1:4173`
