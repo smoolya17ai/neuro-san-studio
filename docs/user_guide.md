@@ -143,7 +143,7 @@ TODO
 
 ### Sly data
 
-A `sly_data` dictionary can be passed along with the `chat_request` from the client side.
+A `sly_data` dictionary can be passed along with the `ChatRequest` from the client side.
 The `sly_data` will not be seen by the LLMs, and by default, will not leave the agent network.
 Within the agent network the `sly_data` is visible to the coded tools and can be used as a
 bulletin-board between coded tools.
@@ -155,7 +155,7 @@ what goes through arises. There are 3 boundaries:
 1.  What goes out to sub networks (`to_downstream`). For instance, you may not want to send
     credentials to an agent network that lives on another server.
 2.  What comes in from sub networks (`from_upstream`). For instance, you might not trust what's
-    coming from an agent network that lives on another server for instance
+    coming from an agent network that lives on another server.
 3.  What goes back to the client (`to_upstream`). For instance, you might not want secrets from
     the server side to be share with the clients that connect to it.
 
@@ -206,6 +206,9 @@ the .hocon file of the frontman (the only agent that is connected to the client)
     }
 }
 ```
+
+All the above .hocon "allow" blocks can be combined in a single "allow" block. An example
+is given [here](https://github.com/leaf-ai/neuro-san/blob/main/neuro_san/registries/math_guy_passthrough.hocon#L54)
 
 ## Toolbox
 
