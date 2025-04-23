@@ -130,7 +130,7 @@ In Neuro AI Multi-Agent Accelerator, Agents may declare a function with defined 
 ### Data-Driven Agent Network
 A Data-Driven Agent Network is composed of multiple agents defined in a `.hocon` file. This file describes:
 
-- **LLM configuration**: which model to use, how to connect to it, whether it’s verbose, etc.
+- **LLM configuration**: which model to use, how to connect to it, etc.
 - **Agent definitions**: including instructions, roles, domain knowledge, and which tools/agents they can call.
 - **Tools**: references to Coded Tools that contain Python functions or classes.
 
@@ -148,7 +148,6 @@ Let’s start simple. We’ll build a minimal `.hocon` file containing only one 
 {
     "llm_config": {
         "model_name": "llama3.1",
-        "verbose": true
     },
     "commondefs": {
         "replacement_strings": {
@@ -204,7 +203,6 @@ Let’s take a look at a more robust multi-agent network file: `advanced_calcula
 {
     "llm_config": {
         "model_name": "llama3.1",
-        "verbose": true
     },
     "commondefs": {
         "replacement_strings": {
@@ -297,7 +295,6 @@ LLM configurations is a way to tell the agents whcih LLM (Large Language Model) 
 {
     "llm_config": {
         "model_name": "gpt4-o",
-        "verbose": true
     },
     "commondefs": {
         "replacement_strings": {
@@ -331,7 +328,6 @@ LLM configurations is a way to tell the agents whcih LLM (Large Language Model) 
             "name": "problem_formulator",
             "llm_config": {
                 "model_name": "llama3.1",
-                "verbose": true
             },
             "function": {
                 "description": "Convert a math problem into a sequence of known operations.",
@@ -365,7 +361,7 @@ LLM configurations is a way to tell the agents whcih LLM (Large Language Model) 
     - Ollama: ['llama2', 'llama3', 'llama3.1', 'llama3:70b', 'llava', 'mistral', 'mistral-nemo', 'mixtral', 'qwen2.5:14b', 'deepseek-r1:14b']
     - ChatNvidia: ['nvidia-llama-3.1-405b-instruct', 'nvidia-llama-3.3-70b-instruct', 'nvidia-deepseek-r1']
 - Note that not all of these LLMs support function-calling, it is advisable to read the documentation before using any of the LLMs.
-- Each of these LLMs have several config params. Some of the common config parameters are: `model_name`, `temperature`, `verbose`, `max_tokens`.
+- Each of these LLMs have several config params. Some of the common config parameters are: `model_name`, `temperature`, `max_tokens`.
 - For the available configuration parameters of the above chat models, please refer to [Langchain Chat Models](https://python.langchain.com/docs/concepts/chat_models/) and their [respective documentation](https://python.langchain.com/docs/integrations/chat/)
 
 
@@ -388,7 +384,6 @@ Because **Neuro AI Multi-Agent Accelerator** uses `neuro-san`, it is LLM-agnosti
 ```hocon
 "llm_config": {
     "model_name": "llama3.1",
-    "verbose": true
     # Additional fields like endpoint_url for remote inference servers
 }
 ```
@@ -415,7 +410,6 @@ To direct the calls to your local Ollama, or a cloud-hosted model endpoint, add:
 ```hocon
 "llm_config": {
     "model_name": "llama3.1",
-    "verbose": true,
     "base_url": "http://localhost:11434/api/chat" # replace the url in base_url with your actual url
 }
 ```
