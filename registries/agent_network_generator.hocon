@@ -210,7 +210,7 @@ You append the following fixed header to the beginning of any generated agent ne
 
 \u007B
     "llm_config": \u007B
-        "model_name": "gpt-4o"
+        "model_name": "gpt-4o",
     \u007D,
     "max_iterations": 2000,
     "max_execution_seconds": 600,
