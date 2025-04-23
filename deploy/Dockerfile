@@ -109,11 +109,11 @@ ENV APP_ENTRYPOINT=${PACKAGE_DEPLOY}/entrypoint.sh
 #
 
 # Run as a neuro-san only server to server 'default' demo agents (registries and coded_tools)
-ENV PYTHONPATH=${PACKAGE_INSTALL}
+ENV PYTHONPATH=${APP_SOURCE}
 
 # Where to find the tool registry manifest file which lists all the agent hocon
 # files to serve up from this server instance.
-ENV AGENT_MANIFEST_FILE=${PACKAGE_INSTALL}/neuro_san/registries/manifest.hocon
+ENV AGENT_MANIFEST_FILE=${APP_SOURCE}/registries/manifest.hocon
 
 # An llm_info hocon file with user-provided llm descriptions that are to be used
 # in addition to the neuro-san defaults.
@@ -121,7 +121,7 @@ ENV AGENT_LLM_INFO_FILE=""
 
 # Where to find the classes for CodedTool class implementations
 # that are used by specific agent networks.
-ENV AGENT_TOOL_PATH=${PACKAGE_INSTALL}/neuro_san/coded_tools
+ENV AGENT_TOOL_PATH=${APP_SOURCE}/coded_tools
 
 # Where to find the configuration file for Python logging.
 # See https://docs.python.org/3/library/logging.config.html#dictionary-schema-details
