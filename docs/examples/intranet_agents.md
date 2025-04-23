@@ -63,40 +63,37 @@ Please let me know which specific areas or questions you would like to explore f
 
 1. **IT_agent**
    - Responsible for IT-related inquiries
-   - Can call Security_agent or Networking_agent
+   - Can call Security_agent and Networking_agent
    - Security_agent: Handles security-related tasks, including system protection, cybersecurity, and data security
    - Networking_agent: Handles network-related tasks, including network setup, maintenance, and troubleshooting
 
-2. **instruction_refiner**
-   - Retrieves the agent network definition using the [get_agent_network.py](../../coded_tools/agent_network_designer/get_agent_network.py) tool.
-   - Iterates through the agents in the retrieved definition and refines each agent's instructions using the [set_agent_instructions.py](../../coded_tools/agent_network_designer/set_agent_instructions.py) tool
+2. **Finance_agent**
+   - Handles finance-related inquiries, including budgeting, accounting, and financial reporting
+   - Can call Budgeting_agent, Accounting_agent, and Financial_reporting_agent
+   - Budgeting_agent: Handles budgeting tasks, including budget planning, allocation, and tracking
+   - Accounting_agent: Handles accounting tasks, including bookkeeping, financial records, and audits
+   - Financial_reporting_agent:Handles financial reporting tasks, including preparing financial statements, regulatory reporting, and performance analysis
 
-3. **query_generator**
-   - Retrieves the agent network definition using the [get_agent_network.py](../../coded_tools/agent_network_designer/get_agent_network.py) tool.
-   - Generates and returns a few usage examples for the new agent network.
+3. **Procurement_agent**
+   - Handles procurement-related tasks
+   - Can call Purchasing_agent, Vendor_management_agent, and Contract_negotiation_agent
+   - Purchasing_agent: Handles purchasing-related tasks, including ordering, supply management, and procurement processes
+   - Vendor_management_agent: Handles vendor management tasks, including vendor selection, performance monitoring, and relationship management
+   - Contract_negotiation_agent: Handles contract negotiation tasks, including drafting, reviewing, and finalizing procurement contracts
 
----
+4. **Legal_agent**
+   - Handles legal-related inquiries
+   - Can call Contracts_agent, Compliance_agent, and Legal_advice_agent
+   - Contracts_agent: Handles contract-related tasks, including drafting, reviewing, and enforcing legal agreements
+   - Compliance_agent: Handles compliance-related tasks, including ensuring adherence to laws, regulations, and internal policies
+   - Legal_advice_agent: Handles legal advice tasks, including providing legal counsel, risk assessment, and legal strategy
 
-## Functional Tools
+5. **HR_agent**
+   - Handles HR-related inquiries
+   - Can call Benefits_agent, and Payroll_agent
+   - Benefits_agent: Handles benefits-related tasks, including employee benefits, health insurance, and retirement plans
+   - Payroll_agent: Handles payroll-related tasks, including salary processing, tax deductions, and pay slips
 
-These are coded tools called by various policy agents:
-
-- **add_agent**
-  - Adds the name, instructions, and list of down-chains of an agent to a data structure stored in sly_data. It also determines of the agent is the top agent.
-
-- **get_agent_network**
-  - Retrieves the agent network data structure from sly_data and returns a string representation of it.
-
-- **set_agent_instructions**
-  - Replaces the instructions for a given agent in the list of agents in the agent network data structure in sly_data.
-
-- **get_agent_network_hocon**
-  - Retrieves the agent network data structure from sly_data.
-  - Formats the agent network as a hocon definition config.
-  - Appends a header.
-  - Saves the hocon file under the local registries directory.
-  - Adds an entry to the local manifest.hocon file.
-
-**Note**: it is assumed that the agent coordination mechanism is AAOSA, and the LLM is GPT-4o.
+**Note**: it is assumed that the agent coordination mechanism is AAOSA.
 
 ---
