@@ -286,7 +286,7 @@ A few points to note about multi-agent networks:
 
 ### LLM Config
 
-LLM configurations is a way to tell the agents whcih LLM (Large Language Model) to use in order to process a query sent to it.
+LLM configurations is a way to tell the agents which LLM (Large Language Model) to use in order to process a query sent to it.
 
 - LLM config is defined on top of the hocon file which implies that the same config is accessible to all the agents in the network by default.
 - It is possible to keep the default config and have separate config for each agent in the network. This means an agent that does not have a defined config always uses the default llm_config defined on top of the hocon file.
@@ -402,7 +402,7 @@ On macOS, that might look like:
 ollama serve --port 11434
 ```
 On Windows, you might use Docker:
-Refere to the [docker hub ollama documentation](https://hub.docker.com/r/ollama/ollama) on how to set up a docker instance.
+Refer to the [docker hub ollama documentation](https://hub.docker.com/r/ollama/ollama) on how to set up a docker instance.
 
 ### Adding Endpoint URL for Any Cloud-Hosted LLM
 To direct the calls to your local Ollama, or a cloud-hosted model endpoint, add:
