@@ -22,7 +22,7 @@ jobs:
       - name: Preflight Check - Required Environment Variables
         run: |
           missing_vars=""
-          for var in ECR_REPOSITORY AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY; do
+          for var in NEURO_SAN_DEMOS_ECR_REPO ; do
             if [ -z "${!var}" ]; then
               echo "❌ ERROR: Environment variable '$var' is not set."
               missing_vars="true"
@@ -63,5 +63,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.NEURO_SAN_DEMOS_ECR_REPO }}:${{ env.IMAGE_TAG }}
 
