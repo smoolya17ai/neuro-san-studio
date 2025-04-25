@@ -19,22 +19,6 @@ jobs:
 
     steps:
 
-      - name: Preflight Check - Required Environment Variables
-        run: |
-          missing_vars=""
-          for var in NEURO_SAN_DEMOS_ECR_REPO ; do
-            if [ -z "${!var}" ]; then
-              echo "❌ ERROR: Environment variable '$var' is not set."
-              missing_vars="true"
-            fi
-          done
-
-          if [ "$missing_vars" = "true" ]; then
-            echo "⛔ Exiting due to missing environment variables."
-            exit 1
-          fi
-        shell: bash
-
       - name: Checkout code
         uses: actions/checkout@v4
 
