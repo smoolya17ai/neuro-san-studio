@@ -1,0 +1,67 @@
+name: Build and Push Docker Image to ECR
+
+on:
+  push:
+    branches:
+      - main
+      - DSG-actions
+  release:
+    types: [published]  # Triggers when a GitHub Release is published
+  workflow_dispatch:  # Allow manual runs if needed
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write  # (for future OIDC auth if you want)
+
+    steps:
+
+      - name: Preflight Check - Required Environment Variables
+        run: |
+          missing_vars=""
+          for var in ECR_REPOSITORY AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY; do
+            if [ -z "${!var}" ]; then
+              echo "❌ ERROR: Environment variable '$var' is not set."
+              missing_vars="true"
+            fi
+          done
+
+          if [ "$missing_vars" = "true" ]; then
+            echo "⛔ Exiting due to missing environment variables."
+            exit 1
+          fi
+        shell: bash
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up variables
+        id: vars
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            echo "IMAGE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          else
+            SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+            echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_ENV
+          fi
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::634208487213:role/Github_Actions_Leafai
+          aws-region: us-west-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+
