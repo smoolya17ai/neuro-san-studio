@@ -17,7 +17,7 @@ delegates the inquiry and the fulfilled requirements to the appropriate down-cha
 their responses and return the final response.
 
 The "front-man" agent can call IT, Finance, Procurement, Legal, and HR agents. Those agents, in turn, can call other, more specific agents. For example,
-the HR agent can call Benefits or Payroll agents. The agent network has the sahpe of a tree that is two layers deep.
+the HR agent can call Benefits or Payroll agents. The agent network has the shape of a tree that is two layers deep.
 
 ---
 
