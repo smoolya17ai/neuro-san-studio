@@ -34,4 +34,5 @@
     "six_thinking_hats.hocon": true,
     "telco_network_support.hocon": true,
     "agentic_rag.hocon": true,
+    "kwik_agents.hocon": true
 }
