@@ -3,7 +3,7 @@ from typing import Dict
 from typing import Union
 
 from neuro_san.interfaces.coded_tool import CodedTool
-from coded_tools.onec_assistant.url_provider import URLProvider
+from coded_tools.intranet_agents_with_tools.url_provider import URLProvider
 
 
 class ScheduleLeaveTool(CodedTool):
@@ -12,10 +12,10 @@ class ScheduleLeaveTool(CodedTool):
     """
     def __init__(self):
         """
-        Constructs a Leave Scheduler for Cognizant's OneCognizant intranet.
+        Constructs a Leave Scheduler for company's intranet.
         """
         url_provider = URLProvider()
-        self.tool_url = url_provider.one_cognizant_urls.get("Absence Management")
+        self.tool_url = url_provider.company_urls.get("Absence Management")
 
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """

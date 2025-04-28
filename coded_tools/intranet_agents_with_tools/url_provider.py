@@ -9,30 +9,30 @@ from neuro_san.interfaces.coded_tool import CodedTool
 
 class URLProvider(CodedTool):
     """
-    CodedTool implementation which provides URLs for Cognizant's OneCognizant intranet apps.
+    CodedTool implementation which provides URLs for company's intranet apps.
     """
 
     def __init__(self):
         """
-        Constructs a URL Provider for Cognizant's OneCognizant intranet.
+        Constructs a URL Provider for company's intranet.
         """
-        ONE_COGNIZANT = os.environ.get("ONE_C_ONE_COGNIZANT", None)
-        print(f"ONE_COGNIZANT: {ONE_COGNIZANT}")
+        INTRANET = os.environ.get("MI_INTRANET", None)
+        print(f"INTRANET: {INTRANET}")
 
-        HCM = os.environ.get("ONE_C_HCM", None)
+        HCM = os.environ.get("MI_HCM", None)
         print(f"HCM: {HCM}")
 
-        ABSENCE_MANAGEMENT = os.environ.get("ONE_C_ABSENCE_MANAGEMENT", None)
+        ABSENCE_MANAGEMENT = os.environ.get("MI_ABSENCE_MANAGEMENT", None)
         print(f"ABSENCE_MANAGEMENT: {ABSENCE_MANAGEMENT}")
 
-        TRAVEL_AND_EXPENSE = os.environ.get("ONE_C_TRAVEL_AND_EXPENSE", None)
+        TRAVEL_AND_EXPENSE = os.environ.get("MI_TRAVEL_AND_EXPENSE", None)
         print(f"TRAVEL_AND_EXPENSE: {TRAVEL_AND_EXPENSE}")
 
-        GSD = os.environ.get("ONE_C_GSD", None)
+        GSD = os.environ.get("MI_GSD", None)
         print(f"GSD: {GSD}")
 
-        self.one_cognizant_urls = {
-            "One Cognizant": ONE_COGNIZANT,
+        self.company_urls = {
+            "One Cognizant": INTRANET,
             "HCM": HCM,
             "Absence Management": ABSENCE_MANAGEMENT,
             "Travel and Expense": TRAVEL_AND_EXPENSE,
@@ -73,7 +73,7 @@ class URLProvider(CodedTool):
             return "Error: No app name provided."
         print(">>>>>>>>>>>>>>>>>>>URL Provider>>>>>>>>>>>>>>>>>>")
         print(f"App name: {app_name}")
-        app_url = self.one_cognizant_urls.get(app_name)
+        app_url = self.company_urls.get(app_name)
         print(f"URL: {app_url}")
         print(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return app_url

@@ -5,20 +5,20 @@ import sys
 
 class AbsenceManager:
     """
-    Absence Manager for Cognizant's OneCognizant intranet.
+    Absence Manager for company's intranet.
     """
 
     def __init__(self, client_id, client_secret, associate_id):
         """
-        Constructs an Absence Manager for Cognizant's OneCognizant intranet.
+        Constructs an Absence Manager for company's intranet.
         @param client_id: The API client ID.
         @param client_secret: The API client secret.
         @param associate_id: an associate ID.
         """
-        self.BASE_URL = os.environ.get("ONE_C_BASE_URL", None)
+        self.BASE_URL = os.environ.get("MI_BASE_URL", None)
         print(f"BASE_URL: {self.BASE_URL}")
 
-        self.APP_URL = os.environ.get("ONE_C_APP_URL", None)
+        self.APP_URL = os.environ.get("MI_APP_URL", None)
         print(f"APP_URL: {self.APP_URL}")
 
         # Get the client_id, client_secret, and associate_id from the environment variables

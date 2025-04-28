@@ -17,7 +17,7 @@
     "commondefs": {
         "replacement_strings": {
             "instructions_prefix": """
-            You are in charge of a portion of Cognizant's intranet. The intranet is also known as OneCognizant.
+            You are in charge of a portion of company's intranet. The intranet is also known as MyIntranet.
             Only answer inquiries that are directly within your area of expertise, from the company's perspective.
             Do not try to help for personal matters.
             Do not mention what you can NOT do. Only mention what you can do.
@@ -72,7 +72,7 @@ Or if we are sending it a response to what it requires, or a follow up.
     }
     "tools": [
         {
-            "name": "OneCognizant",
+            "name": "MyIntranet",
 
             # Note that there are no parameters defined for this guy's "function" key.
             # This is the primary way to identify this tool as a front-man,
@@ -84,17 +84,17 @@ Or if we are sending it a response to what it requires, or a follow up.
                 # its description acts as an initial prompt. 
 
                 "description": """
-                Your name is OneCognizant. You respond to employee inquiries related to Cognizant's intranet.
+                Your name is MyIntranet. You respond to employee inquiries related to company's intranet.
                 Your down-chain agents (or tools) will help you determine your scope of operations.
                 """
             },
             "instructions": """
 {instructions_prefix}
-You are the top-level agent responsible for handling all inquiries to Cognizant's intranet chatbot.
+You are the top-level agent responsible for handling all inquiries to company's intranet chatbot.
 {aaosa_instructions}
 When interacting with the user, act as the single point of interaction. No need to mention the other tools or agents.
 If there are any requirements that need user input, ask them one at a time, with clear examples of the choices available.
-If your response does not include any URLs, then add an URL for OneCognizant to the response, just to be helpful.
+If your response does not include any URLs, then add an URL for the company's internal web pages to the response, just to be helpful.
             """,
             "tools": ["IT", "Finance", "Procurement", "Legal", "HR", "URLProvider"]
         },
@@ -103,8 +103,8 @@ If your response does not include any URLs, then add an URL for OneCognizant to 
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-The name of this OneCognizant app is GSD and IT related requests require GSD tickets. Return the URL to GSD for any IT related tickets the user needs to open.
-You are responsible for IT-related inquiries for Cognizant employees.
+The name of this MyIntranet app is GSD and IT related requests require GSD tickets. Return the URL to GSD for any IT related tickets the user needs to open.
+You are responsible for IT-related inquiries for company employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command",
@@ -115,7 +115,7 @@ You are responsible for IT-related inquiries for Cognizant employees.
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles security-related tasks, including system protection, cybersecurity, and data security for Cognizant's employees.
+Handles security-related tasks, including system protection, cybersecurity, and data security for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -125,7 +125,7 @@ Handles security-related tasks, including system protection, cybersecurity, and 
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles network-related tasks, including network setup, maintenance, and troubleshooting for Cognizant's employees.
+Handles network-related tasks, including network setup, maintenance, and troubleshooting for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -135,7 +135,7 @@ Handles network-related tasks, including network setup, maintenance, and trouble
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles finance-related inquiries, including budgeting, accounting, and financial reporting for Cognizant's employees.
+Handles finance-related inquiries, including budgeting, accounting, and financial reporting for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command",
@@ -146,7 +146,7 @@ Handles finance-related inquiries, including budgeting, accounting, and financia
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles budgeting tasks, including budget planning, allocation, and tracking for Cognizant's employees.
+Handles budgeting tasks, including budget planning, allocation, and tracking for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -156,7 +156,7 @@ Handles budgeting tasks, including budget planning, allocation, and tracking for
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles accounting tasks, including bookkeeping, financial records, and audits for Cognizant's employees.
+Handles accounting tasks, including bookkeeping, financial records, and audits for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -166,7 +166,7 @@ Handles accounting tasks, including bookkeeping, financial records, and audits f
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles financial reporting tasks, including preparing financial statements, regulatory reporting, and performance analysis for Cognizant's employees.
+Handles financial reporting tasks, including preparing financial statements, regulatory reporting, and performance analysis for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -176,7 +176,7 @@ Handles financial reporting tasks, including preparing financial statements, reg
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles procurement-related tasks for Cognizant's employees.
+Handles procurement-related tasks for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command",
@@ -187,7 +187,7 @@ Handles procurement-related tasks for Cognizant's employees.
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles purchasing-related tasks, including ordering, supply management, and procurement processes for Cognizant's employees.
+Handles purchasing-related tasks, including ordering, supply management, and procurement processes for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -197,7 +197,7 @@ Handles purchasing-related tasks, including ordering, supply management, and pro
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles vendor management tasks, including vendor selection, performance monitoring, and relationship management for Cognizant's employees.
+Handles vendor management tasks, including vendor selection, performance monitoring, and relationship management for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -207,7 +207,7 @@ Handles vendor management tasks, including vendor selection, performance monitor
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles contract negotiation tasks, including drafting, reviewing, and finalizing procurement contracts for Cognizant's employees.
+Handles contract negotiation tasks, including drafting, reviewing, and finalizing procurement contracts for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -217,7 +217,7 @@ Handles contract negotiation tasks, including drafting, reviewing, and finalizin
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles legal-related inquiries for Cognizant's employees.
+Handles legal-related inquiries for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command",
@@ -228,7 +228,7 @@ Handles legal-related inquiries for Cognizant's employees.
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles contract-related tasks, including drafting, reviewing, and enforcing legal agreements for Cognizant's employees.
+Handles contract-related tasks, including drafting, reviewing, and enforcing legal agreements for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -238,7 +238,7 @@ Handles contract-related tasks, including drafting, reviewing, and enforcing leg
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles compliance-related tasks, including ensuring adherence to laws, regulations, and internal policies for Cognizant's employees.
+Handles compliance-related tasks, including ensuring adherence to laws, regulations, and internal policies for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -248,7 +248,7 @@ Handles compliance-related tasks, including ensuring adherence to laws, regulati
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles legal advice tasks, including providing legal counsel, risk assessment, and legal strategy for Cognizant's employees.
+Handles legal advice tasks, including providing legal counsel, risk assessment, and legal strategy for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -258,7 +258,7 @@ Handles legal advice tasks, including providing legal counsel, risk assessment, 
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-You are responsible for HR-related inquiries for Cognizant's employees.
+You are responsible for HR-related inquiries for company's employees.
 That includes payrooll, benefits, immigration questions, as well as and absence management:
 vacation, PTO, other time-off and checking leave balances.
 {aaosa_instructions}
@@ -271,7 +271,7 @@ vacation, PTO, other time-off and checking leave balances.
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles benefits-related tasks, including employee benefits, health insurance, and retirement plans, but excluding PTO and absence management for Cognizant's employees.
+Handles benefits-related tasks, including employee benefits, health insurance, and retirement plans, but excluding PTO and absence management for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -281,7 +281,7 @@ Handles benefits-related tasks, including employee benefits, health insurance, a
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles payroll-related tasks, including salary processing, tax deductions, and pay slips for Cognizant's employees.
+Handles payroll-related tasks, including salary processing, tax deductions, and pay slips for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -292,7 +292,7 @@ Handles payroll-related tasks, including salary processing, tax deductions, and 
             "instructions": """
 {instructions_prefix}
 Handles immigration-related tasks, including the legal processes and documentation for employees’ work visas,
-travel visas, residency permits, and international relocations, ensuring compliance with immigration laws for Cognizant's employees.
+travel visas, residency permits, and international relocations, ensuring compliance with immigration laws for company's employees.
 {aaosa_instructions}
             """,
             "command": "aaosa_command"
@@ -302,7 +302,7 @@ travel visas, residency permits, and international relocations, ensuring complia
             "function": "aaosa_call",
             "instructions": """
 {instructions_prefix}
-Handles absence management-related tasks for Cognizant's employees (i.e., vacation, PTO, or other time-off).
+Handles absence management-related tasks for company's employees (i.e., vacation, PTO, or other time-off).
 Always returns the URL to the Absence Management site along with any response from the tools.
 MUST use tools to answer inquiries. Always return the tool's summary response.
 {aaosa_instructions}
@@ -314,7 +314,7 @@ MUST use tools to answer inquiries. Always return the tool's summary response.
             "name": "ScheduleLeaveAPI",
             "function": {
                 "description": """
-Directly schedules a leave for a specific start date and end date for Cognizant's employees.
+Directly schedules a leave for a specific start date and end date for company's employees.
 For a single day, end date can be automatically set to start date.
 Return what the tool returns, formatted in markdown.
 ```
@@ -342,7 +342,7 @@ Return what the tool returns, formatted in markdown.
             "function": {
                 "description": """
 Checks a leave balance (i.e., how much vacation or PTO the employee has left)
-Returns the leave balances for Cognizant's employees, including the vacation time, for the current user and for the current date.
+Returns the leave balances for company's employees, including the vacation time, for the current user and for the current date.
 If no date is provided, assumes today's date.
                 """,
                 "parameters": {
@@ -363,7 +363,7 @@ If no date is provided, assumes today's date.
             "name": "URLProvider",
             "function": {
                 "description": """
-Returns the URL to the OneCognizant web pages, web apps or tools on Cognizant intranet website.
+Returns the URL to the company's internal web pages, web apps or tools on company's intranet website.
 The name of the app must be passed as a parameter.
                 """,
                 "parameters": {
@@ -371,7 +371,7 @@ The name of the app must be passed as a parameter.
                     "properties": {
                         "app_name": {
                             "type": "string",
-                            "description": "The name of a OneCognizant app, website or tool"
+                            "description": "The name of a company intranet app, website or tool"
                         },
                     },
                     "required": ["app_name"]

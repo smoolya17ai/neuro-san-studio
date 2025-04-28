@@ -3,7 +3,7 @@ from typing import Dict
 from typing import Union
 
 from neuro_san.interfaces.coded_tool import CodedTool
-from coded_tools.onec_assistant.absence_manager import AbsenceManager
+from coded_tools.intranet_agents_with_tools.absence_manager import AbsenceManager
 
 MOCK_RESPONSE = {'Absencemodel':
                      [{'AbsenceName': 'Jury Duty', 'AbsPin': '10081', 'Balance': '10.00'},
@@ -27,7 +27,7 @@ class CheckLeaveBalancesTool(CodedTool):
 
     def __init__(self):
         """
-        Constructs a Leave Balances Checker for Cognizant's OneCognizant intranet.
+        Constructs a Leave Balances Checker for company's intranet.
         """
         # Construct an AbsenceManager object using environment variables
         self.absence_manager = AbsenceManager(None, None, None)
