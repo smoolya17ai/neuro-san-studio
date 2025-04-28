@@ -2,7 +2,7 @@
 
 ## Simple agent network
 
-The `music_nerd` agent network is the simple agent network possible: it contains a single agent
+The `music_nerd` agent network is the simplest agent network possible: it contains a single agent
 that answers questions about music since the 60s. See its description here: [docs/examples/music_nerd.md](../docs/examples/music_nerd.md).
 
 The steps to start the server and the client are described in the [README](../README.md).
@@ -143,10 +143,72 @@ TODO
 
 ### Sly data
 
-Specific data can be passed to CodeTools via the `sly_data` dictionary.
-The `sly_data` dictionary can be passed along with the chat_request from the client side.
-The LLMs won’t see the `sly_data`, but the coded tools can access it.
-Useful to hold onto a user id and tokens for instance.
+A `sly_data` dictionary can be passed along with the `ChatRequest` from the client side.
+The `sly_data` will not be seen by the LLMs, and by default, will not leave the agent network.
+Within the agent network the `sly_data` is visible to the coded tools and can be used as a
+bulletin-board between coded tools.
+
+This policy is one of securtiy-by-default, whereby no `sly_data` gets out of the agent network
+at all unless otherwise specified. It's only when a boundary is crossed that the question of
+what goes through arises. There are 3 boundaries:
+
+1.  What goes out to external networks (`to_downstream`). For instance, you may not want to send
+    credentials to an agent network that lives on another server.
+2.  What comes in from external networks (`from_upstream`). For instance, you might not trust what's
+    coming from an agent network that lives on another server.
+3.  What goes back to the client (`to_upstream`). For instance, you might not want secrets from
+    the server side to be share with the clients that connect to it.
+
+So by default nothing is shared and you have to explicitly state what goes through.
+
+Suppose you have an agent network that takes in two numbers,
+the name of an opertion (say, addition/subtraction/multiplication/division), and asks another
+agent network to perform the operation on the numbers. To pass the numbers as `sly_data` to the
+downstream agent network you must specify the following in the .hocon file of the agent that
+is connecting to the downstream agent network:
+
+```hocon
+"allow": {
+    "to_downstream": {
+        # Specifying this allows specific sly_data
+        # keys from this agent network to be sent
+        # to downstream agent networks
+        "sly_data": ["x", "y"]
+   }
+}
+```
+
+To get `sly_data` coming back from a downstream agent network, i.e., to get the result of
+adding two numbers, you must specify the following in the .hocon file of the agent that is
+connecting to the downstream agent network:
+
+```hocon
+"allow": {
+    "from_downstream": {
+        # Specifying this allows specific sly_data
+        # keys to be ingested from downstream agent
+        # networks as sly_data for this agent network
+        "sly_data": ["equals"]
+    }
+}
+```
+
+To allow frontman agent to return `sly_data` to the client, you must specify the following in
+the .hocon file of the frontman (the only agent that is connected to the client):
+
+```hocon
+"allow": {
+    "to_upstream": {
+        # Specifying this allows sly_data keys
+        # from this network to be passed back
+        # to the calling client
+        "sly_data": ["equals"]
+    }
+}
+```
+
+All the above .hocon "allow" blocks can be combined in a single "allow" block. An example
+is given [here](https://github.com/leaf-ai/neuro-san/blob/main/neuro_san/registries/math_guy_passthrough.hocon#L54)
 
 ## Toolbox
 

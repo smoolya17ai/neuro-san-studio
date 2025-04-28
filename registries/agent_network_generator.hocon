@@ -12,7 +12,6 @@
 {
     "llm_config": {
         "model_name": "gpt-4o",
-        "verbose": true
     },
     "max_iterations": 40000,
     "max_execution_seconds": 6000,
@@ -212,7 +211,6 @@ You append the following fixed header to the beginning of any generated agent ne
 \u007B
     "llm_config": \u007B
         "model_name": "gpt-4o",
-        "verbose": true
     \u007D,
     "max_iterations": 2000,
     "max_execution_seconds": 600,

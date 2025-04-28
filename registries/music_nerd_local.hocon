@@ -13,7 +13,6 @@
     "llm_config": {
         "class": "ollama",
         "model_name": "mistral",
-        "verbose": true,
     },
     "tools": [
         # These tool definitions do not have to be in any particular order
