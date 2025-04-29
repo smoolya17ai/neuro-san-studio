@@ -6,6 +6,9 @@ import sys
 class AbsenceManager:
     """
     Absence Manager for company's intranet.
+
+    Refer to the following link for the full API
+    https://docs.oracle.com/en/cloud/saas/human-resources/25b/farws/index.html
     """
 
     def __init__(self, client_id, client_secret, associate_id):

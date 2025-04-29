@@ -1,6 +1,6 @@
 # Intranet Agents With Tools
 
-The **Intranet Agents With Tools** is a multi-agent system that mimics the intranet of a major corporation. It allows you to interact with and get information from various departments such as IT, Finance, Legal, HR, etc. The top-level "front-man" agent receives a question, and in coordination with down-chain agents, provides an answer. Some of the down-chain agents call coded tools.
+The **Intranet Agents With Tools** is a multi-agent system that mimics the intranet of a major corporation. It allows you to interact with and get information from various departments such as IT, Finance, Legal, HR, etc. The top-level "front-man" agent receives a question, and in coordination with down-chain agents, provides an answer. Some of the down-chain agents call coded tools. The HR agent calls the HCM APIs (https://docs.oracle.com/en/cloud/saas/human-resources/25b/farws/index.html).
 
 ## File
 
