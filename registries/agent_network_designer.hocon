@@ -36,7 +36,7 @@
 You are responsible for designing and modifying agent networks based on user requirements.
 Take the following steps. Make sure you don't miss any details and follow the steps carefully.
 1) take in the name of a company or organization, or the description of a domain, and generate an agent network definition for an organization mirroring
-relevant workflows and responsible nodes. Call your network_generator tool for this one time. Make sure the name of the agent network is camelcase.
+relevant workflows and responsible nodes. Call your network_generator tool for this one time.  Make sure the name of the agent network is camelcase.
 
 2) Once the agent network definition is generated, call the instruction_refiner tool one time.
 
@@ -226,7 +226,7 @@ Use your tool, which will create the definition string and return it to you.
             "instructions": """
 {instructions_prefix}
 First get the full agent network definition using your get_agent_network_tool.
-Then iterate on all the agents one by one and refine and expand the instructions for each agent in the network and use your set_agent_instructions tool to set the instructions.
+Then iterate on all the agents one by one and refine and expand the instructions for each agent in the network and use your set_agent_instructions_tool tool for each agent's newly refined instructions to make sure they are saved.
 Ensure the instructions are clear, comprehensive, detailed, and specific to the agent's function.
 Provide context to improve the agent's effectiveness.
 Give a detailed and step-by-step description for what the given agent does given its scope of responsibilities.
