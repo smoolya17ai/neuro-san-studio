@@ -54,3 +54,8 @@ a **tool-calling** LLM that runs locally with Ollama.
 ## Agent Network Designer
 
 [Agent Network Designer](examples/agent_network_designer.md) is a multi-agent system to create multi-agent systems. Enter the name of an organization or describe the use-case and will create a agent network hocon for you and save it to your registries directory and give you some usage examples.
+
+## KWIK Agents
+
+[kwik_agents.md](examples/kwik_agents.md) is a basic multi-agent system with memory.
+
