@@ -25,19 +25,17 @@ jobs:
         
       - name: Request GitHub OIDC Token
         id: oidc
-        run: |
-          echo "TOKEN=$(curl -s -H 'Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN' \
-            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com")" >> $GITHUB_ENV
-        env:
-          ACTIONS_ID_TOKEN_REQUEST_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ACTIONS_ID_TOKEN_REQUEST_URL: ${{ secrets.ACTIONS_ID_TOKEN_REQUEST_URL }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const token = await core.getIDToken();
+            core.setOutput('id_token', token);
 
       - name: Decode OIDC Token
         run: |
-          echo "Decoded OIDC token:"
-          echo "${{ env.TOKEN }}" | jq -R 'split(".") | .[1] | @base64d | fromjson'
+          echo "${{ steps.oidc.outputs.id_token }}" | cut -d '.' -f2 | base64 -d | jq
           exit 1
-
+ 
       - name: Set up variables
         id: vars
         run: |
