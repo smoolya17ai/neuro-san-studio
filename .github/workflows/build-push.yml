@@ -23,19 +23,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Request GitHub OIDC Token
-        id: oidc
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const token = await core.getIDToken('sts.amazonaws.com');
-            core.setOutput('id_token', token);
-
-      - name: Decode OIDC Token
-        run: |
-          echo "${{ steps.oidc.outputs.id_token }}" | cut -d '.' -f2 | base64 -d | jq
-          exit 1
- 
       - name: Set up variables
         id: vars
         run: |
