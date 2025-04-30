@@ -20,7 +20,7 @@ activate:
 	@echo "To activate the environment in your current shell, run:"
 	@echo "    source venv/bin/activate"
 
-## Run code formatting and linting tools
+## Run code formatting and linting tools on source
 lint:
 	@if [ "$$(which python | grep -c "./venv")" -eq 0 ]; then \
 		echo ""; \
@@ -30,10 +30,24 @@ lint:
 		echo ""; \
 		exit 1; \
 	fi
-	isort --atomic coded_tools/
-	black coded_tools/ --line-length 119
-	flake8 coded_tools/ --max-line-length 119 --extend-ignore W503,E203
+	isort run.py coded_tools/ --atomic
+	black run.py coded_tools/ --line-length 119
+	flake8 run.py coded_tools/ --max-line-length 119 --extend-ignore W503,E203
+
+## Run code formatting and linting tools on tests
+lint-tests:
+	@if [ "$$(which python | grep -c "./venv")" -eq 0 ]; then \
+		echo ""; \
+		echo "Error: Linting must be run using the ./venv Python environment"; \
+		echo "Please activate the correct environment with:"; \
+		echo "  source venv/bin/activate"; \
+		echo ""; \
+		exit 1; \
+	fi
+	isort tests/ --atomic
+	black tests/ --line-length 119
+	flake8 tests/ --max-line-length 119 --extend-ignore W503,E203
 
 ## Run tests with coverage
-test:
+test: lint lint-tests
 	python -m pytest tests/ -v --cov=coded_tools
