@@ -43,10 +43,19 @@ a **tool-calling** LLM that runs locally with Ollama.
 
 [Airline Policy 360 Assistant](./examples/airline_policy.md) is a sophisticated multi-agent system designed to manage and respond to customer inquiries by referring to related airline policies with structured delegation. It mimics a real-world helpdesk with specialized teams, each handling a specific domain of airline policies such as baggage, flights, international travel, and more.
 
+## Intranet Agents
+
+[Intranet Agents](examples/intranet_agents.md) is a multi-agent system that mimics the intranet of a major corporation. It allows you to interact and get information from various departments such as IT, Finance, Legal, HR, etc.
+
+## Intranet Agents With Tools
+
+[Intranet Agents With Tools](examples/intranet_agents_with_tools.md) is a multi-agent system that mimics the intranet of a major corporation. It allows you to interact and get information from various departments such as IT, Finance, Legal, HR, etc. Some of the down-chain agents call coded tools.
+
 ## Agent Network Designer
 
-[agent_network_designer.md](examples/agent_network_designer.md) is a multi-agent system to create multi-agent systems. Enter the name of an organization or describe the use-case and will create a agent network hocon for you and save it to your registries directory and give you some usage examples.
+[Agent Network Designer](examples/agent_network_designer.md) is a multi-agent system to create multi-agent systems. Enter the name of an organization or describe the use-case and will create a agent network hocon for you and save it to your registries directory and give you some usage examples.
 
 ## KWIK Agents
 
 [kwik_agents.md](examples/kwik_agents.md) is a basic multi-agent system with memory.
+
