@@ -33,11 +33,15 @@ jobs:
             echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_ENV
           fi
 
-      - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v3
+      - name: Configure AWS Credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v3.2.0
         with:
           role-to-assume: arn:aws:iam::634208487213:role/Github-ECR
           aws-region: us-west-2
+          role-session-name: github-actions-${{ github.run_id }}
+          audience: sts.amazonaws.com
+        env:
+          ACTIONS_STEP_DEBUG: true
 
       - name: Login to Amazon ECR
         id: login-ecr
