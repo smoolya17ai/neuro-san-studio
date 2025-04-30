@@ -32,7 +32,7 @@ class URLProvider(CodedTool):
         print(f"GSD: {GSD}")
 
         self.company_urls = {
-            "One Cognizant": INTRANET,
+            "My Intranet": INTRANET,
             "HCM": HCM,
             "Absence Management": ABSENCE_MANAGEMENT,
             "Travel and Expense": TRAVEL_AND_EXPENSE,
