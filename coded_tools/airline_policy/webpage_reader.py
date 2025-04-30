@@ -7,11 +7,12 @@
 # Purchase of a commercial license is mandatory for any use of the
 # neuro-san-demos SDK Software in commercial settings.
 #
+from typing import Any, Dict, Union
+
 import requests
 from bs4 import BeautifulSoup
-from typing import Dict, Any, Union
-
 from neuro_san.interfaces.coded_tool import CodedTool
+
 
 class WebPageReader(CodedTool):
     """
@@ -26,15 +27,23 @@ class WebPageReader(CodedTool):
         self.airline_policy_urls = {
             "Carry On Baggage": ["https://www.united.com/en/us/fly/baggage/carry-on-bags.html"],
             "Checked Baggage": ["https://www.united.com/en/us/fly/baggage/checked-bags.html"],
-            "Bag Issues": ["https://www.united.com/en/us/baggage/bag-help", 
-                           "https://www.united.com/en/US/fly/help/lost-and-found.html"],
-            "Special Items": ["https://www.tsa.gov/travel/security-screening/whatcanibring/sporting-and-camping",
-            "https://www.united.com/en/us/fly/baggage/fragile-and-valuable-items.html"],
-            "Military Personnel": ["https://www.united.com/en/us/fly/company/company-info/military-benefits-and-discounts.html"],
+            "Bag Issues": [
+                "https://www.united.com/en/us/baggage/bag-help",
+                "https://www.united.com/en/US/fly/help/lost-and-found.html",
+            ],
+            "Special Items": [
+                "https://www.tsa.gov/travel/security-screening/whatcanibring/sporting-and-camping",
+                "https://www.united.com/en/us/fly/baggage/fragile-and-valuable-items.html",
+            ],
+            "Military Personnel": [
+                "https://www.united.com/en/us/fly/company/company-info/military-benefits-and-discounts.html"
+            ],
             "Basic Economy Restrictions": ["https://www.united.com/en/us/fly/travel/inflight/basic-economy.html"],
             "Mileage Plus": ["https://www.united.com/en/us/fly/mileageplus.html"],
             "Bag Fee Calculator": ["https://www.united.com/en/us/checked-bag-fee-calculator/any-flights"],
-            "International Checked_Baggage": ["https://www.united.com/en/us/fly/baggage/international-checked-bag-limits.html"],
+            "International Checked_Baggage": [
+                "https://www.united.com/en/us/fly/baggage/international-checked-bag-limits.html"
+            ],
             "Embargoes": ["https://www.united.com/en/us/fly/baggage/international-checked-bag-limits.html"],
         }
 
@@ -77,14 +86,16 @@ class WebPageReader(CodedTool):
             if not isinstance(urls, list) or not urls:
                 return "Error: No URLs provided or invalid format. Expected a list of URLs."
 
-            headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"  # noqa E501
+            }
             results = {}
             for url in urls:
                 try:
                     response = requests.get(url, headers=headers)
                     response.raise_for_status()
 
-                    soup = BeautifulSoup(response.text, 'html.parser')
+                    soup = BeautifulSoup(response.text, "html.parser")
                     texts = soup.stripped_strings
                     full_text = " ".join(texts)
                     results[url] = full_text

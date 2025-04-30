@@ -1,14 +1,13 @@
-from typing import Any
-from typing import Dict
-from typing import Union
-from datetime import datetime
 import json
 import logging
 import os
+from datetime import datetime
+from typing import Any, Dict, Union
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
-from coded_tools.kwik_agents.list_topics import MEMORY_FILE_PATH, MEMORY_DATA_STRUCTURE, LONG_TERM_MEMORY_FILE
+from coded_tools.kwik_agents.list_topics import LONG_TERM_MEMORY_FILE, MEMORY_DATA_STRUCTURE, MEMORY_FILE_PATH
+
 
 class CommitToMemory(CodedTool):
     """
@@ -76,7 +75,7 @@ class CommitToMemory(CodedTool):
         """
         file_path = MEMORY_FILE_PATH + MEMORY_DATA_STRUCTURE + ".json"
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(file_path, 'w') as file:
+        with open(file_path, "w") as file:
             file.write(json.dumps(self.topic_memory, indent=2))
 
     def read_memory_from_file(self):
@@ -86,7 +85,7 @@ class CommitToMemory(CodedTool):
         """
         file_path = MEMORY_FILE_PATH + MEMORY_DATA_STRUCTURE + ".json"
         if os.path.exists(file_path):
-            with open(file_path, 'r') as file:
+            with open(file_path, "r") as file:
                 content = file.read()
                 self.topic_memory = json.loads(content) if content else {}
         else:

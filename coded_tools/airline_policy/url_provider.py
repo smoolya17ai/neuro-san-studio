@@ -7,9 +7,7 @@
 # Purchase of a commercial license is mandatory for any use of the
 # neuro-san-demos SDK Software in commercial settings.
 #
-from typing import Any
-from typing import Dict
-from typing import Union
+from typing import Any, Dict, Union
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
@@ -32,10 +30,10 @@ class URLProvider(CodedTool):
             "Checked Baggage": "https://www.united.com/en/us/fly/baggage/checked-bags.html",
             "Bag Issues": "https://www.united.com/en/us/baggage/bag-help",
             "Special Items": "https://www.tsa.gov/travel/security-screening/whatcanibring/sporting-and-camping",
-            "Military_Personnel": "https://www.united.com/en/us/fly/company/company-info/military-benefits-and-discounts.html",
+            "Military_Personnel": "https://www.united.com/en/us/fly/company/company-info/military-benefits-and-discounts.html",  # noqa E501
             "Mileage Plus": "https://www.united.com/en/us/fly/mileageplus.html",
-            "International Checked Baggage": "https://www.united.com/en/us/fly/baggage/international-checked-bag-limits.html",
-            "International Travel Requirements": "https://www.united.com/en/us/travel/trip-planning/travel-requirements",
+            "International Checked Baggage": "https://www.united.com/en/us/fly/baggage/international-checked-bag-limits.html",  # noqa E501
+            "International Travel Requirements": "https://www.united.com/en/us/travel/trip-planning/travel-requirements",  # noqa E501
             "Embargoes": "https://www.united.com/en/us/fly/baggage/international-checked-bag-limits.html",
             "Basic Economy_Restrictions": "https://www.united.com/en/us/fly/travel/inflight/basic-economy.html",
             "Bag Fee Calculator": "https://www.united.com/en/us/checked-bag-fee-calculator/any-flights",

@@ -7,15 +7,13 @@
 # Purchase of a commercial license is mandatory for any use of the
 # neuro-san-demos SDK Software in commercial settings.
 #
-from typing import Any
-from typing import Dict
-from typing import Union
-
 import logging
+from typing import Any, Dict, Union
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
 AGENT_NETWORK_NAME = "AutomaticallyDesignedAgentNetwork"
+
 
 class SetAgentInstructions(CodedTool):
     """

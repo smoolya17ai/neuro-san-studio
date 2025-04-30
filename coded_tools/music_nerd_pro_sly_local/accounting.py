@@ -7,9 +7,7 @@
 # Purchase of a commercial license is mandatory for any use of the
 # neuro-san-demos SDK Software in commercial settings.
 #
-from typing import Any
-from typing import Dict
-from typing import Union
+from typing import Any, Dict, Union
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
@@ -46,9 +44,7 @@ class AccountantSly(CodedTool):
         # Update the sly_data
         sly_data["running_cost"] = updated_running_cost
 
-        tool_response = {
-            "running_cost": updated_running_cost
-        }
+        tool_response = {"running_cost": updated_running_cost}
         print("-----------------------")
         print(f"{tool_name} response: ", tool_response)
         print(f"========== Done with {tool_name} ==========")
