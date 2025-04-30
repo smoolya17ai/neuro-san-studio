@@ -28,9 +28,9 @@ How many days of vacation do I have left?
 
 ### AI (intranet_agents):
 ```
-You can find out how many days of vacation you have left by accessing the Absence Management tool on the OneCognizant intranet. It will provide you with the most accurate and up-to-date information regarding your vacation balance.
+You can find out how many days of vacation you have left by accessing the Absence Management tool on the company's intranet. It will provide you with the most accurate and up-to-date information regarding your vacation balance.
 
-For more details, please visit OneCognizant.
+For more details, please visit company's intranet.
 ```
 
 ---
