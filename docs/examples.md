@@ -35,6 +35,10 @@ This is a good way to learn about how to manage a state in a conversation.
 [Music Nerd Pro Sly](./examples/music_nerd_pro_sly.md) that uses
 a **tool-calling** LLM that runs locally with Ollama.
 
+## MCP BMI SSE
+
+[MCP BMI SSE](./examples/mcp_bmi_sse.md) is an agent that call a tool in MCP server via server-sent events (sse) to calculate BMI. It serves as an example of how to connect to mcp servers in coded tools.
+
 ## Agentic RAG Assistant
 
 [Agentic RAG Assistant](./examples/agentic_rag.md) is a modular multi-agent system that answers user queries by retrieving information from the web, PDF documents, and Slack channels. It mimics a smart assistant that delegates tasks to specialized tools and compiles responses into clear, helpful answers.

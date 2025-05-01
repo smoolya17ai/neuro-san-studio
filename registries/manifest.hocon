@@ -35,5 +35,11 @@
     "telco_network_support.hocon": true,
     "agentic_rag.hocon": true,
     "kwik_agents.hocon": true,
-    "mcp_bmi.hocon": true,
+    # Before turn on and run the following agnet network, make sure that the following steps have been completed:
+    # 1. Make sure langchain-mcp-adapters is installed. if not then
+    # pip install langchain-mcp-adapters
+    # 2. The mcp server needed to be started.
+    # The server can be found at custom_mcp_servers/mcp_bmi_sse/bmi_server.py and run by command
+    # python bmi_server.py
+    "mcp_bmi_sse.hocon": false,
 }
