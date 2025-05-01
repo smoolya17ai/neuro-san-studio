@@ -1,7 +1,9 @@
 import json
 import logging
 import os
-from typing import Any, Dict, Union
+from typing import Any
+from typing import Dict
+from typing import Union
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
