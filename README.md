@@ -79,23 +79,6 @@ You can get your OpenAI API key from <https://platform.openai.com/signup>. After
 
 Other providers and models are supported too but will require proper setup.
 
----
-
-## Using the Makefile
-
-This repository includes a Makefile with several useful commands to streamline development tasks. **Note: These Makefile commands are designed for macOS and Unix-like systems and will not work directly on Windows.**
-
-- `make venv` - Creates a virtual environment in the `./venv` directory if it doesn't already exist
-- `make install` - Creates the virtual environment (if needed) and installs all dependencies including test dependencies
-- `make activate` - Checks if the virtual environment exists and either provides activation instructions (if it exists) or suggests running `make install` (if it doesn't)
-- `make lint` - Runs code formatting and linting tools (isort, black, flake8) on the source code
-- `make lint-tests` - Runs code formatting and linting tools on the test code
-- `make test` - Runs lint and lint-tests, then executes the tests with pytest and generates coverage reports
-
-These Makefile commands provide a convenient alternative to the manual steps described in the Installation section for macOS users. Windows users should follow the manual installation instructions instead.
-
----
-
 ## Run
 
 There are multiple ways in which we can now use the neuro-san server with a client:
