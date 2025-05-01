@@ -1,16 +1,16 @@
+import json
+import logging
+import os
 from typing import Any
 from typing import Dict
 from typing import Union
-
-import logging
-import os
-import json
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
 LONG_TERM_MEMORY_FILE = True  # Store and read memory from file
 MEMORY_FILE_PATH = "./"
 MEMORY_DATA_STRUCTURE = "TopicMemory"
+
 
 class ListTopics(CodedTool):
     """
@@ -71,7 +71,7 @@ class ListTopics(CodedTool):
         """
         file_path = MEMORY_FILE_PATH + MEMORY_DATA_STRUCTURE + ".json"
         if os.path.exists(file_path):
-            with open(file_path, 'r') as file:
+            with open(file_path, "r") as file:
                 content = file.read()
                 self.topic_memory = json.loads(content) if content else {}
         else:

@@ -41,9 +41,7 @@ class Accountant(CodedTool):
         # Increment the running cost
         updated_running_cost: float = running_cost + 1.0
 
-        tool_response = {
-            "running_cost": updated_running_cost
-        }
+        tool_response = {"running_cost": updated_running_cost}
         print("-----------------------")
         print(f"{tool_name} response: ", tool_response)
         print(f"========== Done with {tool_name} ==========")

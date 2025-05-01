@@ -1,4 +1,3 @@
-
 """Tool module for reading messages from a slack channel"""
 
 # Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
@@ -19,9 +18,8 @@ from typing import Literal
 
 from langchain_community.tools.slack.get_channel import SlackGetChannel
 from langchain_community.tools.slack.get_message import SlackGetMessage
-from pydantic import PydanticUserError
-
 from neuro_san.interfaces.coded_tool import CodedTool
+from pydantic import PydanticUserError
 
 Empty: Literal[""] = ""
 
@@ -51,11 +49,7 @@ class Slack(CodedTool):
                 once.
         """
 
-    async def async_invoke(
-            self,
-            args: Dict[str, Any],
-            sly_data: Dict[str, Any]
-    ) -> str:
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         Get messages on the provided slack channel.
 
@@ -91,14 +85,11 @@ class Slack(CodedTool):
         # '[{"user": "WU0JH", "text": "Yes", "ts": "1744677036.155459"}, ...]'
         try:
             # Get a str of channel ids and names
-            channel_id_name_str: str = \
-                await SlackGetChannel().ainvoke(input=Empty)
+            channel_id_name_str: str = await SlackGetChannel().ainvoke(input=Empty)
             # Convert the str to list
             channel_id_name_list: list = ast.literal_eval(channel_id_name_str)
             # Make a lookup table with channel names as keys and ids as values
-            channel_id_name_dict: dict = \
-                {channel["name"]: channel["id"]
-                 for channel in channel_id_name_list}
+            channel_id_name_dict: dict = {channel["name"]: channel["id"] for channel in channel_id_name_list}
 
             # Get channel id and return the messages if possible.
             channel_id: str = channel_id_name_dict.get(channel_name)

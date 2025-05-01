@@ -7,14 +7,16 @@
 # Purchase of a commercial license is mandatory for any use of the
 # neuro-san-demos SDK Software in commercial settings.
 #
-import os
-import subprocess
-import signal
-import glob
-import sys
 import argparse
+import glob
+import os
+import signal
+import subprocess
+import sys
 import threading
+
 from dotenv import load_dotenv
+
 
 class NeuroSanRunner:
     """Command-line tool to run the Neuro SAN server and web client."""
@@ -58,11 +60,22 @@ class NeuroSanRunner:
         """Parses command-line arguments for configuration."""
         parser = argparse.ArgumentParser(description="Run the Neuro SAN server and web client.")
 
-        parser.add_argument('--server-host', type=str, default=self.neuro_san_server_host, help="Host address for the Neuro SAN server")
-        parser.add_argument('--server-port', type=int, default=self.neuro_san_server_port, help="Port number for the Neuro SAN server")
-        parser.add_argument('--web-client-port', type=int, default=self.neuro_san_web_client_port, help="Port number for the web client")
-        parser.add_argument('--thinking-file', type=str, default=self.thinking_file, help="Path to the agent thinking file")
-        parser.add_argument('--no-html', action='store_true', help="Don't generate html for network diagrams")
+        parser.add_argument(
+            "--server-host", type=str, default=self.neuro_san_server_host, help="Host address for the Neuro SAN server"
+        )
+        parser.add_argument(
+            "--server-port", type=int, default=self.neuro_san_server_port, help="Port number for the Neuro SAN server"
+        )
+        parser.add_argument(
+            "--web-client-port",
+            type=int,
+            default=self.neuro_san_web_client_port,
+            help="Port number for the web client",
+        )
+        parser.add_argument(
+            "--thinking-file", type=str, default=self.thinking_file, help="Path to the agent thinking file"
+        )
+        parser.add_argument("--no-html", action="store_true", help="Don't generate html for network diagrams")
 
         return vars(parser.parse_args())
 
@@ -85,7 +98,9 @@ class NeuroSanRunner:
                 print(f"Generating .html file for: {file}")
                 result = subprocess.run(
                     [sys.executable, "-m", "neuro_san_web_client.agents_diagram_builder", "--input_file", file],
-                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    universal_newlines=True,
                 )
                 print(result.stdout)
                 if result.stderr:
@@ -95,7 +110,7 @@ class NeuroSanRunner:
     def stream_output(pipe, log_file, prefix):
         """Stream subprocess output to console and log file in real-time."""
         with open(log_file, "a") as log:
-            for line in iter(pipe.readline, ''):
+            for line in iter(pipe.readline, ""):
                 formatted_line = f"{prefix}: {line.strip()}"
                 print(formatted_line)  # Print to console
                 log.write(formatted_line + "\n")  # Write to log file
@@ -105,11 +120,19 @@ class NeuroSanRunner:
         """Start a subprocess and capture logs."""
         creation_flags = subprocess.CREATE_NEW_PROCESS_GROUP if self.is_windows else 0
 
-        with open(log_file, "w") as log:
-            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                       text=True, bufsize=1, universal_newlines=True,
-                                       preexec_fn=None if self.is_windows else os.setpgrp,
-                                       creationflags=creation_flags)
+        # Initialize/clear the log file before starting
+        open(log_file, "w").close()
+
+        process = subprocess.Popen(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            bufsize=1,
+            universal_newlines=True,
+            preexec_fn=None if self.is_windows else os.setpgrp,
+            creationflags=creation_flags,
+        )
 
         print(f"Started {process_name} with PID {process.pid}")
 
@@ -162,18 +185,29 @@ class NeuroSanRunner:
 
         # Start server (Log to logs/server.log)
         server_command = [
-            sys.executable, "-u", "-m", "neuro_san.service.agent_main_loop",
-            "--port", str(self.config["server_port"])
+            sys.executable,
+            "-u",
+            "-m",
+            "neuro_san.service.agent_main_loop",
+            "--port",
+            str(self.config["server_port"]),
         ]
         self.server_process = self.start_process(server_command, "SERVER", "logs/server.log")
 
         # Start web client (Log to logs/client.log)
         client_command = [
-            sys.executable, "-u", "-m", "neuro_san_web_client.app",
-            "--server-host", self.config["server_host"],
-            "--server-port", str(self.config["server_port"]),
-            "--web-client-port", str(self.config["web_client_port"]),
-            "--thinking-file", self.config["thinking_file"]
+            sys.executable,
+            "-u",
+            "-m",
+            "neuro_san_web_client.app",
+            "--server-host",
+            self.config["server_host"],
+            "--server-port",
+            str(self.config["server_port"]),
+            "--web-client-port",
+            str(self.config["web_client_port"]),
+            "--thinking-file",
+            self.config["thinking_file"],
         ]
         self.app_process = self.start_process(client_command, "WEB CLIENT", "logs/client.log")
 

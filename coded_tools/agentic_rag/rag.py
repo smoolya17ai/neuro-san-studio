@@ -1,4 +1,3 @@
-
 """Tool module for doing RAG from a pdf file"""
 
 # Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
@@ -22,7 +21,6 @@ from langchain_core.documents import Document
 from langchain_core.vectorstores.base import VectorStoreRetriever
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
 from neuro_san.interfaces.coded_tool import CodedTool
 
 
@@ -51,11 +49,7 @@ class RAG(CodedTool):
             once.
         """
 
-    async def async_invoke(
-            self,
-            args: Dict[str, Any],
-            sly_data: Dict[str, Any]
-    ) -> str:
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         Load a PDF from URL, build a vector store, and run a query against it.
 
@@ -84,17 +78,11 @@ class RAG(CodedTool):
             return "Error: No query provided."
 
         # Build the vector store and run the query
-        url: str = (
-            "https://www.replicon.com/wp-content/uploads/"
-            "2016/06/RFP-Template_Replicon.pdf"
-        )
+        url: str = "https://www.replicon.com/wp-content/uploads/" "2016/06/RFP-Template_Replicon.pdf"
         vectorstore: InMemoryVectorStore = await self.generate_vectorstore(url)
         return await self.query_vectorstore(vectorstore, query)
 
-    async def generate_vectorstore(
-            self,
-            urls: List[str]
-    ) -> InMemoryVectorStore:
+    async def generate_vectorstore(self, urls: List[str]) -> InMemoryVectorStore:
         """
         Asynchronously loads web documents from given URLs, split them into
         chunks, and build an in-memory vector store using OpenAI embeddings.
@@ -113,25 +101,19 @@ class RAG(CodedTool):
 
         # Split documents into smaller chunks for better embedding and
         # retrieval
-        text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-            chunk_size=100, chunk_overlap=50
-        )
+        text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(chunk_size=100, chunk_overlap=50)
         doc_chunks: List[Document] = text_splitter.split_documents(docs)
 
         # Create an in-memory vector store with embeddings
-        vectorstore: InMemoryVectorStore =\
-            await InMemoryVectorStore.afrom_documents(
-                documents=doc_chunks,
-                collection_name="rag-in-memory",
-                embedding=OpenAIEmbeddings(),
-            )
+        vectorstore: InMemoryVectorStore = await InMemoryVectorStore.afrom_documents(
+            documents=doc_chunks,
+            collection_name="rag-in-memory",
+            embedding=OpenAIEmbeddings(),
+        )
 
         return vectorstore
 
-    async def query_vectorstore(
-            self, vectorstore: InMemoryVectorStore,
-            query: str
-    ) -> str:
+    async def query_vectorstore(self, vectorstore: InMemoryVectorStore, query: str) -> str:
         """
         Query the given vector store using the provided query string
         and return the combined content of retrieved documents.

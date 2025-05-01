@@ -9,12 +9,11 @@
 #
 import json
 import os
+import uuid
 from typing import Any
 from typing import Dict
 
 import requests
-import uuid
-
 
 # Salesforce API URLs
 BASE_URL = "https://api.salesforce.com/einstein/ai-agent/v1"
@@ -28,11 +27,13 @@ class AgentforceAdapter:
     See https://developer.salesforce.com/docs/einstein/genai/guide/agent-api-get-started.html for more details.
     """
 
-    def __init__(self,
-                 my_domain_url: str = None,
-                 agent_id: str = None,
-                 client_id: str = None,
-                 client_secret: str = None):
+    def __init__(
+        self,
+        my_domain_url: str = None,
+        agent_id: str = None,
+        client_id: str = None,
+        client_secret: str = None,
+    ):
         """
         Constructs a Salesforce Agentforce Adapter.
         Uses the passed parameters, if any, or the corresponding environment variables:
@@ -99,16 +100,16 @@ class AgentforceAdapter:
         :return: an access token, as a string.
         """
         headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
         }
         data = {
-            'client_id': self.client_id,
-            'client_secret': self.client_secret,
-            'grant_type': 'client_credentials'
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+            "grant_type": "client_credentials",
         }
         access_token_url = f"{self.my_domain_url}/services/oauth2/token"
         response = requests.post(access_token_url, headers=headers, data=data)
-        access_token = response.json()['access_token']
+        access_token = response.json()["access_token"]
         return access_token
 
     def _get_session(self, access_token: str) -> str:
@@ -119,8 +120,8 @@ class AgentforceAdapter:
         """
         uuid_str = str(uuid.uuid4())
         headers = {
-            'Authorization': f'Bearer {access_token}',
-            'Content-Type': 'application/json',
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json",
         }
         # print("----Session headers:")
         # print(headers)
@@ -129,10 +130,8 @@ class AgentforceAdapter:
             "instanceConfig": {
                 "endpoint": self.my_domain_url,
             },
-            "streamingCapabilities": {
-                "chunkTypes": ["Text"]
-            },
-            "bypassUser": "true"
+            "streamingCapabilities": {"chunkTypes": ["Text"]},
+            "bypassUser": "true",
         }
         # print("----Session data:")
         # print(data)
@@ -142,7 +141,7 @@ class AgentforceAdapter:
         response = requests.post(open_session_url, headers=headers, data=data_json)
         # print("---- Session:")
         # print(response.json())
-        session_id = response.json()['sessionId']
+        session_id = response.json()["sessionId"]
         return session_id
 
     @staticmethod
@@ -194,7 +193,7 @@ class AgentforceAdapter:
                 "type": "Text",
                 "text": message,
             },
-            "variables": []
+            "variables": [],
         }
         # Convert data to json
         data_json = json.dumps(data)
@@ -206,7 +205,7 @@ class AgentforceAdapter:
         response_dict = {
             "session_id": session_id,
             "access_token": access_token,
-            "response": response.json()
+            "response": response.json(),
         }
         return response_dict
 

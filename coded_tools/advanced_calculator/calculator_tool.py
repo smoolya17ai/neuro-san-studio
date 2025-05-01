@@ -8,10 +8,12 @@
 # neuro-san-demos SDK Software in commercial settings.
 #
 import json
-import math
 import logging
-import numpy as np
-from typing import Any, Dict, Union
+import math
+from typing import Any
+from typing import Dict
+from typing import Union
+
 from neuro_san.interfaces.coded_tool import CodedTool
 
 # Configure default logging
@@ -34,23 +36,55 @@ class CalculatorCodedTool(CodedTool):
             "multiply": [2, lambda a, b: a * b],
             "divide": [2, lambda a, b: a / b if b != 0 else "Error: Division by zero"],
             "exponentiate": [2, math.pow],
-            "factorial": [1, lambda n: math.factorial(int(n)) if n >= 0 else "Error: Factorial of negative numbers is undefined"],
-            "isprime": [1, lambda n: all(n % i != 0 for i in range(2, int(math.sqrt(n)) + 1)) and n > 1],
-            "squareroot": [1, lambda n: math.sqrt(n) if n >= 0 else "Error: Square root of negative numbers is undefined"],
-            "log": [1, lambda x, base=math.e: math.log(x, base) if x > 0 else "Error: Logarithm undefined for non-positive values"],
-            "log10": [1, lambda x: math.log10(x) if x > 0 else "Error: Logarithm undefined for non-positive values"],
-            "log2": [1, lambda x: math.log2(x) if x > 0 else "Error: Logarithm undefined for non-positive values"],
+            "factorial": [
+                1,
+                lambda n: (math.factorial(int(n)) if n >= 0 else "Error: Factorial of negative numbers is undefined"),
+            ],
+            "isprime": [
+                1,
+                lambda n: all(n % i != 0 for i in range(2, int(math.sqrt(n)) + 1)) and n > 1,
+            ],
+            "squareroot": [
+                1,
+                lambda n: (math.sqrt(n) if n >= 0 else "Error: Square root of negative numbers is undefined"),
+            ],
+            "log": [
+                1,
+                lambda x, base=math.e: (
+                    math.log(x, base) if x > 0 else "Error: Logarithm undefined for non-positive values"
+                ),
+            ],
+            "log10": [
+                1,
+                lambda x: (math.log10(x) if x > 0 else "Error: Logarithm undefined for non-positive values"),
+            ],
+            "log2": [
+                1,
+                lambda x: (math.log2(x) if x > 0 else "Error: Logarithm undefined for non-positive values"),
+            ],
             "sin": [1, math.sin],
             "cos": [1, math.cos],
-            "tan": [1, lambda x: math.tan(x) if (x % (math.pi / 2)) != 0 else "Error: Tangent undefined at π/2 + kπ"],
-            "asin": [1, lambda x: math.asin(x) if -1 <= x <= 1 else "Error: Input out of domain for arcsin"],
-            "acos": [1, lambda x: math.acos(x) if -1 <= x <= 1 else "Error: Input out of domain for arccos"],
+            "tan": [
+                1,
+                lambda x: (math.tan(x) if (x % (math.pi / 2)) != 0 else "Error: Tangent undefined at π/2 + kπ"),
+            ],
+            "asin": [
+                1,
+                lambda x: (math.asin(x) if -1 <= x <= 1 else "Error: Input out of domain for arcsin"),
+            ],
+            "acos": [
+                1,
+                lambda x: (math.acos(x) if -1 <= x <= 1 else "Error: Input out of domain for arccos"),
+            ],
             "atan": [1, math.atan],
             "sinh": [1, math.sinh],
             "cosh": [1, math.cosh],
             "tanh": [1, math.tanh],
             "gcd": [2, lambda a, b: math.gcd(int(a), int(b))],
-            "lcm": [2, lambda a, b: abs(int(a) * int(b)) // math.gcd(int(a), int(b)) if a and b else 0],
+            "lcm": [
+                2,
+                lambda a, b: (abs(int(a) * int(b)) // math.gcd(int(a), int(b)) if a and b else 0),
+            ],
             "mod": [2, lambda a, b: a % b if b != 0 else "Error: Modulo by zero"],
             "ceil": [1, math.ceil],
             "floor": [1, math.floor],
@@ -64,7 +98,7 @@ class CalculatorCodedTool(CodedTool):
     def process_operation(self, operation: str, operands: list) -> Union[str, float]:
         """
         Processes an operation dynamically.
-        
+
         For operations that receive more operands than required, this method reduces the operand list
         recursively by applying the function to the first N operands (where N is the expected count)
         and then prepending the intermediate result to the remaining operands.
@@ -111,7 +145,7 @@ class CalculatorCodedTool(CodedTool):
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """
         Execute the requested mathematical operation, supporting multi-step calculations.
-        
+
         :param args: A dictionary containing:
             - "operation": The mathematical operation to perform (e.g., "log_sin_squareroot_divide_exponentiate").
             - "operands": A list of numbers to perform the operation on.

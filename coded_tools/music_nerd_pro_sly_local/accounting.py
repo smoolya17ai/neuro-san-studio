@@ -46,9 +46,7 @@ class AccountantSly(CodedTool):
         # Update the sly_data
         sly_data["running_cost"] = updated_running_cost
 
-        tool_response = {
-            "running_cost": updated_running_cost
-        }
+        tool_response = {"running_cost": updated_running_cost}
         print("-----------------------")
         print(f"{tool_name} response: ", tool_response)
         print(f"========== Done with {tool_name} ==========")

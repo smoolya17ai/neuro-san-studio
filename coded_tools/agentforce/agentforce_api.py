@@ -7,10 +7,10 @@
 # Purchase of a commercial license is mandatory for any use of the
 # neuro-san-demos SDK Software in commercial settings.
 #
+import json
 from typing import Any
 from typing import Dict
 from typing import Optional
-import json
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
@@ -18,23 +18,21 @@ from coded_tools.agentforce.agentforce_adapter import AgentforceAdapter
 
 MOCK_SESSION_ID = "06518755-b897-4311-afea-2aab1df77314"
 MOCK_SECRET = "1234567890"
-MOCK_RESPONSE_MESSAGE_1 = \
-"""
+MOCK_RESPONSE_MESSAGE_1 = """
 {"messages": [{"type": "Inform", "id": "04d35a5d-6011-4eb9-88a9-2897f49a6bdc", "feedbackId": "7d92a297-dc95-4306-b638-42f6e36ddfab", "planId": "7d92a297-dc95-4306-b638-42f6e36ddfab", "isContentSafe": true, "message": "Sure, I can help with that. Could you please provide Jane Doe's email address to look up her cases?", "result": [], "citedReferences": []}], "_links": {"self": null, "messages": {"href": "https://api.salesforce.com/einstein/ai-agent/v1/sessions/06518755-b897-4311-afea-2aab1df77314/messages"}, "messagesStream": {"href": "https://api.salesforce.com/einstein/ai-agent/v1/sessions/06518755-b897-4311-afea-2aab1df77314/messages/stream"}, "session": {"href": "https://api.salesforce.com/einstein/ai-agent/v1/agents/0XxKc000000kvtXKAQ/sessions"}, "end": {"href": "https://api.salesforce.com/einstein/ai-agent/v1/sessions/06518755-b897-4311-afea-2aab1df77314"}}}
-"""
-MOCK_RESPONSE_MESSAGE_2 = \
-"""
+"""  # noqa E501
+MOCK_RESPONSE_MESSAGE_2 = """
 {"messages": [{"type": "Inform", "id": "caf90c84-a150-4ccd-8430-eb29189696ac", "feedbackId": "e24505db-1edd-4b76-b5f5-908be083fc67", "planId": "e24505db-1edd-4b76-b5f5-908be083fc67", "isContentSafe": true, "message": "It looks like there are no recent cases associated with Jane Doe's email address. Is there anything else I can assist you with?", "result": [], "citedReferences": []}], "_links": {"self": null, "messages": {"href": "https://api.salesforce.com/einstein/ai-agent/v1/sessions/06518755-b897-4311-afea-2aab1df77314/messages"}, "messagesStream": {"href": "https://api.salesforce.com/einstein/ai-agent/v1/sessions/06518755-b897-4311-afea-2aab1df77314/messages/stream"}, "session": {"href": "https://api.salesforce.com/einstein/ai-agent/v1/agents/0XxKc000000kvtXKAQ/sessions"}, "end": {"href": "https://api.salesforce.com/einstein/ai-agent/v1/sessions/06518755-b897-4311-afea-2aab1df77314"}}}
-"""
+"""  # noqa E501
 MOCK_RESPONSE_1 = {
     "session_id": MOCK_SESSION_ID,
     "access_token": MOCK_SECRET,
-    "response": json.loads(MOCK_RESPONSE_MESSAGE_1)
+    "response": json.loads(MOCK_RESPONSE_MESSAGE_1),
 }
 MOCK_RESPONSE_2 = {
     "session_id": MOCK_SESSION_ID,
     "access_token": MOCK_SECRET,
-    "response": json.loads(MOCK_RESPONSE_MESSAGE_2)
+    "response": json.loads(MOCK_RESPONSE_MESSAGE_2),
 }
 
 
@@ -71,7 +69,7 @@ class AgentforceAPI(CodedTool):
 
         :return: The response message from Agentforce. Note that sly_data dictionary gets updated
         with the Agentforce session_id and access_token.
-        """
+        """  # noqa E501
         # Parse the arguments
         print(f"args: {args}")
         inquiry: str = args.get("inquiry")
@@ -105,7 +103,7 @@ class AgentforceAPI(CodedTool):
 
         print("-----------------------")
         print(f"{tool_name} tool response: ", tool_response)
-        print(f"Updated sly_data: ", sly_data)
+        print(f"Updated sly_data: {sly_data}")
         print(f"========== Done with {tool_name} ==========")
         return tool_response
 
