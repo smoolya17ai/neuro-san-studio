@@ -48,6 +48,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ./deploy/Dockerfile
           push: true
           tags: ${{ vars.ECR_REGISTRY }}/${{ vars.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 
