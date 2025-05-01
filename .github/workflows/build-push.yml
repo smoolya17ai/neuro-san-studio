@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - DSG-actions
-      - blah-blah-blah
+      - blah-blah
   release:
     types: [published]  # Triggers when a GitHub Release is published
   workflow_dispatch:  # Allow manual runs if needed
