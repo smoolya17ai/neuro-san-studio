@@ -16,7 +16,7 @@ jobs:
 
     permissions:
       contents: read
-      id-token: write  # (needed for OIDC auth)
+      #id-token: write  # (needed for OIDC auth)
 
     steps:
 
@@ -33,15 +33,12 @@ jobs:
             echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_ENV
           fi
 
-      - name: Configure AWS Credentials via OIDC
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: arn:aws:iam::634208487213:role/Github-ECR
-          aws-region: us-west-2
-          role-session-name: github-actions-${{ github.run_id }}
-          audience: sts.amazonaws.com
-        env:
-          ACTIONS_STEP_DEBUG: true
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -52,5 +49,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.NEURO_SAN_DEMOS_ECR_REPO }}:${{ env.IMAGE_TAG }}
+          tags: ${{ vars.ECR_REGISTRY }}/${{ vars.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 
