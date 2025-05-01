@@ -6,11 +6,10 @@ from typing import Any
 from typing import Dict
 from typing import Union
 
-from neuro_san.interfaces.coded_tool import CodedTool
-
 from coded_tools.kwik_agents.list_topics import LONG_TERM_MEMORY_FILE
 from coded_tools.kwik_agents.list_topics import MEMORY_DATA_STRUCTURE
 from coded_tools.kwik_agents.list_topics import MEMORY_FILE_PATH
+from neuro_san.interfaces.coded_tool import CodedTool
 
 
 class CommitToMemory(CodedTool):
