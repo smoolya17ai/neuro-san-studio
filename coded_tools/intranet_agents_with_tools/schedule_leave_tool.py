@@ -2,14 +2,15 @@ from typing import Any
 from typing import Dict
 from typing import Union
 
-from neuro_san.interfaces.coded_tool import CodedTool
 from coded_tools.intranet_agents_with_tools.url_provider import URLProvider
+from neuro_san.interfaces.coded_tool import CodedTool
 
 
 class ScheduleLeaveTool(CodedTool):
     """
     CodedTool implementation which schedules a leave (time off, vacation) for an employee
     """
+
     def __init__(self):
         """
         Constructs a Leave Scheduler for company's intranet.
@@ -55,9 +56,10 @@ class ScheduleLeaveTool(CodedTool):
         print(f"End date: {end_date}")
         print(f"Confirmation ID: {confirmation_id}")
         print(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
-        confirmation = {"Start date": start_date,
-                        "End date": end_date,
-                        "Confirmation ID": confirmation_id,
-                        "Tool": self.tool_url
-                        }
+        confirmation = {
+            "Start date": start_date,
+            "End date": end_date,
+            "Confirmation ID": confirmation_id,
+            "Tool": self.tool_url,
+        }
         return confirmation

@@ -45,7 +45,6 @@ python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"
 addopts = "--verbose --cov=. --cov-report=term-missing --no-cov-on-fail"
-asyncio_mode = "auto"
 
 [tool.coverage.run]
 omit = ["tests/*", "*/venv/*"]

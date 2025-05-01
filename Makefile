@@ -54,11 +54,11 @@ lint-tests: ## Run code formatting and linting tools on tests
 	pylint tests/
 
 test: lint lint-tests ## Run tests with coverage
-	python -m pytest tests/ -v --cov=coded_tools
+	python -m pytest tests/ -v --cov=coded_tools,run.py
 
 .PHONY: help venv install activate lint lint-tests test
 .DEFAULT_GOAL := help
 
 help: ## Show this help message and exit
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-	awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[m %s\n", $$1, $$2}'

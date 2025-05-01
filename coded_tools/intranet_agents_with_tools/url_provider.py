@@ -1,5 +1,4 @@
 import os
-import sys
 from typing import Any
 from typing import Dict
 from typing import Union
@@ -36,7 +35,7 @@ class URLProvider(CodedTool):
             "HCM": HCM,
             "Absence Management": ABSENCE_MANAGEMENT,
             "Travel and Expense": TRAVEL_AND_EXPENSE,
-            "GSD": GSD
+            "GSD": GSD,
         }
 
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
