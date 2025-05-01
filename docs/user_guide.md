@@ -36,6 +36,8 @@ We'll describe the structure of agent networks' .hocon files in next section.
 
 ## Hocon files
 
+### Substitution
+
 ### Manifest
 
 A manifest file is a list of agent network configurations that the server will load.
