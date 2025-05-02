@@ -3,7 +3,6 @@ import logging
 import os
 from typing import Any
 from typing import Dict
-from typing import Union
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
@@ -20,7 +19,7 @@ class ListTopics(CodedTool):
     def __init__(self):
         self.topic_memory = None
 
-    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         :param args: An argument dictionary whose keys are the parameters
                 to the coded tool and whose values are the values passed for them
@@ -64,6 +63,12 @@ class ListTopics(CodedTool):
         logger.info(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return topics_str
 
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
+        """
+        Delegates to the synchronous invoke method for now.
+        """
+        return self.invoke(args, sly_data)
+
     def read_memory_from_file(self):
         """
         Reads the topic memory dictionary from a JSON file if it exists.
@@ -77,7 +82,7 @@ class ListTopics(CodedTool):
         else:
             self.topic_memory = {}
 
-    def get_memory_topics(self):
+    def get_memory_topics(self) -> str:
         """
         Retrieves the full list of memory topics.
 

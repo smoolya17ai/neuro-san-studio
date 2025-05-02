@@ -1,7 +1,6 @@
 import os
 from typing import Any
 from typing import Dict
-from typing import Union
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
@@ -38,7 +37,7 @@ class URLProvider(CodedTool):
             "GSD": GSD,
         }
 
-    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         :param args: An argument dictionary whose keys are the parameters
                 to the coded tool and whose values are the values passed for them
@@ -76,3 +75,9 @@ class URLProvider(CodedTool):
         print(f"URL: {app_url}")
         print(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return app_url
+
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
+        """
+        Delegates to the synchronous invoke method for now.
+        """
+        return self.invoke(args, sly_data)

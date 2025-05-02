@@ -81,6 +81,12 @@ class CheckLeaveBalancesTool(CodedTool):
         print(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return absence_types
 
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+        """
+        Delegates to the synchronous invoke method for now.
+        """
+        return self.invoke(args, sly_data)
+
 
 # Example usage:
 if __name__ == "__main__":

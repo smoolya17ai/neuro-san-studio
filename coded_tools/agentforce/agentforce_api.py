@@ -107,5 +107,11 @@ class AgentforceAPI(CodedTool):
         print(f"========== Done with {tool_name} ==========")
         return tool_response
 
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
+        """
+        Delegates to the synchronous invoke method for now.
+        """
+        return self.invoke(args, sly_data)
+
 
 # Example usage: See tests/coded_tools/agentforce/test_agentforce_api.py

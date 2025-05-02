@@ -4,7 +4,6 @@ import os
 from datetime import datetime
 from typing import Any
 from typing import Dict
-from typing import Union
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
@@ -21,7 +20,7 @@ class CommitToMemory(CodedTool):
     def __init__(self):
         self.topic_memory = None
 
-    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         :param args: An argument dictionary whose keys are the parameters
                 to the coded tool and whose values are the values passed for them
@@ -73,6 +72,12 @@ class CommitToMemory(CodedTool):
         logger.info(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return the_memory_str
 
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
+        """
+        Delegates to the synchronous invoke method for now.
+        """
+        return self.invoke(args, sly_data)
+
     def write_memory_to_file(self):
         """
         Writes the topic memory dictionary to a JSON file.
@@ -95,7 +100,7 @@ class CommitToMemory(CodedTool):
         else:
             self.topic_memory = {}
 
-    def add_memory(self, topic: str, new_fact: str):
+    def add_memory(self, topic: str, new_fact: str) -> str:
         """
         Adds a new fact to memory and saves the memory dictionary to a JSON file.
 
