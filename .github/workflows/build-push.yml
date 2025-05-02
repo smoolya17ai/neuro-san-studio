@@ -5,7 +5,6 @@ on:
     branches:
       - main
       - DSG-actions
-      - bla
   release:
     types: [published]  # Triggers when a GitHub Release is published
   workflow_dispatch:  # Allow manual runs if needed
@@ -50,4 +49,36 @@ jobs:
           file: ./deploy/Dockerfile
           push: true
           tags: ${{ vars.ECR_REGISTRY }}/${{ vars.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+
+  promote-to-manifest:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # to allow committing changes
+    steps:
+      - name: Checkout manifest repo
+        uses: actions/checkout@v4
+        with:
+          repository: leaf-ai/manifest
+          token: ${{ secrets.READ_WRITE_PAT_FOR_DEPLOYMENT }}
+          ref: main 
+
+      - name: Update image tag in values.yaml
+        run: |
+          #sed -i 's/tag: .*/tag: ${{ github.sha }}/' path/to/values.yaml
+          ls neuro-ai/*.yml
+
+      #- name: Commit and push changes
+      #  run: |
+      #    git config user.name "GitHub Actions"
+      #    git config user.email "actions@github.com"
+      #    git add path/to/values.yaml
+      #    git commit -m "Update image tag to ${{ github.sha }}"
+      #    git push
+
+
+
+
+
+
 
