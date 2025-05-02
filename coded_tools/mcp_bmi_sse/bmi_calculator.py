@@ -15,8 +15,6 @@
 from typing import Any
 from typing import Dict
 
-# Currently, this package does not come with neuro-san. Use
-# pip install langchain-mcp-adapters
 from langchain_mcp_adapters.client import MultiServerMCPClient
 
 from neuro_san.interfaces.coded_tool import CodedTool
