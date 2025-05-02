@@ -1,8 +1,6 @@
 # Neuro SAN
-leaf-common==1.2.21
-leaf-server-common==0.1.18
-neuro-san==0.5.20
-neuro-san-web-client==0.1.9
+neuro-san==0.5.22
+neuro-san-web-client==0.1.10
 nsflow==0.5.9
 
 # For the airline_policy demo and agentic rag, to extract text from documents
