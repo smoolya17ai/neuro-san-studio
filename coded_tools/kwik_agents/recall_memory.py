@@ -3,9 +3,8 @@ from typing import Any
 from typing import Dict
 from typing import Union
 
-from neuro_san.interfaces.coded_tool import CodedTool
-
 from coded_tools.kwik_agents.list_topics import MEMORY_DATA_STRUCTURE
+from neuro_san.interfaces.coded_tool import CodedTool
 
 
 class RecallMemory(CodedTool):

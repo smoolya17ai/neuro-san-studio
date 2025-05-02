@@ -215,3 +215,9 @@ For a detailed tutorial, refer to [docs/tutorial.md](docs/tutorial.md).
 ## Examples
 
 For examples of agent networks, check out [docs/examples.md](docs/examples.md).
+
+---
+
+## Developer Guide
+
+For the development guide, check out [docs/dev_guide.md](docs/dev_guide.md).

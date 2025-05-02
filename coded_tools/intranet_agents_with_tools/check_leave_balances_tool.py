@@ -2,22 +2,24 @@ from typing import Any
 from typing import Dict
 from typing import Union
 
-from neuro_san.interfaces.coded_tool import CodedTool
 from coded_tools.intranet_agents_with_tools.absence_manager import AbsenceManager
+from neuro_san.interfaces.coded_tool import CodedTool
 
-MOCK_RESPONSE = {'Absencemodel':
-                     [{'AbsenceName': 'Jury Duty', 'AbsPin': '10081', 'Balance': '10.00'},
-                      {'AbsenceName': 'Time to Vote', 'AbsPin': '21582', 'Balance': '0.00'},
-                      {'AbsenceName': 'Sick Time', 'AbsPin': '10097', 'Balance': '0.00'},
-                      {'AbsenceName': 'Vacation Time', 'AbsPin': '10102', 'Balance': '12.73'},
-                      {'AbsenceName': 'Bereavement Leave', 'AbsPin': '10114', 'Balance': '5.00'},
-                      {'AbsenceName': 'Floating Holiday', 'AbsPin': '22716', 'Balance': '0.00'}],
-                 'Warning': 'Applying backdated leave beyond 14 days is non-compliance as per our leave policy.'
-                            ' However, you can proceed with backdated leave application for up to a maximum of 2 times.'
-                            ' You shall not be eligible to record past dated leave beyond 14 days from third instance'
-                            ' onwards. A trigger will be sent to your home manager to ensure that you are applying'
-                            ' leave on time henceforth. Kindly apply / cancel leave on time to be compliant.'
-                 }
+MOCK_RESPONSE = {
+    "Absencemodel": [
+        {"AbsenceName": "Jury Duty", "AbsPin": "10081", "Balance": "10.00"},
+        {"AbsenceName": "Time to Vote", "AbsPin": "21582", "Balance": "0.00"},
+        {"AbsenceName": "Sick Time", "AbsPin": "10097", "Balance": "0.00"},
+        {"AbsenceName": "Vacation Time", "AbsPin": "10102", "Balance": "12.73"},
+        {"AbsenceName": "Bereavement Leave", "AbsPin": "10114", "Balance": "5.00"},
+        {"AbsenceName": "Floating Holiday", "AbsPin": "22716", "Balance": "0.00"},
+    ],
+    "Warning": "Applying backdated leave beyond 14 days is non-compliance as per our leave policy."
+    " However, you can proceed with backdated leave application for up to a maximum of 2 times."
+    " You shall not be eligible to record past dated leave beyond 14 days from third instance"
+    " onwards. A trigger will be sent to your home manager to ensure that you are applying"
+    " leave on time henceforth. Kindly apply / cancel leave on time to be compliant.",
+}
 
 
 class CheckLeaveBalancesTool(CodedTool):
