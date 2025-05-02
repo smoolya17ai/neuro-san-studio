@@ -140,6 +140,12 @@ LEAF_NODE_AGENT_TEMPLATE = (
 
 
 async def modify_registry(the_agent_network_hocon_str, the_agent_network_name):
+    """
+    Writes the agent network to a file and updates the manifest.hocon file.
+    :param the_agent_network_hocon_str: The agent network hocon string
+    :param the_agent_network_name: The file name, without the .hocon extension
+    :return:
+    """
     # Write the agent network file
     file_path = OUTPUT_PATH + the_agent_network_name + ".hocon"
     async with aiofiles.open(file_path, "w") as file:
@@ -225,14 +231,14 @@ class GetAgentNetworkHocon(CodedTool):
         Returns a full agent network hocon.
         """
         has_top_agent = False
-        for i, (agent_name, agent) in enumerate(self.agents.items()):
+        for agent_name, agent in enumerate(self.agents.items()):
             if agent["top_agent"] == "true":
                 has_top_agent = True
         if not has_top_agent:
             self.agents[0]["top_agent"] = "true"
 
         agent_network_hocon = HOCON_HEADER_START + agent_network_name + HOCON_HEADER_REMAINDER
-        for i, (agent_name, agent) in enumerate(self.agents.items()):
+        for agent_name, agent in enumerate(self.agents.items()):
             tools = ""
             if agent["down_chains"]:
                 for j, down_chain in enumerate(agent["down_chains"]):
