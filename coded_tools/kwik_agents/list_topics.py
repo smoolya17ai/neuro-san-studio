@@ -71,7 +71,7 @@ class ListTopics(CodedTool):
         """
         file_path = MEMORY_FILE_PATH + MEMORY_DATA_STRUCTURE + ".json"
         if os.path.exists(file_path):
-            with open(file_path, "r") as file:
+            with open(file_path, "r", encoding="utf-8") as file:
                 content = file.read()
                 self.topic_memory = json.loads(content) if content else {}
         else:

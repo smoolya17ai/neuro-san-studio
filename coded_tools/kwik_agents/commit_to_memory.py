@@ -79,7 +79,7 @@ class CommitToMemory(CodedTool):
         """
         file_path = MEMORY_FILE_PATH + MEMORY_DATA_STRUCTURE + ".json"
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(file_path, "w") as file:
+        with open(file_path, "w", encoding="utf-8") as file:
             file.write(json.dumps(self.topic_memory, indent=2))
 
     def read_memory_from_file(self):
@@ -89,7 +89,7 @@ class CommitToMemory(CodedTool):
         """
         file_path = MEMORY_FILE_PATH + MEMORY_DATA_STRUCTURE + ".json"
         if os.path.exists(file_path):
-            with open(file_path, "r") as file:
+            with open(file_path, "r", encoding="utf-8") as file:
                 content = file.read()
                 self.topic_memory = json.loads(content) if content else {}
         else:
