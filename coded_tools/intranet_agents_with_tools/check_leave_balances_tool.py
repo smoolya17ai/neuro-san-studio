@@ -2,8 +2,9 @@ from typing import Any
 from typing import Dict
 from typing import Union
 
-from coded_tools.intranet_agents_with_tools.absence_manager import AbsenceManager
 from neuro_san.interfaces.coded_tool import CodedTool
+
+from coded_tools.intranet_agents_with_tools.absence_manager import AbsenceManager
 
 MOCK_RESPONSE = {
     "Absencemodel": [

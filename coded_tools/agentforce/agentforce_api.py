@@ -12,8 +12,9 @@ from typing import Any
 from typing import Dict
 from typing import Optional
 
-from coded_tools.agentforce.agentforce_adapter import AgentforceAdapter
 from neuro_san.interfaces.coded_tool import CodedTool
+
+from coded_tools.agentforce.agentforce_adapter import AgentforceAdapter
 
 MOCK_SESSION_ID = "06518755-b897-4311-afea-2aab1df77314"
 MOCK_SECRET = "1234567890"
