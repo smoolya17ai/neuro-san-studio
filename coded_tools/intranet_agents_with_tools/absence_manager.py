@@ -2,6 +2,8 @@ import os
 
 import requests
 
+TIMEOUT_SECONDS = 10
+
 
 class AbsenceManager:
     """
@@ -76,7 +78,7 @@ class AbsenceManager:
         token_url = f"{self.BASE_URL}/hcm/token"
         headers = {"Content-Type": "application/x-www-form-urlencoded", "AssociateID": self.associateId}
         data = {"client_id": self.client_id, "client_secret": self.client_secret, "grant_type": "client_credentials"}
-        response = requests.post(token_url, headers=headers, data=data)
+        response = requests.post(token_url, headers=headers, data=data, timeout=TIMEOUT_SECONDS)
         access_token = response.json()["access_token"]
         return access_token
 
@@ -89,7 +91,7 @@ class AbsenceManager:
         """
         url = f"{self.BASE_URL}/hcm/leave/details"
         payload = {"Start_date": start_date}
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
     def get_absence_details(self, start_date, end_date, abs_pin, partial_days, absence_reason):  # /hcm/leave/selection
@@ -111,7 +113,7 @@ class AbsenceManager:
             "Partial_days": partial_days,
             "Absence_Reason": absence_reason,
         }
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
     def post_absence_details(
@@ -175,7 +177,7 @@ class AbsenceManager:
         }
         print(payload)
         # payload = {"Begin_dt": "2024-12-02","End_dt": "2024-12-02","Abspin": 11074,"Duration": 1,"Current_bal": 31.00,"LeaveDescr": "Earned Leave","Absence_Reason": 0,"Partial_Days": "N","Partial_Hours": "","Partial_Hrs1": 0,"Partial_Hrs2": 0,"Comments": "TEST","FileName": "","FileExtn": "","Addattachment": "","FileInput": "","CT_ADD_FLDS": []}  # noqa: E501
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
     def get_cancel_absence_details(self, page_load, start_date, end_date, abspin, view_more):  # /hcm/emp/leave/details
@@ -197,7 +199,7 @@ class AbsenceManager:
             "Abspin": abspin,
             "View_More": view_more,
         }
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
     def post_cancel_absence_details(
@@ -221,7 +223,7 @@ class AbsenceManager:
             "End_Date": end_date,
             "Duration": duration,
         }
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
 

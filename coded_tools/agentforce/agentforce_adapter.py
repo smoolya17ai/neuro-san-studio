@@ -18,6 +18,7 @@ import requests
 # Salesforce API URLs
 BASE_URL = "https://api.salesforce.com/einstein/ai-agent/v1"
 SESSIONS_URL = f"{BASE_URL}/sessions"
+TIMEOUT_SECONDS = 10
 
 
 class AgentforceAdapter:
@@ -108,7 +109,7 @@ class AgentforceAdapter:
             "grant_type": "client_credentials",
         }
         access_token_url = f"{self.my_domain_url}/services/oauth2/token"
-        response = requests.post(access_token_url, headers=headers, data=data)
+        response = requests.post(access_token_url, headers=headers, data=data, timeout=TIMEOUT_SECONDS)
         access_token = response.json()["access_token"]
         return access_token
 
@@ -138,7 +139,7 @@ class AgentforceAdapter:
         # Convert data to json
         data_json = json.dumps(data)
         open_session_url = f"{BASE_URL}/agents/{self.agent_id}/sessions"
-        response = requests.post(open_session_url, headers=headers, data=data_json)
+        response = requests.post(open_session_url, headers=headers, data=data_json, timeout=TIMEOUT_SECONDS)
         # print("---- Session:")
         # print(response.json())
         session_id = response.json()["sessionId"]
@@ -158,7 +159,7 @@ class AgentforceAdapter:
             "Authorization": f"Bearer {access_token}",
             "x-session-end-reason": "UserRequest",
         }
-        requests.delete(session_url, headers=headers)
+        requests.delete(session_url, headers=headers, timeout=TIMEOUT_SECONDS)
         print(f"    Session {session_id} closed:")
 
     def post_message(self, message: str, session_id: str = None, access_token: str = None) -> Dict[str, Any]:
@@ -198,7 +199,7 @@ class AgentforceAdapter:
         # Convert data to json
         data_json = json.dumps(data)
         print(f"---- Data JSON: {data_json}")
-        response = requests.post(message_url, headers=headers, data=data_json)
+        response = requests.post(message_url, headers=headers, data=data_json, timeout=TIMEOUT_SECONDS)
         print(f"---- Response: {response}")
         print("---- Response JSON:")
         print(response.json())
