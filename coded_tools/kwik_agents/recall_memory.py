@@ -78,5 +78,4 @@ class RecallMemory(CodedTool):
         """
         if topic in self.topic_memory:
             return self.topic_memory[topic]
-        else:
-            return "NO RELATED MEMORIES!"
+        return "NO RELATED MEMORIES!"
