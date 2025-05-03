@@ -93,5 +93,6 @@ if __name__ == "__main__":
     check_leave_balances_tool = CheckLeaveBalancesTool()
 
     # Get absence types
-    a_start_date = "2024-11-22"
-    an_absence_types = check_leave_balances_tool.invoke(args={"start_date": a_start_date}, sly_data={})
+    START_DATE = "2024-11-22"
+    an_absence_types = check_leave_balances_tool.invoke(args={"start_date": START_DATE}, sly_data={})
+    print(an_absence_types)

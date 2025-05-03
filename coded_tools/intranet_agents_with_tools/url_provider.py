@@ -14,28 +14,20 @@ class URLProvider(CodedTool):
         """
         Constructs a URL Provider for company's intranet.
         """
-        INTRANET = os.environ.get("MI_INTRANET", None)
-        print(f"INTRANET: {INTRANET}")
-
-        HCM = os.environ.get("MI_HCM", None)
-        print(f"HCM: {HCM}")
-
-        ABSENCE_MANAGEMENT = os.environ.get("MI_ABSENCE_MANAGEMENT", None)
-        print(f"ABSENCE_MANAGEMENT: {ABSENCE_MANAGEMENT}")
-
-        TRAVEL_AND_EXPENSE = os.environ.get("MI_TRAVEL_AND_EXPENSE", None)
-        print(f"TRAVEL_AND_EXPENSE: {TRAVEL_AND_EXPENSE}")
-
-        GSD = os.environ.get("MI_GSD", None)
-        print(f"GSD: {GSD}")
+        intranet_url = os.environ.get("MI_INTRANET", None)
+        hcm_url = os.environ.get("MI_HCM", None)
+        absence_management_url = os.environ.get("MI_ABSENCE_MANAGEMENT", None)
+        travel_and_expense_url = os.environ.get("MI_TRAVEL_AND_EXPENSE", None)
+        gsd_url = os.environ.get("MI_GSD", None)
 
         self.company_urls = {
-            "My Intranet": INTRANET,
-            "HCM": HCM,
-            "Absence Management": ABSENCE_MANAGEMENT,
-            "Travel and Expense": TRAVEL_AND_EXPENSE,
-            "GSD": GSD,
+            "My Intranet": intranet_url,
+            "HCM": hcm_url,
+            "Absence Management": absence_management_url,
+            "Travel and Expense": travel_and_expense_url,
+            "GSD": gsd_url,
         }
+        print(f"Company URLs: {self.company_urls}")
 
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
