@@ -61,10 +61,10 @@ class AbsenceManager:
             self.client_secret = client_secret
             self.associate_id = associate_id
             # Get an access token
-            self.access_token = self.get_access_token()
+            access_token = self.get_access_token()
             # Set the headers
             self.headers = {
-                "Authorization": f"Bearer {self.access_token}",
+                "Authorization": f"Bearer {access_token}",
                 "Content-Type": "application/json",
                 "SourceType": "Web",
             }
@@ -94,6 +94,8 @@ class AbsenceManager:
         response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
+    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-positional-arguments
     def get_absence_details(self, start_date, end_date, abs_pin, partial_days, absence_reason):  # /hcm/leave/selection
         """
         Get absence details.
@@ -116,6 +118,7 @@ class AbsenceManager:
         response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
+    # pylint: disable=too-many-locals
     def post_absence_details(
         self,
         begin_dt,
