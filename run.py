@@ -18,6 +18,7 @@ import threading
 from dotenv import load_dotenv
 
 
+# pylint: disable=too-many-instance-attributes
 class NeuroSanRunner:
     """Command-line tool to run the Neuro SAN server and web client."""
 
@@ -32,8 +33,8 @@ class NeuroSanRunner:
 
         # Default Configuration
         self.neuro_san_server_host = os.getenv("NEURO_SAN_SERVER_HOST", "localhost")
-        self.neuro_san_server_port = int(os.getenv("NEURO_SAN_SERVER_PORT", 30013))
-        self.neuro_san_web_client_port = int(os.getenv("NEURO_SAN_WEB_CLIENT_PORT", 5003))
+        self.neuro_san_server_port = int(os.getenv("NEURO_SAN_SERVER_PORT", "30013"))
+        self.neuro_san_web_client_port = int(os.getenv("NEURO_SAN_WEB_CLIENT_PORT", "5003"))
         thinking_file = "C:\\tmp\\agent_thinking.txt" if self.is_windows else "/tmp/agent_thinking.txt"
         self.thinking_file = os.getenv("THINKING_FILE", thinking_file)
 
@@ -101,6 +102,7 @@ class NeuroSanRunner:
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     universal_newlines=True,
+                    check=True,
                 )
                 print(result.stdout)
                 if result.stderr:
@@ -109,7 +111,7 @@ class NeuroSanRunner:
     @staticmethod
     def stream_output(pipe, log_file, prefix):
         """Stream subprocess output to console and log file in real-time."""
-        with open(log_file, "a") as log:
+        with open(log_file, "a", encoding="utf-8") as log:
             for line in iter(pipe.readline, ""):
                 formatted_line = f"{prefix}: {line.strip()}"
                 print(formatted_line)  # Print to console
@@ -121,8 +123,10 @@ class NeuroSanRunner:
         creation_flags = subprocess.CREATE_NEW_PROCESS_GROUP if self.is_windows else 0
 
         # Initialize/clear the log file before starting
-        open(log_file, "w").close()
+        with open(log_file, "w", encoding="utf-8") as log:
+            log.write(f"Starting {process_name}...\n")
 
+        # pylint: disable=consider-using-with
         process = subprocess.Popen(
             command,
             stdout=subprocess.PIPE,
@@ -130,7 +134,7 @@ class NeuroSanRunner:
             text=True,
             bufsize=1,
             universal_newlines=True,
-            preexec_fn=None if self.is_windows else os.setpgrp,
+            start_new_session=not self.is_windows,
             creationflags=creation_flags,
         )
 
@@ -144,6 +148,7 @@ class NeuroSanRunner:
 
         return process
 
+    # pylint: disable=unused-argument
     def signal_handler(self, signum, frame):
         """Handle termination signals to cleanly exit."""
         print("\nTermination signal received. Stopping all processes...")
