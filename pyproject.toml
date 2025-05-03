@@ -37,7 +37,7 @@ argument-naming-style = "snake_case"
 variable-naming-style = "snake_case"
 inlinevar-naming-style = "snake_case"
 # Additional settings
-fail-under = 8.0
+fail-under = 10.0
 output-format = "colorized"
 init-import = false
 
