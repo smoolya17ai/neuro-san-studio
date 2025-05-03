@@ -28,11 +28,12 @@ Welcome to the **Neuro AI Multi-Agent Accelerator** tutorial. In this guide, we 
   * [6. How to Switch LLMs Using the HOCON File](#6-how-to-switch-llms-using-the-hocon-file)
     * [Setting Up Ollama Locally](#setting-up-ollama-locally)
     * [Adding Endpoint URL for Any Cloud-Hosted LLM](#adding-endpoint-url-for-any-cloud-hosted-llm)
-  * [7. Coded Tools](#7-coded-tools)
-    * [What Are Coded Tools?](#what-are-coded-tools)
-    * [Adding a Coded Tool](#adding-a-coded-tool)
-    * [Simple Calculator Tool](#simple-calculator-tool)
-    * [Complex Calculator Tool](#complex-calculator-tool)
+  * [7. How to use tools in Neuro-San](#7-how-to-use-tools-in-neuro-san)
+    * [Prebuilt Tools](#prebuilt-tools)
+    * [Custom Tools](#custom-tools)
+      * [Defining Functions in Agent Network (HOCON)](#defining-functions-in-agent-network-hocon)
+      * [Schema of Parameters](#schema-of-parameters)
+      * [Defining Tool in Python (Coded Tool)](#defining-tool-in-python-coded-tool)
   * [8. How to Access the Logs](#8-how-to-access-the-logs)
   * [9. How to Stop the servers](#9-how-to-stop-the-servers)
   * [10. Key Aspects of Neuro AI Multi-Agent Accelerator](#10-key-aspects-of-neuro-ai-multi-agent-accelerator)
@@ -428,6 +429,8 @@ Neuro-San supports two types of tools that agents can call during execution:
 2. **Custom Tools** – Built using Neuro-San’s `CodedTool` interface. These allow you to define your own logic in Python and integrate it with the agent.
 
 Use **Custom Tools** when your application needs behavior that isn't covered by the prebuilt options — such as accessing APIs, performing custom calculations, or interacting with internal systems.
+
+### Prebuilt Tools
 
 ### Custom Tools
 
