@@ -36,7 +36,32 @@ We'll describe the structure of agent networks' .hocon files in next section.
 
 ## Hocon files
 
-### Substitution
+### Import and Substitution
+
+HOCON files support importing content from other HOCON files using the unquoted keyword `include`, followed by whitespace and the path to the imported file as a quoted string:
+```json
+include "config.hocon"
+```
+> **Note**: The file path in include should be an **absolute path** to ensure it can be resolved correctly.
+
+HOCON supports value substitution by referencing previously defined configuration values. This allows constants to be defined once and reused throughout the file.
+
+To substitute a value, wrap the referenced key in `${}`:
+```json
+function = ${aaosa_call}
+```
+
+To substitute a nested value inside an object or dictionary, use dot notation:
+```json
+name = ${info.name}
+```
+
+Note that substitutions are **not parsed inside quoted strings**. If you need to include a substitution within a string, you can quote only the non-substituted parts:
+```json
+instructions = ${insturction_prefix} "main instruction" ${instruction_suffix}
+```
+
+For more details, please see [https://github.com/lightbend/config/blob/main/HOCON.md#substitutions](https://github.com/lightbend/config/blob/main/HOCON.md#substitutions)
 
 ### Manifest
 
