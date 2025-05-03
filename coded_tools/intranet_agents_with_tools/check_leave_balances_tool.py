@@ -75,7 +75,7 @@ class CheckLeaveBalancesTool(CodedTool):
             print("WARNING: AbsenceManager is not configured. Using mock response")
             absence_types = MOCK_RESPONSE
         absence_types["app_name"] = "Absence Management"
-        absence_types["app_url"] = self.absence_manager.APP_URL
+        absence_types["app_url"] = self.absence_manager.app_url
         print("-----------------------")
         print("Absence Types:", absence_types)
         print(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
