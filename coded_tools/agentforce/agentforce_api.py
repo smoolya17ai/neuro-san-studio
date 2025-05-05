@@ -12,8 +12,9 @@ from typing import Any
 from typing import Dict
 from typing import Optional
 
-from coded_tools.agentforce.agentforce_adapter import AgentforceAdapter
 from neuro_san.interfaces.coded_tool import CodedTool
+
+from coded_tools.agentforce.agentforce_adapter import AgentforceAdapter
 
 MOCK_SESSION_ID = "06518755-b897-4311-afea-2aab1df77314"
 MOCK_SECRET = "1234567890"
@@ -105,6 +106,12 @@ class AgentforceAPI(CodedTool):
         print(f"Updated sly_data: {sly_data}")
         print(f"========== Done with {tool_name} ==========")
         return tool_response
+
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
+        """
+        Delegates to the synchronous invoke method for now.
+        """
+        return self.invoke(args, sly_data)
 
 
 # Example usage: See tests/coded_tools/agentforce/test_agentforce_api.py

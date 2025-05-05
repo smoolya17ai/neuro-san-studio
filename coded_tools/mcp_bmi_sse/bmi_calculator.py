@@ -1,4 +1,3 @@
-
 """Example of how to use tools from mcp server"""
 
 # Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
@@ -16,7 +15,6 @@ from typing import Any
 from typing import Dict
 
 from langchain_mcp_adapters.client import MultiServerMCPClient
-
 from neuro_san.interfaces.coded_tool import CodedTool
 
 
@@ -25,11 +23,7 @@ class BmiCalculator(CodedTool):
     CodedTool implementation which calculate BMI using a tool from mcp server
     """
 
-    async def async_invoke(
-            self,
-            args: Dict[str, Any],
-            sly_data: Dict[str, Any]
-    ) -> float:
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> float:
         """
         Calculate BMI.
 
@@ -81,5 +75,4 @@ class BmiCalculator(CodedTool):
             # server and tool's order in the server, respectively.
             # Note that to `invoke` or `ainvoke` for StructureTool require
             # dictionary input.
-            return await client.get_tools()[0].ainvoke({"weight": weight,
-                                                        "height": height})
+            return await client.get_tools()[0].ainvoke({"weight": weight, "height": height})

@@ -1,6 +1,6 @@
 [tool.isort]
 profile = "black"
-src_paths = ["src", "test"]
+src_paths = ["coded_tools", "tests"]
 line_length = 119
 
 [tool.flake8]
@@ -16,6 +16,9 @@ max-line-length = 119
 # Based on Google Python Style Guide
 disable = [
     "C0301",  # Line too long (handled by black)
+    "C0114",  # Missing module docstring (missing-module-docstring)
+    # This repo contains examples that should remain independent, so we expect some level of copy/paste
+    "R0801",  # Similar lines in 2 files
     "W0511",  # TODO/FIXME comments
     ]
 good-names = ["i", "j", "k", "ex", "_", "id", "f", "db", "e"]
@@ -35,7 +38,7 @@ argument-naming-style = "snake_case"
 variable-naming-style = "snake_case"
 inlinevar-naming-style = "snake_case"
 # Additional settings
-fail-under = 8.0
+fail-under = 10.0
 output-format = "colorized"
 init-import = false
 

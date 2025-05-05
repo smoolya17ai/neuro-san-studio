@@ -2,6 +2,8 @@ import os
 
 import requests
 
+TIMEOUT_SECONDS = 10
+
 
 class AbsenceManager:
     """
@@ -18,11 +20,11 @@ class AbsenceManager:
         @param client_secret: The API client secret.
         @param associate_id: an associate ID.
         """
-        self.BASE_URL = os.environ.get("MI_BASE_URL", None)
-        print(f"BASE_URL: {self.BASE_URL}")
+        self.base_url = os.environ.get("MI_BASE_URL", None)
+        print(f"BASE_URL: {self.base_url}")
 
-        self.APP_URL = os.environ.get("MI_APP_URL", None)
-        print(f"APP_URL: {self.APP_URL}")
+        self.app_url = os.environ.get("MI_APP_URL", None)
+        print(f"APP_URL: {self.app_url}")
 
         # Get the client_id, client_secret, and associate_id from the environment variables
         if client_id is None:
@@ -57,12 +59,12 @@ class AbsenceManager:
             # Keep track of the params
             self.client_id = client_id
             self.client_secret = client_secret
-            self.associateId = associate_id
+            self.associate_id = associate_id
             # Get an access token
-            self.access_token = self.get_access_token()
+            access_token = self.get_access_token()
             # Set the headers
             self.headers = {
-                "Authorization": f"Bearer {self.access_token}",
+                "Authorization": f"Bearer {access_token}",
                 "Content-Type": "application/json",
                 "SourceType": "Web",
             }
@@ -73,10 +75,10 @@ class AbsenceManager:
         URL: /hcm/token
         @return: and access token
         """
-        token_url = f"{self.BASE_URL}/hcm/token"
-        headers = {"Content-Type": "application/x-www-form-urlencoded", "AssociateID": self.associateId}
+        token_url = f"{self.base_url}/hcm/token"
+        headers = {"Content-Type": "application/x-www-form-urlencoded", "AssociateID": self.associate_id}
         data = {"client_id": self.client_id, "client_secret": self.client_secret, "grant_type": "client_credentials"}
-        response = requests.post(token_url, headers=headers, data=data)
+        response = requests.post(token_url, headers=headers, data=data, timeout=TIMEOUT_SECONDS)
         access_token = response.json()["access_token"]
         return access_token
 
@@ -87,11 +89,13 @@ class AbsenceManager:
         :param start_date: The start date for the absence types (format: 'YYYY-MM-DD').
         :return: JSON response from the API.
         """
-        url = f"{self.BASE_URL}/hcm/leave/details"
+        url = f"{self.base_url}/hcm/leave/details"
         payload = {"Start_date": start_date}
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
+    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-positional-arguments
     def get_absence_details(self, start_date, end_date, abs_pin, partial_days, absence_reason):  # /hcm/leave/selection
         """
         Get absence details.
@@ -103,7 +107,7 @@ class AbsenceManager:
         :param absence_reason: Absence reason.
         :return: JSON response from the API.
         """
-        url = f"{self.BASE_URL}/hcm/leave/selection"
+        url = f"{self.base_url}/hcm/leave/selection"
         payload = {
             "Start_date": start_date,
             "End_date": end_date,
@@ -111,9 +115,10 @@ class AbsenceManager:
             "Partial_days": partial_days,
             "Absence_Reason": absence_reason,
         }
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
+    # pylint: disable=too-many-locals
     def post_absence_details(
         self,
         begin_dt,
@@ -153,7 +158,7 @@ class AbsenceManager:
         :param file_input: File input (file content in base64, if attachment is added).
         :return: JSON response from the API.
         """
-        url = f"{self.BASE_URL}/hcm/leave/submission"
+        url = f"{self.base_url}/hcm/leave/submission"
         payload = {
             "Begin_dt": begin_dt,
             "End_dt": end_dt,
@@ -175,7 +180,7 @@ class AbsenceManager:
         }
         print(payload)
         # payload = {"Begin_dt": "2024-12-02","End_dt": "2024-12-02","Abspin": 11074,"Duration": 1,"Current_bal": 31.00,"LeaveDescr": "Earned Leave","Absence_Reason": 0,"Partial_Days": "N","Partial_Hours": "","Partial_Hrs1": 0,"Partial_Hrs2": 0,"Comments": "TEST","FileName": "","FileExtn": "","Addattachment": "","FileInput": "","CT_ADD_FLDS": []}  # noqa: E501
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
     def get_cancel_absence_details(self, page_load, start_date, end_date, abspin, view_more):  # /hcm/emp/leave/details
@@ -189,7 +194,7 @@ class AbsenceManager:
         :param view_more: View more indicator.
         :return: JSON response from the API.
         """
-        url = f"{self.BASE_URL}/hcm/emp/leave/details"
+        url = f"{self.base_url}/hcm/emp/leave/details"
         payload = {
             "Page_Load": page_load,
             "Start_Date": start_date,
@@ -197,7 +202,7 @@ class AbsenceManager:
             "Abspin": abspin,
             "View_More": view_more,
         }
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
     def post_cancel_absence_details(
@@ -213,7 +218,7 @@ class AbsenceManager:
         :param duration: Duration.
         :return: JSON response from the API.
         """
-        url = f"{self.BASE_URL}/hcm/cancel/leave"
+        url = f"{self.base_url}/hcm/cancel/leave"
         payload = {
             "Abspin": abspin,
             "Transaction_Nbr": transaction_nbr,
@@ -221,20 +226,21 @@ class AbsenceManager:
             "End_Date": end_date,
             "Duration": duration,
         }
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(url, headers=self.headers, json=payload, timeout=TIMEOUT_SECONDS)
         return response.json()
 
 
 # Example usage:
 if __name__ == "__main__":
-    an_client_id = "XXX"  # Replace with your client_id
-    an_client_secret = "XXX"  # Replace with your client_id
-    an_associate_id = "XXX"  # Replace with an associate_id
-    absence_manager = AbsenceManager(an_client_id, an_client_secret, an_associate_id)
+    CLIENT_ID = "XXX"  # Replace with your client_id
+    CLIENT_SECRET = "XXX"  # Replace with your client_id
+    ASSOCIATE_ID = "XXX"  # Replace with an associate_id
+    START_DATE = "2023-10-01"
+
+    absence_manager = AbsenceManager(CLIENT_ID, CLIENT_SECRET, ASSOCIATE_ID)
 
     # Get absence types
-    a_start_date = "2023-10-01"
-    absence_types = absence_manager.get_absence_types(a_start_date)
+    absence_types = absence_manager.get_absence_types(START_DATE)
     print("-----------------------")
     print("Absence Types:", absence_types)
 

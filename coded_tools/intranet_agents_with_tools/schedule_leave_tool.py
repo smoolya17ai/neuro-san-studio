@@ -2,8 +2,9 @@ from typing import Any
 from typing import Dict
 from typing import Union
 
-from coded_tools.intranet_agents_with_tools.url_provider import URLProvider
 from neuro_san.interfaces.coded_tool import CodedTool
+
+from coded_tools.intranet_agents_with_tools.url_provider import URLProvider
 
 
 class ScheduleLeaveTool(CodedTool):
@@ -63,3 +64,9 @@ class ScheduleLeaveTool(CodedTool):
             "Tool": self.tool_url,
         }
         return confirmation
+
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+        """
+        Delegates to the synchronous invoke method for now.
+        """
+        return self.invoke(args, sly_data)

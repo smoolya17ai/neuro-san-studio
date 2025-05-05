@@ -2,8 +2,9 @@ from typing import Any
 from typing import Dict
 from typing import Union
 
-from coded_tools.intranet_agents_with_tools.absence_manager import AbsenceManager
 from neuro_san.interfaces.coded_tool import CodedTool
+
+from coded_tools.intranet_agents_with_tools.absence_manager import AbsenceManager
 
 MOCK_RESPONSE = {
     "Absencemodel": [
@@ -74,11 +75,17 @@ class CheckLeaveBalancesTool(CodedTool):
             print("WARNING: AbsenceManager is not configured. Using mock response")
             absence_types = MOCK_RESPONSE
         absence_types["app_name"] = "Absence Management"
-        absence_types["app_url"] = self.absence_manager.APP_URL
+        absence_types["app_url"] = self.absence_manager.app_url
         print("-----------------------")
         print("Absence Types:", absence_types)
         print(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return absence_types
+
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+        """
+        Delegates to the synchronous invoke method for now.
+        """
+        return self.invoke(args, sly_data)
 
 
 # Example usage:
@@ -86,5 +93,6 @@ if __name__ == "__main__":
     check_leave_balances_tool = CheckLeaveBalancesTool()
 
     # Get absence types
-    a_start_date = "2024-11-22"
-    an_absence_types = check_leave_balances_tool.invoke(args={"start_date": a_start_date}, sly_data={})
+    START_DATE = "2024-11-22"
+    an_absence_types = check_leave_balances_tool.invoke(args={"start_date": START_DATE}, sly_data={})
+    print(an_absence_types)

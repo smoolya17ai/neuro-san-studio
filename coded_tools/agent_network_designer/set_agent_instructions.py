@@ -10,7 +10,6 @@
 import logging
 from typing import Any
 from typing import Dict
-from typing import Union
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
@@ -25,7 +24,7 @@ class SetAgentInstructions(CodedTool):
     def __init__(self):
         self.agents = {}
 
-    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         :param args: An argument dictionary whose keys are the parameters
                 to the coded tool and whose values are the values passed for them
@@ -73,6 +72,12 @@ class SetAgentInstructions(CodedTool):
         sly_data[AGENT_NETWORK_NAME] = self.agents
         logger.info(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return the_agent_network_str
+
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
+        """
+        Delegates to the synchronous invoke method for now.
+        """
+        return self.invoke(args, sly_data)
 
     def set_agent_instructions(self, agent_name: str, instructions: str):
         """
