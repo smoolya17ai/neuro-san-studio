@@ -36,6 +36,15 @@ jobs:
           AGENT_TOOL_PATH: "./neuro_san/coded_tools"
           PYTHONPATH: ${{ env.PYTHONPATH }}:"."
 
+      - name: Run make lint
+        run: make lint
+      
+      - name: Run make lint-tests
+        run: make lint-tests
+
+      - name: Run make test
+        run: make test
+
       - name: Check README renders correctly on PyPI
         run: |
           pip install readme_renderer readme_renderer[md]
