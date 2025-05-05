@@ -21,6 +21,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install dependencies
+        shell: bash
         run: |
           apt-get update && apt-get install -y shellcheck make
           python -m venv venv
@@ -29,7 +30,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Show installed packages
-        run: pip freeze
+        shell: bash
+        run: |
+          source venv/bin/activate 
+          pip freeze
 
       - name: Run pytest (excluding integration tests)
         run: pytest --verbose -m "not integration" --timer-top-n 10
@@ -39,16 +43,27 @@ jobs:
           PYTHONPATH: ${{ env.PYTHONPATH }}:"."
 
       - name: Run make lint
-        run: make lint
-      
-      - name: Run make lint-tests
-        run: make lint-tests
+        shell: bash
+        run: |
+          source venv/bin/activate 
+          make lint
+
+      - name: Run make lint test
+        shell: bash
+        run: | 
+          source venv/bin/activate
+          make lint-tests
 
       - name: Run make test
-        run: make test
+        shell: bash
+        run: |
+          source venv/bin/activate 
+          make test
 
       - name: Check README renders correctly on PyPI
+        shell: bash
         run: |
+          source venv/bin/activate
           pip install readme_renderer readme_renderer[md]
           python -m readme_renderer README.md
 
