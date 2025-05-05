@@ -23,6 +23,8 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update && apt-get install -y shellcheck make
+          python -m venv venv
+          source venv/bin/activate
           pip install -r requirements-build.txt
           pip install -r requirements.txt
 
