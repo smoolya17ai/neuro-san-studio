@@ -66,8 +66,7 @@ jobs:
       - name: Update image tag in values.yaml
         run: |
           #sed -i 's/tag: .*/tag: ${{ github.sha }}/' path/to/values.yaml
-          pwd
-          ls
+          python ./neuro-ai/utility_scripts/deploy_to_cluster.sh
 
       #- name: Commit and push changes
       #  run: |
