@@ -131,9 +131,9 @@ class NeuroSanRunner:
         os.environ["AGENT_MANIFEST_FILE"] = self.agent_manifest_file
         os.environ["AGENT_TOOL_PATH"] = self.agent_tool_path
         os.environ["AGENT_MANIFEST_UPDATE_PERIOD_SECONDS"] = str(self.manifest_update_period_seconds)
-        print(f"PYTHONPATH set to: {os.environ['PYTHONPATH']}\n")
+        print(f"PYTHONPATH set to: {os.environ['PYTHONPATH']}")
         print(f"AGENT_MANIFEST_FILE set to: {os.environ['AGENT_MANIFEST_FILE']}")
-        print(f"AGENT_TOOL_PATH set to: {os.environ['AGENT_TOOL_PATH']}\n")
+        print(f"AGENT_TOOL_PATH set to: {os.environ['AGENT_TOOL_PATH']}")
         print(f"AGENT_MANIFEST_UPDATE_PERIOD_SECONDS set to: {os.environ['AGENT_MANIFEST_UPDATE_PERIOD_SECONDS']}\n")
 
         # Client-only env variables
