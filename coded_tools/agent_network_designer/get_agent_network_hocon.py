@@ -231,14 +231,14 @@ class GetAgentNetworkHocon(CodedTool):
         Returns a full agent network hocon.
         """
         has_top_agent = False
-        for agent_name, agent in enumerate(self.agents.items()):
+        for agent_name, agent in self.agents.items():
             if agent["top_agent"] == "true":
                 has_top_agent = True
         if not has_top_agent:
             self.agents[0]["top_agent"] = "true"
 
         agent_network_hocon = HOCON_HEADER_START + agent_network_name + HOCON_HEADER_REMAINDER
-        for agent_name, agent in enumerate(self.agents.items()):
+        for agent_name, agent in self.agents.items():
             tools = ""
             if agent["down_chains"]:
                 for j, down_chain in enumerate(agent["down_chains"]):
