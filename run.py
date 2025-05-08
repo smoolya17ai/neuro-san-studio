@@ -135,28 +135,24 @@ class NeuroSanRunner:
         print(f"AGENT_TOOL_PATH set to: {os.environ['AGENT_TOOL_PATH']}\n")
 
         # Client-only env variables
-        if self.config["client_only"]:
-            print("Running in client-only mode.")
-            if self.config["use_flask_web_client"]:
-                os.environ["NEURO_SAN_WEB_CLIENT_PORT"] = str(self.config["web_client_port"])
-                print(f"NEURO_SAN_WEB_CLIENT_PORT set to: {os.environ['NEURO_SAN_WEB_CLIENT_PORT']}")
-            else:
-                os.environ["NSFLOW_PORT"] = str(self.config["nsflow_port"])
-                print(f"NSFLOW_PORT set to: {os.environ['NSFLOW_PORT']}")
+        if self.config["use_flask_web_client"]:
+            os.environ["NEURO_SAN_WEB_CLIENT_PORT"] = str(self.config["web_client_port"])
+            print(f"NEURO_SAN_WEB_CLIENT_PORT set to: {os.environ['NEURO_SAN_WEB_CLIENT_PORT']}")
+        else:
+            os.environ["NSFLOW_PORT"] = str(self.config["nsflow_port"])
+            print(f"NSFLOW_PORT set to: {os.environ['NSFLOW_PORT']}")
 
         # Server-only env variables
-        if self.config["server_only"]:
-            print("Running in server-only mode.")
-            os.environ["NEURO_SAN_SERVER_HOST"] = self.config["server_host"]
-            os.environ["NEURO_SAN_SERVER_PORT"] = str(self.config["server_port"])
+        os.environ["NEURO_SAN_SERVER_HOST"] = self.config["server_host"]
+        os.environ["NEURO_SAN_SERVER_PORT"] = str(self.config["server_port"])
 
-            # Adding these two below only because of different naming in nsflow client
-            # These should be removed when the nsflow client is updated to use consistent environment variable names
-            os.environ["NS_SERVER_HOST"] = self.config["server_host"]
-            os.environ["NS_SERVER_PORT"] = str(self.config["server_port"])
+        # Adding these two below only because nsflow depends on these variables that are named differently
+        # These should be removed when the nsflow client is updated to use consistent environment variable names
+        os.environ["NS_SERVER_HOST"] = self.config["server_host"]
+        os.environ["NS_SERVER_PORT"] = str(self.config["server_port"])
 
-            print(f"NEURO_SAN_SERVER_HOST set to: {os.environ['NEURO_SAN_SERVER_HOST']}")
-            print(f"NEURO_SAN_SERVER_PORT set to: {os.environ['NEURO_SAN_SERVER_PORT']}\n")
+        print(f"NEURO_SAN_SERVER_HOST set to: {os.environ['NEURO_SAN_SERVER_HOST']}")
+        print(f"NEURO_SAN_SERVER_PORT set to: {os.environ['NEURO_SAN_SERVER_PORT']}\n")
         print("\n" + "=" * 50 + "\n")
 
     @staticmethod
@@ -231,8 +227,8 @@ class NeuroSanRunner:
         print("NeuroSan server started on port: ", self.config["server_port"])
 
     def start_nsflow(self):
-        """Start FastAPI backend."""
-        print("Starting FastAPI backend...")
+        """Start nsflow client."""
+        print("Starting nsflow slient...")
         command = [
             sys.executable,
             "-u",
@@ -245,7 +241,7 @@ class NeuroSanRunner:
         ]
 
         self.nsflow_process = self.start_process(command, "nsflow", "logs/nsflow.log")
-        print("nsflow client started on port: %s", self.config["nsflow_port"])
+        print("nsflow client started on port: ", self.config["nsflow_port"])
 
     def start_flask_web_client(self):
         """Start the Flask web client."""
