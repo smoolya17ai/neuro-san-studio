@@ -79,18 +79,46 @@ You can get your OpenAI API key from <https://platform.openai.com/signup>. After
 
 Other providers and models are supported too but will require proper setup.
 
+---
+
 ## Run
 
 There are multiple ways in which we can now use the neuro-san server with a client:
 
-### Option 1: Using a basic web client interface
+### Option 1: Using [`nsflow`](https://github.com/leaf-ai/nsflow) as a developer-oriented web client
+
+If you want to use neuro-san with a FastAPI-based developer-oriented client, follow these steps:
+
+- Start the server and client with a single command, from project root:
+
+  ```bash
+  python -m run
+  ```
+
+- As a default
+  - Frontend will be available at: `http://127.0.0.1:4173`
+  - The client and server logs will be saved to `logs/nsflow.log` and `logs/server.log` respectively.
+
+- To see the various config options for this app, on terminal
+
+  ```bash
+  python -m run --help
+  ```
+
+Screenshot:
+
+![NSFlow UI Snapshot](https://raw.githubusercontent.com/leaf-ai/nsflow/main/docs/snapshot01.png)
+
+---
+
+### Option 2: Using a basic web client interface
 
 A [basic web client interface](https://github.com/leaf-ai/neuro-san-web-client) is installed by default.
 It's a great, simple example of how to connect to a neuro-san server and interact with it.
 Start the server and the client in one single command:
 
 ```bash
-python -m run
+python -m run --use-flask-web-client
 ```
 
 The client and server logs will show on the screen,
@@ -117,33 +145,6 @@ Run this command to see the various config options for the server and client:
 ```bash
 python -m run --help
 ```
-
----
-
-### Option 2: Using [`nsflow`](https://github.com/leaf-ai/nsflow) as a developer-oriented web client
-
-If you want to use neuro-san with a FastAPI-based developer-oriented client, follow these steps:
-
-- Start the Backend & Frontend, from project root:
-
-  ```bash
-  python -m nsflow.run
-  ```
-
-By default:
-
-- Frontend will be available at: `http://127.0.0.1:4173`
-- OpenAPI specs will be available at: `http://127.0.0.1:4173/docs`
-
-To see the various config options for this app, on terminal
-
-```bash
-python -m nsflow.run --help
-```
-
-Screenshot:
-
-![NSFlow UI Snapshot](https://raw.githubusercontent.com/leaf-ai/nsflow/main/docs/snapshot01.png)
 
 ---
 
