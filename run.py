@@ -35,7 +35,7 @@ class NeuroSanRunner:
         self.load_env_variables()
 
         # Default Configuration
-        self.manifest_update_period_seconds = int(os.getenv("MANIFEST_UPDATE_PERIOD_SECONDS", "5"))
+        self.manifest_update_period_seconds = int(os.getenv("AGENT_MANIFEST_UPDATE_PERIOD_SECONDS", "5"))
         self.neuro_san_server_host = os.getenv("NEURO_SAN_SERVER_HOST", "localhost")
         self.neuro_san_server_port = int(os.getenv("NEURO_SAN_SERVER_PORT", "30013"))
         self.nsflow_port = int(os.getenv("NSFLOW_PORT", "4173"))
@@ -130,9 +130,11 @@ class NeuroSanRunner:
         os.environ["PYTHONPATH"] = self.root_dir
         os.environ["AGENT_MANIFEST_FILE"] = self.agent_manifest_file
         os.environ["AGENT_TOOL_PATH"] = self.agent_tool_path
+        os.environ["AGENT_MANIFEST_UPDATE_PERIOD_SECONDS"] = str(self.manifest_update_period_seconds)
         print(f"PYTHONPATH set to: {os.environ['PYTHONPATH']}\n")
         print(f"AGENT_MANIFEST_FILE set to: {os.environ['AGENT_MANIFEST_FILE']}")
         print(f"AGENT_TOOL_PATH set to: {os.environ['AGENT_TOOL_PATH']}\n")
+        print(f"AGENT_MANIFEST_UPDATE_PERIOD_SECONDS set to: {os.environ['AGENT_MANIFEST_UPDATE_PERIOD_SECONDS']}\n")
 
         # Client-only env variables
         if not self.config["server_only"]:
