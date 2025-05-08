@@ -26,10 +26,10 @@ activate: ## Activate the venv
 	fi
 
 lint: ## Run code formatting and linting tools on source
-	@if [ "$$(which python | grep -c "./venv")" -eq 0 ]; then \
+	@if [ -z "$$VIRTUAL_ENV" ]; then \
 		echo ""; \
-		echo "Error: Linting must be run using the ./venv Python environment"; \
-		echo "Please activate the correct environment with:"; \
+		echo "Error: Linting must be run using a Python virtual environment"; \
+		echo "Please activate the correct environment for example:"; \
 		echo "  source venv/bin/activate"; \
 		echo ""; \
 		exit 1; \
@@ -40,10 +40,10 @@ lint: ## Run code formatting and linting tools on source
 	pylint run.py coded_tools/
 
 lint-tests: ## Run code formatting and linting tools on tests
-	@if [ "$$(which python | grep -c "./venv")" -eq 0 ]; then \
+	@if [ -z "$$VIRTUAL_ENV" ]; then \
 		echo ""; \
-		echo "Error: Linting must be run using the ./venv Python environment"; \
-		echo "Please activate the correct environment with:"; \
+		echo "Error: Linting must be run using a Python virtual environment"; \
+		echo "Please activate the correct environment for example:"; \
 		echo "  source venv/bin/activate"; \
 		echo ""; \
 		exit 1; \
