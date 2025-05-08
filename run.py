@@ -135,24 +135,31 @@ class NeuroSanRunner:
         print(f"AGENT_TOOL_PATH set to: {os.environ['AGENT_TOOL_PATH']}\n")
 
         # Client-only env variables
-        if self.config["use_flask_web_client"]:
-            os.environ["NEURO_SAN_WEB_CLIENT_PORT"] = str(self.config["web_client_port"])
-            print(f"NEURO_SAN_WEB_CLIENT_PORT set to: {os.environ['NEURO_SAN_WEB_CLIENT_PORT']}")
-        else:
-            os.environ["NSFLOW_PORT"] = str(self.config["nsflow_port"])
-            print(f"NSFLOW_PORT set to: {os.environ['NSFLOW_PORT']}")
+        if not self.config["server_only"]:
+            if self.config["use_flask_web_client"]:
+                os.environ["NEURO_SAN_WEB_CLIENT_PORT"] = str(self.config["web_client_port"])
+                print(f"NEURO_SAN_WEB_CLIENT_PORT set to: {os.environ['NEURO_SAN_WEB_CLIENT_PORT']}")
+            else:
+                os.environ["NSFLOW_PORT"] = str(self.config["nsflow_port"])
+                print(f"NSFLOW_PORT set to: {os.environ['NSFLOW_PORT']}")
+                # Set env variable for using nsflow in client-only mode
+                if self.config["client_only"]:
+                    os.environ["NSFLOW_CLIENT_ONLY"] = "True"
+                    print(f"NSFLOW_CLIENT_ONLY set to: {os.environ['NSFLOW_CLIENT_ONLY']}")
 
         # Server-only env variables
-        os.environ["NEURO_SAN_SERVER_HOST"] = self.config["server_host"]
-        os.environ["NEURO_SAN_SERVER_PORT"] = str(self.config["server_port"])
+        if not self.config["client_only"]:
+            os.environ["NEURO_SAN_SERVER_HOST"] = self.config["server_host"]
+            os.environ["NEURO_SAN_SERVER_PORT"] = str(self.config["server_port"])
 
-        # Adding these two below only because nsflow depends on these variables that are named differently
-        # These should be removed when the nsflow client is updated to use consistent environment variable names
-        os.environ["NS_SERVER_HOST"] = self.config["server_host"]
-        os.environ["NS_SERVER_PORT"] = str(self.config["server_port"])
+            # Adding these two below only because nsflow depends on these variables that are named differently
+            # These should be removed when the nsflow client is updated to use consistent environment variable names
+            os.environ["NS_SERVER_HOST"] = self.config["server_host"]
+            os.environ["NS_SERVER_PORT"] = str(self.config["server_port"])
 
-        print(f"NEURO_SAN_SERVER_HOST set to: {os.environ['NEURO_SAN_SERVER_HOST']}")
-        print(f"NEURO_SAN_SERVER_PORT set to: {os.environ['NEURO_SAN_SERVER_PORT']}\n")
+            print(f"NEURO_SAN_SERVER_HOST set to: {os.environ['NEURO_SAN_SERVER_HOST']}")
+            print(f"NEURO_SAN_SERVER_PORT set to: {os.environ['NEURO_SAN_SERVER_PORT']}\n")
+
         print("\n" + "=" * 50 + "\n")
 
     @staticmethod
