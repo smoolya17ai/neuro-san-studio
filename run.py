@@ -42,10 +42,10 @@ class NeuroSanRunner:
         self.neuro_san_web_client_port = int(os.getenv("NEURO_SAN_WEB_CLIENT_PORT", "5003"))
         thinking_file = "C:\\tmp\\agent_thinking.txt" if self.is_windows else "/tmp/agent_thinking.txt"
         self.thinking_file = os.getenv("THINKING_FILE", thinking_file)
-        self.agent_manifest_file = (
-            os.getenv("AGENT_MANIFEST_FILE", os.path.join(self.root_dir, "registries", "manifest.hocon")),
+        self.agent_manifest_file = os.getenv(
+            "AGENT_MANIFEST_FILE", os.path.join(self.root_dir, "registries", "manifest.hocon")
         )
-        self.agent_tool_path = (os.getenv("AGENT_TOOL_PATH", os.path.join(self.root_dir, "coded_tools")),)
+        self.agent_tool_path = os.getenv("AGENT_TOOL_PATH", os.path.join(self.root_dir, "coded_tools"))
 
         # Parse command-line arguments
         self.config = self.parse_args()
@@ -149,6 +149,12 @@ class NeuroSanRunner:
             print("Running in server-only mode.")
             os.environ["NEURO_SAN_SERVER_HOST"] = self.config["server_host"]
             os.environ["NEURO_SAN_SERVER_PORT"] = str(self.config["server_port"])
+
+            # Adding these two below only because of different naming in nsflow client
+            # These should be removed when the nsflow client is updated to use consistent environment variable names
+            os.environ["NS_SERVER_HOST"] = self.config["server_host"]
+            os.environ["NS_SERVER_PORT"] = str(self.config["server_port"])
+
             print(f"NEURO_SAN_SERVER_HOST set to: {os.environ['NEURO_SAN_SERVER_HOST']}")
             print(f"NEURO_SAN_SERVER_PORT set to: {os.environ['NEURO_SAN_SERVER_PORT']}\n")
         print("\n" + "=" * 50 + "\n")
@@ -280,6 +286,13 @@ class NeuroSanRunner:
             else:
                 os.killpg(os.getpgid(self.flask_webclient_process.pid), signal.SIGKILL)
 
+        if self.nsflow_process:
+            print(f"Stopping NSFLOW (PID {self.nsflow_process.pid})...")
+            if self.is_windows:
+                self.nsflow_process.terminate()
+            else:
+                os.killpg(os.getpgid(self.nsflow_process.pid), signal.SIGKILL)
+
         sys.exit(0)
 
     def run(self):
@@ -288,10 +301,6 @@ class NeuroSanRunner:
 
         # Set environment variables
         self.set_environment_variables()
-
-        # Generate HTML files unless asked not to
-        if not self.config["no_html"]:
-            self.generate_html_files()
 
         # Ensure logs directory exists
         os.makedirs("logs", exist_ok=True)
@@ -311,6 +320,9 @@ class NeuroSanRunner:
 
         if not server_only:
             if self.config["use_flask_web_client"]:
+                # Generate HTML files unless asked not to
+                if not self.config["no_html"]:
+                    self.generate_html_files()
                 self.start_flask_web_client()
             else:
                 self.start_nsflow()
@@ -319,6 +331,7 @@ class NeuroSanRunner:
             self.start_neuro_san()
             time.sleep(3)  # Give the server some time to start
 
+        print("\n" + "=" * 50 + "\n")
         print("All processes now running.")
         print("Press Ctrl+C to stop the server.")
         print("\n" + "=" * 50 + "\n")
