@@ -15,8 +15,8 @@ import subprocess
 import sys
 import threading
 import time
-from dotenv import load_dotenv
 
+from dotenv import load_dotenv
 
 
 # pylint: disable=too-many-instance-attributes
@@ -42,10 +42,10 @@ class NeuroSanRunner:
         self.neuro_san_web_client_port = int(os.getenv("NEURO_SAN_WEB_CLIENT_PORT", "5003"))
         thinking_file = "C:\\tmp\\agent_thinking.txt" if self.is_windows else "/tmp/agent_thinking.txt"
         self.thinking_file = os.getenv("THINKING_FILE", thinking_file)
-        self.agent_manifest_file = os.getenv("AGENT_MANIFEST_FILE",
-                                             os.path.join(self.root_dir, "registries", "manifest.hocon")),
-        self.agent_tool_path = os.getenv("AGENT_TOOL_PATH",
-                                         os.path.join(self.root_dir, "coded_tools")),
+        self.agent_manifest_file = (
+            os.getenv("AGENT_MANIFEST_FILE", os.path.join(self.root_dir, "registries", "manifest.hocon")),
+        )
+        self.agent_tool_path = (os.getenv("AGENT_TOOL_PATH", os.path.join(self.root_dir, "coded_tools")),)
 
         # Parse command-line arguments
         self.config = self.parse_args()
@@ -69,8 +69,10 @@ class NeuroSanRunner:
 
     def parse_args(self):
         """Parses command-line arguments for configuration."""
-        parser = argparse.ArgumentParser(description="Run the Neuro SAN server and web client.",
-                                         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        parser = argparse.ArgumentParser(
+            description="Run the Neuro SAN server and web client.",
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        )
 
         parser.add_argument(
             "--server-host", type=str, default=self.neuro_san_server_host, help="Host address for the Neuro SAN server"
@@ -79,42 +81,50 @@ class NeuroSanRunner:
             "--server-port", type=int, default=self.neuro_san_server_port, help="Port number for the Neuro SAN server"
         )
         parser.add_argument(
-            "--nsflow-port", type=int, default=self.nsflow_port, help="Port number for the nsflow client",
+            "--nsflow-port",
+            type=int,
+            default=self.nsflow_port,
+            help="Port number for the nsflow client",
         )
         parser.add_argument(
-            "--web-client-port", type=int, default=self.neuro_san_web_client_port, help="Port number for the web client",
+            "--web-client-port",
+            type=int,
+            default=self.neuro_san_web_client_port,
+            help="Port number for the web client",
         )
         parser.add_argument(
             "--thinking-file", type=str, default=self.thinking_file, help="Path to the agent thinking file"
         )
         parser.add_argument("--no-html", action="store_true", help="Don't generate html for network diagrams")
-        parser.add_argument("--client-only", action="store_true",
-                            help="Run only the nsflow client without NeuroSan server")
-        parser.add_argument("--server-only", action="store_true",
-                            help="Run only the NeuroSan server without the default nsflow client")
-        parser.add_argument("--use-flask-web-client", action="store_true",
-                            help="Use the flask based neuro-san-web-client")
-        
+        parser.add_argument(
+            "--client-only", action="store_true", help="Run only the nsflow client without NeuroSan server"
+        )
+        parser.add_argument(
+            "--server-only", action="store_true", help="Run only the NeuroSan server without the default nsflow client"
+        )
+        parser.add_argument(
+            "--use-flask-web-client", action="store_true", help="Use the flask based neuro-san-web-client"
+        )
+
         args, _ = parser.parse_known_args()
         explicitly_passed_args = {arg for arg in sys.argv[1:] if arg.startswith("--")}
         # Check for mutually exclusive arguments
-        if args.client_only and ("--server-host" in explicitly_passed_args
-                                 or "--server-port" in explicitly_passed_args):
-            parser.error("[x] You cannot specify --server-host or --server-port "
-                         "when using --client-only mode.")
-        if args.server_only and ("--nsflow-host" in explicitly_passed_args
-                                 or "--nsflow-port" in explicitly_passed_args):
-            parser.error("[x] You cannot specify --nsflow-host or --nsflow-port "
-                         "when using --server-only mode.")
+        if args.client_only and (
+            "--server-host" in explicitly_passed_args or "--server-port" in explicitly_passed_args
+        ):
+            parser.error("[x] You cannot specify --server-host or --server-port when using --client-only mode.")
+        if args.server_only and (
+            "--nsflow-host" in explicitly_passed_args or "--nsflow-port" in explicitly_passed_args
+        ):
+            parser.error("[x] You cannot specify --nsflow-host or --nsflow-port when using --server-only mode.")
         if args.client_only and args.server_only:
             parser.error("[x] You cannot specify both --client-only and --server-only at the same time.")
 
         return vars(args)
 
-    @staticmethod
     def set_environment_variables(self):
         """Set required environment variables, optionally using neuro-san defaults."""
-        print("\n" + "="*50 + "\n")
+        print("\n" + "=" * 50 + "\n")
         print("Setting environment variables...\n")
         # Common env variables
         os.environ["PYTHONPATH"] = self.root_dir
@@ -141,8 +151,7 @@ class NeuroSanRunner:
             os.environ["NEURO_SAN_SERVER_PORT"] = str(self.config["server_port"])
             print(f"NEURO_SAN_SERVER_HOST set to: {os.environ['NEURO_SAN_SERVER_HOST']}")
             print(f"NEURO_SAN_SERVER_PORT set to: {os.environ['NEURO_SAN_SERVER_PORT']}\n")
-        print("\n" + "="*50 + "\n")
-
+        print("\n" + "=" * 50 + "\n")
 
     @staticmethod
     def generate_html_files():
@@ -200,13 +209,17 @@ class NeuroSanRunner:
         stderr_thread.start()
 
         return process
-    
+
     def start_neuro_san(self):
         """Start the Neuro SAN server."""
         print("Starting Neuro SAN server...")
         command = [
-            sys.executable, "-u", "-m", "neuro_san.service.agent_main_loop",
-            "--port", str(self.config["server_port"])
+            sys.executable,
+            "-u",
+            "-m",
+            "neuro_san.service.agent_main_loop",
+            "--port",
+            str(self.config["server_port"]),
         ]
         self.server_process = self.start_process(command, "NeuroSan", "logs/server.log")
         print("NeuroSan server started on port: ", self.config["server_port"])
@@ -215,9 +228,14 @@ class NeuroSanRunner:
         """Start FastAPI backend."""
         print("Starting FastAPI backend...")
         command = [
-            sys.executable, "-u", "-m", "uvicorn", "nsflow.backend.main:app",
-            "--port", str(self.config["nsflow_port"]),
-            "--reload"
+            sys.executable,
+            "-u",
+            "-m",
+            "uvicorn",
+            "nsflow.backend.main:app",
+            "--port",
+            str(self.config["nsflow_port"]),
+            "--reload",
         ]
 
         self.nsflow_process = self.start_process(command, "nsflow", "logs/nsflow.log")
@@ -227,11 +245,18 @@ class NeuroSanRunner:
         """Start the Flask web client."""
         print("Starting Flask web client...")
         command = [
-            sys.executable, "-u", "-m", "neuro_san_web_client.app",
-            "--server-host", self.config["server_host"],
-            "--server-port", str(self.config["server_port"]),
-            "--web-client-port", str(self.config["web_client_port"]),
-            "--thinking-file", self.config["thinking_file"],
+            sys.executable,
+            "-u",
+            "-m",
+            "neuro_san_web_client.app",
+            "--server-host",
+            self.config["server_host"],
+            "--server-port",
+            str(self.config["server_port"]),
+            "--web-client-port",
+            str(self.config["web_client_port"]),
+            "--thinking-file",
+            self.config["thinking_file"],
         ]
         self.flask_webclient_process = self.start_process(command, "FlaskWebClient", "logs/webclient.log")
         print("Flask web client started on port: ", self.config["web_client_port"])
@@ -248,12 +273,12 @@ class NeuroSanRunner:
             else:
                 os.killpg(os.getpgid(self.server_process.pid), signal.SIGKILL)
 
-        if self.app_process:
-            print(f"Stopping WEB CLIENT (PID {self.app_process.pid})...")
+        if self.flask_webclient_process:
+            print(f"Stopping WEB CLIENT (PID {self.flask_webclient_process.pid})...")
             if self.is_windows:
-                self.app_process.terminate()
+                self.flask_webclient_process.terminate()
             else:
-                os.killpg(os.getpgid(self.app_process.pid), signal.SIGKILL)
+                os.killpg(os.getpgid(self.flask_webclient_process.pid), signal.SIGKILL)
 
         sys.exit(0)
 
@@ -296,7 +321,7 @@ class NeuroSanRunner:
 
         print("All processes now running.")
         print("Press Ctrl+C to stop the server.")
-        print("\n" + "="*50 + "\n")
+        print("\n" + "=" * 50 + "\n")
 
         # Wait on active processes to finish
         if self.nsflow_process:
