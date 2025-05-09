@@ -23,6 +23,8 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from neuro_san.interfaces.coded_tool import CodedTool
 
+PDF_FILE_URL = "https://www.replicon.com/wp-content/uploads/2016/06/RFP-Template_Replicon.pdf"
+
 
 class RAG(CodedTool):
     """
@@ -81,10 +83,7 @@ class RAG(CodedTool):
             return "Error: No query provided."
 
         # Build the vector store and run the query
-        url: str = (
-            "https://www.replicon.com/wp-content/uploads/"
-            "2016/06/RFP-Template_Replicon.pdf"
-        )
+        url: str = PDF_FILE_URL
         vectorstore: InMemoryVectorStore = await self.generate_vectorstore(url)
         return await self.query_vectorstore(vectorstore, query)
 
@@ -98,7 +97,7 @@ class RAG(CodedTool):
         """
 
         loader = PyPDFLoader(file_path=url)
-        docs = await loader.aload()
+        docs: List[Document] = await loader.aload()
 
         # Split documents into smaller chunks for better embedding and
         # retrieval
@@ -107,12 +106,11 @@ class RAG(CodedTool):
         doc_chunks: List[Document] = text_splitter.split_documents(docs)
 
         # Create an in-memory vector store with embeddings
-        vectorstore: InMemoryVectorStore = \
-            await InMemoryVectorStore.afrom_documents(
-                documents=doc_chunks,
-                collection_name="rag-in-memory",
-                embedding=OpenAIEmbeddings(),
-            )
+        vectorstore: InMemoryVectorStore = await InMemoryVectorStore.afrom_documents(
+            documents=doc_chunks,
+            collection_name="rag-in-memory",
+            embedding=OpenAIEmbeddings(),
+        )
 
         return vectorstore
 
