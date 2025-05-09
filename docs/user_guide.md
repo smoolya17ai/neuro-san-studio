@@ -48,18 +48,19 @@ HOCON supports value substitution by referencing previously defined configuratio
 
 To substitute a value, wrap the referenced key in `${}`:
 ```json
-function = ${aaosa_call}
+"function": ${aaosa_call}
 ```
 
 To substitute a nested value inside an object or dictionary, use dot notation:
 ```json
-name = ${info.name}
+"name": ${info.name}
 ```
 
 Note that substitutions are **not parsed inside quoted strings**. If you need to include a substitution within a string, you can quote only the non-substituted parts:
 ```json
-instructions = ${insturction_prefix} "main instruction" ${instruction_suffix}
+"instructions": ${insturction_prefix} "main instruction" ${instruction_suffix}
 ```
+You can see a working example [here](../registries/smart_home_include.hocon).
 
 For more details, please see [https://github.com/lightbend/config/blob/main/HOCON.md#substitutions](https://github.com/lightbend/config/blob/main/HOCON.md#substitutions)
 
