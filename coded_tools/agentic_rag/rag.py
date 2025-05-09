@@ -26,7 +26,7 @@ from neuro_san.interfaces.coded_tool import CodedTool
 PDF_FILE_URL = "https://www.replicon.com/wp-content/uploads/2016/06/RFP-Template_Replicon.pdf"
 
 
-class RAG(CodedTool):
+class Rag(CodedTool):
     """
     CodedTool implementation which provides a way to do RAG on a pdf file
     """
@@ -83,11 +83,10 @@ class RAG(CodedTool):
             return "Error: No query provided."
 
         # Build the vector store and run the query
-        url: str = PDF_FILE_URL
-        vectorstore: InMemoryVectorStore = await self.generate_vectorstore(url)
+        vectorstore: InMemoryVectorStore = await self.generate_vector_store(PDF_FILE_URL)
         return await self.query_vectorstore(vectorstore, query)
 
-    async def generate_vectorstore(self, url: str) -> InMemoryVectorStore:
+    async def generate_vector_store(self, url: str) -> InMemoryVectorStore:
         """
         Asynchronously loads web documents from given URLs, split them into
         chunks, and build an in-memory vector store using OpenAI embeddings.
