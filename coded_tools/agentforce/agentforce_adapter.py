@@ -24,7 +24,7 @@ TIMEOUT_SECONDS = 10
 class AgentforceAdapter:
     """
     Adapter for the Agentforce API.
-    This adapter allows to interact with the Agentforce API: create a session, post a message, close a session.
+    This adapter allows interacting with the Agentforce API: create a session, post a message, close a session.
     See https://developer.salesforce.com/docs/einstein/genai/guide/agent-api-get-started.html for more details.
     """
 
@@ -43,10 +43,10 @@ class AgentforceAdapter:
         - AGENTFORCE_CLIENT_ID
         - AGENTFORCE_CLIENT_SECRET
 
-        :param my_domain_url: the URL of the Agentforce domain or None to get it from the environment variables.
-        :param agent_id: the ID of the Agentforce agent or None to get it from the environment variables.
-        :param client_id: the ID of the Agentforce client or None to get it from the environment variables.
-        :param client_secret: the secret of the Agentforce client or None to get it from the environment variables.
+        :param my_domain_url: The URL of the Agentforce domain or None to get it from the environment variables.
+        :param agent_id: The ID of the Agentforce agent or None to get it from the environment variables.
+        :param client_id: The ID of the Agentforce client or None to get it from the environment variables.
+        :param client_secret: The secret of the Agentforce client or None to get it from the environment variables.
         """
         # Get the domain_url and agent_id from the environment variables if not provided
         if my_domain_url is None:
@@ -86,7 +86,7 @@ class AgentforceAdapter:
     def create_session(self) -> (str, str):
         """
         Creates an Agentforce session.
-        :return: a session id and an access token, as strings.
+        :return: A session id and an access token, as strings.
         """
         print("AgentforceAdapter: create_session called")
         # Get an access token
@@ -98,7 +98,7 @@ class AgentforceAdapter:
     def _get_access_token(self) -> str:
         """
         Calls the Salesforce API to get an access token.
-        :return: an access token, as a string.
+        :return: An access token, as a string.
         """
         headers = {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -116,8 +116,8 @@ class AgentforceAdapter:
     def _get_session(self, access_token: str) -> str:
         """
         Calls the Salesforce API to get a session ID.
-        :param access_token: an access token.
-        :return: a session ID, as a string.
+        :param access_token: An access token.
+        :return: A session ID, as a string.
         """
         uuid_str = str(uuid.uuid4())
         headers = {
@@ -149,8 +149,8 @@ class AgentforceAdapter:
     def close_session(session_id: str, access_token: str):
         """
         Closes an Agentforce session.
-        :param session_id: the ID of the session to close.
-        :param access_token: the corresponding access token.
+        :param session_id: The ID of the session to close.
+        :param access_token: The corresponding access token.
         :return: Nothing
         """
         print("AgentforceAdapter: close_session called")
@@ -168,12 +168,12 @@ class AgentforceAdapter:
         Creates a new session if none is provided, along with its access_token.
         The session is what allows the Agentforce API to identify the conversation context and keep a conversation
         going.
-        :param message: the message to post.
-        :param session_id: the ID of the session to reuse to keep the conversation context, if any. If None,
+        :param message: The message to post.
+        :param session_id: The ID of the session to use to keep the conversation's context, if any. If None,
         a new session will be created.
-        :param access_token:the access token corresponding to the session_id. Can only be None if session_id is None.
-        Creating new session will also create a new access token.
-        :return: a dictionary containing:
+        :param access_token:The access token corresponding to the session_id. Can only be None if session_id is None.
+        Creating a new session will also create a new access token.
+        :return: A dictionary containing:
         - session_id: the session id to use to continue the conversation,
         - access_token: the corresponding access_token
         - response: the response message from Agentforce.
@@ -209,29 +209,3 @@ class AgentforceAdapter:
             "response": response.json(),
         }
         return response_dict
-
-
-# Example usage:
-if __name__ == "__main__":
-    # Instantiate the AgentforceAdapter.
-    # Client id and client secret are read from the environment variables.
-    agentforce = AgentforceAdapter()
-    # message = "Can you help me find training resources for Salesforce?"
-    FIRST_MESSAGE = "Can you give me a list of Jane Doe's most recent cases?"
-    print(f"USER: {FIRST_MESSAGE}")
-    # Post the message to the Agentforce API
-    a_response = agentforce.post_message(FIRST_MESSAGE)
-    # Keep track of the session_id and access_token to continue the conversation
-    a_session_id = a_response["session_id"]
-    a_access_token = a_response["access_token"]
-    a_response_message = a_response["response"]["messages"][0]["message"]
-    print(f"AGENTFORCE: {a_response_message}")
-    SECOND_MESSAGE = "jdoe@example.com"
-    print(f"USER: {SECOND_MESSAGE}")
-    # Continue the conversation by using the session_id and access_token
-    a_second_response = agentforce.post_message(SECOND_MESSAGE, a_session_id, a_access_token)
-    a_second_response_message = a_second_response["response"]["messages"][0]["message"]
-    print(f"AGENTFORCE: {a_second_response_message}")
-    # Close the session
-    agentforce.close_session(a_session_id, a_access_token)
-    print("Done!")
