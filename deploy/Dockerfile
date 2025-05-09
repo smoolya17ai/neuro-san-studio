@@ -98,17 +98,13 @@ COPY ./coded_tool[s] ${APP_SOURCE}/coded_tools
 USER ${USERNAME}
 WORKDIR ${APP_SOURCE}
 
-# RUN echo "$(pip show neuro-san | grep Location | awk '{print $2}')"
-# This value below comes from the above RUN command. Cannot set ENV vars in Dockerfiles based on shell output.
-ENV PACKAGE_INSTALL=/usr/local/lib/python3.12/site-packages
-ENV PACKAGE_DEPLOY=${PACKAGE_INSTALL}/neuro_san/deploy
-ENV APP_ENTRYPOINT=${PACKAGE_DEPLOY}/entrypoint.sh
+ENV APP_ENTRYPOINT=${APP_SOURCE}/deploy/entrypoint.sh
 
 #
 # Server configuration
 #
 
-# Run as a neuro-san only server to server 'default' demo agents (registries and coded_tools)
+# Point to the root folder of the app
 ENV PYTHONPATH=${APP_SOURCE}
 
 # Where to find the tool registry manifest file which lists all the agent hocon
@@ -127,7 +123,7 @@ ENV AGENT_TOOL_PATH=${APP_SOURCE}/coded_tools
 # See https://docs.python.org/3/library/logging.config.html#dictionary-schema-details
 # as to how this file can be configured for your own needs.  Examples there are provided in YAML,
 # but these can be easily translated to JSON (which we prefer).
-ENV AGENT_SERVICE_LOG_JSON=${PACKAGE_DEPLOY}/logging.json
+ENV AGENT_SERVICE_LOG_JSON=${APP_SOURCE}/deploy/logging.json
 
 # Threshold for logging.
 # See https://docs.python.org/3/library/logging.html#logging.Handler.setLevel
@@ -167,4 +163,3 @@ ENV AGENT_REQUEST_LIMIT=1000000
 
 # ENTRYPOINT ls ${APP_SOURCE}
 ENTRYPOINT "${APP_ENTRYPOINT}"
-
