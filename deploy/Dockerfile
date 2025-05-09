@@ -93,11 +93,16 @@ COPY --from=builder /install /usr/local
 #       The coded_tools directory where agent code lives is optional
 COPY ./registries ${APP_SOURCE}/registries
 COPY ./coded_tool[s] ${APP_SOURCE}/coded_tools
+COPY ./deploy/entrypoint.sh ${APP_SOURCE}/deploy/entrypoint.sh
+COPY ./deploy/logging.json ${APP_SOURCE}/deploy/logging.json
 
 # Set up the entry point for when the container is run
 USER ${USERNAME}
 WORKDIR ${APP_SOURCE}
 
+# RUN echo "$(pip show neuro-san | grep Location | awk '{print $2}')"
+# This value below comes from the above RUN command. Cannot set ENV vars in Dockerfiles based on shell output.
+ENV PACKAGE_INSTALL=/usr/local/lib/python3.12/site-packages
 ENV APP_ENTRYPOINT=${APP_SOURCE}/deploy/entrypoint.sh
 
 #
