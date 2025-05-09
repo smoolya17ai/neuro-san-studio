@@ -9,7 +9,9 @@
 #
 {
     # Importing content from other HOCON files
-    # Keyword include has to be unquoted and has to be followed by quoted string which is either url or file path.
+    # The include keyword must be unquoted and followed by a quoted URL or file path.
+    # File paths should be absolute or relative to the script's working directory, not the HOCON file location.
+
     # The below file contains keys-values for substitution with the following keys;
     # aaosa_call, aaosa_command, and aaosa_instructions
     include "https://raw.githubusercontent.com/leaf-ai/neuro-san-demos/main/registries/aaosa.hocon"
