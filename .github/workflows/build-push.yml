@@ -67,7 +67,7 @@ jobs:
         run: |
           # python neuro-san/utility_scripts/deploy_to_cluster.py  
           # --file-path neuro-san/values-dev.yaml --neuro-san-tag test-donn # ${{ env.IMAGE_TAG }}
-          cat neuro-san/values-dev.yaml
+          cat neuro-san/utility_scripts/deploy_to_cluster.py
 
       #- name: Commit and push changes
       #  run: |
