@@ -61,12 +61,13 @@ jobs:
         with:
           repository: leaf-ai/manifest
           token: ${{ secrets.READ_WRITE_PAT_FOR_DEPLOYMENT }}
-          ref: main 
+          ref: neurosan-ui 
 
       - name: Update image tag in values.yaml
         run: |
           #sed -i 's/tag: .*/tag: ${{ github.sha }}/' path/to/values.yaml
-          head neuro-ai/utility_scripts/deploy_to_cluster.py
+          python neuro-san/utility_scripts/deploy_to_cluster.py --file-path neuro-san/values-dev.yaml --neuro-san-tag test-donn # ${{ env.IMAGE_TAG }}
+          cat neuro-san/values-dev.yaml
 
       #- name: Commit and push changes
       #  run: |
