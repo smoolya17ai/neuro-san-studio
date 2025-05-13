@@ -77,13 +77,13 @@ jobs:
           --file-path "neuro-san/values-${{ needs.build-and-push.outputs.target_environment }}.yaml" \
           --neuro-san-tag "${{ needs.build-and-push.outputs.image_tag }}"
 
-      #- name: Commit and push changes
-      #  run: |
-      #    git config user.name "GitHub Actions"
-      #    git config user.email "actions@github.com"
-      #    git add path/to/values.yaml
-      #    git commit -m "Update image tag to ${{ github.sha }}"
-      #    git push
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add "neuro-san/values-${{ needs.build-and-push.outputs.target_environment }}.yaml"
+          git commit -m "Update image tag to ${{ github.sha }}"
+          git push
 
 
 
