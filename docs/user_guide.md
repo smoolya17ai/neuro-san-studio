@@ -1,5 +1,33 @@
 # User guide
 
+<!--TOC-->
+
+- [User guide](#user-guide)
+  - [Simple agent network](#simple-agent-network)
+  - [Hocon files](#hocon-files)
+    - [Import and Substitution](#import-and-substitution)
+    - [Manifest](#manifest)
+    - [Agent network](#agent-network)
+      - [Agent specifications](#agent-specifications)
+      - [Tool specifications](#tool-specifications)
+      - [LLM specifications](#llm-specifications)
+  - [LLM configuration](#llm-configuration)
+    - [OpenAI](#openai)
+    - [Ollama](#ollama)
+  - [Multi-agent networks](#multi-agent-networks)
+  - [Coded tools](#coded-tools)
+    - [Simple tool](#simple-tool)
+    - [API calling tool](#api-calling-tool)
+    - [Sly data](#sly-data)
+  - [Toolbox](#toolbox)
+  - [Logging and debugging](#logging-and-debugging)
+  - [Advanced](#advanced)
+    - [Subnetworks](#subnetworks)
+    - [AAOSA](#aaosa)
+  - [Connect with other agent frameworks](#connect-with-other-agent-frameworks)
+
+<!--TOC-->
+
 ## Simple agent network
 
 The `music_nerd` agent network is the simplest agent network possible: it contains a single agent
@@ -23,7 +51,7 @@ This tells the server to load the `music_nerd.hocon` file from the same `/regist
 
 Setting the value to `false` would make the server ignore this agent network.
 
-Open [./registries/music_nerd.hocon](../registries/hello_world.hocon) and have a look at it.
+Open [../registries/music_nerd.hocon](../registries/hello_world.hocon) and have a look at it.
 For now just note that it contains:
 - an `llm_config` section that specifies which LLM to use by default for the agents in this file
 - a `tools` section that contains a single agent, the "frontman", called `MusicNerd`
@@ -32,14 +60,14 @@ Read the instructions of the agent to see what it does.
 Feel free to modify the instructions to see how it affects the agent's behavior.
 See if you can make it a soccer expert for instance!
 
-We'll describe the structure of agent networks' .hocon files in next section.
+We'll describe the structure of agent networks' `.hocon` files in next section.
 
 ## Hocon files
 
 ### Import and Substitution
 
 HOCON files support importing content from other HOCON files using the unquoted keyword `include`, followed by whitespace and the path to the imported file as a quoted string:
-```json
+```hocon
 include "config.hocon"
 ```
 > **Note**: The file path in include should be an **absolute path** to ensure it can be resolved correctly.
@@ -47,20 +75,20 @@ include "config.hocon"
 HOCON supports value substitution by referencing previously defined configuration values. This allows constants to be defined once and reused throughout the file.
 
 To substitute a value, wrap the referenced key in `${}`:
-```json
+```hocon
 "function": ${aaosa_call}
 ```
 
 To substitute a nested value inside an object or dictionary, use dot notation:
-```json
+```hocon
 "name": ${info.name}
 ```
 
 Note that substitutions are **not parsed inside quoted strings**. If you need to include a substitution within a string, you can quote only the non-substituted parts:
-```json
-"instructions": ${insturction_prefix} "main instruction" ${instruction_suffix}
+```hocon
+"instructions": ${instruction_prefix} "main instruction" ${instruction_suffix}
 ```
-You can see a working example [here](../registries/smart_home_include.hocon).
+You can see a working example here: [../registries/smart_home_include.hocon](../registries/smart_home_include.hocon).
 
 For more details, please see [https://github.com/lightbend/config/blob/main/HOCON.md#substitutions](https://github.com/lightbend/config/blob/main/HOCON.md#substitutions)
 
@@ -85,6 +113,8 @@ When you start the server, you can see which agent networks have been loaded by 
 
 tool_registries found: ['agent_network_A', 'agent_network_C']
 ```
+
+For more details, please check the [Agent Manifest HOCON File Reference](https://github.com/leaf-ai/neuro-san/blob/main/docs/manifest_hocon_reference.md) documentation.
 
 ### Agent network
 
@@ -117,12 +147,19 @@ tool_registries found: ['agent_network_A', 'agent_network_C']
 
 See next section for more information about how to specify the LLM(s) to use.
 
+For a full description of the fields, please refer to the [Agent Network HOCON File Reference](https://github.com/leaf-ai/neuro-san/blob/main/docs/agent_hocon_reference.md) documentation.
+
 ## LLM configuration
 
 The `llm_config` section of the agent network configuration file specifies which LLM to use
 for the agents in this file. It can be specified:
 - at the agent network level, to apply to all agents in this file
 - at the agent level, to apply to a specific agent
+
+For a full description of the fields, please refer to the [LLM config](https://github.com/leaf-ai/neuro-san/blob/main/docs/agent_hocon_reference.md#llm_config) documentation.
+
+For instructions about how to extend the default LLM descriptions shipped with the `neuro-san` library,
+please refer to the [LLM Info HOCON File Reference](https://github.com/leaf-ai/neuro-san/blob/main/docs/llm_info_hocon_reference.md) documentation.
 
 ### OpenAI
 
@@ -140,7 +177,7 @@ See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
 
 To use an LLM that runs locally with [Ollama](https://ollama.com/):
 - Make sure the Ollama server is running
-- Make sure the model is downloaded, up-to-date and available in the Ollama server. For instance, `ollama run llama3.1`
+- Make sure the model is downloaded, up to date and available in the Ollama server. For instance, `ollama run llama3.1`
   will download the model and make it available for use. `ollama pull llama3.1`
   will update the model to the latest version if needed.
 - If the agent network contains tools, make sure the model can call tools:
@@ -161,8 +198,6 @@ see [this page](https://python.langchain.com/docs/integrations/chat/ollama/)
 
 ## Multi-agent networks
 
-TODO
-
 ## Coded tools
 
 ### Simple tool
@@ -176,7 +211,7 @@ The `sly_data` will not be seen by the LLMs, and by default, will not leave the 
 Within the agent network the `sly_data` is visible to the coded tools and can be used as a
 bulletin-board between coded tools.
 
-This policy is one of securtiy-by-default, whereby no `sly_data` gets out of the agent network
+This policy is one of security-by-default, whereby no `sly_data` gets out of the agent network
 at all unless otherwise specified. It's only when a boundary is crossed that the question of
 what goes through arises. There are 3 boundaries:
 
@@ -185,12 +220,12 @@ what goes through arises. There are 3 boundaries:
 2.  What comes in from external networks (`from_upstream`). For instance, you might not trust what's
     coming from an agent network that lives on another server.
 3.  What goes back to the client (`to_upstream`). For instance, you might not want secrets from
-    the server side to be share with the clients that connect to it.
+    the server side to be shared with the clients that connect to it.
 
-So by default nothing is shared and you have to explicitly state what goes through.
+So by default nothing is shared, and you have to explicitly state what goes through.
 
 Suppose you have an agent network that takes in two numbers,
-the name of an opertion (say, addition/subtraction/multiplication/division), and asks another
+the name of an operation (say, addition/subtraction/multiplication/division), and asks another
 agent network to perform the operation on the numbers. To pass the numbers as `sly_data` to the
 downstream agent network you must specify the following in the .hocon file of the agent that
 is connecting to the downstream agent network:
@@ -238,10 +273,9 @@ the .hocon file of the frontman (the only agent that is connected to the client)
 All the above .hocon "allow" blocks can be combined in a single "allow" block. An example
 is given [here](https://github.com/leaf-ai/neuro-san/blob/main/neuro_san/registries/math_guy_passthrough.hocon#L54)
 
-## Toolbox
+For a full reference, please check the [neuro-san documentation](https://github.com/leaf-ai/neuro-san/blob/main/docs/agent_hocon_reference.md#allow)
 
-RAG
-DB connectors
+## Toolbox
 
 ## Logging and debugging
 
@@ -261,12 +295,17 @@ Agent-Oriented Natural Language Interface ](https://citeseerx.ist.psu.edu/docume
 
 <!-- (https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=011fb718658d611294613286c0f4b143aed40f43) -->
 
-Look at [./registries/smart_home.onf.hocon](../registries/smart_home_onf.hocon) and in particular:
+Look at [../registries/smart_home.onf.hocon](../registries/smart_home_onf.hocon) and in particular:
 - aaosa_instructions
 - aaosa_call
 - aaosa_command
 
 ## Connect with other agent frameworks
 
-e.g. crewAI, AutoGen, LangGraph, etc.
-Agentforce, ServiceNow, 
+- MCP: [MCP BMI SSE](./examples/mcp_bmi_sse.md) is an example of an agent network that uses [MCP](https://www.anthropic.com/news/model-context-protocol)
+to call an agent that calculates the body mass index (BMI).
+- Agentforce: [Agentforce](./examples/agentforce.md) is an agent network that delegates queries to a [Salesforce Agentforce](https://www.salesforce.com/agentforce/)
+agent to interact with a CRM system.
+- CrewAI: (coming soon)
+- A2A: (coming soon)
+ 
