@@ -67,6 +67,7 @@ jobs:
 
       - name: Update image tag in values.yaml
         run: |
+          echo ${{ env.IMAGE_TAG }}
           python neuro-san/utility_scripts/deploy_to_cluster.py \
           --file-path "neuro-san/values-${{ env.ENVIRONMENT }}.yaml" \
           --neuro-san-tag ${{ env.IMAGE_TAG }}
