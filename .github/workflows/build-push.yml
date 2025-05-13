@@ -63,7 +63,7 @@ jobs:
         with:
           repository: leaf-ai/manifest
           token: ${{ secrets.READ_WRITE_PAT_FOR_DEPLOYMENT }}
-          ref: neurosan-ui 
+          ref: main 
 
       - name: Update image tag in values.yaml
         run: |
