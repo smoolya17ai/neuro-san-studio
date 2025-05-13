@@ -1,4 +1,18 @@
-name: Build and Push Docker Image to ECR
+# This action script will take a merge to main and build
+# the neuro-san-demos docker image and push it to our ECR.
+# It will then update the manifest file with the new tag
+# which then will get picked up by our Argo CD system and 
+# deploy it to the dev environment.
+# In the case of a github Release event, the similar flow
+# occurs, but in this case, the staging environment is updated.
+# This script does not automatically push anything to production;
+# that case is handled manually.
+# Note, this script only updates the neuro-san-demos image, while
+# the deploy also uses a custom ui image; that process is still 
+# manual as the custom ui build is a manual process and not 
+# run frequently.
+
+name: Build and Push Docker Image to ECR and promote to manifest repo
 
 on:
   push:
@@ -18,7 +32,6 @@ jobs:
 
     permissions:
       contents: read
-      #id-token: write  # (needed for OIDC auth)
 
     steps:
 
@@ -70,8 +83,8 @@ jobs:
 
       - name: Update image tag in values.yaml
         run: |
-          echo "Set IMAGE_TAG to ${{ needs.build-and-push.outputs.image_tag }}"
-          echo "Set ENVIRONMENT to ${{ needs.build-and-push.outputs.target_environment }}"
+          echo "image_tag is ${{ needs.build-and-push.outputs.image_tag }}"
+          echo "target_enviroment is ${{ needs.build-and-push.outputs.target_environment }}"
 
           python neuro-san/utility_scripts/deploy_to_cluster.py \
           --file-path "neuro-san/values-${{ needs.build-and-push.outputs.target_environment }}.yaml" \
