@@ -33,7 +33,7 @@ jobs:
             echo "target_environment=staging" >> $GITHUB_OUTPUT
           else
             SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
-            echo "image=${SHORT_SHA}" >> $GITHUB_OUTPUT
+            echo "image_tag=${SHORT_SHA}" >> $GITHUB_OUTPUT
             echo "target_environment=dev" >> $GITHUB_OUTPUT
           fi
 
@@ -53,7 +53,7 @@ jobs:
           context: .
           file: ./deploy/Dockerfile
           push: false
-          tags: ${{ vars.ECR_REGISTRY }}/${{ vars.ECR_REPOSITORY }}:${{ steps.set-vars.outputs.IMAGE_TAG }}
+          tags: ${{ vars.ECR_REGISTRY }}/${{ vars.ECR_REPOSITORY }}:${{ steps.set-vars.outputs.image_tag }}
 
   promote-to-manifest:
     needs: build-and-push
