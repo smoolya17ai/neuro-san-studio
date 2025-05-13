@@ -56,7 +56,7 @@ jobs:
           tags: ${{ vars.ECR_REGISTRY }}/${{ vars.ECR_REPOSITORY }}:${{ steps.set-vars.outputs.image_tag }}
 
   promote-to-manifest:
-    needs: set-vars
+    needs: build-and-push
     runs-on: ubuntu-latest
     permissions:
       contents: write  ## to allow committing changes
@@ -70,12 +70,12 @@ jobs:
 
       - name: Update image tag in values.yaml
         run: |
-          echo "Set IMAGE_TAG to ${{ needs.set-vars.outputs.image_tag }}"
-          echo "Set ENVIRONMENT to ${{ needs.set-vars.outputs.target_environment }}"
+          echo "Set IMAGE_TAG to ${{ needs.build-and-push.outputs.image_tag }}"
+          echo "Set ENVIRONMENT to ${{ needs.build-and-push.target_environment }}"
 
           python neuro-san/utility_scripts/deploy_to_cluster.py \
-          --file-path "neuro-san/values-${{ needs.set-vars.outputs.target_environment }}.yaml" \
-          --neuro-san-tag "${{ needs.set-vars.outputs.image_tag }}"
+          --file-path "neuro-san/values-${{ needs.build-and-push.outputs.target_environment }}.yaml" \
+          --neuro-san-tag "${{ needs.build-and-push.outputs.image_tag }}"
 
       #- name: Commit and push changes
       #  run: |
