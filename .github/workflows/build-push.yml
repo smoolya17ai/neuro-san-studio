@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       image_tag: ${{ steps.set-vars.outputs.image_tag }}
-      environment: ${{ steps.set-vars.outputs.environment }}
+      target_environment: ${{ steps.set-vars.outputs.target_environment }}
 
     permissions:
       contents: read
