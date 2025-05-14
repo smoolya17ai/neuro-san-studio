@@ -88,7 +88,7 @@ jobs:
 
           python neuro-san/utility_scripts/deploy_to_cluster.py \
           --file-path "neuro-san/values-${{ needs.build-and-push.outputs.target_environment }}.yaml" \
-          --neuro-san-tag "${{ needs.build-and-push.outputs.image_tag }}"
+          --neuro-san-demos-tag "${{ needs.build-and-push.outputs.image_tag }}"
 
       - name: Commit and push changes
         run: |
