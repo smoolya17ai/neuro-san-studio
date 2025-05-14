@@ -63,6 +63,11 @@ class TVSwitch(CodedTool):
         return message
 
     def do_it(self, args):
+        """
+        Calls the API to turn the TV on or off.
+        :param args: A dictionary containing the `desired_status` key
+        :return:a string explaining the result of the operation
+        """
         desired_status: str = args.get("desired_status", None)
         # Check if the API was called correctly
         if desired_status is None:
@@ -72,9 +77,16 @@ class TVSwitch(CodedTool):
         print(f"Current status: {self.tv_status}")
         # if desired status equals current status, nothing to do
         if desired_status == self.tv_status:
-            return f"TV is already {desired_status}"
+            message = f"TV is already {desired_status}"
         else:
             # else, update the status
             old_status = self.tv_status
             self.tv_status = desired_status
-            return f"TV was {old_status}. It is now {self.tv_status}"
+            message = f"TV was {old_status}. It is now {self.tv_status}"
+        return message
+
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+        """
+        Delegates to the synchronous invoke method because it's quick, non-blocking.
+        """
+        return self.invoke(args, sly_data)
