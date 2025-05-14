@@ -3,13 +3,16 @@ name: Test
 on:
   push:
     branches:
-      - main
       - "**"
   pull_request:
-
+    branches:
+      - main
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'push' && github.ref != 'refs/heads/main') ||
+      (github.event_name == 'pull_request' && github.base_ref == 'main')
     container:
       image: python:3.12-slim
 
@@ -18,23 +21,46 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install dependencies
+        shell: bash
         run: |
-          apt-get update && apt-get install -y shellcheck
+          apt-get update && apt-get install -y shellcheck make
+          python -m venv venv
+          source venv/bin/activate
           pip install -r requirements-build.txt
           pip install -r requirements.txt
 
       - name: Show installed packages
-        run: pip freeze
+        shell: bash
+        run: |
+          source venv/bin/activate 
+          pip freeze
 
-      - name: Run pytest (excluding integration tests)
-        run: pytest --verbose -m "not integration" --timer-top-n 10
+      - name: Run make lint
+        shell: bash
+        run: |
+          source venv/bin/activate 
+          make lint
+
+      - name: Run make lint test
+        shell: bash
+        run: | 
+          source venv/bin/activate
+          make lint-tests
+
+      - name: Run make test
+        shell: bash
+        run: |
+          source venv/bin/activate 
+          make test
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           AGENT_TOOL_PATH: "./neuro_san/coded_tools"
           PYTHONPATH: ${{ env.PYTHONPATH }}:"."
 
       - name: Check README renders correctly on PyPI
+        shell: bash
         run: |
+          source venv/bin/activate
           pip install readme_renderer readme_renderer[md]
           python -m readme_renderer README.md
 

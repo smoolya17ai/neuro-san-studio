@@ -1,9 +1,7 @@
 # Neuro SAN
-leaf-common==1.2.21
-leaf-server-common==0.1.18
-neuro-san==0.5.15
-neuro-san-web-client==0.1.7
-nsflow==0.5.9
+neuro-san==0.5.23
+neuro-san-web-client==0.1.11
+nsflow==0.5.10
 
 # For the airline_policy demo and agentic rag, to extract text from documents
 pypdf>=5.4.0
@@ -13,3 +11,6 @@ python-dotenv==1.0.1
 
 # For asynchronous file operations
 aiofiles>=24.1.0
+
+# For MCP servers and clients
+langchain-mcp-adapters>=0.0.9

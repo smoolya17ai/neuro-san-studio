@@ -1,4 +1,3 @@
-
 """Tool module for doing RAG from a pdf file"""
 
 # Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
@@ -22,11 +21,12 @@ from langchain_core.documents import Document
 from langchain_core.vectorstores.base import VectorStoreRetriever
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
 from neuro_san.interfaces.coded_tool import CodedTool
 
+PDF_FILE_URL = "https://www.replicon.com/wp-content/uploads/2016/06/RFP-Template_Replicon.pdf"
 
-class RAG(CodedTool):
+
+class Rag(CodedTool):
     """
     CodedTool implementation which provides a way to do RAG on a pdf file
     """
@@ -52,8 +52,7 @@ class RAG(CodedTool):
         """
 
     async def async_invoke(
-            self,
-            args: Dict[str, Any],
+            self, args: Dict[str, Any],
             sly_data: Dict[str, Any]
     ) -> str:
         """
@@ -84,17 +83,10 @@ class RAG(CodedTool):
             return "Error: No query provided."
 
         # Build the vector store and run the query
-        url: str = (
-            "https://www.replicon.com/wp-content/uploads/"
-            "2016/06/RFP-Template_Replicon.pdf"
-        )
-        vectorstore: InMemoryVectorStore = await self.generate_vectorstore(url)
+        vectorstore: InMemoryVectorStore = await self.generate_vector_store(PDF_FILE_URL)
         return await self.query_vectorstore(vectorstore, query)
 
-    async def generate_vectorstore(
-            self,
-            urls: List[str]
-    ) -> InMemoryVectorStore:
+    async def generate_vector_store(self, url: str) -> InMemoryVectorStore:
         """
         Asynchronously loads web documents from given URLs, split them into
         chunks, and build an in-memory vector store using OpenAI embeddings.
@@ -103,33 +95,27 @@ class RAG(CodedTool):
         :return: In-memory vector store containing the embedded document chunks
         """
 
-        # Concurrently load documents from all URLs
-        # loader = WebBaseLoader(urls)
-        # docs = []
-        # async for doc in loader.alazy_load():
-        #     docs.append(doc)
-        loader = PyPDFLoader(file_path=urls)
-        docs = await loader.aload()
+        loader = PyPDFLoader(file_path=url)
+        docs: List[Document] = await loader.aload()
 
         # Split documents into smaller chunks for better embedding and
         # retrieval
         text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-            chunk_size=100, chunk_overlap=50
-        )
+            chunk_size=100, chunk_overlap=50)
         doc_chunks: List[Document] = text_splitter.split_documents(docs)
 
         # Create an in-memory vector store with embeddings
-        vectorstore: InMemoryVectorStore =\
-            await InMemoryVectorStore.afrom_documents(
-                documents=doc_chunks,
-                collection_name="rag-in-memory",
-                embedding=OpenAIEmbeddings(),
-            )
+        vectorstore: InMemoryVectorStore = await InMemoryVectorStore.afrom_documents(
+            documents=doc_chunks,
+            collection_name="rag-in-memory",
+            embedding=OpenAIEmbeddings(),
+        )
 
         return vectorstore
 
     async def query_vectorstore(
-            self, vectorstore: InMemoryVectorStore,
+            self,
+            vectorstore: InMemoryVectorStore,
             query: str
     ) -> str:
         """

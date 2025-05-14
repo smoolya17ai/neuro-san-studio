@@ -7,17 +7,21 @@
 # Purchase of a commercial license is mandatory for any use of the
 # neuro-san-demos SDK Software in commercial settings.
 #
-from typing import Any, Dict, Union
 import os
-from pypdf import PdfReader
+from typing import Any
+from typing import Dict
+from typing import Union
+
 from neuro_san.interfaces.coded_tool import CodedTool
+from pypdf import PdfReader
 
 
 class ExtractDocs(CodedTool):
     """
-    CodedTool implementation extracts text from all PDFs in the given directory. 
+    CodedTool implementation extracts text from all PDFs in the given directory.
     Returns a dictionary mapping each PDF file name to its extracted text.
     """
+
     def __init__(self):
         self.default_path = ["coded_tools/airline_policy/knowdocs/Help Center.txt"]
 
@@ -26,11 +30,9 @@ class ExtractDocs(CodedTool):
             "Carry On Baggage": "coded_tools/airline_policy/knowdocs/baggage/carryon",
             "Checked Baggage": "coded_tools/airline_policy/knowdocs/baggage/checked",
             "Special Items": "coded_tools/airline_policy/knowdocs/baggage/special-items",
-
             "Military Personnel": "coded_tools/airline_policy/knowdocs/flight/military-personnel",
             "Mileage Plus": "coded_tools/airline_policy/knowdocs/flight/mileage-plus",
             "Basic Economy Restrictions": "coded_tools/airline_policy/knowdocs/flight/basic-econ",
-
             "International Checked Baggage": "coded_tools/airline_policy/knowdocs/international",
             "Embargoes": "coded_tools/airline_policy/knowdocs/international",
         }

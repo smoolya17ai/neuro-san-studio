@@ -16,7 +16,7 @@ The **Agent Network Designer** is a multi-agent system for creating multi-agent 
 
 This network follows a relatively rigid set of steps, with the top-level "front-man" agent giving a design request to the network_generator, then having the instruction_refiner agent refine the instructions of every agent one by one, then the top agent has the query_generator agent return some example usage queries for the new agent network, and finally, the produce_agent_network_hocon agent creates the hocon definition, appends the header, and saves it to file.
 
-This can be considered as an example of agent-oriented software, with a clear delineation of where we need to rely on LLMs (e.g., for creativity, language understanding, language generation) and where we should use code (e.g., to encode machne readable syntax such as is needed in a hocon agent definition file).
+This can be considered as an example of agent-oriented software, with a clear delineation of where we need to rely on LLMs (e.g., for creativity, language understanding, language generation) and where we should use code (e.g., to encode machine readable syntax such as is needed in a hocon agent definition file).
 
 Note the use of sly_data in the coded tools for storing and passing around the agent network data structure. Agents use coded tools for adding agents to this data structure, or for refining the description of a specific agent. 
 

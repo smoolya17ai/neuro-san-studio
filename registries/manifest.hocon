@@ -16,7 +16,7 @@
     "airline_policy.hocon": true,
     "advanced_calculator.hocon": true,
     "smart_home.hocon": true,
-    "smart_home_onf.hocon": true,
+    "smart_home_include.hocon": true,
     "agent_network_designer.hocon": true,
     "agent_network_generator.hocon" : true,
     "music_nerd.hocon": true,
@@ -30,8 +30,15 @@
     "cpg_agents.hocon": true,
     "insurance_agents.hocon": true,
     "intranet_agents.hocon": true,
+    "intranet_agents_with_tools.hocon": true,
     "retail_ops_and_customer_service.hocon": true,
     "six_thinking_hats.hocon": true,
     "telco_network_support.hocon": true,
     "agentic_rag.hocon": true,
+    "kwik_agents.hocon": true,
+    # Before turn on and run the following agent network, make sure that:
+    # The mcp server is running.
+    # The server can be found at custom_mcp_servers/mcp_bmi_sse/bmi_server.py and run by command
+    # python bmi_server.py
+    "mcp_bmi_sse.hocon": false,
 }

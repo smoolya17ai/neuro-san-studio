@@ -59,7 +59,7 @@
                     "required": ["query"]
                 }
             },
-            "class": "rag.RAG"
+            "class": "rag.Rag"
         },
         # Retrieves messages from a specified Slack channel.
         {
