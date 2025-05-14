@@ -11,15 +11,17 @@ import argparse
 import glob
 import os
 import signal
+import socket
 import subprocess
 import sys
 import threading
 import time
+from typing import Any
+from typing import Dict
 
 from dotenv import load_dotenv
 
 
-# pylint: disable=too-many-instance-attributes
 class NeuroSanRunner:
     """Command-line tool to run the Neuro SAN server and web client."""
 
@@ -34,29 +36,40 @@ class NeuroSanRunner:
         print(f"Root directory: {self.root_dir}")
         self.load_env_variables()
 
-        # Default Configuration
-        self.manifest_update_period_seconds = int(os.getenv("AGENT_MANIFEST_UPDATE_PERIOD_SECONDS", "5"))
-        self.neuro_san_server_host = os.getenv("NEURO_SAN_SERVER_HOST", "localhost")
-        self.neuro_san_server_port = int(os.getenv("NEURO_SAN_SERVER_PORT", "30013"))
-        self.nsflow_port = int(os.getenv("NSFLOW_PORT", "4173"))
-        self.neuro_san_web_client_port = int(os.getenv("NEURO_SAN_WEB_CLIENT_PORT", "5003"))
         thinking_file = "C:\\tmp\\agent_thinking.txt" if self.is_windows else "/tmp/agent_thinking.txt"
-        self.thinking_file = os.getenv("THINKING_FILE", thinking_file)
-        self.agent_manifest_file = os.getenv(
-            "AGENT_MANIFEST_FILE", os.path.join(self.root_dir, "registries", "manifest.hocon")
-        )
-        self.agent_tool_path = os.getenv("AGENT_TOOL_PATH", os.path.join(self.root_dir, "coded_tools"))
+
+        # Default Configuration
+        self.args: Dict[str, Any] = {
+            "server_host": os.getenv("NEURO_SAN_SERVER_HOST", "localhost"),
+            "server_port": int(os.getenv("NEURO_SAN_SERVER_PORT", "30013")),
+            "server_connection": str(os.getenv("NEURO_SAN_SERVER_CONNECTION", "grpc")),
+            "manifest_update_period_seconds": int(os.getenv("AGENT_MANIFEST_UPDATE_PERIOD_SECONDS", "5")),
+            "default_sly_data": str(os.getenv("DEFAULT_SLY_DATA", "")),
+            "nsflow_host": os.getenv("NSFLOW_HOST", "localhost"),
+            "nsflow_port": int(os.getenv("NSFLOW_PORT", "4173")),
+            "nsflow_log_level": os.getenv("NSFLOW_LOG_LEVEL", "info"),
+            "vite_api_protocol": os.getenv("VITE_API_PROTOCOL", "http"),
+            "vite_ws_protocol": os.getenv("VITE_WS_PROTOCOL", "ws"),
+            "neuro_san_web_client_port": int(os.getenv("NEURO_SAN_WEB_CLIENT_PORT", "5003")),
+            "thinking_file": os.getenv("THINKING_FILE", thinking_file),
+            # Ensure all paths are resolved relative to `self.root_dir`
+            "agent_manifest_file": os.getenv(
+                "AGENT_MANIFEST_FILE", os.path.join(self.root_dir, "registries", "manifest.hocon")
+            ),
+            "agent_tool_path": os.getenv("AGENT_TOOL_PATH", os.path.join(self.root_dir, "coded_tools")),
+            "logs_dir": os.path.join(self.root_dir, "logs"),
+        }
+
+        # Ensure logs directory exists
+        os.makedirs("logs", exist_ok=True)
 
         # Parse command-line arguments
-        self.config = self.parse_args()
+        self.args.update(self.parse_args())
 
         # Process references
         self.server_process = None
         self.flask_webclient_process = None
         self.nsflow_process = None
-
-        # Ensure logs directory exists
-        os.makedirs("logs", exist_ok=True)
 
     def load_env_variables(self):
         """Load .env file from project root and set variables."""
@@ -75,25 +88,25 @@ class NeuroSanRunner:
         )
 
         parser.add_argument(
-            "--server-host", type=str, default=self.neuro_san_server_host, help="Host address for the Neuro SAN server"
+            "--server-host", type=str, default=self.args["server_host"], help="Host address for the Neuro SAN server"
         )
         parser.add_argument(
-            "--server-port", type=int, default=self.neuro_san_server_port, help="Port number for the Neuro SAN server"
+            "--server-port", type=int, default=self.args["server_port"], help="Port number for the Neuro SAN server"
         )
         parser.add_argument(
             "--nsflow-port",
             type=int,
-            default=self.nsflow_port,
+            default=self.args["nsflow_port"],
             help="Port number for the nsflow client",
         )
         parser.add_argument(
             "--web-client-port",
             type=int,
-            default=self.neuro_san_web_client_port,
+            default=self.args["neuro_san_web_client_port"],
             help="Port number for the web client",
         )
         parser.add_argument(
-            "--thinking-file", type=str, default=self.thinking_file, help="Path to the agent thinking file"
+            "--thinking-file", type=str, default=self.args["thinking_file"], help="Path to the agent thinking file"
         )
         parser.add_argument("--no-html", action="store_true", help="Don't generate html for network diagrams")
         parser.add_argument(
@@ -128,36 +141,37 @@ class NeuroSanRunner:
         print("Setting environment variables...\n")
         # Common env variables
         os.environ["PYTHONPATH"] = self.root_dir
-        os.environ["AGENT_MANIFEST_FILE"] = self.agent_manifest_file
-        os.environ["AGENT_TOOL_PATH"] = self.agent_tool_path
-        os.environ["AGENT_MANIFEST_UPDATE_PERIOD_SECONDS"] = str(self.manifest_update_period_seconds)
+        os.environ["AGENT_MANIFEST_FILE"] = self.args["agent_manifest_file"]
+        os.environ["AGENT_TOOL_PATH"] = self.args["agent_tool_path"]
+        os.environ["NEURO_SAN_SERVER_CONNECTION"] = self.args["server_connection"]
+        os.environ["AGENT_MANIFEST_UPDATE_PERIOD_SECONDS"] = str(self.args["manifest_update_period_seconds"])
         print(f"PYTHONPATH set to: {os.environ['PYTHONPATH']}")
         print(f"AGENT_MANIFEST_FILE set to: {os.environ['AGENT_MANIFEST_FILE']}")
         print(f"AGENT_TOOL_PATH set to: {os.environ['AGENT_TOOL_PATH']}")
+        print(f"NEURO_SAN_SERVER_CONNECTION set to: {os.environ['NEURO_SAN_SERVER_CONNECTION']}")
         print(f"AGENT_MANIFEST_UPDATE_PERIOD_SECONDS set to: {os.environ['AGENT_MANIFEST_UPDATE_PERIOD_SECONDS']}\n")
 
         # Client-only env variables
-        if not self.config["server_only"]:
-            if self.config["use_flask_web_client"]:
-                os.environ["NEURO_SAN_WEB_CLIENT_PORT"] = str(self.config["web_client_port"])
+        if not self.args["server_only"]:
+            if self.args["use_flask_web_client"]:
+                os.environ["NEURO_SAN_WEB_CLIENT_PORT"] = str(self.args["web_client_port"])
                 print(f"NEURO_SAN_WEB_CLIENT_PORT set to: {os.environ['NEURO_SAN_WEB_CLIENT_PORT']}")
             else:
-                os.environ["NSFLOW_PORT"] = str(self.config["nsflow_port"])
+                os.environ["NSFLOW_PORT"] = str(self.args["nsflow_port"])
+                os.environ["VITE_API_PROTOCOL"] = str(self.args["vite_api_protocol"])
+                os.environ["VITE_WS_PROTOCOL"] = str(self.args["vite_ws_protocol"])
                 print(f"NSFLOW_PORT set to: {os.environ['NSFLOW_PORT']}")
+                print(f"VITE_API_PROTOCOL set to: {os.environ['VITE_API_PROTOCOL']}")
+                print(f"VITE_WS_PROTOCOL set to: {os.environ['VITE_WS_PROTOCOL']}")
                 # Set env variable for using nsflow in client-only mode
-                if self.config["client_only"]:
+                if self.args["client_only"]:
                     os.environ["NSFLOW_CLIENT_ONLY"] = "True"
                     print(f"NSFLOW_CLIENT_ONLY set to: {os.environ['NSFLOW_CLIENT_ONLY']}")
 
         # Server-only env variables
-        if not self.config["client_only"]:
-            os.environ["NEURO_SAN_SERVER_HOST"] = self.config["server_host"]
-            os.environ["NEURO_SAN_SERVER_PORT"] = str(self.config["server_port"])
-
-            # Adding these two below only because nsflow depends on these variables that are named differently
-            # These should be removed when the nsflow client is updated to use consistent environment variable names
-            os.environ["NS_SERVER_HOST"] = self.config["server_host"]
-            os.environ["NS_SERVER_PORT"] = str(self.config["server_port"])
+        if not self.args["client_only"]:
+            os.environ["NEURO_SAN_SERVER_HOST"] = self.args["server_host"]
+            os.environ["NEURO_SAN_SERVER_PORT"] = str(self.args["server_port"])
 
             print(f"NEURO_SAN_SERVER_HOST set to: {os.environ['NEURO_SAN_SERVER_HOST']}")
             print(f"NEURO_SAN_SERVER_PORT set to: {os.environ['NEURO_SAN_SERVER_PORT']}\n")
@@ -230,10 +244,10 @@ class NeuroSanRunner:
             "-m",
             "neuro_san.service.agent_main_loop",
             "--port",
-            str(self.config["server_port"]),
+            str(self.args["server_port"]),
         ]
         self.server_process = self.start_process(command, "NeuroSan", "logs/server.log")
-        print("NeuroSan server started on port: ", self.config["server_port"])
+        print("NeuroSan server started on port: ", self.args["server_port"])
 
     def start_nsflow(self):
         """Start nsflow client."""
@@ -245,12 +259,12 @@ class NeuroSanRunner:
             "uvicorn",
             "nsflow.backend.main:app",
             "--port",
-            str(self.config["nsflow_port"]),
+            str(self.args["nsflow_port"]),
             "--reload",
         ]
 
         self.nsflow_process = self.start_process(command, "nsflow", "logs/nsflow.log")
-        print("nsflow client started on port: ", self.config["nsflow_port"])
+        print("nsflow client started on port: ", self.args["nsflow_port"])
 
     def start_flask_web_client(self):
         """Start the Flask web client."""
@@ -261,16 +275,16 @@ class NeuroSanRunner:
             "-m",
             "neuro_san_web_client.app",
             "--server-host",
-            self.config["server_host"],
+            self.args["server_host"],
             "--server-port",
-            str(self.config["server_port"]),
+            str(self.args["server_port"]),
             "--web-client-port",
-            str(self.config["web_client_port"]),
+            str(self.args["web_client_port"]),
             "--thinking-file",
-            self.config["thinking_file"],
+            self.args["thinking_file"],
         ]
         self.flask_webclient_process = self.start_process(command, "FlaskWebClient", "logs/webclient.log")
-        print("Flask web client started on port: ", self.config["web_client_port"])
+        print("Flask web client started on port: ", self.args["web_client_port"])
 
     # pylint: disable=unused-argument
     def signal_handler(self, signum, frame):
@@ -300,9 +314,81 @@ class NeuroSanRunner:
 
         sys.exit(0)
 
+    def is_port_open(self, host: str, port: int, timeout=1.0) -> bool:
+        """
+        Check if a port is open on a given host.
+        :return: True if the port is open, False otherwise.
+        """
+        # Create a socket and set a timeout
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.settimeout(timeout)
+            try:
+                sock.connect((host, port))
+                return True
+            except (ConnectionRefusedError, TimeoutError, OSError):
+                return False
+
+    def _check_port_conflicts(self) -> list[str]:
+        """Check if any of the ports are in use."""
+        port_conflicts = []
+
+        if not self.args["server_only"] and self.args["nsflow_host"] == "localhost":
+            if self.is_port_open(self.args["nsflow_host"], self.args["nsflow_port"]):
+                port_conflicts.append(f"NSFlow client port {self.args['nsflow_port']} is already in use.")
+
+        if not self.args["client_only"] and self.args["server_host"] == "localhost":
+            if self.is_port_open(self.args["server_host"], self.args["server_port"]):
+                port_conflicts.append(f"Neuro-San server port {self.args['server_port']} is already in use.")
+
+        if self.args.get("use_flask_web_client") and self.args["flask_host"] == "localhost":
+            if self.is_port_open(self.args["flask_host"], self.args["flask_port"]):
+                port_conflicts.append(f"Flask web client port {self.args['flask_port']} is already in use.")
+
+        return port_conflicts
+
+    def conditional_start_servers(self):
+        """
+        Start neuro-san, nsflow, and flask client based on conditions while running on localhost.
+        Exit if any port is in use.
+        """
+        client_only = self.args["client_only"]
+        server_only = self.args["server_only"]
+        use_flask = self.args.get("use_flask_web_client", False)
+        no_html = self.args.get("no_html", False)
+
+        if client_only and server_only:
+            print("Cannot use --client-only and --server-only together.")
+            sys.exit(1)
+
+        port_conflicts = self._check_port_conflicts()
+
+        # Exit early if any conflict is found
+        if port_conflicts:
+            print("\n" + "=" * 50)
+            for msg in port_conflicts:
+                print(msg)
+            print("=" * 50 + "\nExiting due to port conflicts.\n")
+            sys.exit(1)
+
+        # Start services only if ports are free
+        if not server_only:
+            if use_flask:
+                if not no_html:
+                    self.generate_html_files()
+                self.start_flask_web_client()
+                print("Flask web-client is now running.")
+            else:
+                self.start_nsflow()
+                print("nsflow client is now running.")
+
+        if not client_only:
+            self.start_neuro_san()
+            time.sleep(3)
+            print("Neuro-San server is now running.")
+
     def run(self):
         """Run the Neuro SAN server and a client."""
-        print("\nRun Config:\n" + "\n".join(f"{key}: {value}" for key, value in self.config.items()) + "\n")
+        print("\nInitial Run Config:\n" + "\n".join(f"{key}: {value}" for key, value in self.args.items()) + "\n")
 
         # Set environment variables
         self.set_environment_variables()
@@ -315,30 +401,12 @@ class NeuroSanRunner:
         if not self.is_windows:
             signal.signal(signal.SIGTERM, self.signal_handler)  # Handle kill command (not available on Windows)
 
-        # Handle mutually exclusive modes
-        client_only = self.config["client_only"]
-        server_only = self.config["server_only"]
-
-        if client_only and server_only:
-            print("[x] You cannot specify both --client-only and --server-only at the same time.")
-            sys.exit(1)
-
-        if not server_only:
-            if self.config["use_flask_web_client"]:
-                # Generate HTML files unless asked not to
-                if not self.config["no_html"]:
-                    self.generate_html_files()
-                self.start_flask_web_client()
-            else:
-                self.start_nsflow()
-
-        if not client_only:
-            self.start_neuro_san()
-            time.sleep(3)  # Give the server some time to start
+        # Start all relevant processes
+        self.conditional_start_servers()
 
         print("\n" + "=" * 50 + "\n")
         print("All processes now running.")
-        print("Press Ctrl+C to stop the server.")
+        print("Press Ctrl+C to stop any running processes.")
         print("\n" + "=" * 50 + "\n")
 
         # Wait on active processes to finish

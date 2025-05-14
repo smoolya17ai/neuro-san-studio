@@ -51,10 +51,7 @@ class Rag(CodedTool):
             once.
         """
 
-    async def async_invoke(
-            self, args: Dict[str, Any],
-            sly_data: Dict[str, Any]
-    ) -> str:
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         Load a PDF from URL, build a vector store, and run a query against it.
 
@@ -100,8 +97,7 @@ class Rag(CodedTool):
 
         # Split documents into smaller chunks for better embedding and
         # retrieval
-        text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-            chunk_size=100, chunk_overlap=50)
+        text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(chunk_size=100, chunk_overlap=50)
         doc_chunks: List[Document] = text_splitter.split_documents(docs)
 
         # Create an in-memory vector store with embeddings
@@ -113,11 +109,7 @@ class Rag(CodedTool):
 
         return vectorstore
 
-    async def query_vectorstore(
-            self,
-            vectorstore: InMemoryVectorStore,
-            query: str
-    ) -> str:
+    async def query_vectorstore(self, vectorstore: InMemoryVectorStore, query: str) -> str:
         """
         Query the given vector store using the provided query string
         and return the combined content of retrieved documents.
