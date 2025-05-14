@@ -49,11 +49,7 @@ class Slack(CodedTool):
                 once.
         """
 
-    async def async_invoke(
-            self,
-            args: Dict[str, Any],
-            sly_data: Dict[str, Any]
-    ) -> str:
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         Get messages on the provided slack channel.
 
@@ -93,9 +89,7 @@ class Slack(CodedTool):
             # Convert the str to list
             channel_id_name_list: list = ast.literal_eval(channel_id_name_str)
             # Make a lookup table with channel names as keys and ids as values
-            channel_id_name_dict: dict = {
-                channel["name"]: channel["id"] for channel in channel_id_name_list
-            }
+            channel_id_name_dict: dict = {channel["name"]: channel["id"] for channel in channel_id_name_list}
 
             # Get channel id and return the messages if possible.
             channel_id: str = channel_id_name_dict.get(channel_name)

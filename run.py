@@ -16,12 +16,12 @@ import subprocess
 import sys
 import threading
 import time
-from typing import Any, Dict
+from typing import Any
+from typing import Dict
 
 from dotenv import load_dotenv
 
 
-# pylint: disable=too-many-instance-attributes
 class NeuroSanRunner:
     """Command-line tool to run the Neuro SAN server and web client."""
 
@@ -62,7 +62,7 @@ class NeuroSanRunner:
 
         # Ensure logs directory exists
         os.makedirs("logs", exist_ok=True)
-        
+
         # Parse command-line arguments
         self.args.update(self.parse_args())
 
@@ -159,7 +159,7 @@ class NeuroSanRunner:
             else:
                 os.environ["NSFLOW_PORT"] = str(self.args["nsflow_port"])
                 os.environ["VITE_API_PROTOCOL"] = str(self.args["vite_api_protocol"])
-                os.environ["VITE_WS_PROTOCOL"] =  str(self.args["vite_ws_protocol"])
+                os.environ["VITE_WS_PROTOCOL"] = str(self.args["vite_ws_protocol"])
                 print(f"NSFLOW_PORT set to: {os.environ['NSFLOW_PORT']}")
                 print(f"VITE_API_PROTOCOL set to: {os.environ['VITE_API_PROTOCOL']}")
                 print(f"VITE_WS_PROTOCOL set to: {os.environ['VITE_WS_PROTOCOL']}")
@@ -313,7 +313,7 @@ class NeuroSanRunner:
                 os.killpg(os.getpgid(self.nsflow_process.pid), signal.SIGKILL)
 
         sys.exit(0)
-    
+
     def is_port_open(self, host: str, port: int, timeout=1.0) -> bool:
         """
         Check if a port is open on a given host.
@@ -325,9 +325,27 @@ class NeuroSanRunner:
             try:
                 sock.connect((host, port))
                 return True
-            except Exception:
+            except (ConnectionRefusedError, TimeoutError, OSError):
                 return False
-            
+
+    def _check_port_conflicts(self) -> list[str]:
+        """Check if any of the ports are in use."""
+        port_conflicts = []
+
+        if not self.args["server_only"] and self.args["nsflow_host"] == "localhost":
+            if self.is_port_open(self.args["nsflow_host"], self.args["nsflow_port"]):
+                port_conflicts.append(f"NSFlow client port {self.args['nsflow_port']} is already in use.")
+
+        if not self.args["client_only"] and self.args["server_host"] == "localhost":
+            if self.is_port_open(self.args["server_host"], self.args["server_port"]):
+                port_conflicts.append(f"Neuro-San server port {self.args['server_port']} is already in use.")
+
+        if self.args.get("use_flask_web_client") and self.args["flask_host"] == "localhost":
+            if self.is_port_open(self.args["flask_host"], self.args["flask_port"]):
+                port_conflicts.append(f"Flask web client port {self.args['flask_port']} is already in use.")
+
+        return port_conflicts
+
     def conditional_start_servers(self):
         """
         Start neuro-san, nsflow, and flask client based on conditions while running on localhost.
@@ -342,20 +360,7 @@ class NeuroSanRunner:
             print("Cannot use --client-only and --server-only together.")
             sys.exit(1)
 
-        # Port conflict checks
-        port_conflicts = []
-
-        if not server_only and self.args["nsflow_host"] == "localhost":
-            if self.is_port_open(self.args["nsflow_host"], self.args["nsflow_port"]):
-                port_conflicts.append(f"NSFlow client port {self.args['nsflow_port']} is already in use.")
-
-        if not client_only and self.args["server_host"] == "localhost":
-            if self.is_port_open(self.args["server_host"], self.args["server_port"]):
-                port_conflicts.append(f"Neuro-San server port {self.args['server_port']} is already in use.")
-
-        if use_flask and self.args["flask_host"] == "localhost":
-            if self.is_port_open(self.args["flask_host"], self.args["flask_port"]):
-                port_conflicts.append(f"Flask web client port {self.args['flask_port']} is already in use.")
+        port_conflicts = self._check_port_conflicts()
 
         # Exit early if any conflict is found
         if port_conflicts:
@@ -374,7 +379,7 @@ class NeuroSanRunner:
                 print("Flask web-client is now running.")
             else:
                 self.start_nsflow()
-                print("NSFlow client is now running.")
+                print("nsflow client is now running.")
 
         if not client_only:
             self.start_neuro_san()
@@ -383,7 +388,7 @@ class NeuroSanRunner:
 
     def run(self):
         """Run the Neuro SAN server and a client."""
-        print("\nRun Config:\n" + "\n".join(f"{key}: {value}" for key, value in self.args.items()) + "\n")
+        print("\nInitial Run Config:\n" + "\n".join(f"{key}: {value}" for key, value in self.args.items()) + "\n")
 
         # Set environment variables
         self.set_environment_variables()
@@ -401,7 +406,7 @@ class NeuroSanRunner:
 
         print("\n" + "=" * 50 + "\n")
         print("All processes now running.")
-        print("Press Ctrl+C to stop the server.")
+        print("Press Ctrl+C to stop any running processes.")
         print("\n" + "=" * 50 + "\n")
 
         # Wait on active processes to finish
