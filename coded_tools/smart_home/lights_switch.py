@@ -61,3 +61,9 @@ class LightsSwitch(CodedTool):
         print(message)
         print(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return message
+
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+        """
+        Delegates to the synchronous invoke method because it's quick, non-blocking.
+        """
+        return self.invoke(args, sly_data)
