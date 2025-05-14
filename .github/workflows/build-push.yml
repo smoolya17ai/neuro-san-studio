@@ -65,7 +65,7 @@ jobs:
         with:
           context: .
           file: ./deploy/Dockerfile
-          push: false
+          push: true
           tags: ${{ vars.ECR_REGISTRY }}/${{ vars.ECR_REPOSITORY }}:${{ steps.set-vars.outputs.image_tag }}
 
   promote-to-manifest:
