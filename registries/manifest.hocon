@@ -41,4 +41,5 @@
     # The server can be found at custom_mcp_servers/mcp_bmi_sse/bmi_server.py and run by command
     # python bmi_server.py
     "mcp_bmi_sse.hocon": false,
+    "a2a_research_report.hocon": true,
 }
