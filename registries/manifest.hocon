@@ -1,5 +1,5 @@
 
-# Copyright (C) 2023-2024 Cognizant Digital Business, Evolutionary AI.
+# Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
 # All Rights Reserved.
 # Issued under the Academic Public License.
 #
@@ -13,11 +13,20 @@
     # Currently we list each hocon file we want to serve as a key with a boolean value.
     # Eventually we might have a dictionary value with server specifications for each.
     "hello_world.hocon": true,
+    "insurance_underwriting_agents.hocon": true,
     "airline_policy.hocon": true,
     "advanced_calculator.hocon": true,
     "smart_home.hocon": true,
     "smart_home_include.hocon": true,
     "agent_network_designer.hocon": true,
+    "consumer_decision_assistant.hocon": true,
+    "airbnb.hocon": true,
+    "expedia.hocon": true,
+    "macys.hocon": true,
+    "carmax.hocon": true,
+    "booking.hocon": true,
+    "website_search.hocon": true,
+    "kwik_agents.hocon": true
     "agent_network_generator.hocon" : true,
     "music_nerd.hocon": true,
     "music_nerd_local.hocon": true,
@@ -41,4 +50,15 @@
     # The server can be found at custom_mcp_servers/mcp_bmi_sse/bmi_server.py and run by command
     # python bmi_server.py
     "mcp_bmi_sse.hocon": false,
+    "HROnboardingProcess.hocon": true
+
+    "MacysAgentSystem.hocon": true,
+    "TherapyVignetteSupervisors.hocon": true
+
+    "TelstraNetworkOrchestration.hocon": true,
+    "CognizantInfoSecThreatManagementAndResiliency.hocon": true,
+    "PentOps.hocon": true,
+    "TargetRetailChain.hocon": true,
+    "LinkedInJobSeekerSupportNetwork.hocon": true
+
 }
