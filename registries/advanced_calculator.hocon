@@ -159,8 +159,7 @@ Your sole purpose is to solve the mathematical problem using the given operation
                     "required": ["operation", "operands"]
                 }
             },
-            "class": "calculator_tool.CalculatorCodedTool",
-            "command": "Call the API to solve the mathematical problem using the given operation and operands."
+            "class": "calculator_tool.CalculatorCodedTool"
         },
     ]
 }

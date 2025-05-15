@@ -70,15 +70,7 @@ List such facts under a section header named 'Relevant facts from memory:'.
                     "required": ["new_fact", "topic"]
                 }
             },
-            "instructions": """
-{instructions_prefix}
-You add a new fact to memory.
-Use your tool, which will add the new fact.
-Here is an example for how to add a new fact:
-commit_to_memory("The user seems to be rather old.", "age")
-            """,
-            "class": "commit_to_memory.CommitToMemory",
-            "command": "Call the API to add a new fact to memory."
+            "class": "commit_to_memory.CommitToMemory"
         },
         {
             "name": "recall_memory",
@@ -95,14 +87,7 @@ commit_to_memory("The user seems to be rather old.", "age")
                     "required": ["topic"]
                 }
             },
-            "instructions": """
-{instructions_prefix}
-You retrieve facts from memory that are relevant to the given topic.
-For example:
-recall_memory("age")
-            """,
-            "class": "recall_memory.RecallMemory",
-            "command": "Call the API to retrieve facts from memory that are relevant to a given topic."
+            "class": "recall_memory.RecallMemory"
         },
         {
             "name": "list_topics",
@@ -118,12 +103,7 @@ recall_memory("age")
                     },
                 }
             },
-            "instructions": """
-{instructions_prefix}
-You retrieve the full list of topics for which we have stored memories.
-            """,
-            "class": "list_topics.ListTopics",
-            "command": "Call the API to retrieve the full list of topics for which we have stored memories."
+            "class": "list_topics.ListTopics"
         },
     ]
 }

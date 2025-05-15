@@ -78,8 +78,7 @@ Assist caller with the answer or solution to their inquiry by using your tool.
                     "required": ["inquiry"]
                 }
             },
-            "class": "agentforce_api.AgentforceAPI",
-            "command": "Call the API to get a response for the inquiry."
+            "class": "agentforce_api.AgentforceAPI"
         },
     ]
 }

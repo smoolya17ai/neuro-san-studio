@@ -68,13 +68,7 @@ relevant workflows and responsible nodes. Call your network_generator tool for t
                     "required": ["agent_network_name"]
                 }
             },
-            "instructions": """
-{instructions_prefix}
-You generate the complete hocon definition for an agent network and return it verbatim.
-Use your tool, which will create the hocon and return it to you.
-            """,
-            "class": "get_agent_network_hocon.GetAgentNetworkHocon",
-            "command": "Call the API to get the fully formatted hocon definition for the agent network."
+            "class": "get_agent_network_hocon.GetAgentNetworkHocon"
         },
         {
             "name": "network_generator",
@@ -150,15 +144,7 @@ Make agents granular so that you have at least a depth of three agents from the 
                     "required": ["agent_name", "instructions"]
                 }
             },
-            "instructions": """
-{instructions_prefix}
-You add an agent to an agent network.
-Use your tool, which will add the agent.
-Here is an example for how to add a network_engineer agent, with two down chains:
-add_agent("network_engineer", "You handle technical aspects of configuring and troubleshooting ethernet and optical networks at different locations for a telco with a B2B business. You configures and maintain network infrastructure and provide technical support when issues arise.", "network_ops_center_specialist, field_technician")
-            """,
-            "class": "add_agent.AddAgent",
-            "command": "Call the API to add an agent to the agent network."
+            "class": "add_agent.AddAgent"
         },
         {
             "name": "query_generator",
@@ -201,13 +187,7 @@ Make some of the examples transactional. If not stated, return no more than 3-4 
                     },
                 }
             },
-            "instructions": """
-{instructions_prefix}
-You generate the complete definition for an agent network and return it.
-Use your tool, which will create the definition string and return it to you.
-            """,
-            "class": "get_agent_network.GetAgentNetwork",
-            "command": "Call the API to get the full definition for the agent network."
+            "class": "get_agent_network.GetAgentNetwork"
         },
         {
             "name": "instruction_refiner",
@@ -258,23 +238,7 @@ Wrap the lines at around 120 characters. Write it as if you are telling the agen
                     "required": ["agent_name", "instructions"]
                 }
             },
-            "instructions": """
-{instructions_prefix}
-You set the instructions for an agent in an agent network.
-Use your tool, which will set the instructions.
-Here is an example for how to set the instructions for a network_engineer agent:
-set_agent_instructions("network_engineer",
-"You are responsible for all technical aspects of ethernet and optical network configuration, deployment, maintenance, and troubleshooting across customer and internal environments. Your role is vital to ensuring that our network infrastructure functions reliably and meets our enterprise service-level expectations.
-Begin by reviewing detailed service orders or incident tickets to understand the required configuration or the nature of the reported issue. For new service deployments, translate the customer's technical requirements into precise network designs and configuration parameters, including VLANs, routing protocols, interface assignments, and optical paths.
-You are expected to log into core and edge network devices remotely to perform configurations using standardized templates while ensuring compliance with security and operational policies. You validate and document all changes clearly to maintain traceability.
-When handling incidents or performance issues, conduct thorough diagnostics using command-line tools, SNMP data, and network monitoring systems. Identify root causes and apply corrective actions such as reconfiguring interfaces, rerouting traffic, or coordinating hardware replacements. Be proactive in flagging recurring issues that may require design enhancements or systemic fixes.
-You are responsible for maintaining accurate records of all configurations and interventions in the appropriate systems of record. Ensure that all changes are tested in accordance with operational policies and escalate any deviations from normal behavior immediately.
-Clear, detailed communication is essential when handing over tasks for physical implementation or further escalation. You must document all work instructions precisely and provide supporting data like interface stats, traceroutes, or config deltas when needed.
-Your approach must reflect our company’s commitment to operational excellence, reliability, and responsive customer support. You are expected to stay current with networking technologies and evolving best practices to continually enhance our delivery and support capabilities."
-)
-            """,
-            "class": "set_agent_instructions.SetAgentInstructions",
-            "command": "Call the API to set the instructions for an agent in the agent network."
+            "class": "set_agent_instructions.SetAgentInstructions"
         },
     ]
 }
