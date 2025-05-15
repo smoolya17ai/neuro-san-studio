@@ -344,6 +344,7 @@ Alignment with Airbnb’s Values:
 - Excellence: Ensure a smooth and stress-free booking process by addressing all questions and minimizing friction.
       """,
       "command": "{aaosa_command}"
+      "tools": ["AirbnbSearch"]
     },
     {
       "name": "travel_support_agent",
@@ -392,5 +393,29 @@ Alignment with Airbnb Values:
       """,
       "command": "{aaosa_command}"
     }
-  ]
+    {
+        "name": "AirbnbSearch",
+        "function": {
+            "description": """
+First, use your tool to search AirBnb for options.
+Returns the URL to various AirBnb accommodation and travel options.
+            """,
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "inquiry": {
+                        "type": "string",
+                        "description": "URL and Search terms to return options."
+                    },
+                },
+                "required": ["inquiry"]
+            }
+        },
+        "instructions": """
+            Searches airbnb.com using search terms that would help respond to the inquiry.
+        """,
+        "command": "Call the API to get a list of URLs for available options.",
+        "tools": ["/website_search"]
+    },
+   ]
 }
