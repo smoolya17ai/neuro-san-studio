@@ -14,6 +14,7 @@ crewAI agents for an A2A server example
 #
 # END COPYRIGHT
 
+# pylint: disable=import-error
 from crewai import Agent
 from crewai import Crew
 from crewai import LLM

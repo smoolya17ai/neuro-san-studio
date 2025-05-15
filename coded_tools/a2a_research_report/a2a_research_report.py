@@ -24,6 +24,7 @@ from typing import Any
 from typing import Dict
 from uuid import uuid4
 
+# pylint: disable=import-error
 from a2a.client import A2AClient
 from a2a.types import SendMessageResponse
 import httpx
