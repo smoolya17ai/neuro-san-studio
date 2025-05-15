@@ -1,4 +1,13 @@
-"""Example of how to use coded tool from a2a server"""
+
+"""
+Example of how to use coded tool as a2a client.
+
+Before running this coded tool
+- cloning the repo from https://github.com/google/a2a-python/tree/main
+- pip install .
+- run A2A server
+
+"""
 
 # Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
 # All Rights Reserved.
@@ -13,24 +22,26 @@
 
 from typing import Any
 from typing import Dict
+from uuid import uuid4
 
 from a2a.client import A2AClient
+from a2a.types import SendMessageResponse
 import httpx
-from uuid import uuid4
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
 
 class A2aResearchReport(CodedTool):
     """
-    CodedTool implementation which calculate BMI using a tool from mcp server
+    CodedTool as an A2A client that connects to a crewAI agents that write
+    a report on a given topic in A2A server.
     """
 
     async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
-        Calculate BMI.
+        Write a report on a given topic.
 
-        :param args: Dictionary containing 'weight' and 'height'.
+        :param args: Dictionary containing "topic".
         :param sly_data: A dictionary whose keys are defined by the agent
             hierarchy, but whose values are meant to be kept out of the
             chat stream.
@@ -44,20 +55,23 @@ class A2aResearchReport(CodedTool):
 
             Keys expected for this implementation are:
                 None
-        :return: BMI or error message
+        :return: A report or error message
         """
         # Extract arguments from the input dictionary
         topic: str = args.get("topic")
 
         if not topic:
-            return "Error: No weight provided."
+            return "Error: No topic provided."
 
-        # Adjust the timeout according to how long you expect the server needs to run
-        # before return the response.
-        async with httpx.AsyncClient(timeout=60.0) as httpx_client:
+        # It could take a long time before remote agents response.
+        # Adjust the timeout accordingly.
+        async with httpx.AsyncClient(timeout=600.0) as httpx_client:
             client = await A2AClient.get_client_from_agent_card_url(
+                # Make sure the A2A server is running and the port here
+                # matches the one in the server.
                 httpx_client, 'http://localhost:9999'
             )
+            # Send the message to server
             send_message_payload: dict[str, Any] = {
                 "message": {
                     "role": "user",
@@ -68,30 +82,9 @@ class A2aResearchReport(CodedTool):
                 },
             }
 
-            response = await client.send_message(payload=send_message_payload)
+            # Get response and parse to dictionary
+            response: SendMessageResponse = await client.send_message(payload=send_message_payload)
             result: Dict[str, Any] = response.model_dump(exclude_none=True)
-            return result["result"]["parts"][-1]["text"]
 
-        # neuro-san uses langchain-mcp-adapter to create mcp client
-        # In this example, there is only 1 server at localhost:8000
-        # however, client can be connected to multiple servers,
-        # and a server can also have multiple tools.
-        # Note that mcp server can contain tools, resources, and prompts
-        # but langchain-mcp-adapter only works with **tools**.
-        # async with MultiServerMCPClient(
-        #     {
-        #         # This key only used as a reference here and may be different
-        #         # from the actual name in mcp server.
-        #         "bmi": {
-        #             # sse is prefered over stdio as transport method.
-        #             # make sure the port here matches the one in  your server.
-        #             "url": "http://localhost:8000/sse",
-        #             "transport": "sse",
-        #         }
-        #     }
-        # ) as client:
-        #     # `get_tools` method returns a list of StructuredTool ordered by
-        #     # server and tool's order in the server, respectively.
-        #     # Note that to `invoke` or `ainvoke` for StructureTool require
-        #     # dictionary input.
-        #     return await client.get_tools()[0].ainvoke({"weight": weight, "height": height})
+            # Extract text from the response
+            return result["result"]["parts"][-1]["text"]

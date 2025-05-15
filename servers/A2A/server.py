@@ -1,6 +1,13 @@
 
 """
 A2A server example
+See https://github.com/google/a2a-python/tree/main/examples
+and https://google.github.io/A2A/specification
+
+Before running this server
+ - cloning the repo from https://github.com/google/a2a-python/tree/main then `pip install .`
+ - install crewai
+ - run server by `python server.py`
 """
 
 # Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
@@ -36,6 +43,8 @@ def main(host: str, port: int):
     :param host: The hostname or IP address where the server will run.
     :param port: The port number on which the server will listen.
     """
+
+    # Agent Skill describes a specific capability, function, or area of expertise the agent
     skill = AgentSkill(
         id="Research_Report",
         name="Research_Report",
@@ -44,6 +53,8 @@ def main(host: str, port: int):
         examples=["ai"],
     )
 
+    # Agent Card is a JSON document that describes the server's identity, capabilities, skills,
+    # and service endpoint URL
     agent_card = AgentCard(
         name="CrewAI Research Report Agent",
         description="Agent that does research and returns report on a given topic",

@@ -1,6 +1,7 @@
 
 """
 crewAI agent executor for an A2A server example
+See https://github.com/google/a2a-python/tree/main/examples
 """
 
 # Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
@@ -32,7 +33,7 @@ from agent import CrewAiResearchReport
 
 
 class CrewAiAgentExecutor(BaseAgentExecutor):
-    """Test AgentProxy Implementation."""
+    """Agent executor for crewAI agents"""
 
     def __init__(self):
         self.agent = CrewAiResearchReport()
@@ -45,12 +46,14 @@ class CrewAiAgentExecutor(BaseAgentExecutor):
         task: Task | None,
     ) -> None:
 
+        # Get topic from the request message
         params: MessageSendParams = request.params
-        topic = self._get_user_query(params)
+        topic: str = self._get_user_query(params)
 
         # invoke the underlying agent
         agent_response: dict[str, Any] = await self.agent.ainvoke(topic)
 
+        # return response message
         message: Message = Message(
             role=Role.agent,
             parts=[Part(TextPart(text=agent_response))],
