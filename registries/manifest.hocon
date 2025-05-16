@@ -37,8 +37,14 @@
     "agentic_rag.hocon": true,
     "kwik_agents.hocon": true,
     # Before turn on and run the following agent network, make sure that:
-    # The mcp server is running.
-    # The server can be found at custom_mcp_servers/mcp_bmi_sse/bmi_server.py and run by command
+    # The MCP server is running.
+    # The server can be found at servers/MCP/bmi_server.py and run by command
     # python bmi_server.py
     "mcp_bmi_sse.hocon": false,
+
+    # The following agnet network is an example of Agent2Agent (A2A) Protocol implementation:
+    # Make sure to start the A2A server before turning the agent on.
+    # The A2Aserver can be found at cservers/A2A/server.py and run by command
+    # python server.py
+    "a2a_research_report.hocon": false,
 }
