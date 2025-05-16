@@ -56,7 +56,7 @@ relevant workflows and responsible nodes. Call your network_generator tool for t
         {
             "name": "produce_agent_network_hocon",
             "function": {
-                "description": "I can generate the agent network hocon definition."
+                "description": "Generate the complete hocon definition for an agent network and return it verbatim."
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -120,7 +120,7 @@ Make agents granular so that you have at least a depth of three agents from the 
         {
             "name": "add_agent_to_network",
             "function": {
-                "description": "I can generate the agent network hocon definition."
+                "description": "Adds an agent to an agent network."
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -176,16 +176,7 @@ Make some of the examples transactional. If not stated, return no more than 3-4 
         {
             "name": "get_agent_network_tool",
             "function": {
-                "description": "I can get the agent network definition."
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "agent_network_description": {
-                            "type": "string",
-                            "description": "name of project, business or company or other description."
-                        },
-                    },
-                }
+                "description": "Get the agent network definition."
             },
             "class": "get_agent_network.GetAgentNetwork"
         },
@@ -222,7 +213,7 @@ Wrap the lines at around 120 characters. Write it as if you are telling the agen
         {
             "name": "set_agent_instructions_tool",
             "function": {
-                "description": "I can set the instructions for an agent in an agent network."
+                "description": "Set the instructions for an agent in an agent network."
                 "parameters": {
                     "type": "object",
                     "properties": {
