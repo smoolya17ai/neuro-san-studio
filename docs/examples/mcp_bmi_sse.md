@@ -20,7 +20,7 @@ The **MCP BMI SSE** is a simple agentic system that connects LLM to the MCP serv
     python bmi_server.py
     ```
 
-    Located at: [`bmi_server.py`](../../servers/MCP/bmi_server.py)
+    Located at: [`bmi_server.py`](../../servers/mcp/bmi_server.py)
 
 ---
 
@@ -43,7 +43,7 @@ The **MCP BMI SSE** is a simple agentic system that connects LLM to the MCP serv
   - **Description**: From docstring
   - **Arguments Schema**: From type hints
 - Default port: `8000` (can be customized)
-- Source: [`bmi_server.py`](../../servers/MCP/bmi_server.py)
+- Source: [`bmi_server.py`](../../servers/mcp/bmi_server.py)
 
 ---
 

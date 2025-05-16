@@ -14,13 +14,17 @@ The **A2A RESEARCH REPORT** is a simple agentic system that uses coded tool as a
 
 - This agent is **disabled by default**. To test it:
   - Manually enable it in the `manifest.hocon` file.
+  - As A2A is no published to pypi yet
+    - Clone the repo from [https://github.com/google/a2a-python/tree/main](https://github.com/google/a2a-python/tree/main)
+    - `pip install .`
+  - Install `crewai`
   - Run the A2A server:
 
     ```bash
     python server.py
     ```
 
-    Located at: [`server.py`](../../servers/A2A/server.py)
+    Located at: [`server.py`](../../servers/a2a/server.py)
 
 ---
 
@@ -38,12 +42,12 @@ The **A2A RESEARCH REPORT** is a simple agentic system that uses coded tool as a
 - Source: [`a2a_research_report.py`](../../coded_tools/a2a_research_report/a2a_research_report.py)
 
 ### A2A Server:
-- There are 3 files in servers/A2A
-  - **agent.py**: agent configuration
+- There are 3 files in `servers/a2a`
+  - **agent.py**: agent configuration adapted from [https://docs.crewai.com/quickstart](https://docs.crewai.com/quickstart)
   - **agent_executor.py**: run agent and prepare response message
   - **server.py**: connect to client and return response
 - Default port: `9999` (can be customized)
-- Source: [`server.py`](../../servers/A2A/server.py)
+- Source: [`server.py`](../../servers/a2a/server.py)
 
 ---
 
@@ -55,5 +59,8 @@ Check the following during development or troubleshooting:
 - `crewai` is installed on the server environment
 - A2A server is running
 - Client is connected to the correct port
+
+## Note
+- The A2A protocol is still under development. The client and server code in this example reflect the version as of May 14, 2025. Please note that the protocol may change in future updates.
 
 ---

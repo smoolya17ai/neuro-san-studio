@@ -1,4 +1,3 @@
-
 """
 Example of how to use coded tool as a2a client.
 
@@ -24,11 +23,11 @@ from typing import Any
 from typing import Dict
 from uuid import uuid4
 
+import httpx
+
 # pylint: disable=import-error
 from a2a.client import A2AClient
 from a2a.types import SendMessageResponse
-import httpx
-
 from neuro_san.interfaces.coded_tool import CodedTool
 
 
@@ -70,15 +69,14 @@ class A2aResearchReport(CodedTool):
             client = await A2AClient.get_client_from_agent_card_url(
                 # Make sure the A2A server is running and the port here
                 # matches the one in the server.
-                httpx_client, 'http://localhost:9999'
+                httpx_client,
+                "http://localhost:9999",
             )
             # Send the message to server
             send_message_payload: dict[str, Any] = {
                 "message": {
                     "role": "user",
-                    "parts": [
-                        {"type": "text", 'text': f"{topic}"}
-                    ],
+                    "parts": [{"type": "text", "text": f"{topic}"}],
                     "messageId": uuid4().hex,
                 },
             }

@@ -21,6 +21,7 @@ Before running this server
 #
 # END COPYRIGHT
 
+# pylint: disable=import-error
 import click
 
 from a2a.server import A2AServer
