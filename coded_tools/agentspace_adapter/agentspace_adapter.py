@@ -1,12 +1,25 @@
+import logging
+import os
 from typing import Any
 from typing import Dict
 from typing import Union
-import os
-import logging
 
-from google.api_core.client_options import ClientOptions
-from google.cloud import discoveryengine_v1 as discoveryengine
-from google.oauth2 import service_account
+# Check if the google-cloud-discoveryengine package is installed
+try:
+    from google.cloud import discoveryengine_v1 as discoveryengine
+except ImportError as e:
+    raise ImportError(
+        "The google-cloud-discoveryengine package is not installed. "
+        "Please install it using 'pip install google-cloud-discoveryengine'."
+    ) from e
+# Check if the google.api_core package is installed
+try:
+    from google.api_core.client_options import ClientOptions
+except ImportError as e:
+    raise ImportError(
+        "The google.api_core package is not installed. Please install it using 'pip install google-api-core'."
+    ) from e
+
 from neuro_san.interfaces.coded_tool import CodedTool
 
 
@@ -16,12 +29,15 @@ class AgentSpaceSearch(CodedTool):
     """
 
     def __init__(self):
+        """
+        Initialize the AgentSpaceSearch class.
+        """
         # Use your own GCP_PROJECT_ID
-        self.project_id = os.getenv("GCP_PROJECT_ID","gbg-project-gravity")
+        self.project_id = os.getenv("GCP_PROJECT_ID", "gbg-project-gravity")
         # Values: "global", "us", "eu"
-        self.location = os.getenv("GCP_LOCATION","global") 
-        # Use your own agent/engine_id created using your service account         
-        self.engine_id = os.getenv("ENGINE_ID","enterprise-search-17401609_1740160937596")
+        self.location = os.getenv("GCP_LOCATION", "global")
+        # Use your own agent/engine_id created using your service account
+        self.engine_id = os.getenv("ENGINE_ID", "enterprise-search-17401609_1740160937596")
 
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """
@@ -59,32 +75,39 @@ class AgentSpaceSearch(CodedTool):
         logger = logging.getLogger(self.__class__.__name__)
         logger.info(">>>>>>>>>>>>>>>>>>>WebsiteSearch>>>>>>>>>>>>>>>>>>")
         logger.info("Search Query: %s", str(search_query))
-        res = search_sample(
-            self.project_id, 
-            self.location, 
-            self.engine_id, 
-            search_query)
+        res = search_sample(self.project_id, self.location, self.engine_id, search_query)
         logger.info(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return res
 
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+        """Asynchronous version of the invoke method."""
+        # For this example, we will just call the synchronous method
+        return self.invoke(args, sly_data)
+
+
+# Helper function to perform the search
 def search_sample(
     project_id: str,
     location: str,
     engine_id: str,
-    search_query: str,) -> discoveryengine.services.search_service.pagers.SearchPager:
+    search_query: str,
+) -> discoveryengine.services.search_service.pagers.SearchPager:
+    """
+    Perform a search using the Discovery Engine API.
+    """
     #  For more information, refer to:
     # https://cloud.google.com/generative-ai-app-builder/docs/locations#specify_a_multi-region_for_your_data_store
     client_options = (
-        ClientOptions(api_endpoint=f"{location}-discoveryengine.googleapis.com")
-        if location != "global"
-        else None
+        ClientOptions(api_endpoint=f"{location}-discoveryengine.googleapis.com") if location != "global" else None
     )
 
     # Create a client
     client = discoveryengine.SearchServiceClient(client_options=client_options)
 
     # The full resource name of the search app serving config
-    serving_config = f"projects/{project_id}/locations/{location}/collections/default_collection/engines/{engine_id}/servingConfigs/default_config"
+    proj_loc = f"projects/{project_id}/locations/{location}/"
+    proj_loc_engine_id = f"{proj_loc}collections/default_collection/engines/{engine_id}/"
+    serving_config = f"{proj_loc_engine_id}/servingConfigs/default_config"
 
     # Optional - only supported for unstructured data: Configuration options for search.
     # Refer to the `ContentSearchSpec` reference for all supported fields:
@@ -92,9 +115,7 @@ def search_sample(
     content_search_spec = discoveryengine.SearchRequest.ContentSearchSpec(
         # For information about snippets, refer to:
         # https://cloud.google.com/generative-ai-app-builder/docs/snippets
-        snippet_spec=discoveryengine.SearchRequest.ContentSearchSpec.SnippetSpec(
-            return_snippet=True
-        ),
+        snippet_spec=discoveryengine.SearchRequest.ContentSearchSpec.SnippetSpec(return_snippet=True),
         # For information about search summaries, refer to:
         # https://cloud.google.com/generative-ai-app-builder/docs/get-search-summaries
         summary_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec(
