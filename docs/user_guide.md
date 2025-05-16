@@ -306,6 +306,7 @@ Look at [../registries/smart_home.hocon](../registries/smart_home.hocon) and in 
 to call an agent that calculates the body mass index (BMI).
 - Agentforce: [Agentforce](./examples/agentforce.md) is an agent network that delegates queries to a [Salesforce Agentforce](https://www.salesforce.com/agentforce/)
 agent to interact with a CRM system.
+- Agentspace: [Agentspace_adapter](./examples/agentspace_adapter.md) is an agent network adapter that delegates queries to a [Google Agentspace](https://cloud.google.com/agentspace/agentspace-enterprise/docs/overview) agent to interact with different data store connectors on google cloud.
 - CrewAI: (coming soon)
 - A2A: (coming soon)
  
