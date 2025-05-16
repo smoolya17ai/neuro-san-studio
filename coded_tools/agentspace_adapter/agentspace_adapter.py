@@ -45,9 +45,6 @@ class AgentSpaceSearch(CodedTool):
                 to the coded tool and whose values are the values passed for them
                 by the calling agent.  This dictionary is to be treated as read-only.
 
-                The argument dictionary expects the following keys:
-                    "search_query" the name of the One Cognizant app for which the URL is needed.
-
         :param sly_data: A dictionary whose keys are defined by the agent hierarchy,
                 but whose values are meant to be kept out of the chat stream.
 

@@ -53,7 +53,7 @@ Use your tool to respond to the inquiry.
             "name": "agentspace_adapter",
             "function": {
                 "description": """
-Assist caller with searching a query by using your tool.
+Query an Agentspace agent to assist and answer the search query.
 ```
                 """,
                 "parameters": {
@@ -61,14 +61,13 @@ Assist caller with searching a query by using your tool.
                     "properties": {
                         "search_query": {
                             "type": "string",
-                            "description": "Search terms to return options."
+                            "description": "Search query string to pass to Agentspace agent."
                         },
                     },
                     "required": ["search_query"]
                 }
             },
             "class": "agentspace_adapter.AgentSpaceSearch",
-            "command": "Call the API to get a response for the query."
         },
     ]
 }

@@ -63,7 +63,7 @@ See the [Agentspace documentation](https://cloud.google.com/agentspace/agentspac
 ## Description
 
 Agentspace is an agent network that communicates with a Google Agentspace agent to answer
-questions about any data store connecter configured with the agent.
+questions about any data store connector configured with the agent.
 
 ---
 
