@@ -203,8 +203,7 @@ You are an API that turns the TV ON or OFF.
                     "required": ["desired_status"]
                 }
             },
-            "class": "tv_switch.TVSwitch",
-            "command": "Call the API to turn the TV on or off"
+            "class": "tv_switch.TVSwitch"
         },
         {
             "name": "Kitchen_Switch_API",
@@ -224,8 +223,7 @@ You are an API that turns the kitchen lights ON or OFF.
                     "required": ["desired_status"]
                 }
             },
-            "class": "kitchen_lights_switch.KitchenLightsSwitch",
-            "command": "Call the API to turn the kitchen lights on or off"
+            "class": "kitchen_lights_switch.KitchenLightsSwitch"
         },
         {
             "name": "LivingRoom_Switch_API",
@@ -245,8 +243,7 @@ You are an API that turns the living room lights ON or OFF.
                     "required": ["desired_status"]
                 }
             },
-            "class": "living_room_lights_switch.LivingRoomLightsSwitch",
-            "command": "Call the API to turn the living room lights on or off"
+            "class": "living_room_lights_switch.LivingRoomLightsSwitch"
         },
     ]
 }
