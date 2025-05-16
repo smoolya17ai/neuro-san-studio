@@ -304,9 +304,9 @@ Look at [../registries/smart_home.hocon](../registries/smart_home.hocon) and in 
 
 - MCP: [MCP BMI SSE](./examples/mcp_bmi_sse.md) is an example of an agent network that uses [MCP](https://www.anthropic.com/news/model-context-protocol)
 to call an agent that calculates the body mass index (BMI).
+- A2A: [A2A research report](./examples/a2a_research_report.md) is an example of an agent network that uses a coded tool as an A2A client to
+connect to CrewAI agents running in an A2A server to write a report on a provided topic.
+- CrewAI: see the A2A example above.
 - Agentforce: [Agentforce](./examples/agentforce.md) is an agent network that delegates queries to a [Salesforce Agentforce](https://www.salesforce.com/agentforce/)
 agent to interact with a CRM system.
 - Agentspace: [Agentspace_adapter](./examples/agentspace_adapter.md) is an agent network adapter that delegates queries to a [Google Agentspace](https://cloud.google.com/agentspace/agentspace-enterprise/docs/overview) agent to interact with different data store connectors on google cloud.
-- CrewAI: (coming soon)
-- A2A: (coming soon)
- 
