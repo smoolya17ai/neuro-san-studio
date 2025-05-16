@@ -309,3 +309,4 @@ connect to CrewAI agents running in an A2A server to write a report on a provide
 - CrewAI: see the A2A example above.
 - Agentforce: [Agentforce](./examples/agentforce.md) is an agent network that delegates queries to a [Salesforce Agentforce](https://www.salesforce.com/agentforce/)
 agent to interact with a CRM system.
+- Agentspace: [Agentspace_adapter](./examples/agentspace_adapter.md) is an agent network adapter that delegates queries to a [Google Agentspace](https://cloud.google.com/agentspace/agentspace-enterprise/docs/overview) agent to interact with different data store connectors on google cloud.

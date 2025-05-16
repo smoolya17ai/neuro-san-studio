@@ -64,6 +64,10 @@ a **tool-calling** LLM that runs locally with Ollama.
 [Agentforce](./examples/agentforce.md) is an agent network that delegates to a Salesforce Agentforce agent
 to interact with a CRM system.
 
+## Agentspace
+
+[Agentspace](./examples/agentspace_adapter.md) is an agent network that delegates to a Google Agentspace agent to interact with different datastore connectors on google cloud.
+
 ## Agent Network Designer
 
 [Agent Network Designer](examples/agent_network_designer.md) is a multi-agent system to create multi-agent systems. Enter the name of an organization or describe the use-case and will create a agent network hocon for you and save it to your registries directory and give you some usage examples.

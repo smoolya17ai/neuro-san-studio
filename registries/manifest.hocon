@@ -26,6 +26,7 @@
     "music_nerd_pro_sly.hocon": true,
     "music_nerd_pro_sly_local.hocon": true,
     "agentforce.hocon": true,
+    "agentspace_adapter.hocon": false,
     "banking_ops.hocon": true,
     "cpg_agents.hocon": true,
     "insurance_agents.hocon": true,
