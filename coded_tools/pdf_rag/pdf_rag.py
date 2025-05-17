@@ -12,6 +12,7 @@
 # END COPYRIGHT
 
 import os
+import re
 from typing import Any
 from typing import Dict
 from typing import List
@@ -23,6 +24,8 @@ from langchain_core.vectorstores.base import VectorStoreRetriever
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from neuro_san.interfaces.coded_tool import CodedTool
+
+INVALID_PATH_PATTERN = r"[<>:\"|?*\x00-\x1F]"
 
 
 class PdfRag(CodedTool):
@@ -68,13 +71,23 @@ class PdfRag(CodedTool):
         self.save_vector_store = args.get("save_vector_store", False)
 
         vector_store_path: str = args.get("vector_store_path", "")
-        if os.path.isabs(vector_store_path):
-            # It's already an absolute path — use it directly
-            self.abs_vector_store_path = vector_store_path
-        else:
-            # Combine to relative path to base path to make absolute path
-            base_path: str = os.path.dirname(__file__)
-            self.abs_vector_store_path = os.path.abspath(os.path.join(base_path, vector_store_path))
+
+        if vector_store_path:
+            # Check for obviously invalid characters in filenames (basic check)
+            if re.search(INVALID_PATH_PATTERN, vector_store_path):
+                raise ValueError(f"Invalid vector_store_path: '{vector_store_path}'")
+
+            # Check file extension
+            if not vector_store_path.endswith(".json"):
+                raise ValueError(f"vector_store_path must be a .json file, got: '{vector_store_path}'")
+
+            if os.path.isabs(vector_store_path):
+                # It's already an absolute path — use it directly
+                self.abs_vector_store_path = vector_store_path
+            else:
+                # Combine to relative path to base path to make absolute path
+                base_path: str = os.path.dirname(__file__)
+                self.abs_vector_store_path = os.path.abspath(os.path.join(base_path, vector_store_path))
 
         # Validate presence of required inputs
         if not query:
@@ -96,18 +109,26 @@ class PdfRag(CodedTool):
         :return: In-memory vector store containing the embedded document chunks
         """
 
-        try:
-            vectorstore = InMemoryVectorStore.load(path=self.abs_vector_store_path, embedding=OpenAIEmbeddings())
-            print(f"Loaded vector store from: {self.abs_vector_store_path}")
-            return vectorstore
-        except FileNotFoundError:
-            print(f"Vector store not found. Creating from PDF: {urls}")
+        # If vector store file path is provided (abs_vector_store_path is not None), try to load vector store first.
+        if self.abs_vector_store_path:
+            try:
+                vectorstore = InMemoryVectorStore.load(path=self.abs_vector_store_path, embedding=OpenAIEmbeddings())
+                print(f"Loaded vector store from: {self.abs_vector_store_path}")
+                return vectorstore
+            except FileNotFoundError:
+                print(f"Vector store not found. Creating from PDF: {urls}")
 
         docs: List[Document] = []
         for url in urls:
-            loader = PyMuPDFLoader(file_path=url)
-            doc: List[Document] = await loader.aload()
-            docs.extend(doc)
+            try:
+                loader = PyMuPDFLoader(file_path=url)
+                doc: List[Document] = await loader.aload()
+                docs.extend(doc)
+                print(f"Successfully load pdf file from {url}")
+            except FileNotFoundError:
+                print(f"File not found: {url}")
+            except ValueError as e:
+                print(f"Invalid file path or unsupported input: {url} – {e}")
 
         # Split documents into smaller chunks for better embedding and
         # retrieval
@@ -121,7 +142,7 @@ class PdfRag(CodedTool):
             embedding=OpenAIEmbeddings(),
         )
 
-        if self.save_vector_store:
+        if self.save_vector_store and self.abs_vector_store_path:
             os.makedirs(os.path.dirname(self.abs_vector_store_path), exist_ok=True)
             vectorstore.dump(path=self.abs_vector_store_path)
             print(f"Vector store saved to: {self.abs_vector_store_path}")
@@ -142,6 +163,9 @@ class PdfRag(CodedTool):
 
         # Perform an asynchronous similarity search
         results: List[Document] = await retriever.ainvoke(query)
+
+        if results:
+            print("Retrieval completed!")
 
         # Concatenate the content of all retrieved documents
         return "\n\n".join(doc.page_content for doc in results)
