@@ -35,6 +35,7 @@
     "retail_ops_and_customer_service.hocon": true,
     "six_thinking_hats.hocon": true,
     "telco_network_support.hocon": true,
+    "pdf_rag.hocon": true,
     "agentic_rag.hocon": true,
     "kwik_agents.hocon": true,
     # Before turn on and run the following agent network, make sure that:
