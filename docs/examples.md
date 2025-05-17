@@ -35,6 +35,10 @@ This is a good way to learn about how to manage a state in a conversation.
 [Music Nerd Pro Sly](./examples/music_nerd_pro_sly.md) that uses
 a **tool-calling** LLM that runs locally with Ollama.
 
+## PDF RAG Asisstant
+
+[PDF RAG Assistant](./examples/pdf_rag.md) is an agent-based system that answers user queries by retrieving information from specified PDF files using Retrieval-Augmented Generation (RAG). It processes input through a frontman agent and a PDF retrieval tool, enabling accurate responses from static documents.
+
 ## MCP BMI SSE
 
 [MCP BMI SSE](./examples/mcp_bmi_sse.md) is an agent that call a tool in MCP server via server-sent events (sse) to calculate BMI. It serves as an example of how to connect to mcp servers in coded tools.
