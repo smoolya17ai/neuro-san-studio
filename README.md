@@ -1,11 +1,79 @@
-# Demos for the neuro-san library
-
-This repository contains a collection of demos for the [neuro-san library](https://github.com/leaf-ai/neuro-san).
-They should help developers get started with the library and understand how to create their own agent networks.
+<h2 align="center">Neuro SAN Studio</h2>
+<p align="center">
+  A playground for <a href="https://github.com/leaf-ai/neuro-san">Neuro SAN</a> — a customizable Multi-Agent Orchestration Framework.
+  <br>
+  <strong>Quickstart Friendly:</strong> This repo includes working examples to get started with <strong>Neuro SAN</strong>.<br>
+  Explore, extend, and experiment with custom multi-agent networks!
+</p>
 
 ---
 
-## Installation
+<p align="center">
+  Neuro SAN is the open-source library powering the Cognizant Neuro® AI Multi-Agent Accelerator, allowing domain experts, researchers and developers to immediately start prototyping and building agent networks across any industry vertical to transform their business operations with AI.
+</p>
+
+---
+
+<p align="center">
+  <!-- GitHub Stats -->
+  <img src="https://img.shields.io/github/stars/leaf-ai/neuro-san?style=social" alt="GitHub stars">
+  <img src="https://img.shields.io/github/forks/leaf-ai/neuro-san-studio?style=social" alt="GitHub forks">
+  <img src="https://img.shields.io/github/watchers/leaf-ai/neuro-san-studio?style=social" alt="GitHub watchers">
+</p>
+<p align="center">
+  <!-- Github Info -->
+  <img src="https://img.shields.io/github/last-commit/leaf-ai/neuro-san-studio" alt="Last Commit">
+  <img src="https://img.shields.io/github/issues/leaf-ai/neuro-san-studio" alt="Issues">
+  <img src="https://img.shields.io/github/issues-pr/leaf-ai/neuro-san-studio" alt="Pull Requests">
+  <img src="https://img.shields.io/github/commit-activity/m/leaf-ai/neuro-san" alt="commit activity">
+</p>
+
+<p align="center">
+  <!-- Pypi Stats -->
+  <a href="https://github.com/leaf-ai/neuro-san"><img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repo-green.svg" /></a>
+  <a href="https://pepy.tech/projects/neuro-san"><img alt="PyPI Downloads" src="https://static.pepy.tech/badge/neuro-san" /></a>
+  <a href="https://pypi.org/project/neuro-san/"><img alt="neuro-san@PyPI" src="https://img.shields.io/pypi/v/neuro-san.svg?style=flat-square"></a>
+</p>
+
+
+## What is Neuro SAN?
+
+[**Neuro SAN (System of Agent Networks)**](https://github.com/leaf-ai/neuro-san) is an open-source, data-driven multi-agent orchestration framework designed to simplify and accelerate the development of collaborative AI systems. It allows users—from machine learning engineers to business domain experts—to quickly build sophisticated multi-agent applications without extensive coding, using declarative configuration files (in HOCON format).
+
+Neuro SAN enables multiple large language model (LLM)-powered agents to collaboratively solve complex tasks, dynamically delegating subtasks through adaptive inter-agent communication protocols. This approach addresses the limitations inherent to single-agent systems, where no single model has all the expertise or context necessary for multifaceted problems.
+
+---
+
+### Key Features
+
+* **Data-Driven Configuration**: Entire agent networks are defined declaratively via simple HOCON files, empowering technical and non-technical stakeholders to design agent interactions intuitively.
+* **Adaptive Communication (AAOSA Protocol)**: Agents autonomously determine how to delegate tasks, making interactions fluid and dynamic with decentralized decison making.
+* **Sly-Data (Protected Data Channels)**: Facilitates safe handling and transfer of sensitive data between agents without exposing it directly to any language models.
+* **Dynamic Agent Network Creation**: Includes a meta-agent called the Agent Network Designer – essentially, an agent that creates other agent networks. Provided as an example with Neuro SAN, it can take a high-level description of a use-case as input and generate a new custom agent network for it.
+* **Flexible Tool Integration**: Integrate custom Python-based "coded tools," APIs, databases, and even external agent ecosystems (Agentforce, Agentspace, CrewAI agents, langchain tools and more) seamlessly into your agent workflows.
+* **Robust Traceability**: Detailed logging, tracing, and session-level metrics enhance transparency, debugging, and operational monitoring.
+* **Extensible and Cloud-Agnostic**: Compatible with a wide variety of LLM providers (OpenAI, Anthropic, Azure, Ollama, etc.) and deployable in diverse environments (local machines, containers, or cloud infrastructures).
+
+---
+
+### Use Cases:
+
+* **Customer Support Automation**: Specialized agents answering FAQs, troubleshooting, and escalating complex issues dynamically.
+* **Business Intelligence & Analytics**: Agents collaboratively pulling data, generating insights, and producing analytical reports securely.
+* **Intelligent Workflow Management**: Coordinating multi-step workflows involving multiple expert agents and automated tool calls.
+
+
+---
+
+## Getting Started:
+
+To dive into Neuro SAN and start building your own multi-agent networks, this repository contains a collection of demos for the [neuro-san library](https://github.com/leaf-ai/neuro-san).
+
+You'll find comprehensive documentation, example agent networks, and tutorials to guide you through your first steps.
+
+---
+
+### Installation
 
 Clone the repo:
 
@@ -81,11 +149,11 @@ Other providers and models are supported too but will require proper setup.
 
 ---
 
-## Run
+### Run
 
 There are multiple ways in which we can now use the neuro-san server with a client:
 
-### Option 1: Using [`nsflow`](https://github.com/leaf-ai/nsflow) as a developer-oriented web client
+#### Option 1: Using [`nsflow`](https://github.com/leaf-ai/nsflow) as a developer-oriented web client
 
 If you want to use neuro-san with a FastAPI-based developer-oriented client, follow these steps:
 
@@ -111,7 +179,7 @@ Screenshot:
 
 ---
 
-### Option 2: Using a basic web client interface
+#### Option 2: Using a basic web client interface
 
 A [basic web client interface](https://github.com/leaf-ai/neuro-san-web-client) is installed by default.
 It's a great, simple example of how to connect to a neuro-san server and interact with it.
@@ -148,7 +216,7 @@ python -m run --help
 
 ---
 
-### Option 3: Command Line Interface
+#### Option 3: Command Line Interface
 
 You can also use [neuro-san](https://github.com/leaf-ai/neuro-san)'s command line interface (CLI) to start and interact with the server.
 
