@@ -3,6 +3,7 @@ import sys
 import random
 import string
 import requests
+import argparse
 from auth0.management import Auth0
 
 # Configuration
@@ -116,8 +117,13 @@ def is_user_in_target_group(user_id: str, token: str, target_group: str) -> dict
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Check Auth0 user group membership.")
+    parser.add_argument("email", help="Email address of the user to check")
+    args = parser.parse_args()
 
-    user_check = check_auth0_user("donn.goodhew@cognizant.com", get_api_token(MANAGEMENT_AUDIENCE))
+    email = args.email
+
+    user_check = check_auth0_user(email, get_api_token(MANAGEMENT_AUDIENCE))
     if user_check.get("found"):
         user_id = user_check["user_id"]
         result = is_user_in_target_group(user_id, get_api_token(EXTENSION_AUDIENCE), GROUP_NAME)
