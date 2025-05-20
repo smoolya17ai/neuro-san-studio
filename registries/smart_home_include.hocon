@@ -5,7 +5,7 @@
 # You can be released from the terms, and requirements of the Academic Public
 # License by purchasing a commercial license.
 # Purchase of a commercial license is mandatory for any use of the
-# neuro-san-demos SDK Software in commercial settings.
+# neuro-san-studio SDK Software in commercial settings.
 #
 {
     # Importing content from other HOCON files
@@ -14,7 +14,7 @@
 
     # The below file contains keys-values for substitution with the following keys;
     # aaosa_call, aaosa_command, and aaosa_instructions
-    include "https://raw.githubusercontent.com/leaf-ai/neuro-san-demos/main/registries/aaosa.hocon"
+    include "https://raw.githubusercontent.com/cognizant-ai-lab/neuro-san-studio/main/registries/aaosa.hocon"
 
     # A key-value for substitution can also be defined inside the hocon file.
     "instructions_prefix": """

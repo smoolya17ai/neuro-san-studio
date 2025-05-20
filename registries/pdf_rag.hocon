@@ -70,7 +70,7 @@
                 # Set to true to save the generated vector store as a JSON file
                 "save_vector_store": true,
 
-                # Directory to save and load the vector store (use absolute path or path relative to "neuro-san-demos/coded_tools/pdf_rag/")
+                # Directory to save and load the vector store (use absolute path or path relative to "neuro-san-studio/coded_tools/pdf_rag/")
                 # Must be ".json"
                 "vector_store_path": "vector_store.json"
             }
