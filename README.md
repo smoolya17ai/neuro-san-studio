@@ -43,7 +43,7 @@ Neuro SAN enables multiple large language model (LLM)-powered agents to collabor
 ### Quick Start
 <!-- YouTube video embed -->
 <a href="https://youtu.be/gfem8ylphWA" target="_blank">
-  <img src="./docs/images/nsflow_thumb.png" width="800" alt="Getting Started">
+  <img src="./docs/images/nsflow_thumb.png" width="720" alt="Getting Started">
 </a>
 
 ---
@@ -54,7 +54,7 @@ Neuro SAN enables multiple large language model (LLM)-powered agents to collabor
 * **🔀 Adaptive Communication ([AAOSA Protocol](https://arxiv.org/abs/cs/9812015))**: Agents autonomously determine how to delegate tasks, making interactions fluid and dynamic with decentralized decison making.
 * **🔒 Sly-Data**: Sly Data facilitates safe handling and transfer of sensitive data between agents without exposing it directly to any language models.
 * **🧩 Dynamic Agent Network Designer**: Includes a meta-agent called the Agent Network Designer – essentially, an agent that creates other agent networks. Provided as an example with Neuro SAN, it can take a high-level description of a use-case as input and generate a new custom agent network for it.
-* **🛠️ Flexible Tool Integration**: Integrate custom Python-based "coded tools," APIs, databases, and even external agent ecosystems (Agentforce, Agentspace, CrewAI agents, langchain tools and more) seamlessly into your agent workflows.
+* **🛠️ Flexible Tool Integration**: Integrate custom Python-based "coded tools," APIs, databases, and even external agent ecosystems (Agentforce, Agentspace, CrewAI, MCP, A2A agents, LangChain tools and more) seamlessly into your agent workflows.
 * **📈 Robust Traceability**: Detailed logging, tracing, and session-level metrics enhance transparency, debugging, and operational monitoring.
 * **🌐 Extensible and Cloud-Agnostic**: Compatible with a wide variety of LLM providers (OpenAI, Anthropic, Azure, Ollama, etc.) and deployable in diverse environments (local machines, containers, or cloud infrastructures).
 
