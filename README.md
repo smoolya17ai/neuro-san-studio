@@ -132,12 +132,12 @@ A number of examples that can be built using Neuro SAN:
       <td>Processes and extracts accurate information from PDF files for analysis and summarization tasks.</td>
     </tr>
     <tr>
-      <td>🚀 <strong>AgentForce Agent</strong></td>
+      <td>🚀 <strong>Agentforce Agent</strong></td>
       <td>Integration with Salesforce's AgentForce for enterprise workflows.</td>
       <td>Allows Neuro-SAN agents to interact with Salesforce AgentForce, automating customer relationship management processes.</td>
     </tr>
     <tr>
-      <td>🔌 <strong>AgentSpace Adapter</strong></td>
+      <td>🔌 <strong>Agentspace Adapter</strong></td>
       <td>Connecting agents across different platforms.</td>
       <td>Acts as a communication bridge between Neuro-SAN and other agent ecosystems, enhancing interoperability.</td>
     </tr>
