@@ -35,9 +35,17 @@ This is a good way to learn about how to manage a state in a conversation.
 [Music Nerd Pro Sly](./examples/music_nerd_pro_sly.md) that uses
 a **tool-calling** LLM that runs locally with Ollama.
 
+## PDF RAG Asisstant
+
+[PDF RAG Assistant](./examples/pdf_rag.md) is an agent-based system that answers user queries by retrieving information from specified PDF files using Retrieval-Augmented Generation (RAG). It processes input through a frontman agent and a PDF retrieval tool, enabling accurate responses from static documents.
+
 ## MCP BMI SSE
 
 [MCP BMI SSE](./examples/mcp_bmi_sse.md) is an agent that call a tool in MCP server via server-sent events (sse) to calculate BMI. It serves as an example of how to connect to mcp servers in coded tools.
+
+## A2A RESEARCH REPORT
+
+[A2A RESEARCH REPORT](./examples/a2a_research_report.md) is an agent that uses coded tool as an A2A client to connect to crewAI agents in an A2A server to write a report on a provided topic. This is an example of how to link neuro-san with other agentic frameworks.
 
 ## Agentic RAG Assistant
 
@@ -59,6 +67,10 @@ a **tool-calling** LLM that runs locally with Ollama.
 
 [Agentforce](./examples/agentforce.md) is an agent network that delegates to a Salesforce Agentforce agent
 to interact with a CRM system.
+
+## Agentspace
+
+[Agentspace](./examples/agentspace_adapter.md) is an agent network that delegates to a Google Agentspace agent to interact with different datastore connectors on google cloud.
 
 ## Agent Network Designer
 

@@ -81,8 +81,7 @@ You are an API that updates the running cost of the MusicNerdPro service.
                     "required": []
                 }
             },
-            "class": "accounting.AccountantSly",
-            "command": "Call the API to compute the new running cost."
+            "class": "accounting.AccountantSly"
         },
     ]
 }
