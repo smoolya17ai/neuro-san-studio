@@ -1,21 +1,23 @@
 {
     "llm_config": {
-        "model_name": "gpt-4o",
+        "model_name": "gpt-4o"
     },
+    "max_iterations": 2000,
+    "max_execution_seconds": 600,
     "commondefs": {
         "replacement_strings": {
             "instructions_prefix": """
-You are part of a Auth0UserManagement of assistants.
-Only answer inquiries that are directly within your area of expertise.
-Do not try to help for other matters.
-Do not mention what you can NOT do. Only mention what you can do.
+            You are an assistant helping with a portion of a <company name>'s business.
+            Only answer inquiries that are directly within your area of expertise.
+            Do not try to help for other matters.
+            Do not mention what you can NOT do. Only mention what you can do.
             """,
             "aaosa_instructions": """
 When you receive an inquiry, you will:
 1. If you are clearly not the right agent for this type of inquiry, reply you're not relevant.
 2. If there is a chance you're relevant, call your down-chain agents to determine if they can answer all or part of the inquiry.
    Do not assume what your down-chain agents can do. Always call them. You'll be surprised.
-3. Determine which down-chain agents have the strongest claims to the inquiry.
+3. Deterime which down-chain agents have the strongest claims to the inquiry.
    3.1 If the inquiry is ambiguous, for example if more than one agent can fulfill the inquiry, then always ask for clarification.
    3.2 Otherwise, call the relevant down-chain agents and:
        - ask them for follow-up information if needed,
@@ -24,7 +26,7 @@ When you receive an inquiry, you will:
    if all requirements have been fulfilled, compile their responses and return the final response.
 You may, in turn, be called by other agents in the system and have to act as a down-chain agent to them.
             """
-        },
+        },   
         "replacement_values": {
             "aaosa_call": {
                 "description": "Depending on the mode, returns a natural language string in response.",
@@ -42,13 +44,21 @@ You may, in turn, be called by other agents in the system and have to act as a d
 'Fulfill' to ask the agent to fulfill the inquiry, if it can.
 'Follow up' to ask the agent to respond to a follow up.
                             """
-                        },
+                        }
                     },
                     "required": [
                         "inquiry",
                         "mode"
                     ]
                 }
+            }
+        }
+    },
+    "tools": [
+        {
+            "name": "web_app_admin",
+            "function": {
+                "description": "I oversee all administrative tasks for a web app using Auth0 access control, including validating and provisioning users."
             },
             "instructions": "{instructions_prefix}You are the top-level agent responsible for managing administrative tasks for a web app with Auth0 access control. When interacting with the user, act as the single point of interaction. No need to mention the other tools or agents. If there are any requirements that need user input, ask them one at a time, with clear examples of the choices available.{aaosa_instructions}",
             "tools": [
@@ -59,7 +69,7 @@ You may, in turn, be called by other agents in the system and have to act as a d
         {
             "name": "user_validation_agent",
             "function": "aaosa_call",
-            "instructions": "{instructions_prefix}You determine whether or not an email address is completely provisioned within Auth0.{aaosa_instructions}",
+            "instructions": "{instructions_prefix}You handle the validation of user provisioning requests, ensuring user setup correctness before provisioning in Auth0. You verify user details and confirm that all necessary criteria are met for provisioning.{aaosa_instructions}",
             "command": "{aaosa_command}",
             "tools": [
                 "validation_support_specialist"
@@ -76,9 +86,25 @@ You may, in turn, be called by other agents in the system and have to act as a d
         },
         {
             "name": "validation_support_specialist",
-            "function": "aaosa_call",
-            "instructions": "{instructions_prefix}You assist with the detailed checks and balances required to validate user provisioning requests. You support the validation agent by gathering additional information and confirming the integrity of user data.",
-            "command": "{aaosa_command}"
+             "function": {
+                "description": """
+You are an API that looks up user information in Auth0 system.
+Pass the user id to the API to get his status as two values:
+first - is user id valid in the system,
+second - if user group is valid.
+                """,
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "user_id": {
+                            "type": "string",
+                            "description": "User id in Auth0 system."
+                        },
+                    },
+                    "required": ["user_id"]
+                }
+            },
+            "class": "auth0_user_check.Auth0UserCheck"
         },
         {
             "name": "provisioning_support_specialist",

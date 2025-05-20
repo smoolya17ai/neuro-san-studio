@@ -12,32 +12,32 @@
 {
     # Currently we list each hocon file we want to serve as a key with a boolean value.
     # Eventually we might have a dictionary value with server specifications for each.
-    "hello_world.hocon": true,
-    "airline_policy.hocon": true,
-    "advanced_calculator.hocon": true,
+    "hello_world.hocon": false,
+    "airline_policy.hocon": false,
+    "advanced_calculator.hocon": false,
     "smart_home.hocon": false,
     "smart_home_include.hocon": false,
-    "agent_network_designer.hocon": true,
-    "agent_network_generator.hocon" : true,
-    "music_nerd.hocon": true,
-    "music_nerd_local.hocon": true,
-    "music_nerd_pro.hocon": true,
-    "music_nerd_pro_local.hocon": true,
-    "music_nerd_pro_sly.hocon": true,
-    "music_nerd_pro_sly_local.hocon": true,
-    "agentforce.hocon": true,
+    "agent_network_designer.hocon": false,
+    "agent_network_generator.hocon" : false,
+    "music_nerd.hocon": false,
+    "music_nerd_local.hocon": false,
+    "music_nerd_pro.hocon": false,
+    "music_nerd_pro_local.hocon": false,
+    "music_nerd_pro_sly.hocon": false,
+    "music_nerd_pro_sly_local.hocon": false,
+    "agentforce.hocon": false,
     "agentspace_adapter.hocon": false,
-    "banking_ops.hocon": true,
-    "cpg_agents.hocon": true,
-    "insurance_agents.hocon": true,
-    "intranet_agents.hocon": true,
-    "intranet_agents_with_tools.hocon": true,
-    "retail_ops_and_customer_service.hocon": true,
-    "six_thinking_hats.hocon": true,
-    "telco_network_support.hocon": true,
-    "pdf_rag.hocon": true,
-    "agentic_rag.hocon": true,
-    "kwik_agents.hocon": true,
+    "banking_ops.hocon": false,
+    "cpg_agents.hocon": false,
+    "insurance_agents.hocon": false,
+    "intranet_agents.hocon": false,
+    "intranet_agents_with_tools.hocon": false,
+    "retail_ops_and_customer_service.hocon": false,
+    "six_thinking_hats.hocon": false,
+    "telco_network_support.hocon": false,
+    "pdf_rag.hocon": false,
+    "agentic_rag.hocon": false,
+    "kwik_agents.hocon": false,
     # Before turn on and run the following agent network, make sure that:
     # The MCP server is running.
     # The server can be found at servers/MCP/bmi_server.py and run by command
@@ -50,4 +50,4 @@
     # python server.py
     "a2a_research_report.hocon": false,
 
-    "Auth0UserManagement.hocon": true,}
+    "auth0.hocon": true,}
