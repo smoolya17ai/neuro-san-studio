@@ -49,4 +49,5 @@
     # The A2Aserver can be found at cservers/A2A/server.py and run by command
     # python server.py
     "a2a_research_report.hocon": false,
-}
+
+    "Auth0UserManagement.hocon": true,}
