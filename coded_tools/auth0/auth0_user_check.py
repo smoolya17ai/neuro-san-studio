@@ -6,11 +6,8 @@ from auth0.management import Auth0
 from neuro_san.interfaces.coded_tool import CodedTool
 
 import os
-import sys
-import random
 import string
 import requests
-import argparse
 
 # Configuration
 AUTH0_DOMAIN = "cognizant-ai.auth0.com"
@@ -58,21 +55,41 @@ class Auth0UserCheck(CodedTool):
                           or could contain additional information about user status.
         """
         _ = sly_data
-        client_secret: str = "--sDuJVP-bRVRVqjh3zGp5zmcyxD9vclNpIgeZZ3p2OxqMLZNdbp9CtEbig7I5ei"
+        client_secret: str = os.environ.get("CLIENT_SECRET", None)
         tool_name = self.__class__.__name__
         print(f"========== Calling {tool_name} ==========")
         user_id: str = args.get("user_id", None)
 
-        #token: str = self.get_api_token(client_secret, MANAGEMENT_AUDIENCE)
+        token: str = self.get_api_token(client_secret, MANAGEMENT_AUDIENCE)
+        if token.startswith("Error"):
+            tool_response = {
+                "user_id": user_id,
+                "valid": "false",
+                "group_valid": "false",
+                "message": token}
+            return tool_response
 
-
-
-
-
+        response_dict: Dict[str, Any] = self.check_auth0_user(user_id, token)
+        user_found: bool = response_dict.get("found", False)
+        err_msg: str = response_dict.get("error", "")
+        user_in_group: bool = False
+        if user_found:
+            user_id: str = response_dict["user_id"]
+            token: str = self.get_api_token(client_secret, EXTENSION_AUDIENCE)
+            if token.startswith("Error"):
+                tool_response = {
+                    "user_id": user_id,
+                    "valid": "true",
+                    "group_valid": "false",
+                    "message": token}
+                return tool_response
+            result_dict: Dict[str, Any] = self.is_user_in_target_group(user_id, token, GROUP_NAME)
+            user_in_group = result_dict.get("in_group", False)
 
         tool_response = {"user_id": user_id,
-                         "valid": "true",
-                         "group_valid": "true"
+                         "valid": "true" if user_found else "false",
+                         "group_valid": "true" if user_in_group else "false",
+                         "message": err_msg
                         }
         print("-----------------------")
         print(f"{tool_name} response: ", tool_response)
@@ -132,7 +149,7 @@ class Auth0UserCheck(CodedTool):
                     return {"found": True, **user_info}
                 else:
                     print("⚠️ User exists, but only via social provider (e.g. GitHub)")
-                    return {"found": False, "note": "social login only"}
+                    return {"found": False, "error": "social login only"}
             else:
                 print("❌ No user found in Auth0 with that email.")
                 return {"found": False}
@@ -141,7 +158,32 @@ class Auth0UserCheck(CodedTool):
             print(f"🚨 An error occurred while processing {email}: {error}")
             return {"found": False, "error": str(error)}
 
+    def get_user_groups_from_extension(self, user_id: str, token: str):
+        EXTENSION_DOMAIN="https://cognizant-ai.us12.webtask.io/adf6e2f2b84784b57522e3b19dfc9201"
+        url = f"{EXTENSION_DOMAIN}/api/users/{user_id}/groups"
+        headers = {
+            "Authorization": f"Bearer {token}"
+        }
+        try:
+            resp = requests.get(url, headers=headers)
+            resp.raise_for_status()
+            groups = resp.json()
+            group_names = [g["name"] for g in groups]
+            print(f"🔍 Groups from Extension for user {user_id}: {group_names}")
+            return group_names
+        except Exception as e:
+            print(f"🚨 Error fetching groups from extension: {e}")
+            return []
 
+    def is_user_in_target_group(self, user_id: str, token: str, target_group: str) -> dict:
+        groups = self.get_user_groups_from_extension(user_id, token)
+
+        if target_group in groups:
+            print(f"✅ User IS in target group: {target_group}")
+            return {"in_group": True, "groups": groups}
+        else:
+            print(f"❌ User is NOT in target group: {target_group}")
+            return {"in_group": False, "groups": groups}
 
     async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """
