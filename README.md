@@ -1,33 +1,34 @@
 <h2 align="center">Neuro SAN Studio</h2>
 <p align="center">
-  A playground for <a href="https://github.com/leaf-ai/neuro-san">Neuro SAN</a> - this repo includes working examples to get started, explore, extend, and experiment with custom multi-agent networks!
+  A playground for <a href="https://github.com/cognizant-ai-lab/neuro-san">Neuro SAN</a> - this repo includes working examples to get started, explore, extend, and experiment with custom multi-agent networks!
 </p>
 
 ---
 
 <p align="center">
-  Neuro SAN is the open-source library powering the Cognizant Neuro® AI Multi-Agent Accelerator, allowing domain experts, researchers and developers to immediately start prototyping and building agent networks across any industry vertical to transform their business operations with AI.
+  Neuro SAN is the open-source library powering the Cognizant Neuro® AI Multi-Agent Accelerator, allowing domain experts, researchers and developers to immediately start prototyping and building agent networks across any industry vertical.
 </p>
 
 ---
 
 <p align="center">
   <!-- GitHub Stats -->
-  <img src="https://img.shields.io/github/stars/leaf-ai/neuro-san-studio?style=social" alt="GitHub stars">
-  <img src="https://img.shields.io/github/forks/leaf-ai/neuro-san-studio?style=social" alt="GitHub forks">
-  <img src="https://img.shields.io/github/watchers/leaf-ai/neuro-san-studio?style=social" alt="GitHub watchers">
+  <img src="https://img.shields.io/github/stars/cognizant-ai-lab/neuro-san-studio?style=social" alt="GitHub stars">
+  <img src="https://img.shields.io/github/forks/cognizant-ai-lab/neuro-san-studio?style=social" alt="GitHub forks">
+  <img src="https://img.shields.io/github/watchers/cognizant-ai-lab/neuro-san-studio?style=social" alt="GitHub watchers">
 </p>
 <p align="center">
   <!-- Github Info -->
-  <img src="https://img.shields.io/github/last-commit/leaf-ai/neuro-san-studio" alt="Last Commit">
-  <img src="https://img.shields.io/github/issues/leaf-ai/neuro-san-studio" alt="Issues">
-  <img src="https://img.shields.io/github/issues-pr/leaf-ai/neuro-san-studio" alt="Pull Requests">
+  <img src="https://img.shields.io/github/last-commit/cognizant-ai-lab/neuro-san-studio" alt="Last Commit">
+  <img src="https://img.shields.io/github/issues/cognizant-ai-lab/neuro-san-studio" alt="Issues">
+  <img src="https://img.shields.io/github/issues-pr/cognizant-ai-lab/neuro-san-studio" alt="Pull Requests">
 </p>
 
 <p align="center">
   <!-- Neuro SAN Stats -->
-  <a href="https://github.com/leaf-ai/neuro-san"><img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repo-green.svg" /></a>
-  <img src="https://img.shields.io/github/commit-activity/m/leaf-ai/neuro-san" alt="commit activity">
+  Neuro SAN library <br>
+  <a href="https://github.com/cognizant-ai-lab/neuro-san"><img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repo-green.svg" /></a>
+  <img src="https://img.shields.io/github/commit-activity/m/cognizant-ai-lab/neuro-san" alt="commit activity">
   <a href="https://pepy.tech/projects/neuro-san"><img alt="PyPI Downloads" src="https://static.pepy.tech/badge/neuro-san" /></a>
   <a href="https://pypi.org/project/neuro-san/"><img alt="neuro-san@PyPI" src="https://img.shields.io/pypi/v/neuro-san.svg?style=flat-square"></a>
 </p>
@@ -35,27 +36,23 @@
 
 ## What is Neuro SAN?
 
-[**Neuro SAN (System of Agent Networks)**](https://github.com/leaf-ai/neuro-san) is an open-source, data-driven multi-agent orchestration framework designed to simplify and accelerate the development of collaborative AI systems. It allows users—from machine learning engineers to business domain experts—to quickly build sophisticated multi-agent applications without extensive coding, using declarative configuration files (in HOCON format).
+[**Neuro SAN (System of Agent Networks)**](https://github.com/cognizant-ai-lab/neuro-san) is an open-source, data-driven multi-agent orchestration framework designed to simplify and accelerate the development of collaborative AI systems. It allows users—from machine learning engineers to business domain experts—to quickly build sophisticated multi-agent applications without extensive coding, using declarative configuration files (in HOCON format).
 
 Neuro SAN enables multiple large language model (LLM)-powered agents to collaboratively solve complex tasks, dynamically delegating subtasks through adaptive inter-agent communication protocols. This approach addresses the limitations inherent to single-agent systems, where no single model has all the expertise or context necessary for multifaceted problems.
 
----
+### Quick Start
+<!-- YouTube video embed -->
 
-High level Architecture:
-
-<p align="left">
-  <img src="./docs/images/neuroai_arch_diagram.png" alt="neuro-san architecture" width="800"/>
-</p>
-
+[![Watch Video](https://img.youtube.com/vi/gfem8ylphWA/0.jpg)](https://www.youtube.com/watch?v=gfem8ylphWA)
 
 ---
 
 ### ✨ Key Features
 
 * **🗂️ Data-Driven Configuration**: Entire agent networks are defined declaratively via simple HOCON files, empowering technical and non-technical stakeholders to design agent interactions intuitively.
-* **🔀 Adaptive Communication (AAOSA Protocol)**: Agents autonomously determine how to delegate tasks, making interactions fluid and dynamic with decentralized decison making.
-* **🔒 Sly-Data (Secure Data Channels)**: Facilitates safe handling and transfer of sensitive data between agents without exposing it directly to any language models.
-* **🧩 Dynamic Agent Network Creation**: Includes a meta-agent called the Agent Network Designer – essentially, an agent that creates other agent networks. Provided as an example with Neuro SAN, it can take a high-level description of a use-case as input and generate a new custom agent network for it.
+* **🔀 Adaptive Communication ([AAOSA Protocol](https://arxiv.org/abs/cs/9812015))**: Agents autonomously determine how to delegate tasks, making interactions fluid and dynamic with decentralized decison making.
+* **🔒 Sly-Data**: Sly Data facilitates safe handling and transfer of sensitive data between agents without exposing it directly to any language models.
+* **🧩 Dynamic Agent Network Designer**: Includes a meta-agent called the Agent Network Designer – essentially, an agent that creates other agent networks. Provided as an example with Neuro SAN, it can take a high-level description of a use-case as input and generate a new custom agent network for it.
 * **🛠️ Flexible Tool Integration**: Integrate custom Python-based "coded tools," APIs, databases, and even external agent ecosystems (Agentforce, Agentspace, CrewAI agents, langchain tools and more) seamlessly into your agent workflows.
 * **📈 Robust Traceability**: Detailed logging, tracing, and session-level metrics enhance transparency, debugging, and operational monitoring.
 * **🌐 Extensible and Cloud-Agnostic**: Compatible with a wide variety of LLM providers (OpenAI, Anthropic, Azure, Ollama, etc.) and deployable in diverse environments (local machines, containers, or cloud infrastructures).
@@ -63,8 +60,7 @@ High level Architecture:
 ---
 
 ### Use Cases:
-Here's your content converted into a neat HTML-tag based table with three columns: Title, Use Case, and Description. The original icons have been retained as requested:
-
+A number of examples that can be built using Neuro SAN:
 <table>
   <thead>
     <tr>
@@ -74,6 +70,11 @@ Here's your content converted into a neat HTML-tag based table with three column
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td>🧬 <strong>Agent Network Designer</strong></td>
+      <td>Automated generation of multi-agent HOCON configurations.</td>
+      <td>Generates complex multi-agent configurations from natural language input, simplifying the creation of intricate agent workflows.</td>
+    </tr>
     <tr>
       <td>🛫 <strong>Airline Policy Assistance</strong></td>
       <td>Customer support for airline policies.</td>
@@ -85,7 +86,7 @@ Here's your content converted into a neat HTML-tag based table with three column
       <td>Automates tasks such as transaction monitoring, fraud detection, and compliance reporting, ensuring adherence to regulations and efficient routine operations.</td>
     </tr>
     <tr>
-      <td>🛍️ <strong>Consumer Packaged Goods (CPG) Agents</strong></td>
+      <td>🛍️ <strong>Consumer Packaged Goods (CPG)</strong></td>
       <td>Market analysis and product development in CPG.</td>
       <td>Gathers and analyzes market trends, customer feedback, and sales data to support product development and strategic marketing.</td>
     </tr>
@@ -95,19 +96,14 @@ Here's your content converted into a neat HTML-tag based table with three column
       <td>Automates claims evaluation, assesses risk factors, ensures policy compliance, and improves claim-handling efficiency and customer satisfaction.</td>
     </tr>
     <tr>
-      <td>📞 <strong>Telco Network Support</strong></td>
-      <td>Technical support and network issue resolution.</td>
-      <td>Diagnoses network problems, guides troubleshooting, and escalates complex issues, reducing downtime and enhancing customer service.</td>
+      <td>🏢 <strong>Intranet Agents</strong></td>
+      <td>Internal knowledge management and employee support.</td>
+      <td>Provides employees with quick access to policies, HR, and IT support, enhancing internal communications and resource accessibility.</td>
     </tr>
     <tr>
       <td>🛒 <strong>Retail Operations & Customer Service</strong></td>
       <td>Enhancing retail customer experience and operational efficiency.</td>
       <td>Handles customer inquiries, inventory management, and supports sales processes to optimize operations and service quality.</td>
-    </tr>
-    <tr>
-      <td>🏢 <strong>Intranet Agents</strong></td>
-      <td>Internal knowledge management and employee support.</td>
-      <td>Provides employees with quick access to policies, HR, and IT support, enhancing internal communications and resource accessibility.</td>
     </tr>
     <tr>
       <td>🧠 <strong>Six Thinking Hats</strong></td>
@@ -120,14 +116,9 @@ Here's your content converted into a neat HTML-tag based table with three column
       <td>Coordinates smart home devices, allowing users to control lighting, temperature, and security via natural language.</td>
     </tr>
     <tr>
-      <td>🧬 <strong>Agent Network Designer</strong></td>
-      <td>Automated generation of multi-agent HOCON configurations.</td>
-      <td>Generates complex multi-agent configurations from natural language input, simplifying the creation of intricate agent workflows.</td>
-    </tr>
-    <tr>
-      <td>🤝 <strong>CrewAI Agent</strong></td>
-      <td>Integration with CrewAI for collaborative tasks.</td>
-      <td>Enables seamless coordination between Neuro-SAN agents and CrewAI, facilitating cross-framework collaboration.</td>
+      <td>📞 <strong>Telco Network Support</strong></td>
+      <td>Technical support and network issue resolution.</td>
+      <td>Diagnoses network problems, guides troubleshooting, and escalates complex issues, reducing downtime and enhancing customer service.</td>
     </tr>
     <tr>
       <td>📝 <strong>Kwik Memory Agent</strong></td>
@@ -150,6 +141,11 @@ Here's your content converted into a neat HTML-tag based table with three column
       <td>Acts as a communication bridge between Neuro-SAN and other agent ecosystems, enhancing interoperability.</td>
     </tr>
     <tr>
+      <td>🤝 <strong>CrewAI Agent</strong></td>
+      <td>Integration with CrewAI for collaborative tasks.</td>
+      <td>Enables seamless coordination between Neuro-SAN agents and CrewAI, facilitating cross-framework collaboration.</td>
+    </tr>
+    <tr>
       <td>🧰 <strong>MCP Agent</strong></td>
       <td>Utilization of Model Context Protocol for tool integration.</td>
       <td>Integrates external tools and services into agent workflows, expanding capabilities using the Model Context Protocol.</td>
@@ -167,9 +163,17 @@ Here's your content converted into a neat HTML-tag based table with three column
 
 ---
 
+## High level Architecture:
+
+<p align="left">
+  <img src="./docs/images/neuroai_arch_diagram.png" alt="neuro-san architecture" width="800"/>
+</p>
+
+---
+
 ## Getting Started:
 
-To dive into Neuro SAN and start building your own multi-agent networks, this repository contains a collection of demos for the [neuro-san library](https://github.com/leaf-ai/neuro-san).
+To dive into Neuro SAN and start building your own multi-agent networks, this repository contains a collection of demos for the [neuro-san library](https://github.com/cognizant-ai-lab/neuro-san).
 
 You'll find comprehensive documentation, example agent networks, and tutorials to guide you through your first steps.
 
@@ -180,7 +184,7 @@ You'll find comprehensive documentation, example agent networks, and tutorials t
 Clone the repo:
 
 ```bash
-git clone https://github.com/leaf-ai/neuro-san-demos
+git clone https://github.com/cognizant-ai-lab/neuro-san-demos
 ```
 
 Go to dir:
@@ -255,7 +259,7 @@ Other providers and models are supported too but will require proper setup.
 
 There are multiple ways in which we can now use the neuro-san server with a client:
 
-#### Option 1: Using [`nsflow`](https://github.com/leaf-ai/nsflow) as a developer-oriented web client
+#### Option 1: Using [`nsflow`](https://github.com/cognizant-ai-lab/nsflow) as a developer-oriented web client
 
 If you want to use neuro-san with a FastAPI-based developer-oriented client, follow these steps:
 
@@ -277,13 +281,13 @@ If you want to use neuro-san with a FastAPI-based developer-oriented client, fol
 
 Screenshot:
 
-![NSFlow UI Snapshot](https://raw.githubusercontent.com/leaf-ai/nsflow/main/docs/snapshot01.png)
+![NSFlow UI Snapshot](https://raw.githubusercontent.com/cognizant-ai-lab/nsflow/main/docs/snapshot01.png)
 
 ---
 
 #### Option 2: Using a basic web client interface
 
-A [basic web client interface](https://github.com/leaf-ai/neuro-san-web-client) is installed by default.
+A [basic web client interface](https://github.com/cognizant-ai-lab/neuro-san-web-client) is installed by default.
 It's a great, simple example of how to connect to a neuro-san server and interact with it.
 Start the server and the client in one single command:
 
@@ -320,7 +324,7 @@ python -m run --help
 
 #### Option 3: Command Line Interface
 
-You can also use [neuro-san](https://github.com/leaf-ai/neuro-san)'s command line interface (CLI) to start and interact with the server.
+You can also use [neuro-san](https://github.com/cognizant-ai-lab/neuro-san)'s command line interface (CLI) to start and interact with the server.
 
 - Export the following environment variables:
 
