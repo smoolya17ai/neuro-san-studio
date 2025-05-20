@@ -1,9 +1,6 @@
 <h2 align="center">Neuro SAN Studio</h2>
 <p align="center">
-  A playground for <a href="https://github.com/leaf-ai/neuro-san">Neuro SAN</a> — a customizable Multi-Agent Orchestration Framework.
-  <br>
-  <strong>Quickstart Friendly:</strong> This repo includes working examples to get started with <strong>Neuro SAN</strong>.<br>
-  Explore, extend, and experiment with custom multi-agent networks!
+  A playground for <a href="https://github.com/leaf-ai/neuro-san">Neuro SAN</a> - this repo includes working examples to get started, explore, extend, and experiment with custom multi-agent networks!
 </p>
 
 ---
@@ -16,7 +13,7 @@
 
 <p align="center">
   <!-- GitHub Stats -->
-  <img src="https://img.shields.io/github/stars/leaf-ai/neuro-san?style=social" alt="GitHub stars">
+  <img src="https://img.shields.io/github/stars/leaf-ai/neuro-san-studio?style=social" alt="GitHub stars">
   <img src="https://img.shields.io/github/forks/leaf-ai/neuro-san-studio?style=social" alt="GitHub forks">
   <img src="https://img.shields.io/github/watchers/leaf-ai/neuro-san-studio?style=social" alt="GitHub watchers">
 </p>
@@ -25,12 +22,12 @@
   <img src="https://img.shields.io/github/last-commit/leaf-ai/neuro-san-studio" alt="Last Commit">
   <img src="https://img.shields.io/github/issues/leaf-ai/neuro-san-studio" alt="Issues">
   <img src="https://img.shields.io/github/issues-pr/leaf-ai/neuro-san-studio" alt="Pull Requests">
-  <img src="https://img.shields.io/github/commit-activity/m/leaf-ai/neuro-san" alt="commit activity">
 </p>
 
 <p align="center">
-  <!-- Pypi Stats -->
+  <!-- Neuro SAN Stats -->
   <a href="https://github.com/leaf-ai/neuro-san"><img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repo-green.svg" /></a>
+  <img src="https://img.shields.io/github/commit-activity/m/leaf-ai/neuro-san" alt="commit activity">
   <a href="https://pepy.tech/projects/neuro-san"><img alt="PyPI Downloads" src="https://static.pepy.tech/badge/neuro-san" /></a>
   <a href="https://pypi.org/project/neuro-san/"><img alt="neuro-san@PyPI" src="https://img.shields.io/pypi/v/neuro-san.svg?style=flat-square"></a>
 </p>
@@ -44,23 +41,167 @@ Neuro SAN enables multiple large language model (LLM)-powered agents to collabor
 
 ---
 
-### Key Features
+High level Architecture:
 
-* **Data-Driven Configuration**: Entire agent networks are defined declaratively via simple HOCON files, empowering technical and non-technical stakeholders to design agent interactions intuitively.
-* **Adaptive Communication (AAOSA Protocol)**: Agents autonomously determine how to delegate tasks, making interactions fluid and dynamic with decentralized decison making.
-* **Sly-Data (Protected Data Channels)**: Facilitates safe handling and transfer of sensitive data between agents without exposing it directly to any language models.
-* **Dynamic Agent Network Creation**: Includes a meta-agent called the Agent Network Designer – essentially, an agent that creates other agent networks. Provided as an example with Neuro SAN, it can take a high-level description of a use-case as input and generate a new custom agent network for it.
-* **Flexible Tool Integration**: Integrate custom Python-based "coded tools," APIs, databases, and even external agent ecosystems (Agentforce, Agentspace, CrewAI agents, langchain tools and more) seamlessly into your agent workflows.
-* **Robust Traceability**: Detailed logging, tracing, and session-level metrics enhance transparency, debugging, and operational monitoring.
-* **Extensible and Cloud-Agnostic**: Compatible with a wide variety of LLM providers (OpenAI, Anthropic, Azure, Ollama, etc.) and deployable in diverse environments (local machines, containers, or cloud infrastructures).
+<p align="left">
+  <img src="./docs/images/neuroai_arch_diagram.png" alt="neuro-san architecture" width="800"/>
+</p>
+
+
+---
+
+### ✨ Key Features
+
+* **🗂️ Data-Driven Configuration**: Entire agent networks are defined declaratively via simple HOCON files, empowering technical and non-technical stakeholders to design agent interactions intuitively.
+* **🔀 Adaptive Communication (AAOSA Protocol)**: Agents autonomously determine how to delegate tasks, making interactions fluid and dynamic with decentralized decison making.
+* **🔒 Sly-Data (Secure Data Channels)**: Facilitates safe handling and transfer of sensitive data between agents without exposing it directly to any language models.
+* **🧩 Dynamic Agent Network Creation**: Includes a meta-agent called the Agent Network Designer – essentially, an agent that creates other agent networks. Provided as an example with Neuro SAN, it can take a high-level description of a use-case as input and generate a new custom agent network for it.
+* **🛠️ Flexible Tool Integration**: Integrate custom Python-based "coded tools," APIs, databases, and even external agent ecosystems (Agentforce, Agentspace, CrewAI agents, langchain tools and more) seamlessly into your agent workflows.
+* **📈 Robust Traceability**: Detailed logging, tracing, and session-level metrics enhance transparency, debugging, and operational monitoring.
+* **🌐 Extensible and Cloud-Agnostic**: Compatible with a wide variety of LLM providers (OpenAI, Anthropic, Azure, Ollama, etc.) and deployable in diverse environments (local machines, containers, or cloud infrastructures).
 
 ---
 
 ### Use Cases:
+Here's your content converted into a neat HTML-tag based table with three columns: Title, Use Case, and Description. The original icons have been retained as requested:
 
-* **Customer Support Automation**: Specialized agents answering FAQs, troubleshooting, and escalating complex issues dynamically.
-* **Business Intelligence & Analytics**: Agents collaboratively pulling data, generating insights, and producing analytical reports securely.
-* **Intelligent Workflow Management**: Coordinating multi-step workflows involving multiple expert agents and automated tool calls.
+<table>
+  <thead>
+    <tr>
+      <th>Agent Network</th>
+      <th>Use-Case</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>🛫 <strong>Airline Policy Assistance</strong></td>
+      <td>Customer support for airline policies.</td>
+      <td>Agents interpret and explain airline policies, assisting customers with inquiries about baggage allowances, cancellations, and travel-related concerns.</td>
+    </tr>
+    <tr>
+      <td>🏦 <strong>Banking Operations & Compliance</strong></td>
+      <td>Automated financial operations and regulatory compliance.</td>
+      <td>Automates tasks such as transaction monitoring, fraud detection, and compliance reporting, ensuring adherence to regulations and efficient routine operations.</td>
+    </tr>
+    <tr>
+      <td>🛍️ <strong>Consumer Packaged Goods (CPG) Agents</strong></td>
+      <td>Market analysis and product development in CPG.</td>
+      <td>Gathers and analyzes market trends, customer feedback, and sales data to support product development and strategic marketing.</td>
+    </tr>
+    <tr>
+      <td>🛡️ <strong>Insurance Agents</strong></td>
+      <td>Claims processing and risk assessment.</td>
+      <td>Automates claims evaluation, assesses risk factors, ensures policy compliance, and improves claim-handling efficiency and customer satisfaction.</td>
+    </tr>
+    <tr>
+      <td>📞 <strong>Telco Network Support</strong></td>
+      <td>Technical support and network issue resolution.</td>
+      <td>Diagnoses network problems, guides troubleshooting, and escalates complex issues, reducing downtime and enhancing customer service.</td>
+    </tr>
+    <tr>
+      <td>🛒 <strong>Retail Operations & Customer Service</strong></td>
+      <td>Enhancing retail customer experience and operational efficiency.</td>
+      <td>Handles customer inquiries, inventory management, and supports sales processes to optimize operations and service quality.</td>
+    </tr>
+    <tr>
+      <td>🏢 <strong>Intranet Agents</strong></td>
+      <td>Internal knowledge management and employee support.</td>
+      <td>Provides employees with quick access to policies, HR, and IT support, enhancing internal communications and resource accessibility.</td>
+    </tr>
+    <tr>
+      <td>🧠 <strong>Six Thinking Hats</strong></td>
+      <td>Structured decision-making and brainstorming.</td>
+      <td>Emulates Edward de Bono's methodology, assigning distinct perspectives (logical, emotional, creative) to specialized agents.</td>
+    </tr>
+    <tr>
+      <td>🏠 <strong>Smart Home Management</strong></td>
+      <td>Home automation and device control.</td>
+      <td>Coordinates smart home devices, allowing users to control lighting, temperature, and security via natural language.</td>
+    </tr>
+    <tr>
+      <td>🧬 <strong>Agent Network Designer</strong></td>
+      <td>Automated generation of multi-agent HOCON configurations.</td>
+      <td>Generates complex multi-agent configurations from natural language input, simplifying the creation of intricate agent workflows.</td>
+    </tr>
+    <tr>
+      <td>🤝 <strong>CrewAI Agent</strong></td>
+      <td>Integration with CrewAI for collaborative tasks.</td>
+      <td>Enables seamless coordination between Neuro-SAN agents and CrewAI, facilitating cross-framework collaboration.</td>
+    </tr>
+    <tr>
+      <td>📝 <strong>Kwik Memory Agent</strong></td>
+      <td>Enhanced memory retention and retrieval.</td>
+      <td>Improves agent capability in storing and recalling information, enhancing long-term contextual awareness.</td>
+    </tr>
+    <tr>
+      <td>📄 <strong>PDF_RAG Agent</strong></td>
+      <td>Retrieval-Augmented Generation from PDF documents.</td>
+      <td>Processes and extracts accurate information from PDF files for analysis and summarization tasks.</td>
+    </tr>
+    <tr>
+      <td>🚀 <strong>AgentForce Agent</strong></td>
+      <td>Integration with Salesforce's AgentForce for enterprise workflows.</td>
+      <td>Allows Neuro-SAN agents to interact with Salesforce AgentForce, automating customer relationship management processes.</td>
+    </tr>
+    <tr>
+      <td>🔌 <strong>AgentSpace Adapter</strong></td>
+      <td>Connecting agents across different platforms.</td>
+      <td>Acts as a communication bridge between Neuro-SAN and other agent ecosystems, enhancing interoperability.</td>
+    </tr>
+    <tr>
+      <td>🧰 <strong>MCP Agent</strong></td>
+      <td>Utilization of Model Context Protocol for tool integration.</td>
+      <td>Integrates external tools and services into agent workflows, expanding capabilities using the Model Context Protocol.</td>
+    </tr>
+    <tr>
+      <td>🔄 <strong>A2A based Agent</strong></td>
+      <td>Agent-to-Agent communication via Google A2A protocol.</td>
+      <td>Enables efficient, decentralized agent communication and task delegation using the A2A protocol.</td>
+    </tr>
+    <tr>
+      <td colspan="3"><strong>And Many More...</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+* 🛫 **Airline Policy Assistance**: Customer support for airline policies.
+  - Agents are designed to interpret and explain airline policies, assisting customers with inquiries about baggage allowances, cancellations, and other travel-related concerns.
+* 🏦 **Banking Operations & Compliance**: Automated financial operations and regulatory compliance.
+  - This agent network streamlines banking processes by automating tasks such as transaction monitoring, fraud detection, and compliance reporting. Agents collaborate to ensure adherence to financial regulations and efficient handling of routine operations.
+* 🛍️ **Consumer Packaged Goods (CPG) Agents**: Market analysis and product development in the CPG sector.
+  - Agents gather and analyze market trends, customer feedback, and sales data to inform product development and marketing strategies. This facilitates data-driven decisions in product launches and promotional campaigns.
+* 🛡️ **Insurance Agents**: Claims processing and risk assessment in insurance.
+  - The network automates the evaluation of insurance claims, assesses risk factors, and ensures compliance with policy terms. Agents work together to expedite claims handling and improve customer satisfaction.
+* 📞 **Telco Network Support**: Technical support and network issue resolution in telecommunications.
+  - Agents diagnose network problems, guide customers through troubleshooting steps, and escalate complex issues to human technicians. This reduces downtime and enhances customer support services.
+* 🛒 **Retail Operations & Customer Service**: Enhancing retail customer experience and operational efficiency.
+  - Agents handle customer inquiries, manage inventory information, and support sales processes. They contribute to improved customer service and optimized retail operations.
+* 🏢 **Intranet Agents**: Internal knowledge management and employee support.
+  - Agents assist employees by providing quick access to company policies, HR information, and IT support. They enhance internal communication and streamline access to organizational resources.
+* 🧠 **Six Thinking Hats**: Structured decision-making and brainstorming.
+  - This agent network emulates Edward de Bono's Six Thinking Hats methodology, facilitating comprehensive analysis by assigning distinct perspectives (e.g., logical, emotional, creative) to specialized agents.
+* 🏠 **Smart Home Management**: Home automation and device control.
+  - Agents coordinate to manage smart home devices, enabling users to control lighting, temperature, and security systems through natural language interactions.
+* 🧬 **Agent Network Designer**: Automated generation of multi-agent hocon configurations.
+  - This agent-network leverages natural language inputs to design and generate complex multi-agent network configurations, streamlining the setup process for intricate workflows. Based on a user defined context, it generates an entire agent-network mimicing the use-case.
+* 🤝 **CrewAI Agent**: Integration with CrewAI for collaborative agent tasks.
+  - Facilitates seamless collaboration between Neuro-SAN agents and CrewAI, enabling the execution of tasks that require coordinated efforts across different agent frameworks.
+* 📝 **Kwik Memory Agent**: Enhanced memory retention and retrieval.
+  - Implements advanced memory techniques to improve the agent's ability to store and recall information, enhancing performance in tasks that require long-term context awareness.
+* 📄 **PDF_RAG Agent**: Retrieval-Augmented Generation from PDF documents.
+  - Processes and extracts information from PDF files to generate accurate and contextually relevant responses, useful in document analysis and summarization tasks
+* 🚀 **AgentForce Agent**: Integration with Salesforce's AgentForce for enterprise workflows.
+  - Enables Neuro-SAN agents to interact with Salesforce's AgentForce platform, allowing for enhanced automation and intelligence in customer relationship management processes.
+* 🔌 **AgentSpace Adapter**: Connecting agents across different platforms.
+  - Acts as a bridge between Neuro-SAN and other agent ecosystems, facilitating interoperability and communication across diverse agent platforms.
+* 🧰 **MCP Agent**: Utilization of Model Context Protocol for tool integration.
+  - Employs the Model Context Protocol to integrate external tools and services into the agent's workflow, expanding its capabilities and access to resources.
+* 🔄 **A2A based Agent**: Agent-to-Agent communication using the Google A2A protocol.
+  - Facilitates direct communication between agents using the A2A protocol, enabling decentralized and efficient task delegation and information sharing.
+* **And Many More...**
 
 
 ---
