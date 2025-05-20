@@ -60,13 +60,6 @@
     "a2a_research_report.hocon": false,
     "HROnboardingProcess.hocon": true,
 
-    "MacysAgentSystem.hocon": true,
-    "TherapyVignetteSupervisors.hocon": true
-
-    "TelstraNetworkOrchestration.hocon": true,
-    "CognizantInfoSecThreatManagementAndResiliency.hocon": true,
-    "PentOps.hocon": true,
-    "TargetRetailChain.hocon": true,
     "LinkedInJobSeekerSupportNetwork.hocon": true
 
 }
