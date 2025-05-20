@@ -69,7 +69,7 @@ You may, in turn, be called by other agents in the system and have to act as a d
         {
             "name": "user_validation_agent",
             "function": "aaosa_call",
-            "instructions": "{instructions_prefix}You handle the validation of user provisioning requests, ensuring user setup correctness before provisioning in Auth0. You verify user details and confirm that all necessary criteria are met for provisioning.{aaosa_instructions}",
+            "instructions": "{instructions_prefix}You determine whether or not an email address is completely provisioned within Auth0.{aaosa_instructions}",
             "command": "{aaosa_command}",
             "tools": [
                 "validation_support_specialist"
