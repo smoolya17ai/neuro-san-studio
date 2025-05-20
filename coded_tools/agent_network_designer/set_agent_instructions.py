@@ -73,12 +73,6 @@ class SetAgentInstructions(CodedTool):
         logger.info(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return the_agent_network_str
 
-    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
-        """
-        Delegates to the synchronous invoke method for now.
-        """
-        return self.invoke(args, sly_data)
-
     def set_agent_instructions(self, agent_name: str, instructions: str):
         """
         Modifies the instructions of an agent.

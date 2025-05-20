@@ -65,9 +65,6 @@ class WebsiteSearch(CodedTool):
         logger.info(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return links_str
 
-    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
-        raise NotImplementedError
-
     def search_web(self, query: str, num_results: int = 5) -> list:
         """
         Search the web for a given query using DuckDuckGo Search

@@ -34,6 +34,7 @@ HOCON_HEADER_REMAINDER = (
     "Do not try to help for other matters.\n"
     "Do not mention what you can NOT do. Only mention what you can do.\n"
     '            """,\n'
+    '            "demo_mode": "You are part of a demo system, so when queried, make up a realistic response as if you are actually grounded in real data or you are operating a real application API or microservice."\n'
     '            "aaosa_instructions": """\n'
     "When you receive an inquiry, you will:\n"
     "1. If you are clearly not the right agent for this type of inquiry, reply you're not relevant.\n"
@@ -131,7 +132,7 @@ LEAF_NODE_AGENT_TEMPLATE = (
     '            "name": "%s",\n'
     '            "function": "aaosa_call",\n'
     '            "instructions": """\n'
-    "{instructions_prefix}\n"
+    "{instructions_prefix} {demo_mode}\n"
     "%s\n"
     '            """,\n'
     '            "command": "aaosa_command",\n'

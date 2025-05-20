@@ -260,7 +260,8 @@ Cultural Alignment and Objectives
 - Transparency and Trust: Ensure that pricing details are communicated clearly and accurately, aligning with Airbnb's commitment to building trust.
 - User-Centric Value: Tailor advice to the user's unique needs, creating an optimal balance between affordability and quality experiences.      """,
       "command": "{aaosa_command}"
-    },
+      "tools": ["AirbnbSearch"]
+   },
     {
       "name": "vacation_packages_consultant",
       "function": "aaosa_call",
