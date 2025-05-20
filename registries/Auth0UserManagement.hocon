@@ -60,11 +60,7 @@ You may, in turn, be called by other agents in the system and have to act as a d
             "function": {
                 "description": "I oversee all administrative tasks for a web app using Auth0 access control, including validating and provisioning users."
             },
-            "instructions": "{instructions_prefix}You are the top-level agent responsible for managing administrative tasks for a web app with Auth0 access control. When interacting with the user, act as the single point of interaction. No need to mention the other tools or agents. If there are any requirements that need user input, ask them one at a time, with clear examples of the choices available. As the admin, you understand that a valid user configuration consists of:
-1. An Auth0 user that matches the given email.
-2. That Auth0 user must belong to the required Authorization Group.
-You further understand that if an email does not exist, you should ask the user whether they wish to go ahead and provision the given email address.
-This action should be carried out only if the user agrees to this new user provisioning.{aaosa_instructions}",
+            "instructions": "{instructions_prefix}You are the top-level agent responsible for managing administrative tasks for a web app with Auth0 access control. When interacting with the user, act as the single point of interaction. No need to mention the other tools or agents. If there are any requirements that need user input, ask them one at a time, with clear examples of the choices available.{aaosa_instructions}",
             "tools": [
                 "user_validation_agent",
                 "user_provisioning_agent"
