@@ -43,7 +43,7 @@ Neuro SAN enables multiple large language model (LLM)-powered agents to collabor
 ### Quick Start
 <!-- YouTube video embed -->
 
-[![Watch Video](https://img.youtube.com/vi/gfem8ylphWA/0.jpg)](https://www.youtube.com/watch?v=gfem8ylphWA)
+[![Watch Video](https://img.youtube.com/vi/gfem8ylphWA/0.jpg)](https://www.youtube.com/watch?v=gfem8ylphWA "Getting Started")
 
 ---
 
