@@ -108,9 +108,24 @@ second - if user group is valid.
         },
         {
             "name": "provisioning_support_specialist",
-            "function": "aaosa_call",
-            "instructions": "{instructions_prefix}You assist with the technical aspects of setting up new users in Auth0. You provide support to the provisioning agent in configuring user accounts and resolving any setup issues.",
-            "command": "{aaosa_command}"
+            "function": {
+                "description": """
+You are an API that adds users to Auth0 system.
+Pass the list of users e-mail addresses and get back a list of e-mail addresses
+for which processing was not successful.
+                """,
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "users": {
+                            "type": "string",
+                            "description": "Comma separated list of user email addresses."
+                        },
+                    },
+                    "required": ["users"]
+                }
+            },
+            "class": "create_auth0_user.CreateAuth0User"
         }
     ]
 }
