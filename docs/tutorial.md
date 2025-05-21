@@ -48,7 +48,7 @@ Welcome to the **Neuro AI Multi-Agent Accelerator** tutorial. In this guide, we 
 
 The library comes with a **Flask Web Client** (`neuro_san_web_client`) so that users can interact with these multi-agent networks through a web-based UI. This entire setup is easily configurable using **HOCON** (`.hocon`) files.
 
-**Note**: This tutorial is written with the help of the agent network example [advanced_calculator.hocon](https://github.com/cognizant-ai-lab/neuro-san-demos/blob/registries/advanced_calculator.hocon).
+**Note**: This tutorial is written with the help of the agent network example [advanced_calculator.hocon](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/registries/advanced_calculator.hocon).
 
 ---
 
@@ -80,7 +80,7 @@ Below is a simplified view of the reference project structure. You can adapt it 
 - `run.py`: A starter script to run the server and the web client.
 
 - Here are the detailed instructions to run an agent network along with a web client here:
-    - https://github.com/cognizant-ai-lab/neuro-san-demos/blob/main/README.md
+    - https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/README.md
 
 ---
 
@@ -106,7 +106,7 @@ pip install -r requirements.txt
 ```
 
 Please find the detailed instructions to run an agent network along with a web client here:
-- https://github.com/cognizant-ai-lab/neuro-san-demos/blob/main/README.md
+- https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/README.md
 
 Note: You may need to adapt the filenames if versions differ.
 

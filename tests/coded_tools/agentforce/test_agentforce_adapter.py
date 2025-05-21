@@ -5,7 +5,7 @@
 # You can be released from the terms, and requirements of the Academic Public
 # License by purchasing a commercial license.
 # Purchase of a commercial license is mandatory for any use of the
-# neuro-san-demos SDK Software in commercial settings.
+# neuro-san-studio SDK Software in commercial settings.
 #
 import unittest
 from unittest import TestCase

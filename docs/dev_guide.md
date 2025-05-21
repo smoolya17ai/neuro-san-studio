@@ -30,8 +30,8 @@ This section outlines the recommended workflow for contributing to this project.
 2. **Clone your fork**:
 
    ```bash
-   git clone https://github.com/your-username/neuro-san-demos.git
-   cd neuro-san-demos
+   git clone https://github.com/your-username/neuro-san-studio.git
+   cd neuro-san-studio
    ```
 
 3. **Set up the development environment**:
@@ -109,7 +109,7 @@ To keep your fork up to date with the upstream repository:
 
 ```bash
 # Add the upstream repository
-git remote add upstream https://github.com/cognizant-ai-lab/neuro-san-demos.git
+git remote add upstream https://github.com/cognizant-ai-lab/neuro-san-studio.git
 
 # Fetch changes from upstream
 git fetch upstream

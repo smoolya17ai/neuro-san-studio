@@ -1,5 +1,5 @@
 License
-The following license governs the use of neuro-san-demos SDK Software in academic
+The following license governs the use of neuro-san-studio SDK Software in academic
 and educational environments. Commercial use requires a commercial license from
 Cognizant Technology Solutions Corp, www.cognizant.com.
 
@@ -8,19 +8,19 @@ Written by Andras Varga (license text is in public domain)
 Adapted by Karl Mutch (license text is in public domain)
 
 Preamble
-This license contains the terms and conditions of using neuro-san-demos SDK Software
+This license contains the terms and conditions of using neuro-san-studio SDK Software
 in noncommercial settings: at academic institutions for teaching and research
 use, and at non-profit research organizations. You will find that this license
-provides noncommercial users of neuro-san-demos SDK Software with rights that are
+provides noncommercial users of neuro-san-studio SDK Software with rights that are
 similar to the well-known GNU General Public License, yet it retains the
-possibility for neuro-san-demos SDK Software authors to financially support the
+possibility for neuro-san-studio SDK Software authors to financially support the
 development by selling commercial licenses. In fact, if you intend to use
-neuro-san-demos SDK Software in a “for-profit” environment, where research is
+neuro-san-studio SDK Software in a “for-profit” environment, where research is
 conducted to develop or enhance a product, is used in a commercial service
-offering, or when a commercial company uses neuro-san-demos SDK Software to
+offering, or when a commercial company uses neuro-san-studio SDK Software to
 participate in a research project (for example government-funded or EU-funded
 research projects), then you need to obtain a commercial license for
-neuro-san-demos SDK Software. In that case, please contact the Author to inquire
+neuro-san-studio SDK Software. In that case, please contact the Author to inquire
 about commercial licenses.
 
 What are the rights given to noncommercial users? Similarly to GPL, you have the
@@ -30,11 +30,11 @@ Also similarly to the GPL, if you distribute verbatim or modified copies of
 this software, they must be distributed under this license.
 
 By modeling the GPL, this license guarantees that you’re safe when using
-neuro-san-demos SDK Software in your work, for teaching or research. This license
-guarantees that neuro-san-demos SDK Software will remain available free of charge
-for nonprofit use. You can modify neuro-san-demos SDK Software to your purposes,
+neuro-san-studio SDK Software in your work, for teaching or research. This license
+guarantees that neuro-san-studio SDK Software will remain available free of charge
+for nonprofit use. You can modify neuro-san-studio SDK Software to your purposes,
 and you can also share your modifications. Even in the unlikely case of the
-authors abandoning neuro-san-demos SDK Software entirely, this license permits
+authors abandoning neuro-san-studio SDK Software entirely, this license permits
 anyone to continue developing it from the last release, and to create further
 releases under this license.
 
@@ -50,7 +50,7 @@ modification follow.
 TERMS AND CONDITIONS FOR USE, COPYING, DISTRIBUTION AND MODIFICATION
 
 Definitions
-“Program” means a copy of neuro-san-demos SDK Software, which is said to be
+“Program” means a copy of neuro-san-studio SDK Software, which is said to be
 distributed under this Academic Public License.
 
 “Work based on the Program” means either the Program or any derivative work

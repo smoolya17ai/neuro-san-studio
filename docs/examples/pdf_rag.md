@@ -49,7 +49,7 @@ These criteria are used to assess the suitability of proposals and ensure they m
 
 *Optional*
 - `save_vector_store` (bool): Save the vector store to a JSON file.
-- `vector_store_path`(str): Path to save/load the vector store (absolute or relative to `neuro-san-demos/coded_tools/pdf_rag/`).
+- `vector_store_path`(str): Path to save/load the vector store (absolute or relative to `neuro-san-studio/coded_tools/pdf_rag/`).
 
 ---
 

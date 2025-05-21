@@ -17,7 +17,7 @@
 
 function check_directory() {
     working_dir=$(pwd)
-    if [ "neuro-san-demos" == "$(basename "${working_dir}")" ]
+    if [ "neuro-san-studio" == "$(basename "${working_dir}")" ]
     then
         # We are in the neuro-san repo.
         # Change directories so that the rest of the script will work OK.
@@ -67,7 +67,7 @@ function run() {
         -e TOOL_REGISTRY_FILE=$1 \
         -p $SERVICE_PORT:$SERVICE_PORT \
         -p $SERVICE_HTTP_PORT:$SERVICE_HTTP_PORT \
-            neuro-san/neuro-san-demos:$CONTAINER_VERSION"
+            neuro-san/neuro-san-studio:$CONTAINER_VERSION"
 
     if [ "${OS}" == "Darwin" ];then
         # Host networking does not work for non-Linux operating systems
