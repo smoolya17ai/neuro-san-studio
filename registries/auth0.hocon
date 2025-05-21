@@ -89,8 +89,10 @@ You may, in turn, be called by other agents in the system and have to act as a d
              "function": {
                 "description": """
 You are an API that looks up user information in Auth0 system.
-Pass the user id to the API to get his status as two values:
-first - is user id valid in the system,
+User is expected to be identified by email address, if not,
+then you should reject this query.
+Pass the user email to the API to get his status as two values:
+first - is user valid in the system,
 second - if user group is valid.
                 """,
                 "parameters": {
