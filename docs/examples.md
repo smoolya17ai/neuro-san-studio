@@ -80,3 +80,6 @@ to interact with a CRM system.
 
 [kwik_agents.md](examples/kwik_agents.md) is a basic multi-agent system with memory.
 
+## Consumer Decision Assistant Agents
+
+[consumer_decision_assistant.md](examples/consumer_decision_assistant.md) is a multi-agent system that calls other (B2C) multi-agent systems that are not necessarily aligned.
