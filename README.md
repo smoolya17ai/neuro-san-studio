@@ -185,13 +185,13 @@ You'll find comprehensive documentation, example agent networks, and tutorials t
 Clone the repo:
 
 ```bash
-git clone https://github.com/cognizant-ai-lab/neuro-san-demos
+git clone https://github.com/cognizant-ai-lab/neuro-san-studio
 ```
 
 Go to dir:
 
 ```bash
-cd neuro-san-demos
+cd neuro-san-studio
 ```
 
 Ensure you have a supported version of python (3.12 at this time):
