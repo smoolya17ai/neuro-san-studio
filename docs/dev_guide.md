@@ -109,7 +109,7 @@ To keep your fork up to date with the upstream repository:
 
 ```bash
 # Add the upstream repository
-git remote add upstream https://github.com/leaf-ai/neuro-san-demos.git
+git remote add upstream https://github.com/cognizant-ai-lab/neuro-san-demos.git
 
 # Fetch changes from upstream
 git fetch upstream

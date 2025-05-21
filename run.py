@@ -251,7 +251,7 @@ class NeuroSanRunner:
 
     def start_nsflow(self):
         """Start nsflow client."""
-        print("Starting nsflow slient...")
+        print("Starting nsflow client...")
         command = [
             sys.executable,
             "-u",
