@@ -1,5 +1,5 @@
 # This action script will take a merge to main and build
-# the neuro-san-demos docker image and push it to our ECR.
+# the neuro-san-studio docker image and push it to our ECR.
 # It will then update the manifest file with the new tag
 # which then will get picked up by our Argo CD system and 
 # deploy it to the dev environment.
@@ -7,7 +7,7 @@
 # occurs, but in this case, the staging environment is updated.
 # This script does not automatically push anything to production;
 # that case is handled manually.
-# Note, this script only updates the neuro-san-demos image, while
+# Note, this script only updates the neuro-san-studio image, while
 # the deploy also uses a custom ui image; that process is still 
 # manual as the custom ui build is a manual process and not 
 # run frequently.
@@ -75,7 +75,7 @@ jobs:
       - name: Checkout manifest repo
         uses: actions/checkout@v4
         with:
-          repository: leaf-ai/manifest
+          repository: cognizant-ai-labs/manifest
           token: ${{ secrets.READ_WRITE_PAT_FOR_DEPLOYMENT }}
           ref: main 
 
@@ -86,7 +86,7 @@ jobs:
 
           python neuro-san/utility_scripts/deploy_to_cluster.py \
           --file-path "neuro-san/values-${{ needs.build-and-push.outputs.target_environment }}.yaml" \
-          --neuro-san-demos-tag "${{ needs.build-and-push.outputs.image_tag }}"
+          --neuro-san-studio-tag "${{ needs.build-and-push.outputs.image_tag }}"
 
       - name: Commit and push changes
         run: |
