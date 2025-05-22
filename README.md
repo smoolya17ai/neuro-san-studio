@@ -250,7 +250,8 @@ You can get your OpenAI API key from <https://platform.openai.com/signup>. After
     $env:OPENAI_API_KEY="XXX"
     ```
 
-Other providers and models are supported too but will require proper setup.
+Other providers such as Anthropic, AzureOpenAI, Ollama and more are supported too but will require proper setup.<br>
+Look at the `.env.example` file to set up environment variables for specific use-cases.
 
 ---
 
