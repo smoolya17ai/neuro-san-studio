@@ -13,6 +13,7 @@
       - [LLM specifications](#llm-specifications)
   - [LLM configuration](#llm-configuration)
     - [OpenAI](#openai)
+    - [AzureOpenAI](#azureopenai)
     - [Ollama](#ollama)
   - [Multi-agent networks](#multi-agent-networks)
   - [Coded tools](#coded-tools)
@@ -172,6 +173,16 @@ and specify which model to use in the `model_name` field:
 ```
 
 See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
+
+### AzureOpenAI
+
+If you are using Azure OpenAI in your hocon file, you might need to set the llm_config to use the right model.<br>
+For example, define the key "use_model_name" with the value of the model you want to use:
+```hocon
+"llm_config": {
+        "use_model_name": "azure-gpt-4o",
+    },
+```
 
 ### Ollama
 
