@@ -36,15 +36,13 @@
 
 ## What is Neuro SAN?
 
-[**Neuro SAN (System of Agent Networks)**](https://github.com/cognizant-ai-lab/neuro-san) is an open-source, data-driven multi-agent orchestration framework designed to simplify and accelerate the development of collaborative AI systems. It allows users—from machine learning engineers to business domain experts—to quickly build sophisticated multi-agent applications without extensive coding, using declarative configuration files (in HOCON format).
+[**Neuro AI system of agent networks (Neuro SAN)**](https://github.com/cognizant-ai-lab/neuro-san) is an open-source, data-driven multi-agent orchestration framework designed to simplify and accelerate the development of collaborative AI systems. It allows users—from machine learning engineers to business domain experts—to quickly build sophisticated multi-agent applications without extensive coding, using declarative configuration files (in HOCON format).
 
 Neuro SAN enables multiple large language model (LLM)-powered agents to collaboratively solve complex tasks, dynamically delegating subtasks through adaptive inter-agent communication protocols. This approach addresses the limitations inherent to single-agent systems, where no single model has all the expertise or context necessary for multifaceted problems.
 
-### Quick Start
-<!-- YouTube video embed -->
-<a href="https://youtu.be/gfem8ylphWA" target="_blank">
-  <img src="./docs/images/nsflow_thumb.png" width="720" alt="Getting Started">
-</a>
+| Build a multi-agent network in minutes                                              | Neuro SAN overview                                                                     | Quick start                                                              |
+|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| [![Build](./docs/images/designer.png)](https://www.youtube.com/watch?v=wGxvPBN34Mk) | [![Overview](./docs/images/overview.png)](https://www.youtube.com/watch?v=NmniQWQT6vI) | [![Start](./docs/images/nsflow_thumb.png)](https://youtu.be/gfem8ylphWA) |
 
 ---
 
@@ -397,3 +395,12 @@ For examples of agent networks, check out [docs/examples.md](docs/examples.md).
 ## Developer Guide
 
 For the development guide, check out [docs/dev_guide.md](docs/dev_guide.md).
+
+## Blog posts
+
+- [Code versus Model in Multi-Agentic Systems](https://medium.com/@evolutionmlmail/code-versus-model-in-multi-agentic-systems-e33cf581e32b)
+- [Neuro SAN Is All You Need — A Data-Driven Multi-Agent Orchestration Framework](https://medium.com/@evolutionmlmail/neuro-san-is-all-you-need-a-data-driven-multi-agent-orchestration-framework-563fbd31a735)
+
+## More details
+
+For more information, check out our [Cognizant AI Lab Neuo SAN landing page](https://decisionai.ml/neuro-san).
