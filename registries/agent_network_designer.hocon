@@ -62,7 +62,7 @@ relevant workflows and responsible nodes. Call your network_generator tool for t
                     "properties": {
                         "agent_network_name": {
                             "type": "string",
-                            "description": "name of project, business or company or other description."
+                            "description": "name of project, business or company or other description, write it in snake case, e.g. foo_bar."
                         },
                     },
                     "required": ["agent_network_name"]
