@@ -75,7 +75,7 @@ jobs:
       - name: Checkout manifest repo
         uses: actions/checkout@v4
         with:
-          repository: cognizant-ai-labs/manifest
+          repository: cognizant-ai-lab/manifest
           token: ${{ secrets.READ_WRITE_PAT_FOR_DEPLOYMENT }}
           ref: main 
 
