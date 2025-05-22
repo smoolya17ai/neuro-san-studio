@@ -184,6 +184,15 @@ For example, define the key "use_model_name" with the value of the model you wan
     },
 ```
 
+You might have to set these environment variables or add them in your .env file in order to use Azure OpenAI:  
+AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"  
+OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"  
+AZURE_OPENAI_API_KEY="your Azure OpenAI API key"  
+AZURE_DEPLOYMENT="your deployment name"
+
+See https://azure.microsoft.com/en-us/products/ai-services/openai-service/ for more information.
+
+
 ### Ollama
 
 To use an LLM that runs locally with [Ollama](https://ollama.com/):
