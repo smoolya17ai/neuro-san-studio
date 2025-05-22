@@ -26,8 +26,6 @@
     "carmax.hocon": true,
     "booking.hocon": true,
     "website_search.hocon": true,
-    "kwik_agents.hocon": true
-    "agent_network_generator.hocon" : true,
     "music_nerd.hocon": true,
     "music_nerd_local.hocon": true,
     "music_nerd_pro.hocon": true,
@@ -47,10 +45,13 @@
     "pdf_rag.hocon": true,
     "agentic_rag.hocon": true,
     "kwik_agents.hocon": true,
-    "conscious_agent.hocon": true,
-    # Before turn on and run the following agent network, make sure that:
+
+    # Set the following agent network to true before running apps/conscious_assistant/interface_flask.py
+    "conscious_agent.hocon": false,
+
+    # Before turnining on and running the following agent network, make sure that:
     # The MCP server is running.
-    # The server can be found at servers/MCP/bmi_server.py and run by command
+    # The server can be found at servers/MCP/bmi_server.py and run using the following command
     # python bmi_server.py
     "mcp_bmi_sse.hocon": false,
 
@@ -59,7 +60,6 @@
     # The A2Aserver can be found at cservers/A2A/server.py and run by command
     # python server.py
     "a2a_research_report.hocon": false,
-    "HROnboardingProcess.hocon": true,
 
     "LinkedInJobSeekerSupportNetwork.hocon": true
 
