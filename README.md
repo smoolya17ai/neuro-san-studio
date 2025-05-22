@@ -36,13 +36,15 @@
 
 ## What is Neuro SAN?
 
-[**Neuro AI system of agent networks (Neuro SAN)**](https://github.com/cognizant-ai-lab/neuro-san) is an open-source, data-driven multi-agent orchestration framework designed to simplify and accelerate the development of collaborative AI systems. It allows users—from machine learning engineers to business domain experts—to quickly build sophisticated multi-agent applications without extensive coding, using declarative configuration files (in HOCON format).
+[**Neuro SAN (System of Agent Networks)**](https://github.com/cognizant-ai-lab/neuro-san) is an open-source, data-driven multi-agent orchestration framework designed to simplify and accelerate the development of collaborative AI systems. It allows users—from machine learning engineers to business domain experts—to quickly build sophisticated multi-agent applications without extensive coding, using declarative configuration files (in HOCON format).
 
 Neuro SAN enables multiple large language model (LLM)-powered agents to collaboratively solve complex tasks, dynamically delegating subtasks through adaptive inter-agent communication protocols. This approach addresses the limitations inherent to single-agent systems, where no single model has all the expertise or context necessary for multifaceted problems.
 
-| Build a multi-agent network in minutes                                              | Neuro SAN overview                                                                     | Quick start                                                              |
-|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| [![Build](./docs/images/designer.png)](https://www.youtube.com/watch?v=wGxvPBN34Mk) | [![Overview](./docs/images/overview.png)](https://www.youtube.com/watch?v=NmniQWQT6vI) | [![Start](./docs/images/nsflow_thumb.png)](https://youtu.be/gfem8ylphWA) |
+### Quick Start
+<!-- YouTube video embed -->
+<a href="https://youtu.be/gfem8ylphWA" target="_blank">
+  <img src="./docs/images/nsflow_thumb.png" width="720" alt="Getting Started">
+</a>
 
 ---
 
@@ -155,6 +157,11 @@ A number of examples that can be built using Neuro SAN:
       <td>Enables efficient, decentralized agent communication and task delegation using the A2A protocol.</td>
     </tr>
     <tr>
+      <td>🔄 <strong>Conscious Agent</strong></td>
+      <td>An example agent network that is run continuously via the conscious_assistant flask app.</td>
+      <td>This is an example of how to run agents continuously, initiating them from code, and how to make tool calls to non-default packages.</td>
+    </tr>
+    <tr>
       <td colspan="3"><strong>And Many More...</strong></td>
     </tr>
   </tbody>
@@ -183,13 +190,13 @@ You'll find comprehensive documentation, example agent networks, and tutorials t
 Clone the repo:
 
 ```bash
-git clone https://github.com/cognizant-ai-lab/neuro-san-studio
+git clone https://github.com/cognizant-ai-lab/neuro-san-demos
 ```
 
 Go to dir:
 
 ```bash
-cd neuro-san-studio
+cd neuro-san-demos
 ```
 
 Ensure you have a supported version of python (3.12 at this time):
@@ -395,16 +402,3 @@ For examples of agent networks, check out [docs/examples.md](docs/examples.md).
 ## Developer Guide
 
 For the development guide, check out [docs/dev_guide.md](docs/dev_guide.md).
-
-## Blog posts
-
-- [Code versus Model in Multi-Agentic Systems](https://medium.com/@evolutionmlmail/code-versus-model-in-multi-agentic-systems-e33cf581e32b): 
-dives into how to design reliable multi-agent systems by dividing responsibilities between LLM reasoning
-and coded tools.
-- [Neuro SAN Is All You Need — A Data-Driven Multi-Agent Orchestration Framework](https://medium.com/@evolutionmlmail/neuro-san-is-all-you-need-a-data-driven-multi-agent-orchestration-framework-563fbd31a735): 
-explores Neuro SAN's architecture, configuration model, adaptive communication protocol (AAOSA),
-and how it enables secure, extensible agent collaboration without hardcoded logic.
-
-## More details
-
-For more information, check out the [Cognizant AI Lab Neuro SAN landing page](https://decisionai.ml/neuro-san).
