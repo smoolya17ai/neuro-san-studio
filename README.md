@@ -398,9 +398,13 @@ For the development guide, check out [docs/dev_guide.md](docs/dev_guide.md).
 
 ## Blog posts
 
-- [Code versus Model in Multi-Agentic Systems](https://medium.com/@evolutionmlmail/code-versus-model-in-multi-agentic-systems-e33cf581e32b)
-- [Neuro SAN Is All You Need — A Data-Driven Multi-Agent Orchestration Framework](https://medium.com/@evolutionmlmail/neuro-san-is-all-you-need-a-data-driven-multi-agent-orchestration-framework-563fbd31a735)
+- [Code versus Model in Multi-Agentic Systems](https://medium.com/@evolutionmlmail/code-versus-model-in-multi-agentic-systems-e33cf581e32b): 
+dives into how to design reliable multi-agent systems by dividing responsibilities between LLM reasoning
+and coded tools.
+- [Neuro SAN Is All You Need — A Data-Driven Multi-Agent Orchestration Framework](https://medium.com/@evolutionmlmail/neuro-san-is-all-you-need-a-data-driven-multi-agent-orchestration-framework-563fbd31a735): 
+explores Neuro SAN's architecture, configuration model, adaptive communication protocol (AAOSA),
+and how it enables secure, extensible agent collaboration without hardcoded logic.
 
 ## More details
 
-For more information, check out our [Cognizant AI Lab Neuo SAN landing page](https://decisionai.ml/neuro-san).
+For more information, check out the [Cognizant AI Lab Neuro SAN landing page](https://decisionai.ml/neuro-san).
