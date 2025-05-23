@@ -14,7 +14,7 @@ The **A2A RESEARCH REPORT** is a simple agentic system that uses coded tool as a
 
 - This agent is **disabled by default**. To test it:
   - Manually enable it in the `manifest.hocon` file.
-  - As A2A is no published to pypi yet
+  - As A2A is not published to pypi yet
     - Clone the repo from [https://github.com/google/a2a-python/tree/main](https://github.com/google/a2a-python/tree/main)
     - `pip install .`
   - Install `crewai`
