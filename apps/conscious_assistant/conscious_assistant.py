@@ -16,9 +16,7 @@ def set_up_conscious_assistant():
 
     # Create session factory and agent session
     factory = AgentSessionFactory()
-    session = factory.create_session(
-        connection, agent_name, host, port, local_externals_direct, metadata
-    )
+    session = factory.create_session(connection, agent_name, host, port, local_externals_direct, metadata)
     # Initialize any conversation state here
     conscious_thread = {
         "last_chat_response": None,
@@ -27,7 +25,7 @@ def set_up_conscious_assistant():
         "num_input": 0,
         "user_input": None,
         "sly_data": None,
-        "chat_filter": {"chat_filter_type": "MAXIMAL"}
+        "chat_filter": {"chat_filter_type": "MAXIMAL"},
     }
     return session, conscious_thread
 
@@ -41,7 +39,7 @@ def conscious_thinker(conscious_session, conscious_thread, thoughts):
         "DEFAULT",
         "/tmp/agent_thinking.txt",  # Or wherever you want
         conscious_session,
-        None  # Not using a thinking_dir for simplicity
+        None,  # Not using a thinking_dir for simplicity
     )
     # Update the conversation state with this turn's input
     conscious_thread["user_input"] = thoughts
@@ -49,6 +47,7 @@ def conscious_thinker(conscious_session, conscious_thread, thoughts):
     # Get the agent response for this turn
     last_chat_response = conscious_thread.get("last_chat_response")
     return last_chat_response, conscious_thread
+
 
 def tear_down_conscious_assistant(conscious_session):
     print("tearing down conscious assistant...")

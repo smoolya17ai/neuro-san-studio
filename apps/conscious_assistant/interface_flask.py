@@ -1,19 +1,23 @@
 import atexit
 import os
-import time
-import schedule
-from datetime import datetime
-from flask import Flask, render_template
-from flask_socketio import SocketIO
 import queue
-from conscious_assistant import set_up_conscious_assistant, conscious_thinker, tear_down_conscious_assistant
-import cv2
 import re
+import time
+from datetime import datetime
 
-os.environ['AGENT_MANIFEST_FILE'] = 'registries/manifest.hocon'
-os.environ['AGENT_TOOL_PATH'] = 'coded_tools'
+import cv2
+import schedule
+from conscious_assistant import conscious_thinker
+from conscious_assistant import set_up_conscious_assistant
+from conscious_assistant import tear_down_conscious_assistant
+from flask import Flask
+from flask import render_template
+from flask_socketio import SocketIO
+
+os.environ["AGENT_MANIFEST_FILE"] = "registries/manifest.hocon"
+os.environ["AGENT_TOOL_PATH"] = "coded_tools"
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
+app.config["SECRET_KEY"] = "secret!"
 socketio = SocketIO(app)
 thread_started = False
 
@@ -42,8 +46,7 @@ def conscious_thinking_process():
             #     Each block begins with  "thought:"  or  "say:"  and continues until
             #     the next block or the end of the string.
             pattern = re.compile(
-                r'(?m)^(thought|say):[ \t]*(.*?)(?=^\s*(?:thought|say):|\Z)',  # look-ahead
-                re.S  # dot = newline
+                r"(?m)^(thought|say):[ \t]*(.*?)(?=^\s*(?:thought|say):|\Z)", re.S  # look-ahead  # dot = newline
             )
 
             for kind, raw in pattern.findall(thoughts):
@@ -85,7 +88,7 @@ def conscious_thinking_process():
                 continue
 
 
-@socketio.on('connect', namespace='/chat')
+@socketio.on("connect", namespace="/chat")
 def on_connect():
     global thread_started
     if not thread_started:
@@ -94,16 +97,16 @@ def on_connect():
         socketio.start_background_task(conscious_thinking_process)
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-@socketio.on('user_input', namespace='/chat')
+@socketio.on("user_input", namespace="/chat")
 def handle_user_input(json, *_):
-    user_input = json['data']
+    user_input = json["data"]
     user_input_queue.put(user_input)
-    socketio.emit('update_user_input', {'data': user_input}, namespace='/chat')
+    socketio.emit("update_user_input", {"data": user_input}, namespace="/chat")
 
 
 def cleanup():
@@ -112,7 +115,7 @@ def cleanup():
     socketio.stop()
 
 
-@app.route('/shutdown')
+@app.route("/shutdown")
 def shutdown():
     cleanup()
     cv2.destroyAllWindows()
@@ -121,7 +124,7 @@ def shutdown():
 
 @app.after_request
 def add_header(response):
-    response.headers['Cache-Control'] = 'no-store'
+    response.headers["Cache-Control"] = "no-store"
     return response
 
 
@@ -134,5 +137,5 @@ def run_scheduled_tasks():
 # Register the cleanup function
 atexit.register(cleanup)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     socketio.run(app, debug=False, port=5001, allow_unsafe_werkzeug=True, log_output=True, use_reloader=False)
