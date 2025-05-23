@@ -1,12 +1,13 @@
 import os
 
 from neuro_san.client.agent_session_factory import AgentSessionFactory
+from neuro_san.client.streaming_input_processor import StreamingInputProcessor
 
 AGENT_NETWORK_NAME = "conscious_agent"
 
 
 def set_up_conscious_assistant():
-    # Configure these as needed
+    """Configure these as needed."""
     agent_name = AGENT_NETWORK_NAME
     connection = "direct"
     host = "localhost"
@@ -31,8 +32,7 @@ def set_up_conscious_assistant():
 
 
 def conscious_thinker(conscious_session, conscious_thread, thoughts):
-    # You can import StreamingInputProcessor at the top
-    from neuro_san.client.streaming_input_processor import StreamingInputProcessor
+    """You can import StreamingInputProcessor at the top."""
 
     # Use the processor (like in agent_cli.py)
     input_processor = StreamingInputProcessor(
@@ -50,6 +50,10 @@ def conscious_thinker(conscious_session, conscious_thread, thoughts):
 
 
 def tear_down_conscious_assistant(conscious_session):
+    """Tear down the assistant.
+
+    :param conscious_session: The pointer to the session.
+    """
     print("tearing down conscious assistant...")
     conscious_session.close()
     # client.assistants.delete(conscious_assistant_id)

@@ -18,6 +18,7 @@ The **Conscious Agent** is a basic multi-agent system that is called from the [c
   - Manually enable it in the `manifest.hocon` file.
   - Make sure to install the requirements for this app using the following command:
   `pip install -r apps/conscious_assistant/requirements.txt`
+  - run the application with the command:`python -m apps.conscious_assistant.interface_flask
 
 ---
 

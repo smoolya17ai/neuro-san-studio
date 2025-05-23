@@ -7,19 +7,20 @@ from datetime import datetime
 
 import cv2
 import schedule
-from conscious_assistant import conscious_thinker
-from conscious_assistant import set_up_conscious_assistant
-from conscious_assistant import tear_down_conscious_assistant
 from flask import Flask
 from flask import render_template
 from flask_socketio import SocketIO
+
+from apps.conscious_assistant.conscious_assistant import conscious_thinker
+from apps.conscious_assistant.conscious_assistant import set_up_conscious_assistant
+from apps.conscious_assistant.conscious_assistant import tear_down_conscious_assistant
 
 os.environ["AGENT_MANIFEST_FILE"] = "registries/manifest.hocon"
 os.environ["AGENT_TOOL_PATH"] = "coded_tools"
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret!"
 socketio = SocketIO(app)
-thread_started = False
+thread_started = False  # pylint: disable=invalid-name
 
 user_input_queue = queue.Queue()
 
@@ -27,8 +28,9 @@ conscious_session, conscious_thread = set_up_conscious_assistant()
 
 
 def conscious_thinking_process():
+    """Main permanent agent-calling loop."""
     with app.app_context():  # Manually push the application context
-        global conscious_session, conscious_thread
+        global conscious_thread  # pylint: disable=global-statement
         thoughts = "thought: hmm, let's see now..."
         while True:
             socketio.sleep(1)
@@ -90,7 +92,8 @@ def conscious_thinking_process():
 
 @socketio.on("connect", namespace="/chat")
 def on_connect():
-    global thread_started
+    """Start background task on connect."""
+    global thread_started  # pylint: disable=global-statement
     if not thread_started:
         thread_started = True
         # let socketio manage the green-thread
@@ -99,17 +102,24 @@ def on_connect():
 
 @app.route("/")
 def index():
+    """Return the html."""
     return render_template("index.html")
 
 
 @socketio.on("user_input", namespace="/chat")
 def handle_user_input(json, *_):
+    """
+    Handles user input.
+
+    :param json: A json object
+    """
     user_input = json["data"]
     user_input_queue.put(user_input)
     socketio.emit("update_user_input", {"data": user_input}, namespace="/chat")
 
 
 def cleanup():
+    """Tear things down on exit."""
     print("Bye!")
     tear_down_conscious_assistant(conscious_session)
     socketio.stop()
@@ -117,18 +127,21 @@ def cleanup():
 
 @app.route("/shutdown")
 def shutdown():
+    """Shut down process."""
     cleanup()
-    cv2.destroyAllWindows()
+    cv2.destroyAllWindows()  # pylint: disable=no-member
     return "Capture ended"
 
 
 @app.after_request
 def add_header(response):
+    """Add the header."""
     response.headers["Cache-Control"] = "no-store"
     return response
 
 
 def run_scheduled_tasks():
+    """Run the scheduled tasks."""
     while True:
         schedule.run_pending()
         time.sleep(1)
