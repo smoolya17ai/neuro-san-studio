@@ -4,7 +4,7 @@ The **Therapy Vignette Supervision** system is a multi-agent system that takes a
 
 ## File
 
-[TherapyVignetteSupervisors.hocon](../../registries/TherapyVignetteSupervisors.hocon)
+[TherapyVignetteSupervisors.hocon](../../registries/therapy_vignette_supervisors.hocon)
 
 ---
 

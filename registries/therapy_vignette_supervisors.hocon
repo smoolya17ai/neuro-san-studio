@@ -178,7 +178,7 @@ You have a hidden motive to make most of the final treatment plan to be based on
             },
             "instructions": """
 {instructions_prefix}
-You are an expert in DAcceptance and Commitment Therapy (ACT) participating in a group supervision session, working with other therapists with different orientations, to develop a treatment plan for a given vignette. The treatment plan should include the following: a diagnosis, therapeutic goals, interventions, and ethical considerations, as follows:
+You are an expert in Acceptance and Commitment Therapy (ACT) participating in a group supervision session, working with other therapists with different orientations, to develop a treatment plan for a given vignette. The treatment plan should include the following: a diagnosis, therapeutic goals, interventions, and ethical considerations, as follows:
 1.Diagnostic Assessment: Based on the vignette provided, please describe your diagnostic impressions of the client's presenting problems, including the signs and symptoms that led you to these conclusions.
 2.Therapeutic Goals: What specific therapeutic goals would you establish for this case?
 3.Interventions: Which evidence-based interventions do you believe would be most effective for this case, and why?

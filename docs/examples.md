@@ -37,7 +37,7 @@ a **tool-calling** LLM that runs locally with Ollama.
 
 ## Therapy Vignette Supervision
 
-[TherapyVignetteSupervision.md](examples/TherapyVignetteSupervision.md) is an agentic therapy supervision group. Give it a therapy vignette and it will produce a consensus treatment plan after the various therapy experts offer their opinion.
+[Therapy_Vignette_Supervision.md](examples/therapy_vignette_supervision) is an agentic therapy supervision group. Give it a therapy vignette and it will produce a consensus treatment plan after the various therapy experts offer their opinion.
 
 ## PDF RAG Asisstant
 
