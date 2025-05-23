@@ -120,6 +120,11 @@ A number of examples that can be built using Neuro SAN:
       <td>Diagnoses network problems, guides troubleshooting, and escalates complex issues, reducing downtime and enhancing customer service.</td>
     </tr>
     <tr>
+      <td>📞 <strong>Therapy Vignette Supervision</strong></td>
+      <td>Generates treatment plan for a given therapy vignette.</td>
+      <td>A good example of using multiple different expert agents working together to come up with a single plan.</td>
+    </tr>
+    <tr>
       <td>📝 <strong>Kwik Memory Agent</strong></td>
       <td>Enhanced memory retention and retrieval.</td>
       <td>Improves agent capability in storing and recalling information, enhancing long-term contextual awareness.</td>
