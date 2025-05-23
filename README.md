@@ -321,7 +321,7 @@ You can also use [neuro-san](https://github.com/cognizant-ai-lab/neuro-san)'s co
   export AGENT_TOOL_PATH="./coded_tools"
   ```
 
-- For further instructioons, refer to the client/server setup in neuro-san:  
+- For further instructions, refer to the client/server setup in neuro-san:  
 https://github.com/cognizant-ai-lab/neuro-san/blob/main/README.md#clientserver-setup
 
 ---
