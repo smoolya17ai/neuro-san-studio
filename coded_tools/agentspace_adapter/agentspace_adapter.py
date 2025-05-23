@@ -89,7 +89,9 @@ class AgentSpaceSearch(CodedTool):
         #  For more information, refer to:
         # https://cloud.google.com/generative-ai-app-builder/docs/locations#specify_a_multi-region_for_your_data_store
         client_options = (
-            ClientOptions(api_endpoint=f"{self.location}-discoveryengine.googleapis.com") if self.location != "global" else None
+            ClientOptions(api_endpoint=f"{self.location}-discoveryengine.googleapis.com")
+            if self.location != "global"
+            else None
         )
 
         # Create a client

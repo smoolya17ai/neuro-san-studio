@@ -1,11 +1,9 @@
+import logging
 from typing import Any
 from typing import Dict
 from typing import Union
 
-import logging
-
 from duckduckgo_search import DDGS
-
 from neuro_san.interfaces.coded_tool import CodedTool
 
 
