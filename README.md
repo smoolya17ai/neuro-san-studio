@@ -160,7 +160,7 @@ A number of examples that can be built using Neuro SAN:
       <td>Enables efficient, decentralized agent communication and task delegation using the A2A protocol.</td>
     </tr>
     <tr>
-      <td>🔄 <strong>Conscious Agent</strong></td>
+      <td>💭 <strong>Conscious Agent</strong></td>
       <td>An example agent network that is run continuously via the conscious_assistant flask app.</td>
       <td>This is an example of how to run agents continuously, initiating them from code, and how to make tool calls to non-default packages.</td>
     </tr>
@@ -260,7 +260,8 @@ You can get your OpenAI API key from <https://platform.openai.com/signup>. After
     $env:OPENAI_API_KEY="XXX"
     ```
 
-Other providers and models are supported too but will require proper setup.
+Other providers such as Anthropic, AzureOpenAI, Ollama and more are supported too but will require proper setup.<br>
+Look at the `.env.example` file to set up environment variables for specific use-cases.
 
 ---
 
@@ -306,28 +307,15 @@ python -m run --use-flask-web-client
 
 The client and server logs will show on the screen,
 and will also be saved to `logs/server.log` and `logs/client.log` respectively.
-As a default, on a web browser you can now navigate to <http://127.0.0.1:5003/> to start using the application:
+As a default, on a web browser you can now navigate to <http://127.0.0.1:5003/> to start using the application.
 
-![web_client.png](docs/images/web_client.png)
-
-1. Expand the `Configuration` tab at the bottom of the interface
+Notes:
+1. Expand the `Configuration` tab at the bottom of the interface to connect to the neuro-san server host and port
 2. Choose an Agent Network Name, e.g. "music_nerd", click Update  
-   💡 **Hint**: Check the server logs to see which agent networks are available. For instance:
-
-   ```text
-   SERVER: {"message": "tool_registries found: ['hello_world', 'airline_policy', 'advanced_calculator', 'smart_home', 'agent_network_designer', 'agent_network_generator', 'music_nerd', 'music_nerd_pro', 'agentforce', 'banking_ops', 'cpg_agents', 'insurance_agents', 'intranet_agents', 'retail_ops_and_customer_service', 'six_thinking_hats', 'telco_network_support']", "user_id": "None", "Timestamp": "2025-04-11T11:20:22.092078", "source": "Agent Server", "message_type": "Other", "request_id": "None"}
-   ```
-
-   They should match the list of agent networks that are activated in the `registries/manifest.hocon` file.
+   This Agent Network Name should match the list of agent networks that are activated in the `registries/manifest.hocon` file.
 3. Type your message in the chat box and press 'Send' to interact with the agent network.
 4. Optional: open the `Agent Network Diagram` tab to visualize the interactions between the agents.
 5. Optional: open the `Agent Communications` tab to see the messages exchanged between the agents.
-
-Run this command to see the various config options for the server and client:
-
-```bash
-python -m run --help
-```
 
 ---
 
@@ -336,7 +324,6 @@ python -m run --help
 You can also use [neuro-san](https://github.com/cognizant-ai-lab/neuro-san)'s command line interface (CLI) to start and interact with the server.
 
 - Export the following environment variables:
-
   ```bash
   # Point the server to the manifest file containing the agent network configurations
   export AGENT_MANIFEST_FILE="./registries/manifest.hocon"
@@ -344,42 +331,8 @@ You can also use [neuro-san](https://github.com/cognizant-ai-lab/neuro-san)'s co
   export AGENT_TOOL_PATH="./coded_tools"
   ```
 
-- Start the server:
-
-```bash
-python -m neuro_san.service.agent_main_loop --port 30011
-```
-
-- Start the client:
-  From another terminal window, navigate to the repo's folder and activate the virtual environment:
-
-  ```bash
-  source venv/bin/activate && export PYTHONPATH=`pwd`
-  ```
-
-Then start the client:
-
-```bash
-python -m neuro_san.client.agent_cli --connection service --agent hello_world
-```
-
-- Query the client:
-  
-  When prompted, ask a question to the `hello_world` agent network. For example:
-
-  ```text
-  I am travelling to a new planet and wish to send greetings to the orb.
-  ```
-
-And it should return something like:
-
-```text
-Hello, world.
-```
-
-... but you are dealing with LLMs. Your results will vary!
-
-Type `quit` to exit the client.
+- For further instructions, refer to the client/server setup in neuro-san:  
+https://github.com/cognizant-ai-lab/neuro-san/blob/main/README.md#clientserver-setup
 
 ---
 

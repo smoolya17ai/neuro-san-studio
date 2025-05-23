@@ -342,7 +342,9 @@ class NeuroSanRunner:
 
         if self.args.get("use_flask_web_client"):
             if self.is_port_open("localhost", self.args["neuro_san_web_client_port"]):
-                port_conflicts.append(f"Flask web client port {self.args['neuro_san_web_client_port']} is already in use.")
+                port_conflicts.append(
+                    f"Flask web client port {self.args['neuro_san_web_client_port']} is already in use."
+                )
 
         return port_conflicts
 
