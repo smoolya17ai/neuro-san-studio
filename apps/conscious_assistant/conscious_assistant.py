@@ -32,8 +32,25 @@ def set_up_conscious_assistant():
 
 
 def conscious_thinker(conscious_session, conscious_thread, thoughts):
-    """You can import StreamingInputProcessor at the top."""
+    """
+    Processes a single turn of user input within the conscious agent's session.
 
+    This function simulates a conversational turn by:
+    1. Initializing a StreamingInputProcessor to handle the input.
+    2. Updating the agent's internal thread state with the user's input (`thoughts`).
+    3. Passing the updated thread to the processor for handling.
+    4. Extracting and returning the agent's response for this turn.
+
+    Parameters:
+        conscious_session: An active session object for the conscious agent.
+        conscious_thread (dict): The agent's current conversation thread state.
+        thoughts (str): The user's input or query to be processed.
+
+    Returns:
+        tuple:
+            - last_chat_response (str or None): The agent's response to the input.
+            - conscious_thread (dict): The updated thread state after processing.
+    """
     # Use the processor (like in agent_cli.py)
     input_processor = StreamingInputProcessor(
         "DEFAULT",
