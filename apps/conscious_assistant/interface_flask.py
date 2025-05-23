@@ -5,7 +5,6 @@ import re
 import time
 from datetime import datetime
 
-# pylint: disable=import-error
 import cv2
 import schedule
 from flask import Flask
@@ -130,7 +129,7 @@ def cleanup():
 def shutdown():
     """Shut down process."""
     cleanup()
-    cv2.destroyAllWindows()
+    cv2.destroyAllWindows()  # pylint: disable=no-member
     return "Capture ended"
 
 
