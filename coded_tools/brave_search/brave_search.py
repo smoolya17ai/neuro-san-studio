@@ -1,11 +1,8 @@
-import os
-import requests
-from typing import Any
-from typing import Dict
-from typing import Union
-
 import logging
+import os
+from typing import Any, Dict, Union
 
+import requests
 from neuro_san.interfaces.coded_tool import CodedTool
 
 
@@ -22,6 +19,9 @@ class BraveSearch(CodedTool):
         self.brave_url = os.getenv("BRAVE_URL")
         if self.brave_url is None:
             logging.error("BRAVE_URL is not set!")
+        self.brave_timeout = os.getenv("BRAVE_TIMEOUT")
+        if self.brave_timeout is None:
+            logging.error("BRAVE_TIMEOUT is not set!")
 
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """
@@ -88,7 +88,7 @@ class BraveSearch(CodedTool):
             "X-Subscription-Token": self.brave_api_key,
         }
 
-        url = self.brave_url + f"{query}"
-        response = requests.get(url, headers=headers)
+        url = self.brave_url + f"{query}&count={num_results}"
+        response = requests.get(url, headers=headers, timeout=self.brave_timeout)
         results = response.json()
         return results
