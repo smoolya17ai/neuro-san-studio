@@ -9,6 +9,7 @@ from neuro_san.interfaces.coded_tool import CodedTool
 class BraveSearch(CodedTool):
     """
     CodedTool implementation which provides a way to search the web using Brave search API
+    For info on Brave search, and to get a Brave search API key, go to https://brave.com/search/api/
     """
 
     def __init__(self):

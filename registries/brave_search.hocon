@@ -29,7 +29,7 @@
             # distinguishing it from the rest of the tools.
 
             "function": {
-                "description": "Assist caller with searching an url.",
+                "description": "Assist caller with searching a url.",
                 "parameters": {
                     "type": "object",
                     "properties": {
