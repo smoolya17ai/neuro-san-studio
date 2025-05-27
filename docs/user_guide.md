@@ -342,7 +342,7 @@ To use tools from toolbox in your agent network, simply call them with field `to
         - Additional dependencies (outside of `langchain_community`) must be installed separately.
         
         Example:
-        ```json
+        ```hocon
             "bing_search": {
                 # Fully qualified class path of the tool to be instantiated.
                 "class": "langchain_community.tools.bing_search.BingSearchResults",
@@ -405,7 +405,7 @@ To use tools from toolbox in your agent network, simply call them with field `to
 
 - Tools' arguments can be overidden in the agent network config file using the `args` key.
 Example:
-```json
+```hocon
 {
     "name": "web_searcher",
     "toolbox": "bing_search",
