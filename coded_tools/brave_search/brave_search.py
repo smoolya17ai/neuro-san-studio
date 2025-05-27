@@ -1,3 +1,4 @@
+import os
 import requests
 from typing import Any
 from typing import Dict
@@ -7,9 +8,6 @@ import logging
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
-BRAVE_API_KEY = "BSANf86WmplGJ6WVmnEcw_6uCLi41DD"
-BRAVE_URL = "https://api.search.brave.com/res/v1/web/search?q="
-
 
 class BraveSearch(CodedTool):
     """
@@ -18,6 +16,12 @@ class BraveSearch(CodedTool):
 
     def __init__(self):
         self.top_n = 5
+        self.brave_api_key = os.getenv("BRAVE_API_KEY")
+        if self.brave_api_key is None:
+            logging.error("BRAVE_API_KEY is not set!")
+        self.brave_url = os.getenv("BRAVE_URL")
+        if self.brave_url is None:
+            logging.error("BRAVE_URL is not set!")
 
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """
@@ -81,10 +85,10 @@ class BraveSearch(CodedTool):
         """
         headers = {
             "Accept": "application/json",
-            "X-Subscription-Token": BRAVE_API_KEY,
+            "X-Subscription-Token": self.brave_api_key,
         }
 
-        url = BRAVE_URL + f"{query}"
+        url = self.brave_url + f"{query}"
         response = requests.get(url, headers=headers)
         results = response.json()
         return results
