@@ -67,6 +67,10 @@ a **tool-calling** LLM that runs locally with Ollama.
 
 [Intranet Agents With Tools](examples/intranet_agents_with_tools.md) is a multi-agent system that mimics the intranet of a major corporation. It allows you to interact and get information from various departments such as IT, Finance, Legal, HR, etc. Some of the down-chain agents call coded tools.
 
+## Real Estate Agent
+
+[Real Estate Agent](examples/real_estate.md) is a multi-agent system that provides help with real estate transaction inquiries. The top-level "front-man" agent receives a question, and in coordination with down-chain agents, provides an answer. Some of the down-chain agents call coded tools.
+
 ## Agentforce
 
 [Agentforce](./examples/agentforce.md) is an agent network that delegates to a Salesforce Agentforce agent
