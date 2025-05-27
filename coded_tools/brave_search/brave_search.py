@@ -17,12 +17,8 @@ class BraveSearch(CodedTool):
         self.brave_api_key = os.getenv("BRAVE_API_KEY")
         if self.brave_api_key is None:
             logging.error("BRAVE_API_KEY is not set!")
-        self.brave_url = os.getenv("BRAVE_URL")
-        if self.brave_url is None:
-            logging.error("BRAVE_URL is not set!")
-        self.brave_timeout = os.getenv("BRAVE_TIMEOUT")
-        if self.brave_timeout is None:
-            logging.error("BRAVE_TIMEOUT is not set!")
+        self.brave_url = os.getenv("BRAVE_URL", "https://api.search.brave.com/res/v1/web/search?q=")
+        self.brave_timeout = os.getenv("BRAVE_TIMEOUT", 30)
 
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """
