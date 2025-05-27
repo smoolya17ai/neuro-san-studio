@@ -391,7 +391,7 @@ To use tools from toolbox in your agent network, simply call them with field `to
             }
         ```
 
-        For more example please see [https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox_info.hocon](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox_info.hocon)
+        For more examples, please see [https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox_info.hocon](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox_info.hocon)
 
 3. Point to the config file by setting the environment variable `AGENT_TOOLBOX_INFO_FILE` to your custom config:
 
