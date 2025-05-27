@@ -5,7 +5,7 @@
 # You can be released from the terms, and requirements of the Academic Public
 # License by purchasing a commercial license.
 # Purchase of a commercial license is mandatory for any use of the
-# neuro-san-demos SDK Software in commercial settings.
+# neuro-san-studio SDK Software in commercial settings.
 #
 import logging
 from typing import Any
@@ -34,13 +34,17 @@ HOCON_HEADER_REMAINDER = (
     "Do not try to help for other matters.\n"
     "Do not mention what you can NOT do. Only mention what you can do.\n"
     '            """,\n'
+    '            "demo_mode": "You are part of a demo system, so when queried, make up a realistic response as if you '
+    'are actually grounded in real data or you are operating a real application API or microservice."\n'
     '            "aaosa_instructions": """\n'
     "When you receive an inquiry, you will:\n"
     "1. If you are clearly not the right agent for this type of inquiry, reply you're not relevant.\n"
-    "2. If there is a chance you're relevant, call your down-chain agents to determine if they can answer all or part of the inquiry.\n"  # noqa E501
+    "2. If there is a chance you're relevant, call your down-chain agents to determine if they can answer all or part "
+    "of the inquiry.\n"  # noqa E501
     "   Do not assume what your down-chain agents can do. Always call them. You'll be surprised.\n"
     "3. Determine which down-chain agents have the strongest claims to the inquiry.\n"
-    "   3.1 If the inquiry is ambiguous, for example if more than one agent can fulfill the inquiry, then always ask for clarification.\n"  # noqa E501
+    "   3.1 If the inquiry is ambiguous, for example if more than one agent can fulfill the inquiry, then always ask "
+    "for clarification.\n"  # noqa E501
     "   3.2 Otherwise, call the relevant down-chain agents and:\n"
     "       - ask them for follow-up information if needed,\n"
     "       - or ask them to fulfill their part of the inquiry.\n"
@@ -85,7 +89,8 @@ HOCON_HEADER_REMAINDER = (
     '    "Claim:" <All | Partial>,\n'
     '    "Requirements" <None | list of requirements>\n'
     "}\n"
-    "If mode is 'Fulfill' or \"Follow up\", respond to the inquiry and return a json block with the following fields:\n"  # noqa E501
+    "If mode is 'Fulfill' or \"Follow up\", respond to the inquiry and return a json block with "
+    "the following fields:\n"  # noqa E501
     "{\n"
     '    "Name": <your name>,\n'
     '    "Inquiry": <the inquiry>,\n'
@@ -131,7 +136,7 @@ LEAF_NODE_AGENT_TEMPLATE = (
     '            "name": "%s",\n'
     '            "function": "aaosa_call",\n'
     '            "instructions": """\n'
-    "{instructions_prefix}\n"
+    "{instructions_prefix} {demo_mode}\n"
     "%s\n"
     '            """,\n'
     '            "command": "aaosa_command",\n'

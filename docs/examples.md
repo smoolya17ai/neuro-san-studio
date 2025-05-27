@@ -35,6 +35,10 @@ This is a good way to learn about how to manage a state in a conversation.
 [Music Nerd Pro Sly](./examples/music_nerd_pro_sly.md) that uses
 a **tool-calling** LLM that runs locally with Ollama.
 
+## Therapy Vignette Supervision
+
+[Therapy_Vignette_Supervision.md](examples/therapy_vignette_supervision) is an agentic therapy supervision group. Give it a therapy vignette and it will produce a consensus treatment plan after the various therapy experts offer their opinion.
+
 ## PDF RAG Asisstant
 
 [PDF RAG Assistant](./examples/pdf_rag.md) is an agent-based system that answers user queries by retrieving information from specified PDF files using Retrieval-Augmented Generation (RAG). It processes input through a frontman agent and a PDF retrieval tool, enabling accurate responses from static documents.
@@ -80,3 +84,10 @@ to interact with a CRM system.
 
 [kwik_agents.md](examples/kwik_agents.md) is a basic multi-agent system with memory.
 
+## Consumer Decision Assistant Agents
+
+[consumer_decision_assistant.md](examples/consumer_decision_assistant.md) is a multi-agent system that calls other (B2C) multi-agent systems that are not necessarily aligned.
+
+## Conscious Assistant
+
+[conscious_agent.md](examples/conscious_agent.md) is a multi-agent system used to within the conscious assistant and serves as a good example of how to run an agent permanently.

@@ -19,14 +19,14 @@
 # registries and code lives so as to properly import them into the Dockerfile.
 #
 
-export SERVICE_TAG=${SERVICE_TAG:-neuro-san-demos}
+export SERVICE_TAG=${SERVICE_TAG:-neuro-san-studio}
 export SERVICE_VERSION=${SERVICE_VERSION:-0.0.9}
 
 function check_directory() {
     working_dir=$(pwd)
-    if [ "neuro-san-demos" == "$(basename "${working_dir}")" ]
+    if [ "neuro-san-studio" == "$(basename "${working_dir}")" ]
     then
-        # We are in the neuro-san-demos repo.
+        # We are in the neuro-san-studio repo.
         # Change directories so that the rest of the script will work OK.
         cd . || exit 1
     fi

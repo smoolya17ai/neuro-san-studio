@@ -5,7 +5,7 @@
 # You can be released from the terms, and requirements of the Academic Public
 # License by purchasing a commercial license.
 # Purchase of a commercial license is mandatory for any use of the
-# neuro-san-demos SDK Software in commercial settings.
+# neuro-san-studio SDK Software in commercial settings.
 #
 import argparse
 import glob
@@ -251,7 +251,7 @@ class NeuroSanRunner:
 
     def start_nsflow(self):
         """Start nsflow client."""
-        print("Starting nsflow slient...")
+        print("Starting nsflow client...")
         command = [
             sys.executable,
             "-u",

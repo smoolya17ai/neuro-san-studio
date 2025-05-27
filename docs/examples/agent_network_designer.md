@@ -4,6 +4,8 @@ The **Agent Network Designer** is a multi-agent system for creating multi-agent 
 
 **Note**: this demo will add a file to your directory and modify your manifest.hocon file. You can turn this feature off by changing WRITE_TO_FILE to False in [get_agent_network_hocon.py](../../coded_tools/agent_network_designer/get_agent_network_hocon.py)
 
+**Note** obviously the agents will not be grounded, however, they will pretend that they are. Remove or edit the demo_mode common_def once you ground the agents.
+
 ---
 
 ## File

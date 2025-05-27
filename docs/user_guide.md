@@ -13,6 +13,7 @@
       - [LLM specifications](#llm-specifications)
   - [LLM configuration](#llm-configuration)
     - [OpenAI](#openai)
+    - [AzureOpenAI](#azureopenai)
     - [Ollama](#ollama)
   - [Multi-agent networks](#multi-agent-networks)
   - [Coded tools](#coded-tools)
@@ -114,7 +115,7 @@ When you start the server, you can see which agent networks have been loaded by 
 tool_registries found: ['agent_network_A', 'agent_network_C']
 ```
 
-For more details, please check the [Agent Manifest HOCON File Reference](https://github.com/leaf-ai/neuro-san/blob/main/docs/manifest_hocon_reference.md) documentation.
+For more details, please check the [Agent Manifest HOCON File Reference](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/manifest_hocon_reference.md) documentation.
 
 ### Agent network
 
@@ -147,7 +148,7 @@ For more details, please check the [Agent Manifest HOCON File Reference](https:/
 
 See next section for more information about how to specify the LLM(s) to use.
 
-For a full description of the fields, please refer to the [Agent Network HOCON File Reference](https://github.com/leaf-ai/neuro-san/blob/main/docs/agent_hocon_reference.md) documentation.
+For a full description of the fields, please refer to the [Agent Network HOCON File Reference](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md) documentation.
 
 ## LLM configuration
 
@@ -156,10 +157,10 @@ for the agents in this file. It can be specified:
 - at the agent network level, to apply to all agents in this file
 - at the agent level, to apply to a specific agent
 
-For a full description of the fields, please refer to the [LLM config](https://github.com/leaf-ai/neuro-san/blob/main/docs/agent_hocon_reference.md#llm_config) documentation.
+For a full description of the fields, please refer to the [LLM config](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md#llm_config) documentation.
 
 For instructions about how to extend the default LLM descriptions shipped with the `neuro-san` library,
-please refer to the [LLM Info HOCON File Reference](https://github.com/leaf-ai/neuro-san/blob/main/docs/llm_info_hocon_reference.md) documentation.
+please refer to the [LLM Info HOCON File Reference](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/llm_info_hocon_reference.md) documentation.
 
 ### OpenAI
 
@@ -172,6 +173,25 @@ and specify which model to use in the `model_name` field:
 ```
 
 See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
+
+### AzureOpenAI
+
+If you are using Azure OpenAI in your hocon file, you might need to set the llm_config to use the right model.<br>
+For example, define the key "use_model_name" with the value of the model you want to use:
+```hocon
+"llm_config": {
+        "use_model_name": "azure-gpt-4o",
+    },
+```
+
+You might have to set these environment variables or add them in your .env file in order to use Azure OpenAI:  
+AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"  
+OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"  
+AZURE_OPENAI_API_KEY="your Azure OpenAI API key"  
+AZURE_DEPLOYMENT="your deployment name"
+
+See https://azure.microsoft.com/en-us/products/ai-services/openai-service/ for more information.
+
 
 ### Ollama
 
@@ -271,9 +291,9 @@ the .hocon file of the frontman (the only agent that is connected to the client)
 ```
 
 All the above .hocon "allow" blocks can be combined in a single "allow" block. An example
-is given [here](https://github.com/leaf-ai/neuro-san/blob/main/neuro_san/registries/math_guy_passthrough.hocon#L54)
+is given [here](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/registries/math_guy_passthrough.hocon#L54)
 
-For a full reference, please check the [neuro-san documentation](https://github.com/leaf-ai/neuro-san/blob/main/docs/agent_hocon_reference.md#allow)
+For a full reference, please check the [neuro-san documentation](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md#allow)
 
 ## Toolbox
 
