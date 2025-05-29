@@ -92,6 +92,10 @@ to interact with a CRM system.
 
 [consumer_decision_assistant.md](examples/consumer_decision_assistant.md) is a multi-agent system that calls other (B2C) multi-agent systems that are not necessarily aligned.
 
+## Log Analyzer
+
+[log_analyzer.md](examples/log_analyzer.md) is a multi-agent system used within the log analyzer app and serves as a good example of how to run an agent network on an agent network log for various validations.
+
 ## Conscious Assistant
 
 [conscious_agent.md](examples/conscious_agent.md) is a multi-agent system used to within the conscious assistant and serves as a good example of how to run an agent permanently.
