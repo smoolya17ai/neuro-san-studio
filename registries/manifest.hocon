@@ -18,7 +18,6 @@
     "advanced_calculator.hocon": true,
     "brave_search.hocon": false,
     "smart_home.hocon": true,
-    "smart_home_include.hocon": true,
     "agent_network_designer.hocon": true,
     "consumer_decision_assistant.hocon": true,
     "airbnb.hocon": true,
