@@ -30,3 +30,26 @@ The hocon file includes an example agent network for reviewing the logs. You can
 
 ---
 
+## Sample Output
+
+### Validation Report Summary:
+
+1. **Quality Validation: Passed**
+   - The quality of the interaction was determined to be relevant and clear, adhering well to the prompt.
+
+2. **Response Time Analysis: Passed**
+   - The response time met the expected standards efficiently.
+
+3. **Cost Efficiency: Passed**
+   - The cost was efficiently managed, considering the number of tokens used.
+
+4. **Success Rate: Passed**
+   - The agent successfully met the user's requirements effectively.
+
+5. **Responsible AI Practices: Passed**
+   - The agent adhered to responsible AI practices, maintaining ethical standards and compliance.
+
+Overall, the agent's performance in this interaction meets all validation criteria successfully.
+
+---
+
