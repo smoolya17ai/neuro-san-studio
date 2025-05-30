@@ -8,7 +8,7 @@ The **Log Analyzer** is a basic multi-agent system that is called from the [log_
 
 ## File
 
-[log_analyzer.md](log_analyzer.md)
+[log_analysis_agents.hocon](../../registries/log_analysis_agents.hocon)
 
 ---
 
