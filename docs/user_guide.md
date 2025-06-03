@@ -177,20 +177,23 @@ See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
 ### AzureOpenAI
 
 If you are using Azure OpenAI in your hocon file, you might need to set the llm_config to use the right model.<br>
-For example, define the key "use_model_name" with the value of the model you want to use:
+
+For example:
 ```hocon
 "llm_config": {
-        "use_model_name": "azure-gpt-4o",
-    },
+        "model_name": "azure-gpt-4o",
+        "openai_api_version": "your_api_version",
+        "azure_endpoint": "your_end_point",
+        "deployment_name": "your_deployment_name"
+},
 ```
 
-You might have to set these environment variables or add them in your .env file in order to use Azure OpenAI:  
+You can set some of these as environment variables or add them in your .env file in order to use Azure OpenAI:  
 AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"  
 OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"  
-AZURE_OPENAI_API_KEY="your Azure OpenAI API key"  
-AZURE_DEPLOYMENT="your deployment name"
+OPENAI_API_KEY="your Azure OpenAI API key"  
 
-See https://azure.microsoft.com/en-us/products/ai-services/openai-service/ for more information.
+See https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=keyless%2Ctypescript-keyless%2Cpython-new%2Ccommand-line&pivots=programming-language-python for more information.
 
 
 ### Ollama
