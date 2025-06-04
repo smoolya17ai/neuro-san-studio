@@ -428,6 +428,7 @@ pytest.set_trace()
 3. Start the client and server via `python3 -m run`, select `music_berd_pro` agent network, and ask a question like `Where was John Lennon born?`.
 The code execution stops at the line where you added `pytest.set_trace` statement. You can step through the code, view variable values, etc. by typing commands in the terminal. For all the debugger options, please refer to pdb documentation [here](https://ugoproto.github.io/ugo_py_doc/pdf/Python-Debugger-Cheatsheet.pdf)
 
+The client and server logs will be saved to `logs/nsflow.log` and `logs/server.log` respectively.
 
 ## Advanced
 
