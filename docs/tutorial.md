@@ -624,7 +624,7 @@ To use any tool from the Toolbox, simply reference it in the toolbox field of yo
 
 #### Toolbox Configuration
 Toolbox tools are defined in a centralized configuration file.
-This [file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox_info.hocon) includes definitions for both LangChain tools and shared coded tools. If the tool is defined in the toolbox config, you don’t need to redefine it in the agent network — just reference it by name.
+This [file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox/toolbox_info.hocon) includes definitions for both LangChain tools and shared coded tools. If the tool is defined in the toolbox config, you don’t need to redefine it in the agent network — just reference it by name.
 
 **LangChain Example**
 ```json
