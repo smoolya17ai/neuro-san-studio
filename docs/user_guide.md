@@ -231,7 +231,7 @@ Coded tools are coded functionalities that extend agent's capabilities beyond it
 
 ### API calling tool
 
-[intranet_agents_with_tools](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/docs/examples.md#intranet-agents-with-tools) is a multi-agent system that mimics the intranet of a major corporation. It allows you to interact with and get information from various departments such as IT, Finance, Legal, HR, etc. The HR agent calls a coded tool implemented in Python that calls HCM APIs.
+[intranet_agents_with_tools](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/docs/examples.md#intranet-agents-with-tools) is a multi-agent system that mimics the intranet of a major corporation. It allows you to interact with and get information from various departments such as IT, Finance, Legal, HR, etc. The HR agent calls a coded tool implemented in Python which calls HCM APIs.
 
 ### Sly data
 
