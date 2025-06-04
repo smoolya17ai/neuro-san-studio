@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cruse Thinking Assistant</title>
+    <title>CRUSE Thinking Assistant</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Google Fonts for a modern look -->
     <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
 <body>
     <div class="main-container">
         <header>
-            <h1>🧠 Cruse Thinking Assistant</h1>
+            <h1>🧠 CRUSE Thinking Assistant</h1>
             <p class="subtitle">A collaborative conversation with your AI assistant</p>
         </header>
 
@@ -30,16 +30,16 @@
             </form>
         </section>
 
-        <section id="assistant-thoughts-section" aria-label="Assistant's Thoughts">
-            <div class="thoughts-header">
-                <h2>Assistant Thoughts</h2>
-                <button id="toggle-thoughts" type="button">Show/Hide Thoughts</button>
+        <section id="assistant-gui-section" aria-label="Assistant's GUI">
+            <div class="gui-header">
+                <h2>Assistant GUI</h2>
+                <button id="toggle-gui" type="button">Show/Hide GUI</button>
             </div>
-            <div id="assistant-thoughts" class="chat-box collapsed"></div>
+            <div id="assistant-gui" class="chat-box collapsed"></div>
         </section>
     </div>
     <footer>
-        <small>&copy; {{year}} Cruse Thinking Assistant &mdash; Powered by Neuro-San</small>
+        <small>&copy; {{year}} CRUSE Thinking Assistant &mdash; Powered by Neuro-San</small>
     </footer>
 
     <script>
@@ -49,8 +49,8 @@
             console.log('Websocket connected!');
         });
 
-        socket.on('update_thoughts', function(data) {
-            var element = document.getElementById('assistant-thoughts');
+        socket.on('update_gui', function(data) {
+            var element = document.getElementById('assistant-gui');
             element.innerHTML += '<div class="thought-msg">' + data.data.replace(/\n/g, '<br>') + '</div>';
             element.scrollTop = element.scrollHeight;
         });
@@ -75,10 +75,10 @@
             }
         }
 
-        document.getElementById('toggle-thoughts').addEventListener('click', function() {
-            var thoughtsDiv = document.getElementById('assistant-thoughts');
-            thoughtsDiv.classList.toggle('collapsed');
-            this.innerText = thoughtsDiv.classList.contains('collapsed') ? 'Show Thoughts' : 'Hide Thoughts';
+        document.getElementById('toggle-gui').addEventListener('click', function() {
+            var guiDiv = document.getElementById('assistant-gui');
+            guiDiv.classList.toggle('collapsed');
+            this.innerText = guiDiv.classList.contains('collapsed') ? 'Show GUI' : 'Hide GUI';
         });
 
         window.addEventListener('beforeunload', function () {
