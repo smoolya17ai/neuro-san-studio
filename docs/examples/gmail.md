@@ -27,7 +27,7 @@ At the core of the system is the Gmail Assistant agent, which serves as the prim
 ## Prerequisites
 
 - This agent is **disabled by default**. To test it,
-    - ```base
+    - ```bash
         pip install -U langchain-google-community\[gmail\]
         ```
     - get `credentials.json` by following the instructions from [https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application.](https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application) and place it at the top level of the repo.
