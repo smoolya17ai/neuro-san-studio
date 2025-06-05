@@ -33,7 +33,6 @@ def cruse_thinking_process():
     with app.app_context():
         global cruse_thread
         user_input = ""
-        gui_context = ""
 
         while True:
             socketio.sleep(1)
