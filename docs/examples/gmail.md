@@ -26,7 +26,11 @@ At the core of the system is the Gmail Assistant agent, which serves as the prim
 
 ## Prerequisites
 
-- This agent is **disabled by default**. To test it, get `credentials.json` by following the instructions from [https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application.](https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application) and place it at the top level of the repo.
+- This agent is **disabled by default**. To test it,
+    - ```bash
+        pip install -U langchain-google-community\[gmail\]
+        ```
+    - get `credentials.json` by following the instructions from [https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application.](https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application) and place it at the top level of the repo.
   
 ---
 
@@ -58,7 +62,7 @@ Yes, you received an email from Jane yesterday at 3:47 PM with the subject "Proj
 
 ## Tools from toolbox: gmail_handler
 
-These tools are defined in the `gmail_toolkit`, a lanchian toolkit that is implemented via `toolbox` and are called as needed by the assistant:
+These tools are defined in the `gmail_toolkit`, a langchain toolkit that is implemented via `toolbox` and are called as needed by the assistant:
 
 - Email Search (GmailSearch)
 
