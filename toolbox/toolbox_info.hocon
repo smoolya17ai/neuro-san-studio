@@ -19,7 +19,7 @@
         # Before using this tool make sure to
         # pip install -U langchain-google-community\[gmail\]
         # and get the credentials.json by following instructions from
-        
+        # https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application
         "class": "langchain_google_community.gmail.toolkit.GmailToolkit",
 
         # This is where more info on the tool can be found.
