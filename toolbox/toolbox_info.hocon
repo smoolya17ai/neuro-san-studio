@@ -16,6 +16,10 @@
 {
     "gmail_toolkit": {
         # This is the class of the tool to use
+        # Before using this tool make sure to
+        # pip install -U langchain-google-community\[gmail\]
+        # and get the credentials.json by following instructions from
+        
         "class": "langchain_google_community.gmail.toolkit.GmailToolkit",
 
         # This is where more info on the tool can be found.
