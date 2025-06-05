@@ -62,7 +62,7 @@ Yes, you received an email from Jane yesterday at 3:47 PM with the subject "Proj
 
 ## Tools from toolbox: gmail_handler
 
-These tools are defined in the `gmail_toolkit`, a langchian toolkit that is implemented via `toolbox` and are called as needed by the assistant:
+These tools are defined in the `gmail_toolkit`, a langchain toolkit that is implemented via `toolbox` and are called as needed by the assistant:
 
 - Email Search (GmailSearch)
 
