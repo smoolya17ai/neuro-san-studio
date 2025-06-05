@@ -66,6 +66,12 @@
     # python server.py
     "a2a_research_report.hocon": false,
 
+    # To use this agent network, you will need to set up your credentials explained in 
+    # https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application.
+    # Once you've downloaded the credentials.json file and put it in the top level of this repo,
+    # you can start using the agent network.
+    "gmail.hocon": false,
+
     "LinkedInJobSeekerSupportNetwork.hocon": true
 
 }
