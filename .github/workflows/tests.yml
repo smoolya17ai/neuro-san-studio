@@ -23,9 +23,14 @@ jobs:
       - name: Check if PR is from a fork
         id: fork_check
         run: |
-          if [ "${{ github.event.pull_request.head.repo.full_name }}" != "${{ github.repository }}" ]; then
-            echo "is_fork=true" >> $GITHUB_OUTPUT
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            if [[ "${{ github.event.pull_request.head.repo.full_name }}" != "${{ github.repository }}" ]]; then
+              echo "is_fork=true" >> $GITHUB_OUTPUT
+            else
+              echo "is_fork=false" >> $GITHUB_OUTPUT
+            fi
           else
+            # Not a PR — so it's not a fork
             echo "is_fork=false" >> $GITHUB_OUTPUT
           fi
 
