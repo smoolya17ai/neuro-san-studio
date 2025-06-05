@@ -12,6 +12,7 @@ Here are a few examples ordered by level of complexity.
     * [Music Nerd Pro Sly](#music-nerd-pro-sly)
     * [Music Nerd Pro Sly Local](#music-nerd-pro-sly-local)
   * [🧰 Tool Integration Examples](#-tool-integration-examples)
+    * [Gmail Assistant](#gmail-assistant)
     * [Agentforce](#agentforce)
     * [Agentspace](#agentspace)
     * [MCP BMI SSE](#mcp-bmi-sse)
@@ -81,6 +82,11 @@ a **tool-calling** LLM that runs locally with Ollama.
 ## 🧰 Tool Integration Examples
 
 Examples that demonstrate how to integrate external tools and services.
+
+### Gmail Assistant
+[Gmail Assistant](./examples/gmail.md) is a conversational agent that helps users manage their Gmail inbox using natural language. It can search, read, draft, and send emails by delegating tasks to specialized tools in the Gmail Toolkit.
+
+**Tags:** `tool`, `Gmail`, `API`
 
 ### Agentforce
 
