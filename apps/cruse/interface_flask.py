@@ -32,12 +32,17 @@ def cruse_thinking_process():
     """Main permanent agent-calling loop."""
     with app.app_context():
         global cruse_thread
-        user_input = "user: what can you and your tools do for me?"
-        gui_context = "gui:"
+        user_input = ""
+        gui_context = ""
 
         while True:
             socketio.sleep(1)
             if user_input:
+                try:
+                    gui_context = gui_context_queue.get_nowait()
+                except queue.Empty:
+                    gui_context = ""
+
                 response, cruse_thread = cruse(cruse_session, cruse_thread, user_input + gui_context)
                 print(response)
 
@@ -69,10 +74,8 @@ def cruse_thinking_process():
                     break
             except queue.Empty:
                 user_input = ""
-                gui_context = ""
                 time.sleep(0.1)
                 continue
-            gui_context = gui_context_queue.get()
 
 
 @socketio.on("connect", namespace="/chat")
