@@ -67,7 +67,6 @@ jobs:
           source venv/bin/activate 
           make test
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           AGENT_TOOL_PATH: "./neuro_san/coded_tools"
           PYTHONPATH: ${{ env.PYTHONPATH }}:"."
 
