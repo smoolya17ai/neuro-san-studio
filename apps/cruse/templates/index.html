@@ -2,44 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CRUSE Thinking Assistant</title>
+    <title>CRUSE Assistant</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Google Fonts for a modern look -->
     <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="main-container">
-        <header>
-            <h1>🧠 CRUSE Thinking Assistant</h1>
-            <p class="subtitle">A collaborative conversation with your AI assistant</p>
-        </header>
+    <!-- Full-width header -->
+    <header>
+        <div class="header-row">
+            <div>
+                <h1>CRUSE Assistant</h1>
+                <p class="subtitle">A context reactive user experience with your agents</p>
+            </div>
+            <button id="new-chat-button" type="button">New Chat</button>
+        </div>
+    </header>
 
-        <section id="assistant-speech-section" aria-label="Assistant's Response">
-            <h2>Assistant</h2>
-            <div id="assistant-speech" class="chat-box"></div>
-        </section>
-
-        <section id="user-section" aria-label="User Input">
-            <h2>You</h2>
-            <div id="user-input-display" class="chat-box user-box"></div>
-            <form id="user-input-section" autocomplete="off">
-                <textarea id="user-input" rows="3" placeholder="Type a message… ('exit' to quit)" aria-label="Type your message"></textarea>
-                <button type="button" id="send-button" onclick="sendUserInput()">Send</button>
+    <!-- Two-panel main content -->
+    <div class="interface-row">
+        <!-- Left side: Assistant GUI -->
+        <section id="assistant-gui-section" aria-label="Assistant GUI">
+            <h2>Assistant Form</h2>
+            <form id="assistant-gui" class="gui-box">
+                <!-- dynamic form content will be injected here -->
             </form>
         </section>
 
-        <section id="assistant-gui-section" aria-label="Assistant's GUI">
-            <div class="gui-header">
-                <h2>Assistant GUI</h2>
-                <button id="toggle-gui" type="button">Show/Hide GUI</button>
-            </div>
-            <div id="assistant-gui" class="chat-box collapsed"></div>
-        </section>
+        <!-- Right side: Chat -->
+        <div class="chat-panels">
+          <h2>Assistant Chat</h2>
+          <div id="assistant-speech" class="chat-box"></div>
+
+          <h2>You</h2>
+          <div id="user-input-display" class="chat-box user-box"></div>
+        </div>
     </div>
+
+    <!-- Footer input area that spans both columns -->
     <footer>
-        <small>&copy; {{year}} CRUSE Thinking Assistant &mdash; Powered by Neuro-San</small>
+        <form id="user-input-section" onsubmit="event.preventDefault(); sendUserInput();">
+            <textarea id="user-input" rows="3" placeholder="Type a message and/or interact with the form above… ('exit' to quit)"></textarea>
+            <button type="submit" id="send-button">Send</button>
+        </form>
+        <small>&copy; {{year}} CRUSE Assistant &mdash; Powered by Neuro-San</small>
     </footer>
 
     <script>
@@ -47,12 +54,6 @@
 
         socket.on('connect', function() {
             console.log('Websocket connected!');
-        });
-
-        socket.on('update_gui', function(data) {
-            var element = document.getElementById('assistant-gui');
-            element.innerHTML += '<div class="thought-msg">' + data.data.replace(/\n/g, '<br>') + '</div>';
-            element.scrollTop = element.scrollHeight;
         });
 
         socket.on('update_speech', function(data) {
@@ -68,22 +69,51 @@
         });
 
         function sendUserInput() {
-            var userInput = document.getElementById('user-input').value.trim();
-            if (userInput) {
-                socket.emit('user_input', {data: userInput}, '/chat');
-                document.getElementById('user-input').value = '';
+            const userInput = document.getElementById('user-input').value.trim();
+            const guiForm = document.getElementById('assistant-gui');
+
+            let guiContext = {};
+            if (guiForm && guiForm.elements) {
+                const formData = new FormData(guiForm);
+                for (let [key, value] of formData.entries()) {
+                    guiContext[key] = value;
+                }
             }
+
+            // Emit separately
+            if (userInput) {
+                socket.emit('user_input', { data: userInput }, '/chat');
+            } else if (Object.keys(guiContext).length > 0) {
+                socket.emit('user_input', { data: "<form submitted>" }, '/chat');
+            }
+
+            if (Object.keys(guiContext).length > 0) {
+                socket.emit('gui_context', { gui_context: guiContext }, '/chat');
+            }
+
+            document.getElementById('user-input').value = '';
         }
 
-        document.getElementById('toggle-gui').addEventListener('click', function() {
-            var guiDiv = document.getElementById('assistant-gui');
-            guiDiv.classList.toggle('collapsed');
-            this.innerText = guiDiv.classList.contains('collapsed') ? 'Show GUI' : 'Hide GUI';
+        socket.on('update_gui', function(data) {
+            const element = document.getElementById('assistant-gui');
+            element.innerHTML = data.data.replace(/\n/g, '<br>'); // overwrite GUI
         });
 
         window.addEventListener('beforeunload', function () {
             navigator.sendBeacon('/shutdown');
         });
+
+        document.getElementById('new-chat-button').addEventListener('click', function () {
+            // Clear all chat boxes
+            document.getElementById('assistant-speech').innerHTML = '';
+            document.getElementById('user-input-display').innerHTML = '';
+            document.getElementById('user-input').value = '';
+            document.getElementById('assistant-gui').innerHTML = '';
+
+            // Optionally notify backend to reset session
+            socket.emit('new_chat', {}, '/chat');
+        });
+
     </script>
 </body>
 </html>

@@ -42,7 +42,8 @@ def cruse_thinking_process():
                 except queue.Empty:
                     gui_context = ""
 
-                response, cruse_thread = cruse(cruse_session, cruse_thread, user_input + gui_context)
+                print(f"USER INPUT:{user_input}\n\nGUI CONTEXT:{gui_context}\n")
+                response, cruse_thread = cruse(cruse_session, cruse_thread, user_input + str(gui_context))
                 print(response)
 
                 gui_to_emit = []
@@ -57,7 +58,7 @@ def cruse_thinking_process():
                     if not content:
                         continue
                     if kind == "gui":
-                        gui_to_emit.append(f"gui: {content}")
+                        gui_to_emit.append(content)
                     else:
                         speeches_to_emit.append(content)
 
@@ -104,6 +105,16 @@ def handle_user_input(json, *_):
     user_input_queue.put(user_input)
     socketio.emit("update_user_input", {"data": user_input}, namespace="/chat")
 
+@socketio.on("gui_context", namespace="/chat")
+def handle_gui_context(json, *_):
+    """
+    Handles gui context.
+
+    :param json: A json object
+    """
+    gui_context = json["gui_context"]
+    gui_context_queue.put(gui_context)
+    socketio.emit("gui_context_input", {"gui_context": gui_context}, namespace="/chat")
 
 def cleanup():
     """Tear things down on exit."""
@@ -132,6 +143,19 @@ def run_scheduled_tasks():
     while True:
         schedule.run_pending()
         time.sleep(1)
+
+@socketio.on('new_chat', namespace='/chat')
+def handle_new_chat(*_):
+    global cruse_session, cruse_thread
+    print("Resetting session for new chat...")
+
+    # Tear down old state
+    tear_down_cruse_assistant(cruse_session)
+
+    # Recreate new state
+    cruse_session, cruse_thread = set_up_cruse_assistant()
+
+    print("****New chat started****")
 
 
 # Register the cleanup function

@@ -46,7 +46,7 @@
             # distinguishing it from the rest of the tools.
 
             "function": {
-                "description": "Enable GUI interface interaction.",
+                "description": "Enable form-augmented interface interaction.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -56,7 +56,7 @@
                             An inquiry from a user.
                             """
                         },
-                        "gui_context": {
+                        "ui_state": {
                             "type": "string",
                             "description": """
                             The state of the user interface at the time of inquiry.
@@ -68,11 +68,20 @@
             },
 
             "instructions": """
-Use your tool to respond to the inquiry. Note that the inquiry might have a text part, as well as a context part,
-which is what the user did in the interface gui.
-Your response should include a chat text, prefaced by 'say:' as well as an html body tag, prefaced by 'gui:' that
-will be rendered in the interface so the user can respond to requirements either in chat, or using the html forms,
-or a combination of both.
+Use your tool to respond to the inquiry. Note that the inquiry might have a text part, as well as a UI context part,
+which is what the user did in the UI.
+Your response should always include a chat text, prefaced by 'say:' as well as a html form, prefaced by 'gui:' that
+will be rendered in the interface so the user can respond to requirements either in chat, or using the html form,
+or a combination of both. Make the form look good. The form will be injected into the following tag:
+<form id="assistant-gui" class="gui-box">
+    <!-- dynamic form content will be injected here -->
+</form>
+For the gui, do not start with any extra characters such as ```html. Only give the html tags you want us to render as part of the form.
+Always try to be helpful and generate a form for any options or requirements needed from the user.
+Be creative about what you include in the form.
+The form's look and feel should be relevant to the topic.
+Feel free to include images from the internet, emojis, internet links, various styles etc.
+Do not include any submit button. We will take care of that.
             """ ${aaosa_instructions},
             "tools": ["domain_expert"]
         },
