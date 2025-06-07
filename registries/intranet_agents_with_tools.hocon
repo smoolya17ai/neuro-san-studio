@@ -26,19 +26,15 @@
         "model_name": "gpt-4o",
         "verbose": true
     },
-    "commondefs": {
-        "replacement_strings": {
-            "instructions_prefix": """
-            You are in charge of a portion of company's intranet. The intranet is also known as MyIntranet.
-            Only answer inquiries that are directly within your area of expertise, from the company's perspective.
-            Do not try to help for personal matters.
-            Do not mention what you can NOT do. Only mention what you can do.
-            Alwasy ask your down-chain agents for their take on the inquiry, and delegate to them as much as possible
-            to fulfill the user's inquiry.
-            If needed ask the user for clarification.
-            """,
-        },
-    }
+    "instructions_prefix": """
+    You are in charge of a portion of company's intranet. The intranet is also known as MyIntranet.
+    Only answer inquiries that are directly within your area of expertise, from the company's perspective.
+    Do not try to help for personal matters.
+    Do not mention what you can NOT do. Only mention what you can do.
+    Alwasy ask your down-chain agents for their take on the inquiry, and delegate to them as much as possible
+    to fulfill the user's inquiry.
+    If needed ask the user for clarification.
+    """
     "tools": [
         {
             "name": "MyIntranet",
@@ -57,8 +53,7 @@
                 Your down-chain agents (or tools) will help you determine your scope of operations.
                 """
             },
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 You are the top-level agent responsible for handling all inquiries to company's intranet chatbot.
 When interacting with the user, act as the single point of interaction. No need to mention the other tools or agents.
 Do as much as you can to answer the inquiry, relying on your down-chain agents as needed.
@@ -70,8 +65,7 @@ If your response does not include any URLs, then add an URL for the company's in
         {
             "name": "IT",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 The name of this MyIntranet app is GSD and IT related requests require GSD tickets. Return the URL to GSD for any IT related tickets the user needs to open.
 You are responsible for IT-related inquiries for company employees.
             """ ${aaosa_instructions},
@@ -81,8 +75,7 @@ You are responsible for IT-related inquiries for company employees.
         {
             "name": "Security",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles security-related tasks, including system protection, cybersecurity, and data security for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -90,8 +83,7 @@ Handles security-related tasks, including system protection, cybersecurity, and 
         {
             "name": "Networking",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles network-related tasks, including network setup, maintenance, and troubleshooting for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -99,8 +91,7 @@ Handles network-related tasks, including network setup, maintenance, and trouble
         {
             "name": "Finance",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles finance-related inquiries, including budgeting, accounting, and financial reporting for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -109,8 +100,7 @@ Handles finance-related inquiries, including budgeting, accounting, and financia
         {
             "name": "Budgeting",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles budgeting tasks, including budget planning, allocation, and tracking for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -118,8 +108,7 @@ Handles budgeting tasks, including budget planning, allocation, and tracking for
         {
             "name": "Accounting",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles accounting tasks, including bookkeeping, financial records, and audits for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -127,8 +116,7 @@ Handles accounting tasks, including bookkeeping, financial records, and audits f
         {
             "name": "FinancialReporting",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles financial reporting tasks, including preparing financial statements, regulatory reporting, and performance analysis for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -136,8 +124,7 @@ Handles financial reporting tasks, including preparing financial statements, reg
         {
             "name": "Procurement",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles procurement-related tasks for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -146,8 +133,7 @@ Handles procurement-related tasks for company's employees.
         {
             "name": "Purchasing",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles purchasing-related tasks, including ordering, supply management, and procurement processes for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -155,8 +141,7 @@ Handles purchasing-related tasks, including ordering, supply management, and pro
         {
             "name": "VendorManagement",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles vendor management tasks, including vendor selection, performance monitoring, and relationship management for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -164,8 +149,7 @@ Handles vendor management tasks, including vendor selection, performance monitor
         {
             "name": "ContractNegotiation",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles contract negotiation tasks, including drafting, reviewing, and finalizing procurement contracts for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -173,8 +157,7 @@ Handles contract negotiation tasks, including drafting, reviewing, and finalizin
         {
             "name": "Legal",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles legal-related inquiries for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -183,8 +166,7 @@ Handles legal-related inquiries for company's employees.
         {
             "name": "Contracts",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles contract-related tasks, including drafting, reviewing, and enforcing legal agreements for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -192,8 +174,7 @@ Handles contract-related tasks, including drafting, reviewing, and enforcing leg
         {
             "name": "Compliance",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles compliance-related tasks, including ensuring adherence to laws, regulations, and internal policies for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -201,8 +182,7 @@ Handles compliance-related tasks, including ensuring adherence to laws, regulati
         {
             "name": "LegalAdvice",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles legal advice tasks, including providing legal counsel, risk assessment, and legal strategy for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -210,8 +190,7 @@ Handles legal advice tasks, including providing legal counsel, risk assessment, 
         {
             "name": "HR",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 You are responsible for HR-related inquiries for company's employees.
 That includes payroll, benefits, immigration questions, as well as and absence management:
 vacation, PTO, other time-off and checking leave balances.
@@ -222,8 +201,7 @@ vacation, PTO, other time-off and checking leave balances.
         {
             "name": "Benefits",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles benefits-related tasks, including employee benefits, health insurance, and retirement plans, but excluding PTO and absence management for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -231,8 +209,7 @@ Handles benefits-related tasks, including employee benefits, health insurance, a
         {
             "name": "Payroll",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles payroll-related tasks, including salary processing, tax deductions, and pay slips for company's employees.
             """ ${aaosa_instructions},
             "command": ${aaosa_command},
@@ -240,8 +217,7 @@ Handles payroll-related tasks, including salary processing, tax deductions, and 
         {
             "name": "Immigration",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles immigration-related tasks, including the legal processes and documentation for employees’ work visas,
 travel visas, residency permits, and international relocations, ensuring compliance with immigration laws for company's employees.
             """ ${aaosa_instructions},
@@ -250,8 +226,7 @@ travel visas, residency permits, and international relocations, ensuring complia
         {
             "name": "AbsenceManagement",
             "function": ${aaosa_call},
-            "instructions": """
-{instructions_prefix}
+            "instructions": ${instructions_prefix} """
 Handles absence management-related tasks for company's employees (i.e., vacation, PTO, or other time-off).
 Always return a concrete answer from your tools, as well as a link to Absence Management site.
             """ ${aaosa_instructions},
