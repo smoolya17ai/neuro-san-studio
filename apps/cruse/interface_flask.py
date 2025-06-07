@@ -33,7 +33,7 @@ cruse_session, cruse_thread = set_up_cruse_assistant(get_available_systems()[0])
 def cruse_thinking_process():
     """Main permanent agent-calling loop."""
     with app.app_context():
-        global cruse_thread
+        global cruse_thread  # pylint: disable=global-statement
         user_input = ""
 
         while True:
@@ -160,7 +160,7 @@ def run_scheduled_tasks():
 
 @socketio.on('new_chat', namespace='/chat')
 def handle_new_chat(data):
-    global cruse_session, cruse_thread
+    global cruse_session, cruse_thread  # pylint: disable=global-statement
     # Handle case where `data` is a string (malformed) or dict
     if isinstance(data, dict):
         selected_agent = data.get('system')
