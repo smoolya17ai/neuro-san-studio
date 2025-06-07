@@ -37,7 +37,7 @@ def set_up_cruse_assistant(selected_agent):
 
 def cruse(cruse_session, cruse_thread, user_input):
     """
-    Processes a single turn of user input within the cruse agent's session.
+    Processes a single turn of user input within the cruse_agent agent's session.
 
     This function simulates a conversational turn by:
     1. Initializing a StreamingInputProcessor to handle the input.
@@ -46,7 +46,7 @@ def cruse(cruse_session, cruse_thread, user_input):
     4. Extracting and returning the agent's response for this turn.
 
     Parameters:
-        cruse_session: An active session object for the cruse agent.
+        cruse_session: An active session object for the cruse_agent agent.
         cruse_thread (dict): The agent's current conversation thread state.
         user_input (str): The user's input or query to be processed.
 
@@ -75,10 +75,10 @@ def tear_down_cruse_assistant(cruse_session):
 
     :param cruse_session: The pointer to the session.
     """
-    print("tearing down cruse assistant...")
+    print("tearing down cruse_agent assistant...")
     cruse_session.close()
     # client.assistants.delete(cruse_assistant_id)
-    print("cruse assistant torn down.")
+    print("cruse_agent assistant torn down.")
 
 def get_available_systems():
     config = ConfigFactory.parse_file(os.environ["AGENT_MANIFEST_FILE"])
