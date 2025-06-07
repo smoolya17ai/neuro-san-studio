@@ -82,6 +82,16 @@ def tear_down_cruse_assistant(cruse_session):
     print("cruse_agent assistant torn down.")
 
 def get_available_systems():
+    """
+    Parses the HOCON manifest file specified by the AGENT_MANIFEST_FILE environment variable
+    and returns a list of enabled system keys.
+
+    Systems explicitly listed in the `excluded` set will be omitted, even if enabled.
+
+    Returns:
+        List[str]: A list of enabled HOCON filenames (without surrounding quotes)
+                   that are not in the excluded set.
+    """
     excluded = {"cruse_agent.hocon"}  # Add more filenames as needed
     config = ConfigFactory.parse_file(os.environ["AGENT_MANIFEST_FILE"])
     return [
@@ -92,6 +102,20 @@ def get_available_systems():
 
 
 def parse_response_blocks(response: str):
+    """
+    Parses a multiline response string into structured content blocks labeled as 'say' or 'gui'.
+
+    The function detects lines that start with 'say:' or 'gui:' (case-insensitive), and
+    aggregates the subsequent lines into corresponding content blocks. Each block continues
+    until the next recognized prefix or the end of the response.
+
+    Args:
+        response (str): The raw response string to parse.
+
+    Returns:
+        List[Tuple[str, str]]: A list of (block_type, content) tuples, where block_type is
+                               either 'say' or 'gui', and content is the corresponding block text.
+    """
     blocks = []
     current_type = None
     current_lines = []

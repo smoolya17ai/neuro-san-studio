@@ -145,7 +145,15 @@ def systems():
     return jsonify(get_available_systems())
 
 def run_scheduled_tasks():
-    """Run the scheduled tasks."""
+    """
+    Continuously runs pending scheduled tasks.
+
+    This function enters an infinite loop where it checks for and executes any tasks
+    that are due to run, as defined in the `schedule` module. It pauses for one second
+    between iterations to avoid excessive CPU usage.
+
+    Intended to be run as a background thread or greenlet alongside other application logic.
+    """
     while True:
         schedule.run_pending()
         time.sleep(1)
