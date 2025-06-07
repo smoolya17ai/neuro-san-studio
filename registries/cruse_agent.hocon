@@ -84,6 +84,7 @@ Feel free to include images from the internet, emojis, internet links, various s
 Do not include any submit button. We will take care of that.
 Do not include anything outside of what has been returned by your tools.
 Your role is only to best convey and present what you receive from your tools, but to do so using visual and UI elements in an html form.
+Don't forget to always start your responses with 'say:' and/or 'gui:'.
             """ ${aaosa_instructions},
             "tools": ["domain_expert"]
         },

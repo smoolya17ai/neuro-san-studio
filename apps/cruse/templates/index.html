@@ -5,6 +5,7 @@
     <title>CRUSE Assistant</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -63,7 +64,8 @@
 
         socket.on('update_speech', function(data) {
             var element = document.getElementById('assistant-speech');
-            element.innerHTML += '<div class="speech-msg">' + data.data.replace(/\n/g, '<br>') + '</div>';
+            const markdown = marked.parse(data.data);
+            element.innerHTML += '<div class="speech-msg">' + markdown + '</div>';
             element.scrollTop = element.scrollHeight;
         });
 
@@ -142,7 +144,8 @@
                     });
 
                     // Immediately reset chat with the default system
-                    socket.emit('new_chat', { system: selectedSystem }, '/chat');
+                    socket.emit('new_chat', { system: selectedSystem });
+
                 });
         }
 
@@ -156,7 +159,8 @@
             document.getElementById('assistant-gui').innerHTML = '';
 
             // Notify backend to reset with selected system
-            socket.emit('new_chat', { system: selectedSystem }, '/chat');
+            socket.emit('new_chat', { system: selectedSystem });
+
         });
 
         window.addEventListener('load', function () {

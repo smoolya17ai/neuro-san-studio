@@ -16,6 +16,7 @@ def set_up_cruse_assistant(selected_agent):
     port = 30011
     local_externals_direct = False
     metadata = {"user_id": os.environ.get("USER")}
+    selected_agent = "registries/" + selected_agent
 
     # Create session factory and agent session
     factory = AgentSessionFactory()
@@ -81,6 +82,39 @@ def tear_down_cruse_assistant(cruse_session):
     print("cruse_agent assistant torn down.")
 
 def get_available_systems():
+    excluded = {"cruse_agent.hocon"}  # Add more filenames as needed
     config = ConfigFactory.parse_file(os.environ["AGENT_MANIFEST_FILE"])
-    return [key for key, enabled in config.items() if enabled]
+    return [
+        key.strip('"').strip()
+        for key, enabled in config.items()
+        if enabled and key.strip('"').strip() not in excluded
+    ]
 
+
+def parse_response_blocks(response: str):
+    blocks = []
+    current_type = None
+    current_lines = []
+
+    for line in response.splitlines():
+        line = line.rstrip()
+
+        # Detect new block start
+        if line.lower().startswith("say:"):
+            if current_type:
+                blocks.append((current_type, "\n".join(current_lines).strip()))
+            current_type = "say"
+            current_lines = [line[4:].lstrip()]  # content on same line
+        elif line.lower().startswith("gui:"):
+            if current_type:
+                blocks.append((current_type, "\n".join(current_lines).strip()))
+            current_type = "gui"
+            current_lines = [line[4:].lstrip()]
+        else:
+            current_lines.append(line)
+
+    # Append the last block
+    if current_type and current_lines:
+        blocks.append((current_type, "\n".join(current_lines).strip()))
+
+    return blocks

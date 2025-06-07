@@ -60,6 +60,10 @@ class CallAgent(CodedTool):
         if agent_name == "":
             return "Error: No select_agent in sly_data."
 
+        print(f"inquiry: {inquiry}")
+        print(f"mode: {mode}")
+        print(f"agent_name: {agent_name}")
+
         logger = logging.getLogger(self.__class__.__name__)
         logger.info(">>>>>>>>>>>>>>>>>>>CallAgent>>>>>>>>>>>>>>>>>>")
         logger.info("inquiry: %s", str(inquiry))

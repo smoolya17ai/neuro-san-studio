@@ -1,7 +1,6 @@
 import atexit
 import os
 import queue
-import re
 import time
 
 # pylint: disable=import-error
@@ -16,6 +15,7 @@ from apps.cruse.cruse_assistant import cruse
 from apps.cruse.cruse_assistant import set_up_cruse_assistant
 from apps.cruse.cruse_assistant import tear_down_cruse_assistant
 from apps.cruse.cruse_assistant import get_available_systems
+from apps.cruse.cruse_assistant import parse_response_blocks
 
 os.environ["AGENT_MANIFEST_FILE"] = "registries/manifest.hocon"
 os.environ["AGENT_TOOL_PATH"] = "coded_tools"
@@ -48,21 +48,22 @@ def cruse_thinking_process():
                 response, cruse_thread = cruse(cruse_session, cruse_thread, user_input + str(gui_context))
                 print(response)
 
+                blocks = parse_response_blocks(response)
+
                 gui_to_emit = []
                 speeches_to_emit = []
 
-                pattern = re.compile(
-                    r"(?m)^(gui|say):[ \t]*(.*?)(?=^\s*(?:gui|say):|\Z)", re.S
-                )
-
-                for kind, raw in pattern.findall(response):
-                    content = raw.lstrip()
+                for kind, content in blocks:
                     if not content:
                         continue
                     if kind == "gui":
                         gui_to_emit.append(content)
-                    else:
+                    elif kind == "say":
                         speeches_to_emit.append(content)
+
+                # fallback if nothing was matched
+                if not blocks and response.strip():
+                    speeches_to_emit.append(response.strip())
 
                 if gui_to_emit:
                     socketio.emit("update_gui", {"data": "\n".join(gui_to_emit)}, namespace="/chat")
@@ -150,11 +151,16 @@ def run_scheduled_tasks():
         time.sleep(1)
 
 @socketio.on('new_chat', namespace='/chat')
-def handle_new_chat(_, data=None):
+def handle_new_chat(data):
     global cruse_session, cruse_thread
-    # selected_agent = data.get('system') if data else None
-    selected_agent = data
-    print("Resetting session for new chat...")
+    # Handle case where `data` is a string (malformed) or dict
+    if isinstance(data, dict):
+        selected_agent = data.get('system')
+    elif isinstance(data, str):
+        selected_agent = data  # fallback if sent as plain string
+    else:
+        selected_agent = None
+    print(f"Resetting session for new chat... Selected agent is:{selected_agent}")
 
     # Tear down old state
     tear_down_cruse_assistant(cruse_session)
