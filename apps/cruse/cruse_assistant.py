@@ -20,7 +20,8 @@ def set_up_cruse_assistant(selected_agent):
     # Create session factory and agent session
     factory = AgentSessionFactory()
     session = factory.create_session(connection, agent_name, host, port, local_externals_direct, metadata)
-    sly_data = {"selected_agent":selected_agent}
+    sly_data = {"selected_agent": selected_agent, "agent_session": session}
+
     # Initialize any conversation state here
     cruse_thread = {
         "last_chat_response": None,
