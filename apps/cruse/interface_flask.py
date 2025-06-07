@@ -142,6 +142,13 @@ def add_header(response):
 
 @app.route('/systems')
 def systems():
+    """
+    Flask route to retrieve a list of available agent systems.
+
+    Returns:
+        Response: A JSON response containing a list of system names derived
+                  from the manifest file.
+    """
     return jsonify(get_available_systems())
 
 def run_scheduled_tasks():
@@ -160,6 +167,16 @@ def run_scheduled_tasks():
 
 @socketio.on('new_chat', namespace='/chat')
 def handle_new_chat(data):
+    """
+    Socket.IO event handler for starting a new chat session.
+
+    Resets the current CRUSE assistant session using the optionally provided agent name.
+    Clears internal state and reinitializes the assistant to handle a fresh session.
+
+    Args:
+        data (dict or str): The incoming data from the client. Expected to contain a
+                            'system' key if it's a dict, or be a plain string fallback.
+    """
     global cruse_session, cruse_thread  # pylint: disable=global-statement
     # Handle case where `data` is a string (malformed) or dict
     if isinstance(data, dict):
