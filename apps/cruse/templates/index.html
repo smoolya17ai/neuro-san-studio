@@ -16,7 +16,12 @@
                 <h1>CRUSE Assistant</h1>
                 <p class="subtitle">A context reactive user experience with your agents</p>
             </div>
-            <button id="new-chat-button" type="button">New Chat</button>
+            <div class="header-controls">
+                <select id="system-select">
+                    <option disabled selected>Select Agent…</option>
+                </select>
+                <button id="new-chat-button" type="button">New Chat</button>
+            </div>
         </div>
     </header>
 
@@ -112,6 +117,50 @@
 
             // Optionally notify backend to reset session
             socket.emit('new_chat', {}, '/chat');
+        });
+
+        let selectedSystem = null;
+
+        function loadSystems() {
+            fetch('/systems')
+                .then(response => response.json())
+                .then(systems => {
+                    const select = document.getElementById('system-select');
+                    select.innerHTML = ''; // Clear any existing items
+
+                    systems.forEach((system, index) => {
+                        const option = document.createElement('option');
+                        option.value = system;
+                        option.textContent = system.replace('.hocon', '');
+                        select.appendChild(option);
+
+                        // Select the first item by default
+                        if (index === 0) {
+                            option.selected = true;
+                            selectedSystem = system;
+                        }
+                    });
+
+                    // Immediately reset chat with the default system
+                    socket.emit('new_chat', { system: selectedSystem }, '/chat');
+                });
+        }
+
+        document.getElementById('system-select').addEventListener('change', function () {
+            selectedSystem = this.value;
+
+            // Clear UI
+            document.getElementById('assistant-speech').innerHTML = '';
+            document.getElementById('user-input-display').innerHTML = '';
+            document.getElementById('user-input').value = '';
+            document.getElementById('assistant-gui').innerHTML = '';
+
+            // Notify backend to reset with selected system
+            socket.emit('new_chat', { system: selectedSystem }, '/chat');
+        });
+
+        window.addEventListener('load', function () {
+            loadSystems();
         });
 
     </script>

@@ -10,10 +10,12 @@ import schedule
 from flask import Flask
 from flask import render_template
 from flask_socketio import SocketIO
+from flask import jsonify
 
 from apps.cruse.cruse_assistant import cruse
 from apps.cruse.cruse_assistant import set_up_cruse_assistant
 from apps.cruse.cruse_assistant import tear_down_cruse_assistant
+from apps.cruse.cruse_assistant import get_available_systems
 
 os.environ["AGENT_MANIFEST_FILE"] = "registries/manifest.hocon"
 os.environ["AGENT_TOOL_PATH"] = "coded_tools"
@@ -25,7 +27,7 @@ thread_started = False  # pylint: disable=invalid-name
 user_input_queue = queue.Queue()
 gui_context_queue = queue.Queue()
 
-cruse_session, cruse_thread = set_up_cruse_assistant()
+cruse_session, cruse_thread = set_up_cruse_assistant(get_available_systems()[0])
 
 
 def cruse_thinking_process():
@@ -137,6 +139,9 @@ def add_header(response):
     response.headers["Cache-Control"] = "no-store"
     return response
 
+@app.route('/systems')
+def systems():
+    return jsonify(get_available_systems())
 
 def run_scheduled_tasks():
     """Run the scheduled tasks."""
@@ -145,15 +150,17 @@ def run_scheduled_tasks():
         time.sleep(1)
 
 @socketio.on('new_chat', namespace='/chat')
-def handle_new_chat(*_):
+def handle_new_chat(_, data=None):
     global cruse_session, cruse_thread
+    # selected_agent = data.get('system') if data else None
+    selected_agent = data
     print("Resetting session for new chat...")
 
     # Tear down old state
     tear_down_cruse_assistant(cruse_session)
 
     # Recreate new state
-    cruse_session, cruse_thread = set_up_cruse_assistant()
+    cruse_session, cruse_thread = set_up_cruse_assistant(selected_agent)
 
     print("****New chat started****")
 

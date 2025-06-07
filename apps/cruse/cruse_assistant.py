@@ -1,12 +1,14 @@
 import os
 
+from pyhocon import ConfigFactory
+
 from neuro_san.client.agent_session_factory import AgentSessionFactory
 from neuro_san.client.streaming_input_processor import StreamingInputProcessor
 
 AGENT_NETWORK_NAME = "cruse_agent"
 
 
-def set_up_cruse_assistant():
+def set_up_cruse_assistant(selected_agent):
     """Configure these as needed."""
     agent_name = AGENT_NETWORK_NAME
     connection = "direct"
@@ -18,6 +20,7 @@ def set_up_cruse_assistant():
     # Create session factory and agent session
     factory = AgentSessionFactory()
     session = factory.create_session(connection, agent_name, host, port, local_externals_direct, metadata)
+    sly_data = {"selected_agent":selected_agent}
     # Initialize any conversation state here
     cruse_thread = {
         "last_chat_response": None,
@@ -25,7 +28,7 @@ def set_up_cruse_assistant():
         "timeout": 5000.0,
         "num_input": 0,
         "user_input": None,
-        "sly_data": None,
+        "sly_data": sly_data,
         "chat_filter": {"chat_filter_type": "MAXIMAL"},
     }
     return session, cruse_thread
@@ -75,3 +78,8 @@ def tear_down_cruse_assistant(cruse_session):
     cruse_session.close()
     # client.assistants.delete(cruse_assistant_id)
     print("cruse assistant torn down.")
+
+def get_available_systems():
+    config = ConfigFactory.parse_file(os.environ["AGENT_MANIFEST_FILE"])
+    return [key for key, enabled in config.items() if enabled]
+

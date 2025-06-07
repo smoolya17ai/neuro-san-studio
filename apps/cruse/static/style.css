@@ -25,6 +25,21 @@ header {
     flex-wrap: wrap;
 }
 
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#system-select {
+    padding: 8px;
+    font-size: 1em;
+    border-radius: 6px;
+    border: 1px solid #b8c0db;
+    background: white;
+    cursor: pointer;
+}
+
 #new-chat-button {
     background: #fff;
     color: #507be8;

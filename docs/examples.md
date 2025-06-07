@@ -196,6 +196,12 @@ your registries directory and give you some usage examples.
 
 **Tags:** `tool`, `memory`
 
+### CRUSE
+
+[CRUSE](examples/cruse.md) is an agent that can dynamically attach to any agent in your registry and make it run with a context reactive user experience. This is a good example of how to switch down-chain agents dynamically using coded tools and sly_data.
+
+**Tags:** `tool`, `ui`, `app`
+
 ### Conscious Assistant
 
 [Conscious Agent](examples/conscious_agent.md) is a multi-agent system used within the conscious assistant and

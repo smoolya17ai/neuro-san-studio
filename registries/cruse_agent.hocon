@@ -82,6 +82,8 @@ Be creative about what you include in the form.
 The form's look and feel should be relevant to the topic.
 Feel free to include images from the internet, emojis, internet links, various styles etc.
 Do not include any submit button. We will take care of that.
+Do not include anything outside of what has been returned by your tools.
+Your role is only to best convey and present what you receive from your tools, but to do so using visual and UI elements in an html form.
             """ ${aaosa_instructions},
             "tools": ["domain_expert"]
         },
@@ -94,7 +96,7 @@ In intermediary to its tools, passing user inquiries and context as well as the 
 
             # Feel free to change the name of the agent below to any other agent network, preferably AAOSA agents
             # TODO: Can we make this dynamic?
-            "tools": ["/intranet_agents"]
+            "class": "call_agent.CallAgent",
             "command": ${aaosa_command},
         },
     ]
