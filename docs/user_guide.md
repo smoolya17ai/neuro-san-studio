@@ -176,7 +176,7 @@ See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
 
 ### AzureOpenAI
 
-If you are using Azure OpenAI in your hocon file, you might need to set the llm_config to use the right model.<br>
+If you are using Azure OpenAI in your hocon file, you might need to set the `llm_config` to use the right model.<br>
 
 For example:
 ```hocon
@@ -193,7 +193,10 @@ AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"
 OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"  
 OPENAI_API_KEY="your Azure OpenAI API key"  
 
-See https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=keyless%2Ctypescript-keyless%2Cpython-new%2Ccommand-line&pivots=programming-language-python for more information.
+> **Note**: Some Azure OpenAI deployments may have a lower `max_tokens` limit than the default associated with the `model_name` in Neuro-San.
+If the `max_tokens` value in your `llm_config` exceeds the actual limit of the model specified by `deployment_name`, the LLM will fail to return a response — even if the prompt itself is within limits. To fix this, explicitly set a `max_tokens` value in your `llm_config` that matches the deployed model’s actual capacity.
+
+See [Azure OpenAI Quickstart](https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=keyless%2Ctypescript-keyless%2Cpython-new%2Ccommand-line&pivots=programming-language-python) for more information.
 
 
 ### Ollama
@@ -223,9 +226,15 @@ see [this page](https://python.langchain.com/docs/integrations/chat/ollama/)
 
 ## Coded tools
 
+Coded tools are coded functionalities that extend agent's capabilities beyond its core reasoning capabilities and allow it to interact with databases, APIs, and external services.
+
 ### Simple tool
 
+[music_nerd_pro](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/docs/examples.md#music-nerd-pro) is a simple agent that helps with music-related inquiries. It uses a simple coded tool which is implemented in Python -- The coded tool does not call an API.
+
 ### API calling tool
+
+[intranet_agents_with_tools](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/docs/examples.md#intranet-agents-with-tools) is a multi-agent system that mimics the intranet of a major corporation. It allows you to interact with and get information from various departments such as IT, Finance, Legal, HR, etc. The HR agent calls a coded tool implemented in Python that calls HCM APIs.
 
 ### Sly data
 
@@ -394,7 +403,7 @@ To use tools from toolbox in your agent network, simply call them with field `to
             }
         ```
 
-        For more examples, please see [https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox_info.hocon](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox_info.hocon)
+        For more examples, please see [https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox/toolbox_info.hocon](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox/toolbox_info.hocon)
 
 3. Point to the config file by setting the environment variable `AGENT_TOOLBOX_INFO_FILE` to your custom config:
 
@@ -403,6 +412,26 @@ To use tools from toolbox in your agent network, simply call them with field `to
     ```
 
 ## Logging and debugging
+
+To debug your code, set up your environment per instructions [here](https://github.com/cognizant-ai-lab/neuro-san-studio).
+Furthermore, please install the build requirements in your virtual environment via the following commands:
+
+```
+. ./venv/bin/activate
+pip install -r requirements-build.txt
+```
+
+2. Suppose you want to debug the coded tool for `music_nerd_pro` agent network. Add the following lines of code to the `music_nerd_pro`'s coded tool Python file (E.g., to the first line of `invoke` method in `Accountant` [class](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/coded_tools/music_nerd_pro/accounting.py)
+
+```
+import pytest
+pytest.set_trace()
+```
+
+3. Start the client and server via `python3 -m run`, select `music_berd_pro` agent network, and ask a question like `Where was John Lennon born?`.
+The code execution stops at the line where you added `pytest.set_trace` statement. You can step through the code, view variable values, etc. by typing commands in the terminal. For all the debugger options, please refer to pdb documentation [here](https://ugoproto.github.io/ugo_py_doc/pdf/Python-Debugger-Cheatsheet.pdf)
+
+The client and server logs will be saved to `logs/nsflow.log` and `logs/server.log` respectively.
 
 ## Advanced
 
