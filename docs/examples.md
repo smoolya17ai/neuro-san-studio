@@ -15,7 +15,7 @@ Here are a few examples ordered by level of complexity.
     * [Gmail Assistant](#gmail-assistant)
     * [Agentforce](#agentforce)
     * [Agentspace](#agentspace)
-    * [MCP BMI SSE](#mcp-bmi-sse)
+    * [MCP BMI STREAMABLE HTTP](#mcp-bmi-streamable-http)
     * [A2A RESEARCH REPORT](#a2a-research-report)
     * [PDF RAG Assistant](#pdf-rag-assistant)
     * [Agentic RAG Assistant](#agentic-rag-assistant)
@@ -102,9 +102,9 @@ interact with different datastore connectors on Google Cloud.
 
 **Tags:** `tool`, `API`
 
-### MCP BMI SSE
+### MCP BMI STREAMABLE HTTP
 
-[MCP BMI SSE](./examples/mcp_bmi_sse.md) is an agent that calls a tool in MCP server via server-sent events (sse) to
+[MCP BMI STREAMABLE HTTP](./examples/mcp_bmi_streamable_http.md) is an agent that calls a tool in MCP server via streamable http to
 calculate BMI. It serves as an example of how to connect to MCP servers in coded tools.
 
 **Tags:** `tool`, `MCP`
