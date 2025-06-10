@@ -71,12 +71,12 @@ class CallAgent(CodedTool):
         logger.info("agent_name: %s", str(agent_name))
 
         agent_session = sly_data.get("agent_session", None)
-        agent_thread = sly_data.get("agent_thread", None)
-        if not agent_thread or not agent_session:
-            agent_session, agent_thread = set_up_agent(agent_name)
-        response, agent_thread = call_agent(agent_session, agent_thread, inquiry + mode)
+        agent_state = sly_data.get("agent_state", None)
+        if not agent_state or not agent_session:
+            agent_session, agent_state = set_up_agent(agent_name)
+        response, agent_state = call_agent(agent_session, agent_state, inquiry + mode)
         sly_data["agent_session"] = agent_session
-        sly_data["agent_thread"] = agent_thread
+        sly_data["agent_state"] = agent_state
 
         logger.info(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return response
@@ -93,7 +93,7 @@ def set_up_agent(agent_name):
     factory = AgentSessionFactory()
     agent_session = factory.create_session(connection, agent_name, host, port, local_externals_direct, metadata)
     # Initialize any conversation state here
-    agent_thread = {
+    agent_state = {
         "last_chat_response": None,
         "prompt": "Please enter your response ('quit' to terminate):\n",
         "timeout": 5000.0,
@@ -102,27 +102,27 @@ def set_up_agent(agent_name):
         "sly_data": None,
         "chat_filter": {"chat_filter_type": "MAXIMAL"},
     }
-    return agent_session, agent_thread
+    return agent_session, agent_state
 
-def call_agent(agent_session, agent_thread, user_input):
+def call_agent(agent_session, agent_state, user_input):
     """
     Processes a single turn of user input within the selected agent's session.
 
     This function simulates a conversational turn by:
     1. Initializing a StreamingInputProcessor to handle the input.
-    2. Updating the agent's internal thread state with the user's input (`thoughts`).
-    3. Passing the updated thread to the processor for handling.
+    2. Updating the agent's internal state with the user's input (`thoughts`).
+    3. Passing the updated state to the processor for handling.
     4. Extracting and returning the agent's response for this turn.
 
     Parameters:
         agent_session: An active session object for the selected agent.
-        agent_thread (dict): The agent's current conversation thread state.
+        agent_state (dict): The agent's current conversation state.
         user_input (str): The user's input or query to be processed.
 
     Returns:
         tuple:
             - last_chat_response (str or None): The agent's response to the input.
-            - agent_thread (dict): The updated thread state after processing.
+            - agent_state (dict): The updated state after processing.
     """
     # Use the processor (like in agent_cli.py)
     input_processor = StreamingInputProcessor(
@@ -132,8 +132,8 @@ def call_agent(agent_session, agent_thread, user_input):
         None,  # Not using a thinking_dir for simplicity
     )
     # Update the conversation state with this turn's input
-    agent_thread["user_input"] = user_input
-    agent_thread = input_processor.process_once(agent_thread)
+    agent_state["user_input"] = user_input
+    agent_state = input_processor.process_once(agent_state)
     # Get the agent response for this turn
-    last_chat_response = agent_thread.get("last_chat_response")
-    return last_chat_response, agent_thread
+    last_chat_response = agent_state.get("last_chat_response")
+    return last_chat_response, agent_state
