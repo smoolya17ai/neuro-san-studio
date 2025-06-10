@@ -18,6 +18,7 @@ from typing import Dict
 from typing import List
 from typing import Optional
 
+# pylint: disable=import-error
 from googleapiclient.errors import HttpError
 from langchain_google_community.gmail.utils import build_resource_service
 from neuro_san.interfaces.coded_tool import CodedTool
