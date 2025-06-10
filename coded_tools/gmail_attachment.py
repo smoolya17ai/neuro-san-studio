@@ -81,6 +81,8 @@ class GmailAttachment(CodedTool):
 
         return self.gmail_send_message_with_attachment(to, attachment_paths, cc, bcc, subject, message)
 
+    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-positional-arguments
     def gmail_send_message_with_attachment(
         self,
         to: List[str],
@@ -126,7 +128,6 @@ class GmailAttachment(CodedTool):
             encoded_message = base64.urlsafe_b64encode(email_message.as_bytes()).decode()
             send_request_body = {"raw": encoded_message}
 
-            # pylint: disable=E1101
             sent_message = self.service.users().messages().send(userId="me", body=send_request_body).execute()
 
             return f"Message sent. Message ID: {sent_message['id']}"
@@ -157,3 +158,6 @@ class GmailAttachment(CodedTool):
                 email_message.add_attachment(
                     f.read(), maintype=maintype, subtype=subtype, filename=os.path.basename(path)
                 )
+
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+        raise NotImplementedError
