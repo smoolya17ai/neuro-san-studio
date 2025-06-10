@@ -51,7 +51,7 @@ The **MCP BMI STREAMABLE HTTP** is a simple agentic system that connects LLM to 
 
 Check the following during development or troubleshooting:
 
-- `langchain-mcp-adapters` is installed with valid version
+- `langchain-mcp-adapters` is installed with a valid version
 - MCP server is running
 - Client is connected to the correct port
 
