@@ -1,6 +1,6 @@
 # MCP BMI STREAMABLE HTTP
 
-The **MCP BMI STREAMABLE HTTP** is a simple agentic system that connects LLM to the MCP server using server-sent events as transport method. The main purpose is to show how one can connect to mcp server in coded tool.
+The **MCP BMI STREAMABLE HTTP** is a simple agentic system that connects LLM to the MCP server using streamable http as transport method. The main purpose is to show how one can connect to mcp server in coded tool.
 
 ---
 
