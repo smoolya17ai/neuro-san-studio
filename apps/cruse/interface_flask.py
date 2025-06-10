@@ -27,13 +27,13 @@ thread_started = False  # pylint: disable=invalid-name
 user_input_queue = queue.Queue()
 gui_context_queue = queue.Queue()
 
-cruse_session, cruse_state = set_up_cruse_assistant(get_available_systems()[0])
+cruse_session, cruse_agent_state = set_up_cruse_assistant(get_available_systems()[0])
 
 
 def cruse_thinking_process():
     """Main permanent agent-calling loop."""
     with app.app_context():
-        global cruse_state  # pylint: disable=global-statement
+        global cruse_agent_state  # pylint: disable=global-statement
         user_input = ""
 
         while True:
@@ -45,7 +45,7 @@ def cruse_thinking_process():
                     gui_context = ""
 
                 print(f"USER INPUT:{user_input}\n\nGUI CONTEXT:{gui_context}\n")
-                response, cruse_state = cruse(cruse_session, cruse_state, user_input + str(gui_context))
+                response, cruse_agent_state = cruse(cruse_session, cruse_agent_state, user_input + str(gui_context))
                 print(response)
 
                 blocks = parse_response_blocks(response)
@@ -177,7 +177,7 @@ def handle_new_chat(data):
         data (dict or str): The incoming data from the client. Expected to contain a
                             'system' key if it's a dict, or be a plain string fallback.
     """
-    global cruse_session, cruse_state  # pylint: disable=global-statement
+    global cruse_session, cruse_agent_state  # pylint: disable=global-statement
     # Handle case where `data` is a string (malformed) or dict
     if isinstance(data, dict):
         selected_agent = data.get('system')
@@ -191,7 +191,7 @@ def handle_new_chat(data):
     tear_down_cruse_assistant(cruse_session)
 
     # Recreate new state
-    cruse_session, cruse_state = set_up_cruse_assistant(selected_agent)
+    cruse_session, cruse_agent_state = set_up_cruse_assistant(selected_agent)
 
     print("****New chat started****")
 

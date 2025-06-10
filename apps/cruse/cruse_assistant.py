@@ -24,7 +24,7 @@ def set_up_cruse_assistant(selected_agent):
     sly_data = {"selected_agent": selected_agent, "agent_session": session}
 
     # Initialize any conversation state here
-    cruse_state = {
+    cruse_state_info = {
         "last_chat_response": None,
         "prompt": "Please enter your response ('quit' to terminate):\n",
         "timeout": 5000.0,
@@ -33,10 +33,10 @@ def set_up_cruse_assistant(selected_agent):
         "sly_data": sly_data,
         "chat_filter": {"chat_filter_type": "MAXIMAL"},
     }
-    return session, cruse_state
+    return session, cruse_state_info
 
 
-def cruse(cruse_session, cruse_state, user_input):
+def cruse(cruse_session, cruse_state_info, user_input):
     """
     Processes a single turn of user input within the cruse_agent agent's session.
 
@@ -48,13 +48,13 @@ def cruse(cruse_session, cruse_state, user_input):
 
     Parameters:
         cruse_session: An active session object for the cruse_agent agent.
-        cruse_state (dict): The agent's current conversation state.
+        cruse_state_info (dict): The agent's current conversation state.
         user_input (str): The user's input or query to be processed.
 
     Returns:
         tuple:
             - last_chat_response (str or None): The agent's response to the input.
-            - cruse_state (dict): The updated state after processing.
+            - cruse_state_info (dict): The updated state after processing.
     """
     # Use the processor (like in agent_cli.py)
     input_processor = StreamingInputProcessor(
@@ -64,11 +64,11 @@ def cruse(cruse_session, cruse_state, user_input):
         None,  # Not using a thinking_dir for simplicity
     )
     # Update the conversation state with this turn's input
-    cruse_state["user_input"] = user_input
-    cruse_state = input_processor.process_once(cruse_state)
+    cruse_state_info["user_input"] = user_input
+    cruse_state_info = input_processor.process_once(cruse_state_info)
     # Get the agent response for this turn
-    last_chat_response = cruse_state.get("last_chat_response")
-    return last_chat_response, cruse_state
+    last_chat_response = cruse_state_info.get("last_chat_response")
+    return last_chat_response, cruse_state_info
 
 
 def tear_down_cruse_assistant(cruse_session):
