@@ -30,3 +30,15 @@ The hocon file includes an example of calling a coded_tool that makes calls to a
 
 ---
 
+## Examples
+
+CRUSE automatically generates a form:
+![CRUSE_Generated_UI.png](../images/CRUSE_Generated_UI.png)
+
+The user only submits the form with no chat:
+![CRUSE_Reads_Context.png](../images/CRUSE_Reads_Context.png)
+
+Some other examples:
+![CRUSE_Network_Issue.png](../images/CRUSE_Network_Issue.png)
+
+![CRUSE_RetailReturn.png](../images/CRUSE_RetailReturn.png)
