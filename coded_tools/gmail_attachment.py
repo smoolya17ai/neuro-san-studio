@@ -9,15 +9,15 @@
 #
 # END COPYRIGHT
 
+import base64
 import mimetypes
 import os
+from email.message import EmailMessage
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
 
-import base64
-from email.message import EmailMessage
 from googleapiclient.errors import HttpError
 from langchain_google_community.gmail.utils import build_resource_service
 from neuro_san.interfaces.coded_tool import CodedTool
@@ -81,13 +81,13 @@ class GmailAttachment(CodedTool):
         return self.gmail_send_message_with_attachment(to, attachment_paths, cc, bcc, subject, message)
 
     def gmail_send_message_with_attachment(
-            self,
-            to: List[str],
-            attachment_paths: List[str],
-            cc: Optional[List[str]] = None,
-            bcc: Optional[List[str]] = None,
-            subject: Optional[str] = "",
-            message: Optional[str] = ""
+        self,
+        to: List[str],
+        attachment_paths: List[str],
+        cc: Optional[List[str]] = None,
+        bcc: Optional[List[str]] = None,
+        subject: Optional[str] = "",
+        message: Optional[str] = "",
     ) -> str:
         """
         Sends an email with a file attachment using the Gmail API.
@@ -126,12 +126,7 @@ class GmailAttachment(CodedTool):
             send_request_body = {"raw": encoded_message}
 
             # pylint: disable=E1101
-            sent_message = (
-                self.service.users()
-                .messages()
-                .send(userId="me", body=send_request_body)
-                .execute()
-            )
+            sent_message = self.service.users().messages().send(userId="me", body=send_request_body).execute()
 
             return f"Message sent. Message ID: {sent_message['id']}"
 
@@ -142,7 +137,7 @@ class GmailAttachment(CodedTool):
         """
         Attaches one or more files to an existing EmailMessage object.
 
-        Each file is added as an attachment with its appropriate MIME type, 
+        Each file is added as an attachment with its appropriate MIME type,
         inferred from the file extension.
 
         :param email_message: The email message to which the files will be attached.
@@ -159,8 +154,5 @@ class GmailAttachment(CodedTool):
 
             with open(path, "rb") as f:
                 email_message.add_attachment(
-                    f.read(),
-                    maintype=maintype,
-                    subtype=subtype,
-                    filename=os.path.basename(path)
+                    f.read(), maintype=maintype, subtype=subtype, filename=os.path.basename(path)
                 )
