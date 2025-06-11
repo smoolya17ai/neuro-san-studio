@@ -99,7 +99,6 @@ In intermediary to its tools, passing user inquiries and context as well as the 
             # Feel free to change the name of the agent below to any other agent network, preferably AAOSA agents
             # TODO: Can we make this dynamic?
             "class": "call_agent.CallAgent",
-            "command": ${aaosa_command},
         },
     ]
 }
