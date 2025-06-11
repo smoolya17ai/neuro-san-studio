@@ -90,7 +90,7 @@ Yes, you received an email from Jane yesterday at 3:47 PM with the subject "Proj
 
 When developing or debugging the Gmail Assistant, keep the following in mind:
 
-- Make sure both of the `gmail_handler` is correctly registered and mapped to the valid tool in toolbox.
+- Make sure both of the `gmail_handler_no_attachment` and `gmail_handler_with_attachment` are correctly registered and mapped to the valid tool in toolbox.
 
 - Confirm that the Gmail API credentials and OAuth flow are correctly configured.
 

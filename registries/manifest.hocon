@@ -58,7 +58,7 @@
     # The MCP server is running.
     # The server can be found at servers/MCP/bmi_server.py and run using the following command
     # python bmi_server.py
-    "mcp_bmi_sse.hocon": false,
+    "mcp_bmi_streamable_http.hocon": false,
 
     # The following agent network is an example of Agent2Agent (A2A) Protocol implementation:
     # Make sure to start the A2A server before turning the agent on.
