@@ -56,17 +56,56 @@
     </footer>
 
     <script>
-        var socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
+        var socket = io.connect('http://' + document.domain + ':' + location.port + '/chat', {
+            transports: ['websocket'],
+            pingTimeout: 360000,
+            pingInterval: 25000
+        });
+
 
         socket.on('connect', function() {
             console.log('Websocket connected!');
         });
 
         socket.on('update_speech', function(data) {
-            var element = document.getElementById('assistant-speech');
-            const markdown = marked.parse(data.data);
-            element.innerHTML += '<div class="speech-msg">' + markdown + '</div>';
-            element.scrollTop = element.scrollHeight;
+            console.log('[update_speech] Event received:', data);
+
+            if (!data || !data.data) {
+                console.warn('[update_speech] Missing or empty data:', data);
+                return;
+            }
+
+           try {
+                const element = document.getElementById('assistant-speech');
+                const markdown = marked.parse(data.data);
+                const newDiv = document.createElement('div');
+                newDiv.className = 'speech-msg';
+                newDiv.innerHTML = markdown;
+
+                element.appendChild(newDiv);
+                element.scrollTop = element.scrollHeight;
+
+                console.log('[update_speech] Rendered successfully.');
+            } catch (err) {
+                console.error('[update_speech] Error while rendering:', err, data);
+            }
+        });
+
+        socket.on('update_gui', function(data) {
+            console.log('[update_gui] Event received:', data);
+
+            if (!data || !data.data) {
+                console.warn('[update_gui] Missing or empty data:', data);
+                return;
+            }
+
+            try {
+                const element = document.getElementById('assistant-gui');
+                element.innerHTML = data.data.replace(/\n/g, '<br>');
+                console.log('[update_gui] GUI updated successfully.');
+            } catch (err) {
+                console.error('[update_gui] Error while updating GUI:', err, data);
+            }
         });
 
         socket.on('update_user_input', function(data) {
@@ -89,22 +128,17 @@
 
             // Emit separately
             if (userInput) {
-                socket.emit('user_input', { data: userInput }, '/chat');
+                socket.emit('user_input', { data: userInput });
             } else if (Object.keys(guiContext).length > 0) {
-                socket.emit('user_input', { data: "<form submitted>" }, '/chat');
+                socket.emit('user_input', { data: "<form submitted>" });
             }
 
             if (Object.keys(guiContext).length > 0) {
-                socket.emit('gui_context', { gui_context: guiContext }, '/chat');
+                socket.emit('gui_context', { gui_context: guiContext });
             }
 
             document.getElementById('user-input').value = '';
         }
-
-        socket.on('update_gui', function(data) {
-            const element = document.getElementById('assistant-gui');
-            element.innerHTML = data.data.replace(/\n/g, '<br>'); // overwrite GUI
-        });
 
         window.addEventListener('beforeunload', function () {
             navigator.sendBeacon('/shutdown');
@@ -166,6 +200,19 @@
         window.addEventListener('load', function () {
             loadSystems();
         });
+
+        socket.on('connect_error', function (err) {
+            console.error('[socket] Connection error:', err);
+        });
+
+        socket.on('reconnect_attempt', function () {
+            console.warn('[socket] Attempting to reconnect...');
+        });
+
+        socket.on('disconnect', function () {
+            console.warn('[socket] Disconnected from server');
+        });
+
 
     </script>
 </body>

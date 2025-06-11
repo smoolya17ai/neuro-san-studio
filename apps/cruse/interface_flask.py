@@ -1,7 +1,6 @@
 import atexit
 import os
 import queue
-import time
 
 # pylint: disable=import-error
 import cv2
@@ -19,9 +18,10 @@ from apps.cruse.cruse_assistant import parse_response_blocks
 
 os.environ["AGENT_MANIFEST_FILE"] = "registries/manifest.hocon"
 os.environ["AGENT_TOOL_PATH"] = "coded_tools"
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret!"
-socketio = SocketIO(app)
+socketio = SocketIO(app, ping_timeout=360, ping_interval=25)
 thread_started = False  # pylint: disable=invalid-name
 
 user_input_queue = queue.Queue()
@@ -38,11 +38,12 @@ def cruse_thinking_process():
 
         while True:
             socketio.sleep(1)
-            if user_input:
-                try:
-                    gui_context = gui_context_queue.get_nowait()
-                except queue.Empty:
-                    gui_context = ""
+            try:
+                gui_context = gui_context_queue.get_nowait()
+            except queue.Empty:
+                gui_context = ""
+
+            if user_input or gui_context:
 
                 print(f"USER INPUT:{user_input}\n\nGUI CONTEXT:{gui_context}\n")
                 response, cruse_agent_state = cruse(cruse_session, cruse_agent_state, user_input + str(gui_context))
@@ -77,7 +78,7 @@ def cruse_thinking_process():
                     break
             except queue.Empty:
                 user_input = ""
-                time.sleep(0.1)
+                socketio.sleep(0.1)
                 continue
 
 
@@ -163,7 +164,8 @@ def run_scheduled_tasks():
     """
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        socketio.sleep(1)
+
 
 @socketio.on('new_chat', namespace='/chat')
 def handle_new_chat(data):
