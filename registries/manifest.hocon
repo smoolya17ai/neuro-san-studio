@@ -40,19 +40,22 @@
     "intranet_agents.hocon": false,
     "intranet_agents_with_tools.hocon": false,
     "real_estate.hocon": false,
-    "retail_ops_and_customer_service.hocon": false,
-    "six_thinking_hats.hocon": false,
-    "telco_network_support.hocon": false,
-    "pdf_rag.hocon": false,
-    "agentic_rag.hocon": false,
-    "kwik_agents.hocon": false,
-    "TherapyVignetteSupervisors.hocon": false,
+    "retail_ops_and_customer_service.hocon": true,
+    "six_thinking_hats.hocon": true,
+    "telco_network_support.hocon": true,
+    "pdf_rag.hocon": true,
+    "agentic_rag.hocon": true,
+    "kwik_agents.hocon": true,
+    "therapy_vignette_supervisors.hocon": true,
+
+    # Set the following agent network to true before running apps/cruse/interface_flask.py
+    "cruse_agent.hocon": false,
 
     # Set the following agent network to false before running apps/conscious_assistant/interface_flask.py
     "conscious_agent.hocon": false,
 
-    # Set the following agent network to false before running apps/log_analyzer/log_analyzer.py
-    "log_analysis_agents.hocon": false
+    # Set the following agent network to true before running apps/log_analyzer/log_analyzer.py
+    "log_analysis_agents.hocon": false,
 
     # Before turning on and running the following agent network, make sure that:
     # The MCP server is running.
