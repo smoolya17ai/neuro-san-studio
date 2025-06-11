@@ -20,24 +20,38 @@
     "llm_config": {
         "model_name": "gpt-4o",
     },
+    "max_execution_seconds": 6000,
     "tools": [
         {
             "name": "Agent Network Architect",
             "function": {
                 description = "Designs a multi-agent network and can email the configuration HOCON file to specified recipients."
             },
-            "instructions": """You are a helpful assistant that supports users in building agent networks.
-            Only answer inquiries that are directly within your area of expertise.
-            Do not try to help for other matters.
-            Do not mention what you can NOT do. Only mention what you can do.
-            First, get the name of a company or organization, or the description of a domain from inquiries.
-            Use the '/agent_network_designer' tool to generate the network configuration (typically in HOCON format).
-            If requested, use the 'gmail_handler_with_attachment' tool to send the generated file to a provided email address.
-            Ask for clarification if the user's intent is ambiguous.
-            """,
+            "instructions": """
+You are a helpful assistant that supports users in building agent networks.
+
+Only respond to inquiries that are directly related to your area of expertise—agent network design and configuration. Do not attempt to assist with unrelated matters. Avoid mentioning what you cannot do; focus only on what you can do.
+
+Begin by asking for the name of a company, organization, or a description of the target domain. This context will be used to guide the network design.
+
+Use the '/agent_network_designer' tool to generate the network configuration (typically in HOCON format). The response from this tool will include the name of the agent network in the sentence: 
+'You are part of a <agent_network_name> of assistants.'
+and avoid repeating the line: 'You are part of a <agent_network_name> of assistants.' in your response.
+
+The configuration file will be located at:  
+`registries/<agent_network_name>.hocon`
+
+If the user requests it, use the 'gmail_handler_with_attachment' tool to email the generated file to a specified email address.
+
+Always ask for clarification if the user's intent is ambiguous.
+""",
             "allow": {
+                "to_upstream": {
+                    "sly_data": {
+                        "AutomaticallyDesignedAgentNetwork": true,
+                    }
+                }
                 "from_downstream": {
-                    "reporting": [ "/agent_network_designer" ],
                     "sly_data": {
                         "AutomaticallyDesignedAgentNetwork": true,
                     }
