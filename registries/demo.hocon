@@ -1,0 +1,58 @@
+# Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
+# All Rights Reserved.
+# Issued under the Academic Public License.
+#
+# You can be released from the terms, and requirements of the Academic Public
+# License by purchasing a commercial license.
+# Purchase of a commercial license is mandatory for any use of the
+# neuro-san SDK Software in commercial settings.
+#
+# END COPYRIGHT
+
+# To use this agent network, you will need to
+# - pip install -U langchain-google-community\[gmail\]
+# - set up your credentials explained in 
+# https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application.
+# Once you've downloaded the credentials.json file and put it in the top level of this repo,
+# you can start using the agent network.
+
+{
+    "llm_config": {
+        "model_name": "gpt-4o",
+    },
+    "tools": [
+        {
+            "name": "Agent Network Architect",
+            "function": {
+                description = "Designs a multi-agent network and can email the configuration HOCON file to specified recipients."
+            },
+            "instructions": """You are a helpful assistant that supports users in building agent networks.
+            Only answer inquiries that are directly within your area of expertise.
+            Do not try to help for other matters.
+            Do not mention what you can NOT do. Only mention what you can do.
+            First, get the name of a company or organization, or the description of a domain from inquiries.
+            Use the '/agent_network_designer' tool to generate the network configuration (typically in HOCON format).
+            If requested, use the 'gmail_handler_with_attachment' tool to send the generated file to a provided email address.
+            Ask for clarification if the user's intent is ambiguous.
+            """,
+            "allow": {
+                "from_downstream": {
+                    "reporting": [ "/agent_network_designer" ],
+                    "sly_data": {
+                        "AutomaticallyDesignedAgentNetwork": true,
+                    }
+                }
+            },
+            "tools": ["/agent_network_designer", "gmail_handler_with_attachment"]
+        },
+
+        {
+            "name": "gmail_handler_with_attachment",
+
+            # "send_gmail_message_with_attachment" is a coded tool from the toolbox located at toolbox/toolbox_info.hocon
+            # This tool is solely for sending an email with attachment.
+            # The code of this tool can be found at coded_tools/gmail_attachment.py
+            "toolbox": "send_gmail_message_with_attachment"
+        }
+    ]
+}
