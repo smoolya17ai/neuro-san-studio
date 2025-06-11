@@ -49,7 +49,7 @@
     "therapy_vignette_supervisors.hocon": true,
 
     # Set the following agent network to true before running apps/cruse/interface_flask.py
-    "cruse_agent.hocon": false,
+    "cruse_agent.hocon": true,
 
     # Set the following agent network to true before running apps/conscious_assistant/interface_flask.py
     "conscious_agent.hocon": false,
