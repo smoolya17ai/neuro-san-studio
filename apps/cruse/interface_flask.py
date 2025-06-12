@@ -166,31 +166,29 @@ def run_scheduled_tasks():
 
 
 @socketio.on('new_chat', namespace='/chat')
-def handle_new_chat(data):
-    """
-    Socket.IO event handler for starting a new chat session.
+@socketio.on('new_chat', namespace='/chat')
+def handle_new_chat(data, *args):
+    global cruse_session, cruse_agent_state
 
-    Resets the current CRUSE assistant session using the optionally provided agent name.
-    Clears internal state and reinitializes the assistant to handle a fresh session.
-
-    Args:
-        data (dict or str): The incoming data from the client. Expected to contain a
-                            'system' key if it's a dict, or be a plain string fallback.
-    """
-    global cruse_session, cruse_agent_state  # pylint: disable=global-statement
-    # Handle case where `data` is a string (malformed) or dict
     if isinstance(data, dict):
         selected_agent = data.get('system')
     elif isinstance(data, str):
-        selected_agent = data  # fallback if sent as plain string
+        selected_agent = data
     else:
         selected_agent = None
-    print(f"Resetting session for new chat... Selected agent is:{selected_agent}")
 
-    # Tear down old state
+    # Fallback to default system if none was provided
+    if not selected_agent:
+        systems = get_available_systems()
+        selected_agent = systems[0] if systems else None
+
+    if not selected_agent:
+        print("No available systems to initialize!")
+        return
+
+    print(f"Resetting session for new chat... Selected agent is: {selected_agent}")
+
     tear_down_cruse_assistant(cruse_session)
-
-    # Recreate new state
     cruse_session, cruse_agent_state = set_up_cruse_assistant(selected_agent)
 
     print("****New chat started****")
