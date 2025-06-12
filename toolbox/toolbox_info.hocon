@@ -77,4 +77,23 @@
         }
     },
 
+    "call_agent": {
+        "class": "call_agent.CallAgent",
+        "description": "Call the agent to response to inquiry.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "agent_name": {
+                    "type": "string",
+                    "description": "Name of the agent to call. Do not include file extension such as '.hocon' in the name."
+                },
+                "inquiry": {
+                    "type": "string",
+                    "description": "The inquiry"
+                },
+            },
+            "required": ["inquiry"]
+        } 
+    },
+
 }
