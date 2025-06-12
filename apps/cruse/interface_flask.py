@@ -3,7 +3,6 @@ import os
 import queue
 
 # pylint: disable=import-error
-import cv2
 import schedule
 from flask import Flask
 from flask import render_template
@@ -131,7 +130,6 @@ def cleanup():
 def shutdown():
     """Shut down process."""
     cleanup()
-    cv2.destroyAllWindows()
     return "Capture ended"
 
 
