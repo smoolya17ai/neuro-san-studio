@@ -228,8 +228,8 @@ Source it:
 
 - For Windows:
 
-  ```bash
-  .\venv\Scripts\activate && export PYTHONPATH=`pwd`
+  ```cmd
+  .\venv\Scripts\activate.bat && set PYTHONPATH=%CD%
   ```
 
 - For Mac:
@@ -260,7 +260,7 @@ You can get your OpenAI API key from <https://platform.openai.com/signup>. After
 - For Windows:
   - On Command Prompt:
 
-    ```bash
+    ```cmd
     set OPENAI_API_KEY=XXX
     ```
 
