@@ -1,9 +1,8 @@
 import os
 
-from pyhocon import ConfigFactory
-
 from neuro_san.client.agent_session_factory import AgentSessionFactory
 from neuro_san.client.streaming_input_processor import StreamingInputProcessor
+from pyhocon import ConfigFactory
 
 AGENT_NETWORK_NAME = "cruse_agent"
 
@@ -81,6 +80,7 @@ def tear_down_cruse_assistant(cruse_session):
     # client.assistants.delete(cruse_assistant_id)
     print("cruse_agent assistant torn down.")
 
+
 def get_available_systems():
     """
     Parses the HOCON manifest file specified by the AGENT_MANIFEST_FILE environment variable
@@ -95,9 +95,7 @@ def get_available_systems():
     excluded = {"cruse_agent.hocon"}  # Add more filenames as needed
     config = ConfigFactory.parse_file(os.environ["AGENT_MANIFEST_FILE"])
     return [
-        key.strip('"').strip()
-        for key, enabled in config.items()
-        if enabled and key.strip('"').strip() not in excluded
+        key.strip('"').strip() for key, enabled in config.items() if enabled and key.strip('"').strip() not in excluded
     ]
 
 

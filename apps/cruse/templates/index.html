@@ -151,7 +151,7 @@
             document.getElementById('user-input').value = '';
             document.getElementById('assistant-gui').innerHTML = '';
 
-            // Optionally notify backend to reset session
+            // Notify backend to reset session
             socket.emit('new_chat', {}, '/chat');
         });
 

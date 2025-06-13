@@ -5,15 +5,15 @@ import queue
 # pylint: disable=import-error
 import schedule
 from flask import Flask
+from flask import jsonify
 from flask import render_template
 from flask_socketio import SocketIO
-from flask import jsonify
 
 from apps.cruse.cruse_assistant import cruse
-from apps.cruse.cruse_assistant import set_up_cruse_assistant
-from apps.cruse.cruse_assistant import tear_down_cruse_assistant
 from apps.cruse.cruse_assistant import get_available_systems
 from apps.cruse.cruse_assistant import parse_response_blocks
+from apps.cruse.cruse_assistant import set_up_cruse_assistant
+from apps.cruse.cruse_assistant import tear_down_cruse_assistant
 
 os.environ["AGENT_MANIFEST_FILE"] = "registries/manifest.hocon"
 os.environ["AGENT_TOOL_PATH"] = "coded_tools"
@@ -77,7 +77,7 @@ def cruse_thinking_process():
                     break
             except queue.Empty:
                 user_input = ""
-                socketio.sleep(0.1)
+                socketio.sleep(1)
                 continue
 
 
@@ -108,6 +108,7 @@ def handle_user_input(json, *_):
     user_input_queue.put(user_input)
     socketio.emit("update_user_input", {"data": user_input}, namespace="/chat")
 
+
 @socketio.on("gui_context", namespace="/chat")
 def handle_gui_context(json, *_):
     """
@@ -118,6 +119,7 @@ def handle_gui_context(json, *_):
     gui_context = json["gui_context"]
     gui_context_queue.put(gui_context)
     socketio.emit("gui_context_input", {"gui_context": gui_context}, namespace="/chat")
+
 
 def cleanup():
     """Tear things down on exit."""
@@ -139,7 +141,8 @@ def add_header(response):
     response.headers["Cache-Control"] = "no-store"
     return response
 
-@app.route('/systems')
+
+@app.route("/systems")
 def systems():
     """
     Flask route to retrieve a list of available agent systems.
@@ -149,6 +152,7 @@ def systems():
                   from the manifest file.
     """
     return jsonify(get_available_systems())
+
 
 def run_scheduled_tasks():
     """
@@ -165,32 +169,60 @@ def run_scheduled_tasks():
         socketio.sleep(1)
 
 
-@socketio.on('new_chat', namespace='/chat')
-def handle_new_chat(data):
+@socketio.on("new_chat", namespace="/chat")
+def handle_new_chat(data, *args):
     """
-    Socket.IO event handler for starting a new chat session.
+    Initializes a new chat session with a selected conversational agent.
 
-    Resets the current CRUSE assistant session using the optionally provided agent name.
-    Clears internal state and reinitializes the assistant to handle a fresh session.
+    This function resets the current Cruse assistant session and sets up a new one
+    based on the provided `data`, which can be either a dictionary (with a "system" key)
+    or a direct string specifying the agent name. If no valid agent is specified, it
+    defaults to the first available system retrieved by `get_available_systems()`.
 
-    Args:
-        data (dict or str): The incoming data from the client. Expected to contain a
-                            'system' key if it's a dict, or be a plain string fallback.
+    Parameters:
+    ----------
+    data : dict or str
+        The input specifying which agent/system to use. Can be a dictionary containing
+        a "system" key or a string representing the agent's name.
+
+    *args : tuple
+        Additional arguments (currently unused).
+
+    Side Effects:
+    ------------
+    - Tears down the existing Cruse assistant session.
+    - Sets up a new session and updates the global `cruse_session` and `cruse_agent_state`.
+    - Prints diagnostic messages to the console.
+
+    Notes:
+    -----
+    - If no valid agent is found and no available systems are returned, the function exits early.
+    - Relies on global variables: `cruse_session`, `cruse_agent_state`.
+
     """
-    global cruse_session, cruse_agent_state  # pylint: disable=global-statement
-    # Handle case where `data` is a string (malformed) or dict
+    del args
+    # pylint: disable=global-statement
+    global cruse_session, cruse_agent_state
+
     if isinstance(data, dict):
-        selected_agent = data.get('system')
+        selected_agent = data.get("system")
     elif isinstance(data, str):
-        selected_agent = data  # fallback if sent as plain string
+        selected_agent = data
     else:
         selected_agent = None
-    print(f"Resetting session for new chat... Selected agent is:{selected_agent}")
 
-    # Tear down old state
+    # Fallback to default system if none was provided
+    if not selected_agent:
+        available_systems = get_available_systems()
+        selected_agent = available_systems[0] if available_systems else None
+
+    if not selected_agent:
+        print("No available systems to initialize!")
+        return
+
+    print(f"Resetting session for new chat... Selected agent is: {selected_agent}")
+
     tear_down_cruse_assistant(cruse_session)
-
-    # Recreate new state
     cruse_session, cruse_agent_state = set_up_cruse_assistant(selected_agent)
 
     print("****New chat started****")
