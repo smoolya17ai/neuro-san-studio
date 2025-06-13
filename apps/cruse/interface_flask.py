@@ -201,6 +201,7 @@ def handle_new_chat(data, *args):
 
     """
     del args
+    # pylint: disable=global-statement
     global cruse_session, cruse_agent_state
 
     if isinstance(data, dict):
