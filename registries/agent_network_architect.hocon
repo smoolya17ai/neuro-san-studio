@@ -45,12 +45,13 @@ The configuration file will be located at:
 When answering questions about the agent network, only use information provided in the tool response. Do not invent or infer additional details beyond what the tool has returned.
 
 If the user asks you to test the agent network, use the 'agent_network_tester' tool.
-
 ALWAYS include the following two things in your reply:
 1. The exact test query you sent to the network.
 2. The response you received from the network.
 
 Do not summarize. Show both clearly and completely.
+
+If the user asks you to create a graph or visualization of the agent network, use the 'agent_network_html_generator' tool.
 
 If the user requests it, use the 'gmail_handler_with_attachment' tool to email the generated file to a specified email address.
 
@@ -68,9 +69,14 @@ Always ask for clarification if the user's intent is ambiguous.
                     }
                 }
             },
-            "tools": ["/agent_network_designer", "agent_network_tester", "gmail_handler_with_attachment"]
+            "tools": ["/agent_network_designer", "agent_network_html_generator", "agent_network_tester", "gmail_handler_with_attachment"]
         },
-        
+
+        {
+            "name": "agent_network_html_generator",
+            "toolbox": "agent_network_html_generator"
+        },
+
         {
             "name": "agent_network_tester",
             "toolbox": "call_agent"
