@@ -5,15 +5,15 @@ import queue
 # pylint: disable=import-error
 import schedule
 from flask import Flask
+from flask import jsonify
 from flask import render_template
 from flask_socketio import SocketIO
-from flask import jsonify
 
 from apps.cruse.cruse_assistant import cruse
-from apps.cruse.cruse_assistant import set_up_cruse_assistant
-from apps.cruse.cruse_assistant import tear_down_cruse_assistant
 from apps.cruse.cruse_assistant import get_available_systems
 from apps.cruse.cruse_assistant import parse_response_blocks
+from apps.cruse.cruse_assistant import set_up_cruse_assistant
+from apps.cruse.cruse_assistant import tear_down_cruse_assistant
 
 os.environ["AGENT_MANIFEST_FILE"] = "registries/manifest.hocon"
 os.environ["AGENT_TOOL_PATH"] = "coded_tools"
@@ -108,6 +108,7 @@ def handle_user_input(json, *_):
     user_input_queue.put(user_input)
     socketio.emit("update_user_input", {"data": user_input}, namespace="/chat")
 
+
 @socketio.on("gui_context", namespace="/chat")
 def handle_gui_context(json, *_):
     """
@@ -118,6 +119,7 @@ def handle_gui_context(json, *_):
     gui_context = json["gui_context"]
     gui_context_queue.put(gui_context)
     socketio.emit("gui_context_input", {"gui_context": gui_context}, namespace="/chat")
+
 
 def cleanup():
     """Tear things down on exit."""
@@ -139,7 +141,8 @@ def add_header(response):
     response.headers["Cache-Control"] = "no-store"
     return response
 
-@app.route('/systems')
+
+@app.route("/systems")
 def systems():
     """
     Flask route to retrieve a list of available agent systems.
@@ -149,6 +152,7 @@ def systems():
                   from the manifest file.
     """
     return jsonify(get_available_systems())
+
 
 def run_scheduled_tasks():
     """
@@ -165,13 +169,13 @@ def run_scheduled_tasks():
         socketio.sleep(1)
 
 
-@socketio.on('new_chat', namespace='/chat')
-@socketio.on('new_chat', namespace='/chat')
+@socketio.on("new_chat", namespace="/chat")
+@socketio.on("new_chat", namespace="/chat")
 def handle_new_chat(data, *args):
     global cruse_session, cruse_agent_state
 
     if isinstance(data, dict):
-        selected_agent = data.get('system')
+        selected_agent = data.get("system")
     elif isinstance(data, str):
         selected_agent = data
     else:

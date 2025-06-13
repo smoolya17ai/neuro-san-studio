@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 from typing import Any
 from typing import Dict
 from typing import Union
@@ -93,7 +93,9 @@ class CallAgent(CodedTool):
 
         # Create session factory and agent session
         factory = AgentSessionFactory()
-        agent_session = factory.create_session(connection, self.agent_name, host, port, local_externals_direct, metadata)
+        agent_session = factory.create_session(
+            connection, self.agent_name, host, port, local_externals_direct, metadata
+        )
         # Initialize any conversation state here
         agent_state_info = {
             "last_chat_response": None,
