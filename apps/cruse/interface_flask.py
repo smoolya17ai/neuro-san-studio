@@ -77,7 +77,7 @@ def cruse_thinking_process():
                     break
             except queue.Empty:
                 user_input = ""
-                socketio.sleep(0.1)
+                socketio.sleep(1)
                 continue
 
 
@@ -170,8 +170,37 @@ def run_scheduled_tasks():
 
 
 @socketio.on("new_chat", namespace="/chat")
-@socketio.on("new_chat", namespace="/chat")
 def handle_new_chat(data, *args):
+    """
+    Initializes a new chat session with a selected conversational agent.
+
+    This function resets the current Cruse assistant session and sets up a new one
+    based on the provided `data`, which can be either a dictionary (with a "system" key)
+    or a direct string specifying the agent name. If no valid agent is specified, it
+    defaults to the first available system retrieved by `get_available_systems()`.
+
+    Parameters:
+    ----------
+    data : dict or str
+        The input specifying which agent/system to use. Can be a dictionary containing
+        a "system" key or a string representing the agent's name.
+
+    *args : tuple
+        Additional arguments (currently unused).
+
+    Side Effects:
+    ------------
+    - Tears down the existing Cruse assistant session.
+    - Sets up a new session and updates the global `cruse_session` and `cruse_agent_state`.
+    - Prints diagnostic messages to the console.
+
+    Notes:
+    -----
+    - If no valid agent is found and no available systems are returned, the function exits early.
+    - Relies on global variables: `cruse_session`, `cruse_agent_state`.
+
+    """
+    del args
     global cruse_session, cruse_agent_state
 
     if isinstance(data, dict):
@@ -183,8 +212,8 @@ def handle_new_chat(data, *args):
 
     # Fallback to default system if none was provided
     if not selected_agent:
-        systems = get_available_systems()
-        selected_agent = systems[0] if systems else None
+        available_systems = get_available_systems()
+        selected_agent = available_systems[0] if available_systems else None
 
     if not selected_agent:
         print("No available systems to initialize!")
