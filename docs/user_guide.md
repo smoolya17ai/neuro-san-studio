@@ -180,7 +180,7 @@ See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
 
 ### AzureOpenAI
 
-If you are using Azure OpenAI in your hocon file, you might need to set the `llm_config` to use the right model.<br>
+If you are using Azure OpenAI in your hocon file, make sure to **set `deployment_name`** in the `llm_config` to use the right model.<br>
 
 For example:
 ```hocon
