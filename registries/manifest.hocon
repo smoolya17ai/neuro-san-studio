@@ -46,13 +46,16 @@
     "pdf_rag.hocon": true,
     "agentic_rag.hocon": true,
     "kwik_agents.hocon": true,
-    "TherapyVignetteSupervisors.hocon": true,
+    "therapy_vignette_supervisors.hocon": true,
+
+    # Set the following agent network to true before running apps/cruse/interface_flask.py
+    "cruse_agent.hocon": false,
 
     # Set the following agent network to true before running apps/conscious_assistant/interface_flask.py
     "conscious_agent.hocon": false,
 
     # Set the following agent network to true before running apps/log_analyzer/log_analyzer.py
-    "log_analysis_agents.hocon": false
+    "log_analysis_agents.hocon": false,
 
     # Before turning on and running the following agent network, make sure that:
     # The MCP server is running.

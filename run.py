@@ -41,7 +41,8 @@ class NeuroSanRunner:
         # Default Configuration
         self.args: Dict[str, Any] = {
             "server_host": os.getenv("NEURO_SAN_SERVER_HOST", "localhost"),
-            "server_port": int(os.getenv("NEURO_SAN_SERVER_PORT", "30013")),
+            "server_grpc_port": int(os.getenv("NEURO_SAN_SERVER_GRPC_PORT", "30011")),
+            "server_http_port": int(os.getenv("NEURO_SAN_SERVER_HTTP_PORT", "8080")),
             "server_connection": str(os.getenv("NEURO_SAN_SERVER_CONNECTION", "grpc")),
             "manifest_update_period_seconds": int(os.getenv("AGENT_MANIFEST_UPDATE_PERIOD_SECONDS", "5")),
             "default_sly_data": str(os.getenv("DEFAULT_SLY_DATA", "")),
@@ -94,7 +95,10 @@ class NeuroSanRunner:
             "--server-host", type=str, default=self.args["server_host"], help="Host address for the Neuro SAN server"
         )
         parser.add_argument(
-            "--server-port", type=int, default=self.args["server_port"], help="Port number for the Neuro SAN server"
+            "--server-grpc-port", type=int, default=self.args["server_grpc_port"], help="Port number for the Neuro SAN server grpc endpoint"
+        )
+        parser.add_argument(
+            "--server-http-port", type=int, default=self.args["server_http_port"], help="Port number for the Neuro SAN server http endpoint"
         )
         parser.add_argument(
             "--nsflow-port",
@@ -176,10 +180,12 @@ class NeuroSanRunner:
         # Server-only env variables
         if not self.args["client_only"]:
             os.environ["NEURO_SAN_SERVER_HOST"] = self.args["server_host"]
-            os.environ["NEURO_SAN_SERVER_PORT"] = str(self.args["server_port"])
+            os.environ["NEURO_SAN_SERVER_GRPC_PORT"] = str(self.args["server_grpc_port"])
+            os.environ["NEURO_SAN_SERVER_HTTP_PORT"] = str(self.args["server_http_port"])
 
             print(f"NEURO_SAN_SERVER_HOST set to: {os.environ['NEURO_SAN_SERVER_HOST']}")
-            print(f"NEURO_SAN_SERVER_PORT set to: {os.environ['NEURO_SAN_SERVER_PORT']}\n")
+            print(f"NEURO_SAN_SERVER_GRPC_PORT set to: {os.environ['NEURO_SAN_SERVER_GRPC_PORT']}\n")
+            print(f"NEURO_SAN_SERVER_HTTP_PORT set to: {os.environ['NEURO_SAN_SERVER_HTTP_PORT']}\n")
 
         print("\n" + "=" * 50 + "\n")
 
@@ -249,10 +255,13 @@ class NeuroSanRunner:
             "-m",
             "neuro_san.service.agent_main_loop",
             "--port",
-            str(self.args["server_port"]),
+            str(self.args["server_grpc_port"]),
+            "--http_port",
+            str(self.args["server_http_port"]),
         ]
         self.server_process = self.start_process(command, "NeuroSan", "logs/server.log")
-        print("NeuroSan server started on port: ", self.args["server_port"])
+        print("NeuroSan server grpc started on port: ", self.args["server_grpc_port"])
+        print("NeuroSan server http started on port: ", self.args["server_http_port"])
 
     def start_nsflow(self):
         """Start nsflow client."""
@@ -282,7 +291,7 @@ class NeuroSanRunner:
             "--server-host",
             self.args["server_host"],
             "--server-port",
-            str(self.args["server_port"]),
+            str(self.args["server_grpc_port"]),
             "--web-client-port",
             str(self.args["web_client_port"]),
             "--thinking-file",
@@ -342,8 +351,10 @@ class NeuroSanRunner:
                 port_conflicts.append(f"NSFlow client port {self.args['nsflow_port']} is already in use.")
 
         if not self.args["client_only"] and self.args["server_host"] == "localhost":
-            if self.is_port_open(self.args["server_host"], self.args["server_port"]):
-                port_conflicts.append(f"Neuro-San server port {self.args['server_port']} is already in use.")
+            if self.is_port_open(self.args["server_host"], self.args["server_grpc_port"]):
+                port_conflicts.append(f"Neuro-San server grpc port {self.args['server_grpc_port']} is already in use.")
+            if self.is_port_open(self.args["server_host"], self.args["server_http_port"]):
+                port_conflicts.append(f"Neuro-San server http port {self.args['server_http_port']} is already in use.")
 
         if self.args.get("use_flask_web_client"):
             if self.is_port_open("localhost", self.args["neuro_san_web_client_port"]):

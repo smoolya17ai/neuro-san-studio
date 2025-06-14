@@ -165,6 +165,11 @@ A number of examples that can be built using Neuro SAN:
       <td>This is an example of how to run agents to validate and analyze other agents via their interaction logs.</td>
     </tr>
     <tr>
+      <td>🌐 <strong>CRUSE Agent</strong></td>
+      <td>An example agent network that can attach to any agent network and make its interface context-reactive via the cruse flask app.</td>
+      <td>This is an example of how to dynamically call different agents and how to build a context reactive user experience (CRUSE).</td>
+    </tr>
+    <tr>
       <td>💭 <strong>Conscious Agent</strong></td>
       <td>An example agent network that is run continuously via the conscious_assistant flask app.</td>
       <td>This is an example of how to run agents continuously, initiating them from code, and how to make tool calls to non-default packages.</td>
@@ -223,8 +228,8 @@ Source it:
 
 - For Windows:
 
-  ```bash
-  .\venv\Scripts\activate && export PYTHONPATH=`pwd`
+  ```cmd
+  .\venv\Scripts\activate.bat && set PYTHONPATH=%CD%
   ```
 
 - For Mac:
@@ -255,7 +260,7 @@ You can get your OpenAI API key from <https://platform.openai.com/signup>. After
 - For Windows:
   - On Command Prompt:
 
-    ```bash
+    ```cmd
     set OPENAI_API_KEY=XXX
     ```
 
