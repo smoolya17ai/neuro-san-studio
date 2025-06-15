@@ -78,7 +78,13 @@
         }
     },
 
-    # ---------- RAG ----------
+    # ---------- RAG Tools ----------
+
+    # To use this agent network, start by installing the required package:
+    #     pip install atlassian-python-api
+    #
+    # Additional installations may be required depending on the attachment types used.
+    # For details, see https://python.langchain.com/api_reference/_modules/langchain_community/document_loaders/confluence.html#ConfluenceLoader
     "confluence_rag": {
         # This is a coded tool for RAG on confluence pages.
         "class": "confluence_rag.ConfluenceRag",

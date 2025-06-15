@@ -9,6 +9,13 @@
 # neuro-san SDK Software in commercial settings.
 #
 # END COPYRIGHT
+
+# To use this agent network, start by installing the required package:
+#     pip install atlassian-python-api
+#
+# Additional installations may be required depending on the attachment types used.
+# For details, see the "Attachments" section below.
+
 {
     "llm_config": {
         "model_name": "gpt-4o",
@@ -37,7 +44,7 @@
             Do not attempt to answer the question by yourself.""",
             "tools": ["rag_retriever"]
         },
-        # RAG tool that loads data from PDF URLs into an in-memory vectorstore and answers queries.
+        # RAG tool that loads data from confluence URL into an in-memory vectorstore and answers queries.
         {
             "name": "rag_retriever",
             "toolbox": "confluence_rag",
@@ -46,14 +53,46 @@
 
                 # --- Required Argument ---
 
-                # List of Confluence URLs to use for Retrieval-Augmented Generation (RAG)
-                "urls": [
-                    """https://www.replicon.com/wp-content/uploads/2016/06/RFP-Template_Replicon.pdf""",
-                    """https://www.usac.org/wp-content/uploads/rural-health-care/documents/samples/LargeProjectScopeRFP.pdf"""
-                ],
+                # Confluence URL to use for Retrieval-Augmented Generation (RAG)
+                "url": "https://leaf-ai.atlassian.net/wiki/",
+                
+                # Page Selection
+                # 
+                # You can specify which pages to load using:
+                #
+                # page_ids (list):
+                # A list of page_id values to load the corresponding pages.
+                "page_ids": ["2317090828"],
+                # or
+                # space_key (string):
+                # A string of space_key value to load all pages within the specified confluence space.
+                # "space_key": "DAI",
+
 
                 # --- Optional Arguments ---
+                #
+                # Attachments
+                #
+                "include_attachments": true
+                # (the default value is false)
+                #
+                # Currently supported attachment types:
+                # PDF (.pdf)
+                # PNG (.png)
+                # JPEG/JPG (.jpeg, .jpg)
+                # SVG (.svg)
+                # Word (.doc, .docx)
+                # Excel (.xls, .xlsx)
+                #
+                # Note: Some file types require additional Python packages (e.g., pytesseract, pdf2image, Pillow)
+                # and external system dependencies (e.g., Poppler for PDFs, Tesseract for OCR).
+                #
+                # For full details on supported arguments and required dependencies for loading Confluence pages,
+                # refer to the official LangChain documentation:
+                # https://python.langchain.com/api_reference/_modules/langchain_community/document_loaders/confluence.html#ConfluenceLoader
 
+                # Vector Store
+                #
                 # Set to true to save the generated vector store as a JSON file
                 "save_vector_store": true,
 

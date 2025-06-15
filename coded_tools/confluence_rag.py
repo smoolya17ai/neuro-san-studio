@@ -11,12 +11,14 @@
 #
 # END COPYRIGHT
 
+import inspect
 import os
 import re
 from typing import Any
 from typing import Dict
 from typing import List
 
+from atlassian.errors import ApiPermissionError
 from langchain_community.document_loaders.confluence import ConfluenceLoader
 from langchain_community.vectorstores import InMemoryVectorStore
 from langchain_core.documents import Document
@@ -24,6 +26,7 @@ from langchain_core.vectorstores.base import VectorStoreRetriever
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from neuro_san.interfaces.coded_tool import CodedTool
+from requests.exceptions import HTTPError
 
 INVALID_PATH_PATTERN = r"[<>:\"|?*\x00-\x1F]"
 
@@ -43,9 +46,6 @@ class ConfluenceRag(CodedTool):
 
         :param args: Dictionary containing:
           "query": search string
-          "urls": list of confluence pages
-          "save_vector_store": save to JSON file if True
-          "vector_store_path": relative path to this file
 
         :param sly_data: A dictionary whose keys are defined by the agent
             hierarchy, but whose values are meant to be kept out of the
@@ -65,7 +65,38 @@ class ConfluenceRag(CodedTool):
         """
         # Extract arguments from the input dictionary
         query: str = args.get("query", "")
-        urls: List[str] = args.get("urls", [])
+
+        # Create a list of parameters of ConfluenceLoader
+        # https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html
+        confluence_loader_params = [
+            name for name in inspect.signature(ConfluenceLoader.__init__).parameters
+            if name != "self"
+        ]
+
+        # Filter args from the above list
+        confluence_loader_args = {arg: arg_value for arg, arg_value in args.items() if arg in confluence_loader_params}
+
+        # Check the env var for "username" and "api_key"
+        confluence_loader_args.setdefault("username", os.getenv("JIRA_USERNAME"))
+        confluence_loader_args.setdefault("api_key", os.getenv("JIRA_API_TOKEN"))
+
+        # Validate presence of required inputs
+        if not query:
+            return "❌ Missing required input: 'query'."
+        if not confluence_loader_args.get("url"):
+            return (
+                "❌ Missing required input: 'url'.\n"
+                "This should look like: https://your-domain.atlassian.net/wiki/"
+            )
+        if not confluence_loader_args.get("space_key") and not confluence_loader_args.get("page_ids"):
+            return (
+                "❌ Missing both 'space_key' and 'page_ids'.\n"
+                "Provide at least one to locate the Confluence content to load.\n"
+                "- 'space_key' is the identifier of the Confluence space (e.g., 'DAI').\n"
+                "- 'page_ids' should be a list of page IDs (List[str]) you want to load, e.g., ['123456', '7891011'].\n\n"
+                "Tip: You can find these values in a page URL like:\n"
+                "https://your-domain.atlassian.net/wiki/spaces/<space_key>/pages/<page_id>/<title>"
+            )
 
         # Save the generated vector store as a JSON file if True
         self.save_vector_store = args.get("save_vector_store", False)
@@ -89,25 +120,21 @@ class ConfluenceRag(CodedTool):
                 base_path: str = os.path.dirname(__file__)
                 self.abs_vector_store_path = os.path.abspath(os.path.join(base_path, vector_store_path))
 
-        # Validate presence of required inputs
-        if not query:
-            return "Error: No query provided."
-        if not urls:
-            return "Error: No urls provided"
-
         # Build the vector store and run the query
-        vectorstore: InMemoryVectorStore = await self.generate_vector_store(urls)
+        vectorstore: InMemoryVectorStore = await self.generate_vector_store(confluence_loader_args)
         return await self.query_vectorstore(vectorstore, query)
 
-    async def generate_vector_store(self, urls: List[str]) -> InMemoryVectorStore:
+    async def generate_vector_store(self, confluence_loader_args: Dict[str, Any]) -> InMemoryVectorStore:
         """
-        Asynchronously loads confluence documents from given URLs, split them into
+        Asynchronously loads confluence documents from a given confluence URL, split them into
         chunks, and build an in-memory vector store using OpenAI embeddings
         or load vectorstore if it is available.
 
-        :param urls: List of URLs to fetch and embed
+        :param confluence_loader_args: Dictionary of arguments for ConfluenceLoader containing a confluence URL
         :return: In-memory vector store containing the embedded document chunks
         """
+
+        url = confluence_loader_args.get("url")
 
         # If vector store file path is provided (abs_vector_store_path is not None), try to load vector store first.
         if self.abs_vector_store_path:
@@ -116,23 +143,19 @@ class ConfluenceRag(CodedTool):
                 print(f"Loaded vector store from: {self.abs_vector_store_path}")
                 return vectorstore
             except FileNotFoundError:
-                print(f"Vector store not found. Creating from confluence pages: {urls}")
+                print(f"Vector store not found. Creating from confluence pages: {url}")
 
         docs: List[Document] = []
-        for url in urls:
-            try:
-                # https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html
-                loader = ConfluenceLoader(url)
-                doc: List[Document] = await loader.aload()
-                docs.extend(doc)
-                print(f"Successfully load a confluence page from {url}")
-            except FileNotFoundError:
-                print(f"File not found: {url}")
-            except ValueError as e:
-                print(f"Invalid file path or unsupported input: {url} – {e}")
+        try:
+            loader = ConfluenceLoader(**confluence_loader_args)
+            docs = await loader.aload()
+            print(f"Successfully load confluence pages from {url}")
+        except HTTPError as http_error:
+            print(f"HTTP error: {http_error}") 
+        except ApiPermissionError as api_error:
+            print(f"API Permission error: {api_error}")
 
-        # Split documents into smaller chunks for better embedding and
-        # retrieval
+        # Split documents into smaller chunks for better embedding and retrieval
         text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(chunk_size=100, chunk_overlap=50)
         doc_chunks: List[Document] = text_splitter.split_documents(docs)
 
