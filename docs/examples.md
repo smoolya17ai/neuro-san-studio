@@ -29,6 +29,7 @@ Here are a few examples ordered by level of complexity.
   * [🧪 Experimental and Research](#-experimental-and-research)
     * [Agent Network Designer](#agent-network-designer)
     * [KWIK Agents](#kwik-agents)
+    * [CRUSE](#cruse)
     * [Conscious Assistant](#conscious-assistant)
     * [Log Analyzer](#log-analyzer)
 <!-- TOC -->
