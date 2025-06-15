@@ -91,7 +91,7 @@ class ConfluenceRag(CodedTool):
                 "❌ Missing both 'space_key' and 'page_ids'.\n"
                 "Provide at least one to locate the Confluence content to load.\n"
                 "- 'space_key' is the identifier of the Confluence space (e.g., 'DAI').\n"
-                "- 'page_ids' should be a list of page IDs (List[str]) you want to load, e.g., ['123456', '7891011'].\n\n"
+                "- 'page_ids' should be a list of page IDs you want to load, e.g., ['123456', '7891011'].\n\n"
                 "Tip: You can find these values in a page URL like:\n"
                 "https://your-domain.atlassian.net/wiki/spaces/<space_key>/pages/<page_id>/<title>"
             )
