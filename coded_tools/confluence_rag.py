@@ -18,6 +18,7 @@ from typing import Any
 from typing import Dict
 from typing import List
 
+# pylint: disable=import-error
 from atlassian.errors import ApiPermissionError
 from langchain_community.document_loaders.confluence import ConfluenceLoader
 from langchain_community.vectorstores import InMemoryVectorStore
