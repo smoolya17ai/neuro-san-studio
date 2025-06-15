@@ -53,6 +53,11 @@
 
                 # --- Required Argument ---
 
+                # Authentication
+                #
+                # "username": "<your-confluence-username>", or environment variable "JIRA_USERNAME"
+                # "api_key": "<your-api-token>", or environment variable "JIRA_API_TOKEN" 
+                
                 # Confluence URL to use for Retrieval-Augmented Generation (RAG)
                 "url": "https://leaf-ai.atlassian.net/wiki/",
                 
@@ -67,13 +72,19 @@
                 # space_key (string):
                 # A string of space_key value to load all pages within the specified confluence space.
                 # "space_key": "DAI",
+                #
+                # If both page_ids and space_key are provided, the loader will return the union of pages from both lists.
+                #
+                # Both space_key and page_id can be found in the URL of a Confluence page:
+                # https://yoursite.atlassian.com/wiki/spaces/{space_key}/pages/{page_id}
 
 
                 # --- Optional Arguments ---
                 #
                 # Attachments
                 #
-                "include_attachments": true
+                "include_attachments": false
+                # If True, download and extract text content to add to the document.
                 # (the default value is false)
                 #
                 # Currently supported attachment types:
