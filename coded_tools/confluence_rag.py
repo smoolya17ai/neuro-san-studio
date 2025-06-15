@@ -69,8 +69,7 @@ class ConfluenceRag(CodedTool):
         # Create a list of parameters of ConfluenceLoader
         # https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html
         confluence_loader_params = [
-            name for name in inspect.signature(ConfluenceLoader.__init__).parameters
-            if name != "self"
+            name for name in inspect.signature(ConfluenceLoader.__init__).parameters if name != "self"
         ]
 
         # Filter args from the above list
@@ -85,8 +84,7 @@ class ConfluenceRag(CodedTool):
             return "❌ Missing required input: 'query'."
         if not confluence_loader_args.get("url"):
             return (
-                "❌ Missing required input: 'url'.\n"
-                "This should look like: https://your-domain.atlassian.net/wiki/"
+                "❌ Missing required input: 'url'.\n" "This should look like: https://your-domain.atlassian.net/wiki/"
             )
         if not confluence_loader_args.get("space_key") and not confluence_loader_args.get("page_ids"):
             return (
@@ -151,7 +149,7 @@ class ConfluenceRag(CodedTool):
             docs = await loader.aload()
             print(f"Successfully load confluence pages from {url}")
         except HTTPError as http_error:
-            print(f"HTTP error: {http_error}") 
+            print(f"HTTP error: {http_error}")
         except ApiPermissionError as api_error:
             print(f"API Permission error: {api_error}")
 

@@ -80,7 +80,7 @@
 
     # ---------- RAG Tools ----------
 
-    # To use this agent network, start by installing the required package:
+    # To use this tool, start by installing the required package:
     #     pip install atlassian-python-api
     #
     # Additional installations may be required depending on the attachment types used.
