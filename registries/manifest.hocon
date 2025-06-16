@@ -11,53 +11,6 @@
 {
     # Currently we list each hocon file we want to serve as a key with a boolean value.
     # Eventually we might have a dictionary value with server specifications for each.
-<<<<<<< HEAD
-    "hello_world.hocon": false,
-    "insurance_underwriting_agents.hocon": false,
-    "airline_policy.hocon": false,
-    "advanced_calculator.hocon": false,
-    "brave_search.hocon": false,
-    "smart_home.hocon": false,
-    "agent_network_designer.hocon": true,
-    "consumer_decision_assistant.hocon": false,
-    "airbnb.hocon": false,
-    "expedia.hocon": false,
-    "macys.hocon": false,
-    "carmax.hocon": false,
-    "booking.hocon": false,
-    "website_search.hocon": false,
-    "music_nerd.hocon": false,
-    "music_nerd_local.hocon": false,
-    "music_nerd_pro.hocon": false,
-    "music_nerd_pro_local.hocon": false,
-    "music_nerd_pro_sly.hocon": false,
-    "music_nerd_pro_sly_local.hocon": false,
-    "agentforce.hocon": false,
-    "agentspace_adapter.hocon": false,
-    "banking_ops.hocon": false,
-    "cpg_agents.hocon": false,
-    "insurance_agents.hocon": false,
-    "intranet_agents.hocon": false,
-    "intranet_agents_with_tools.hocon": false,
-    "real_estate.hocon": false,
-    "retail_ops_and_customer_service.hocon": false,
-    "six_thinking_hats.hocon": false,
-    "telco_network_support.hocon": false,
-    "pdf_rag.hocon": false,
-    "agentic_rag.hocon": false,
-    "kwik_agents.hocon": false,
-    "therapy_vignette_supervisors.hocon": false,
-
-    # Set the following agent network to true before running apps/cruse/interface_flask.py
-    "cruse_agent.hocon": false,
-
-    # Set the following agent network to false before running apps/conscious_assistant/interface_flask.py
-    "conscious_agent.hocon": false,
-
-    # Set the following agent network to true before running apps/log_analyzer/log_analyzer.py
-    "log_analysis_agents.hocon": false,
-
-=======
 
     # Basic examples
     "music_nerd.hocon": true,
@@ -77,7 +30,6 @@
     "pdf_rag.hocon": true,
     "agentic_rag.hocon": false,
     "kwik_agents.hocon": false,
->>>>>>> 9c7042dbfb25bbfe60305d6863f265912cc97c1b
     # Before turning on and running the following agent network, make sure that:
     # The MCP server is running.
     # The server can be found at servers/MCP/bmi_server.py and run using the following command
@@ -96,13 +48,6 @@
     # you can start using the agent network.
     "gmail.hocon": false,
 
-<<<<<<< HEAD
-    "LinkedInJobSeekerSupportNetwork.hocon": false,
-
-    "agent_network_architect.hocon": true,
-    "agent_network_html_creator.hocon": true,
-    
-=======
     # Use cases
     "airline_policy.hocon": true,
     "banking_ops.hocon": true,
@@ -134,5 +79,4 @@
     "conscious_agent.hocon": false,
     # Set the following agent network to true before running apps/log_analyzer/log_analyzer.py
     "log_analysis_agents.hocon": false,
->>>>>>> 9c7042dbfb25bbfe60305d6863f265912cc97c1b
 }
