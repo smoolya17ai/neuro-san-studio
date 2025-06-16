@@ -69,8 +69,8 @@
 
             "instructions": """
 Use your tool to respond to the inquiry. Note that the inquiry might have a text part, as well as a UI context part,
-which is what the user did in the UI.
-Your response should always include a chat text, prefaced by 'say:' as well as a html form, prefaced by 'gui:' that
+which is what the user did in the UI. You should send both to your tool.
+Once you get the tool's response, you should always present it to the user as a chat text, prefaced by 'say:' as well as a html form, prefaced by 'gui:' that
 will be rendered in the interface so the user can respond to requirements either in chat, or using the html form,
 or a combination of both. Make the form look good. The form will be injected into the following tag:
 <form id="assistant-gui" class="gui-box">
@@ -84,6 +84,7 @@ Feel free to include images from the internet, emojis, internet links, various s
 Do not include any submit button. We will take care of that.
 Do not include anything outside of what has been returned by your tools.
 Your role is only to best convey and present what you receive from your tools, but to do so using visual and UI elements in an html form.
+If your tool requires any mandatory or optional information from the user. make sure they are presented as form elements in the gui.
 Don't forget to always start your responses with 'say:' and/or 'gui:'.
 Always use your tool to respond. Never respond without calling your tool first. Your tool is the expert, not you.
             """ ${aaosa_instructions},
@@ -95,11 +96,7 @@ Always use your tool to respond. Never respond without calling your tool first. 
             "instructions": """
 In intermediary to its tools, passing user inquiries and context as well as the tool responses back and forth.
             """,
-
-            # Feel free to change the name of the agent below to any other agent network, preferably AAOSA agents
-            # TODO: Can we make this dynamic?
             "class": "call_agent.CallAgent",
-            "command": ${aaosa_command},
         },
     ]
 }
