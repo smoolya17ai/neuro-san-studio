@@ -125,6 +125,49 @@ Always ask for clarification if the user's intent is ambiguous.
             # This tool is solely for sending an email with attachment.
             # The code of this tool can be found at coded_tools/gmail_attachment.py
             "toolbox": "send_gmail_message_with_attachment"
+            "args": {
+                # Set "html" to true to send message as html.
+                "html": true,
+                "message": """
+<html>
+    <p>Hi,</p>
+
+    <p>Thank you for connecting with Cognizant at the <strong>Newsweek AI Impact Summit in Sonoma, CA</strong>!</p>
+
+    <p>We’re excited to share your custom-built <strong>Generative AI Multi-Agent Network</strong>, developed live at the event using our cutting-edge <em>Neuro AI</em> platform. Attached, you’ll find:</p>
+
+    <ul>
+      <li>
+        An interactive <strong>HTML visualization</strong> of your agent network—just open it in any browser to explore how each agent functions by simply moving your mouse over nodes in the graph to view detailed settings.
+      </li>
+      <li>
+        A <code>.hocon</code> configuration file containing the full technical specs of your setup.
+      </li>
+    </ul>
+
+    <h3>Get Started in Minutes</h3>
+
+    <p>To bring your network to life on your local machine:</p>
+
+    <ol>
+      <li>Download the Neuro AI Multi-Agent Accelerator from the <a href="https://github.com/cognizant-ai-lab/neuro-san-studio" target="_blank">GitHub repo</a>.</li>
+      <li>Follow the README to complete installation.</li>
+      <li>Drop your <code>.hocon</code> file into the <code>registries</code> folder and register it in the <code>manifest.hocon</code>.</li>
+      <li>Customize your network by editing the <code>.hocon</code> file in any text editor.</li>
+    </ol>
+
+    <p><strong>Note:</strong> To activate LLM capabilities, you’ll need an API key from OpenAI, Anthropic, or Azure OpenAI. We use <strong>Ollama</strong> for local LLM orchestration.</p>
+
+    <h3>Need Help or Want to Learn More?</h3>
+
+    <p>We’re here to support your Gen AI journey. Reach out to us anytime for guidance, demos, or to explore deeper integration possibilities.</p>
+
+    <p>Best regards,<br>
+    <strong>The Cognizant AI Team</strong></p>
+  </body>
+</html>
+                """
+            }
         }
     ]
 }
