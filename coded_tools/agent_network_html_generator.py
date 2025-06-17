@@ -9,12 +9,12 @@
 #
 # END COPYRIGHT
 
+import asyncio
 import json
 from typing import Any
 from typing import Dict
 from typing import List
 import webbrowser
-
 
 from neuro_san.interfaces.coded_tool import CodedTool
 from neuro_san.internals.graph.persistence.agent_tool_registry_restorer import AgentToolRegistryRestorer
@@ -26,7 +26,7 @@ class AgentNetworkHtmlGenerator(CodedTool):
     CodedTool implementation which draw agent_network to html file
     """
 
-    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]):
+    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         :param args: An argument dictionary whose keys are the parameters
             to the coded tool and whose values are the values passed for
@@ -67,6 +67,7 @@ class AgentNetworkHtmlGenerator(CodedTool):
             network_dict = AgentToolRegistryRestorer().restore("registries/" + agent_name + ".hocon").get_config()
         except FileNotFoundError as file_not_found_error:
             print(file_not_found_error)
+            return f"Trying to load {agent_name}.hocon: {file_not_found_error}."
 
         # Generate html
         generate_html(agent_name, network_dict)
@@ -75,6 +76,10 @@ class AgentNetworkHtmlGenerator(CodedTool):
         webbrowser.get("open -a 'Google Chrome' %s").open(f"{agent_name}.html")
 
         return f"{agent_name}.html was successfully generated."
+
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
+        """Run invoke asynchronously."""
+        return await asyncio.to_thread(self.invoke, args, sly_data)
 
 
 def generate_html(agent_name: str, network_dict: Dict[str, Any]):
@@ -86,8 +91,7 @@ def generate_html(agent_name: str, network_dict: Dict[str, Any]):
     :return: successful sent message ID or error statement
     """
 
-
-    net = Network(height="900px", width="100%", directed=False)
+    net = Network(height="1000px", width="100%", directed=False)
 
     # Set global styling (without node shape override)
     net.set_options("""
@@ -121,7 +125,7 @@ def generate_html(agent_name: str, network_dict: Dict[str, Any]):
 
         # Force rectangular box-shaped nodes
         net.add_node(node_name, label=node_name, color="#4169E1", shape="box", widthConstraint={"minimum": 180, "maximum": 200},
-            heightConstraint={"minimum": 80}, font={"multi": "html"}, title=tooltip)
+                     heightConstraint={"minimum": 80}, font={"multi": "html"}, title=tooltip)
 
     # Add edges
     for node in [n for n in network_dict.get("tools", []) if "tools" in n]:

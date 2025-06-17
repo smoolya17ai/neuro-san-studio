@@ -30,16 +30,19 @@
     "pdf_rag.hocon": true,
     "agentic_rag.hocon": false,
     "kwik_agents.hocon": false,
+
     # Before turning on and running the following agent network, make sure that:
     # The MCP server is running.
     # The server can be found at servers/MCP/bmi_server.py and run using the following command
     # python bmi_server.py
     "mcp_bmi_streamable_http.hocon": false,
+
     # The following agent network is an example of Agent2Agent (A2A) Protocol implementation:
     # Make sure to start the A2A server before turning the agent on.
     # The A2Aserver can be found at cservers/A2A/server.py and run by command
     # python server.py
     "a2a_research_report.hocon": false,
+
     # To use this agent network, you will need to
     # - pip install -U langchain-google-community\[gmail\]
     # - set up your credentials explained in
@@ -47,6 +50,9 @@
     # Once you've downloaded the credentials.json file and put it in the top level of this repo,
     # you can start using the agent network.
     "gmail.hocon": false,
+
+    # This network requires pyvis to run.
+    "agent_network_html_creator.hocon": false,
 
     # Use cases
     "airline_policy.hocon": true,
@@ -79,4 +85,6 @@
     "conscious_agent.hocon": false,
     # Set the following agent network to true before running apps/log_analyzer/log_analyzer.py
     "log_analysis_agents.hocon": false,
+
+    "agent_network_architect.hocon": true,
 }
