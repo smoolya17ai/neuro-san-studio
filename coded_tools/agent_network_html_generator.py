@@ -54,7 +54,7 @@ class AgentNetworkHtmlGenerator(CodedTool):
         """
 
         # Extract arguments from the input dictionary
-        agent_name: List[str] = args.get("agent_name")
+        agent_name: str = args.get("agent_name")
 
         # Validate presence of required inputs
         if not agent_name:

@@ -79,7 +79,43 @@ Always ask for clarification if the user's intent is ambiguous.
 
         {
             "name": "agent_network_tester",
-            "toolbox": "call_agent"
+            "function": {
+                "description": "Test the agent network by sending it a test or sample query.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "agent_name": {
+                            "type": string,
+                            "description": "Name of the agent to test"
+                        },
+                        "query": {
+                            "type": "string",
+                            "description": "Query for the test"
+                        }
+                    },
+                    "required": ["agent_name", "query"]
+                }
+            },
+            "class": "nsflow_selenium.NsflowSelenium"
+            "args": {
+                # User-defined arguments for the tool
+
+                # --- Required Argument ---
+
+                # URL for connecting to nsflow
+                "url": "http://localhost:4174",
+
+                # --- Optional Arguments ---
+
+                # Time in second for selenium to wait for each element to load or appear
+                "time_to_find_element": 120.0,
+
+                # Time in second to wait before clicking send after the text input
+                "time_before_click_send": 2.0,
+
+                # Time in second before closing the browser after the agent responses
+                "time_after_response_before_close": 10.0
+            }
         },
 
         {
