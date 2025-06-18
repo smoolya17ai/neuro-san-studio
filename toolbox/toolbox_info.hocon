@@ -99,7 +99,7 @@
     # This tool requires pyvis to run.
     "agent_network_html_generator": {
         "class": "agent_network_html_generator.AgentNetworkHtmlGenerator"
-        "description": "Generate a graph of an agent network as a html file from agent network hocon",
+        "description": "Generate a html file from agent network hocon",
         "parameters": {
             "type": "object",
             "properties": {

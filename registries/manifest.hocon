@@ -87,5 +87,4 @@
     "log_analysis_agents.hocon": false,
 
     "agent_network_architect.hocon": true,
-
 }

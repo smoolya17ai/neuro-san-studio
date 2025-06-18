@@ -70,8 +70,6 @@ class NsflowSelenium(CodedTool):
         query: str = args.get("query")
         url: str = args.get("url")
 
-        print(f"\n\n{url=}\n\n")
-
         # Validate presence of required inputs
         if not agent_name:
             return "Error: No agent_name provided."
