@@ -16,7 +16,8 @@ from typing import Any
 from typing import Dict
 
 from neuro_san.interfaces.coded_tool import CodedTool
-from neuro_san.internals.graph.persistence.agent_tool_registry_restorer import AgentToolRegistryRestorer
+# pylint: disable=import-error
+from neuro_san.internals.graph.persistence.agent_network_restorer import AgentNetworkRestorer
 from pyvis.network import Network
 
 
@@ -63,7 +64,7 @@ class AgentNetworkHtmlGenerator(CodedTool):
 
         # Create dict from hocon
         try:
-            network_dict = AgentToolRegistryRestorer().restore("registries/" + agent_name + ".hocon").get_config()
+            network_dict = AgentNetworkRestorer().restore("registries/" + agent_name + ".hocon").get_config()
         except FileNotFoundError as file_not_found_error:
             print(file_not_found_error)
             return f"Trying to load {agent_name}.hocon: {file_not_found_error}."
