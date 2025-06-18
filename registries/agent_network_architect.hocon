@@ -82,8 +82,13 @@ Always ask for clarification if the user's intent is ambiguous.
                     "sly_data": {
                         "AutomaticallyDesignedAgentNetwork": true,
                     }
-                }
+                },
                 "from_downstream": {
+                    "sly_data": {
+                        "AutomaticallyDesignedAgentNetwork": true,
+                    }
+                },
+                "to_downstream": {
                     "sly_data": {
                         "AutomaticallyDesignedAgentNetwork": true,
                     }
