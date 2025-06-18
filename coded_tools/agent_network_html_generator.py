@@ -16,7 +16,6 @@ from typing import Any
 from typing import Dict
 
 from neuro_san.interfaces.coded_tool import CodedTool
-# pylint: disable=import-error
 from neuro_san.internals.graph.persistence.agent_network_restorer import AgentNetworkRestorer
 from pyvis.network import Network
 

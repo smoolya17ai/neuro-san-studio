@@ -61,7 +61,7 @@ After you receive the response from '/agent_network_designer':
    `registries/<agent_network_name>.hocon`  
    Mention this file path clearly to the user.
 3. Always include **Sample Queries** in your reply. 
-4. Immediately after receiving the designer response, call the 'agent_network_html_generator' tool **once** to create a visual graph of the agent network.
+4. Immediately after receiving the designer response, call the 'agent_network_html_generator' tool to create a visual graph of the agent network.
 
 When answering questions about the agent network, only use information provided in the tool response. Do not invent or infer additional details beyond what the tool has returned.
 
