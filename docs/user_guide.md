@@ -22,8 +22,8 @@
     * [Sly data](#sly-data)
   * [Toolbox](#toolbox)
     * [Default tools in toolbox](#default-tools-in-toolbox)
-      * [Langchain tools](#langchain-tools)
-      * [Coded tools](#coded-tools-1)
+      * [Langchain tools](#langchain-tools-in-toolbox)
+      * [Coded tools](#coded-tools-in-toolbox)
     * [Usage in agent network config](#usage-in-agent-network-config)
     * [Adding tools in toolbox](#adding-tools-in-toolbox)
   * [Logging and debugging](#logging-and-debugging)
@@ -41,10 +41,14 @@ that answers questions about music since the 60s. See its description here: [doc
 The steps to start the server and the client are described in the [README](../README.md).
 When starting, the first thing the server will do is load the agent network configurations
 from the "manifest" file. The manifest file is specified by the `AGENT_MANIFEST_FILE` environment variable:
-```
+
+```bash
 AGENT_MANIFEST_FILE="./registries/manifest.hocon"
 ```
-Open [./registries/manifest.hocon](../registries/manifest.hocon) and look at its contents. It should look something like this:
+
+Open [./registries/manifest.hocon](../registries/manifest.hocon) and look at its contents. It should look something
+like this:
+
 ```hocon
 {
     # ... other agent networks ... #
@@ -52,14 +56,16 @@ Open [./registries/manifest.hocon](../registries/manifest.hocon) and look at its
     # ... other agent networks ... #
 }
 ```
+
 This tells the server to load the `music_nerd.hocon` file from the same `/registries` folder.
 
 Setting the value to `false` would make the server ignore this agent network.
 
 Open [../registries/music_nerd.hocon](../registries/hello_world.hocon) and have a look at it.
 For now just note that it contains:
-- an `llm_config` section that specifies which LLM to use by default for the agents in this file
-- a `tools` section that contains a single agent, the "frontman", called `MusicNerd`
+
+* an `llm_config` section that specifies which LLM to use by default for the agents in this file
+* a `tools` section that contains a single agent, the "frontman", called `MusicNerd`
 
 Read the instructions of the agent to see what it does.
 Feel free to modify the instructions to see how it affects the agent's behavior.
@@ -71,28 +77,37 @@ We'll describe the structure of agent networks' `.hocon` files in next section.
 
 ### Import and Substitution
 
-HOCON files support importing content from other HOCON files using the unquoted keyword `include`, followed by whitespace and the path to the imported file as a quoted string:
+HOCON files support importing content from other HOCON files using the unquoted keyword `include`, followed by
+whitespace and the path to the imported file as a quoted string:
+
 ```hocon
 include "config.hocon"
 ```
+
 > **Note**: The file path in include should be an **absolute path** to ensure it can be resolved correctly.
 
-HOCON supports value substitution by referencing previously defined configuration values. This allows constants to be defined once and reused throughout the file.
+HOCON supports value substitution by referencing previously defined configuration values. This allows constants to be
+defined once and reused throughout the file.
 
 To substitute a value, wrap the referenced key in `${}`:
+
 ```hocon
 "function": ${aaosa_call}
 ```
 
 To substitute a nested value inside an object or dictionary, use dot notation:
+
 ```hocon
 "name": ${info.name}
 ```
 
-Note that substitutions are **not parsed inside quoted strings**. If you need to include a substitution within a string, you can quote only the non-substituted parts:
+Note that substitutions are **not parsed inside quoted strings**. If you need to include a substitution within a string,
+you can quote only the non-substituted parts:
+
 ```hocon
 "instructions": ${instruction_prefix} "main instruction" ${instruction_suffix}
 ```
+
 You can see a working example here: [../registries/smart_home_include.hocon](../registries/smart_home_include.hocon).
 
 For more details, please see [https://github.com/lightbend/config/blob/main/HOCON.md#substitutions](https://github.com/lightbend/config/blob/main/HOCON.md#substitutions)
@@ -103,6 +118,7 @@ A manifest file is a list of agent network configurations that the server will l
 
 It's simple dictionary where the keys are the names of the agent network configuration files
 and the values are booleans. For instance:
+
 ```hocon
 {
     "agent_network_A.hocon": true,
@@ -110,16 +126,19 @@ and the values are booleans. For instance:
     "agent_network_C.hocon": true,
 }
 ```
+
 In this example the server will load agent networks A and C but not B.
 
 When you start the server, you can see which agent networks have been loaded by looking at the logs:
-```
+
+```bash
 > python -m neuro_san.service.agent_main_loop --port 30011
 
 tool_registries found: ['agent_network_A', 'agent_network_C']
 ```
 
-For more details, please check the [Agent Manifest HOCON File Reference](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/manifest_hocon_reference.md) documentation.
+For more details, please check the [Agent Manifest HOCON File Reference](
+    https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/manifest_hocon_reference.md) documentation.
 
 ### Agent network
 
@@ -152,24 +171,29 @@ For more details, please check the [Agent Manifest HOCON File Reference](https:/
 
 See next section for more information about how to specify the LLM(s) to use.
 
-For a full description of the fields, please refer to the [Agent Network HOCON File Reference](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md) documentation.
+For a full description of the fields, please refer to the [Agent Network HOCON File Reference](
+    https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md) documentation.
 
 ## LLM configuration
 
 The `llm_config` section of the agent network configuration file specifies which LLM to use
 for the agents in this file. It can be specified:
-- at the agent network level, to apply to all agents in this file
-- at the agent level, to apply to a specific agent
 
-For a full description of the fields, please refer to the [LLM config](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md#llm_config) documentation.
+* at the agent network level, to apply to all agents in this file
+* at the agent level, to apply to a specific agent
+
+For a full description of the fields, please refer to the [LLM config](
+    https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md#llm_config) documentation.
 
 For instructions about how to extend the default LLM descriptions shipped with the `neuro-san` library,
-please refer to the [LLM Info HOCON File Reference](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/llm_info_hocon_reference.md) documentation.
+please refer to the [LLM Info HOCON File Reference](
+    https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/llm_info_hocon_reference.md) documentation.
 
 ### OpenAI
 
 To use an OpenAI LLM, set the `OPENAI_API_KEY` environment variable to your OpenAI API key
 and specify which model to use in the `model_name` field:
+
 ```hocon
     "llm_config": {
         "model_name": "gpt-4o",
@@ -180,9 +204,11 @@ See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
 
 ### AzureOpenAI
 
-If you are using Azure OpenAI in your hocon file, make sure to **set `deployment_name`** in the `llm_config` to use the right model.<br>
+If you are using Azure OpenAI in your hocon file, make sure to **set `deployment_name`** in the `llm_config` to use the
+right model.
 
 For example:
+
 ```hocon
 "llm_config": {
         "model_name": "azure-gpt-4o",
@@ -193,25 +219,30 @@ For example:
 ```
 
 You can set some of these as environment variables or add them in your .env file in order to use Azure OpenAI:  
-AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"  
+AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"  <!-- markdownlint-disable-line MD034 -->
 OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"  
 OPENAI_API_KEY="your Azure OpenAI API key"  
 
-> **Note**: Some Azure OpenAI deployments may have a lower `max_tokens` limit than the default associated with the `model_name` in Neuro-San.
-If the `max_tokens` value in your `llm_config` exceeds the actual limit of the model specified by `deployment_name`, the LLM will fail to return a response — even if the prompt itself is within limits. To fix this, explicitly set a `max_tokens` value in your `llm_config` that matches the deployed model’s actual capacity.
+> **Note**: Some Azure OpenAI deployments may have a lower `max_tokens` limit than the default associated with the
+`model_name` in Neuro-San. If the `max_tokens` value in your `llm_config` exceeds the actual limit of the model
+specified by `deployment_name`, the LLM will fail to return a response — even if the prompt itself is within limits.
+To fix this, explicitly set a `max_tokens` value in your `llm_config` that matches the deployed model’s actual capacity.
 
-See [Azure OpenAI Quickstart](https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=keyless%2Ctypescript-keyless%2Cpython-new%2Ccommand-line&pivots=programming-language-python) for more information.
+See [Azure OpenAI Quickstart](
+    https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=keyless%2Ctypescript-keyless%2Cpython-new%2Ccommand-line&pivots=programming-language-python) for more information. <!-- markdownlint-disable-line MD013 -->
 
 ### Anthropic
 
 To use Anthropic models, set the `ANTHROPIC_API_KEY` environment variable to your Anthropic API key
 and specify which model to use in the `model_name` field of the `llm_config` section of an agent network hocon file:
+
 ```hocon
     "llm_config": {
         "model_name": "claude-3-5-haiku",
     },
 ```
-You can get an Anthropic API key [here](https://console.anthropic.com/settings/keys)
+
+Here you can get an Anthropic API [key](https://console.anthropic.com/settings/keys)
 
 ### Gemini
 
@@ -227,13 +258,15 @@ You can get an Google Gemini API key [here](https://ai.google.dev/gemini-api/doc
 ### Ollama
 
 To use an LLM that runs locally with [Ollama](https://ollama.com/):
-- Make sure the Ollama server is running
-- Make sure the model is downloaded, up to date and available in the Ollama server. For instance, `ollama run llama3.1`
+
+* Make sure the Ollama server is running
+* Make sure the model is downloaded, up to date and available in the Ollama server. For instance, `ollama run llama3.1`
   will download the model and make it available for use. `ollama pull llama3.1`
   will update the model to the latest version if needed.
-- If the agent network contains tools, make sure the model can call tools:
+* If the agent network contains tools, make sure the model can call tools:
   see [Ollama's documentation for models that support tools](https://ollama.com/search?c=tools)
-- Set the `class` and `model_name` fields in the `llm_config` section of the agent network configuration file:
+* Set the `class` and `model_name` fields in the `llm_config` section of the agent network configuration file:
+
 ```hocon
     "llm_config": {
         "class": "ollama",
@@ -246,20 +279,26 @@ See [./examples/music_nerd_pro_local.md](./examples/music_nerd_pro_local.md) for
 For more information about how to use Ollama with LangChain,
 see [this page](https://python.langchain.com/docs/integrations/chat/ollama/)
 
-
 ## Multi-agent networks
 
 ## Coded tools
 
-Coded tools are coded functionalities that extend agent's capabilities beyond its core reasoning capabilities and allow it to interact with databases, APIs, and external services.
+Coded tools are coded functionalities that extend agent's capabilities beyond its core reasoning capabilities and allow
+it to interact with databases, APIs, and external services.
 
 ### Simple tool
 
-[music_nerd_pro](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/docs/examples.md#music-nerd-pro) is a simple agent that helps with music-related inquiries. It uses a simple coded tool which is implemented in Python -- The coded tool does not call an API.
+[music_nerd_pro](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/docs/examples.md#music-nerd-pro) is a
+simple agent that helps with music-related inquiries. It uses a simple coded tool which is implemented in Python -- The
+coded tool does not call an API.
 
 ### API calling tool
 
-[intranet_agents_with_tools](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/docs/examples.md#intranet-agents-with-tools) is a multi-agent system that mimics the intranet of a major corporation. It allows you to interact with and get information from various departments such as IT, Finance, Legal, HR, etc. The HR agent calls a coded tool implemented in Python that calls HCM APIs.
+[intranet_agents_with_tools](
+    https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/docs/examples.md#intranet-agents-with-tools) is a
+    multi-agent system that mimics the intranet of a major corporation. It allows you to interact with and get
+    information from various departments such as IT, Finance, Legal, HR, etc. The HR agent calls a coded tool
+    implemented in Python that calls HCM APIs.
 
 ### Sly data
 
@@ -272,12 +311,12 @@ This policy is one of security-by-default, whereby no `sly_data` gets out of the
 at all unless otherwise specified. It's only when a boundary is crossed that the question of
 what goes through arises. There are 3 boundaries:
 
-1.  What goes out to external networks (`to_downstream`). For instance, you may not want to send
-    credentials to an agent network that lives on another server.
-2.  What comes in from external networks (`from_upstream`). For instance, you might not trust what's
-    coming from an agent network that lives on another server.
-3.  What goes back to the client (`to_upstream`). For instance, you might not want secrets from
-    the server side to be shared with the clients that connect to it.
+1. What goes out to external networks (`to_downstream`). For instance, you may not want to send
+   credentials to an agent network that lives on another server.
+2. What comes in from external networks (`from_upstream`). For instance, you might not trust what's
+   coming from an agent network that lives on another server.
+3. What goes back to the client (`to_upstream`). For instance, you might not want secrets from
+   the server side to be shared with the clients that connect to it.
 
 So by default nothing is shared, and you have to explicitly state what goes through.
 
@@ -328,17 +367,19 @@ the .hocon file of the frontman (the only agent that is connected to the client)
 ```
 
 All the above .hocon "allow" blocks can be combined in a single "allow" block. An example
-is given [here](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/registries/math_guy_passthrough.hocon#L54)
+is given in here [math_guy_passthrough.hocon](
+    https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/registries/math_guy_passthrough.hocon#L54)
 
 For a full reference, please check the [neuro-san documentation](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md#allow)
 
 ## Toolbox
 
-The **Toolbox** is a flexible and extensible system for managing tools that can be used by agents. It simplifies the integration of **LangChain** and **custom-coded tools** in a agent network configuration.
+The **Toolbox** is a flexible and extensible system for managing tools that can be used by agents. It simplifies the
+integration of **LangChain** and **custom-coded tools** in a agent network configuration.
 
 ### Default tools in toolbox
 
-#### Langchain tools
+#### Langchain tools in toolbox
 
 | Name               | Description                                           |
 | ------------------ | ----------------------------------------------------- |
@@ -351,18 +392,17 @@ The **Toolbox** is a flexible and extensible system for managing tools that can 
 | `requests_delete`  | HTTP DELETE requests.                                 |
 | `requests_toolkit` | Bundle of all above request tools.                    |
 
-#### Coded tools
+#### Coded tools in toolbox
 
 | Name             | Description                                                    |
 | ---------------- | -------------------------------------------------------------- |
 | `website_search` | Searches the internet via DuckDuckGo. |
 | `rag_retriever`  | Performs RAG (retrieval-augmented generation) from given URLs. |
 
-
-
 ### Usage in agent network config
 
 To use tools from toolbox in your agent network, simply call them with field `toolbox`:
+
 ```json
     {
         "name": "name_of_the_agent",
@@ -371,14 +411,16 @@ To use tools from toolbox in your agent network, simply call them with field `to
 ```
 
 ### Adding tools in toolbox
+
 1. Create the toolbox configuration file. This can be either HOCON or JSON files.
 2. Define the tools
-    - langchain tools
-        - Each tool or toolkit must have a `class` key.
-        - The specified class must be available in the server's `PYTHONPATH`.
-        - Additional dependencies (outside of `langchain_community`) must be installed separately.
-        
+    * langchain tools
+        * Each tool or toolkit must have a `class` key.
+        * The specified class must be available in the server's `PYTHONPATH`.
+        * Additional dependencies (outside of `langchain_community`) must be installed separately.
+
         Example:
+
         ```hocon
             "bing_search": {
                 # Fully qualified class path of the tool to be instantiated.
@@ -397,13 +439,15 @@ To use tools from toolbox in your agent network, simply call them with field `to
                 }
             }
         ```
-    - coded tools
-        - Similar to how one can define it in agent network config file
-        - `description` let the agent know what the tool does.
-        - `parameters` are arguments' definitions and types. This is optional.
-        - `class` specifies the tool's implementation as **module.ClassName** where the module can be found in `AGENT_TOOL_PATH`.
+
+    * coded tools
+        * Similar to how one can define it in agent network config file
+        * `description` let the agent know what the tool does.
+        * `parameters` are arguments' definitions and types. This is optional.
+        * `class` specifies the tool's implementation as **module.ClassName** where the module can be found in `AGENT_TOOL_PATH`.
 
         Example:
+
         ```json
             "rag_retriever": {
                 "class": "rag.Rag",
@@ -438,30 +482,35 @@ To use tools from toolbox in your agent network, simply call them with field `to
 
 ## Logging and debugging
 
-To debug your code, set up your environment per instructions [here](https://github.com/cognizant-ai-lab/neuro-san-studio).
+To debug your code, set up your environment per these [instructions](https://github.com/cognizant-ai-lab/neuro-san-studio).
 Furthermore, please install the build requirements in your virtual environment via the following commands:
 
-```
+```bash
 . ./venv/bin/activate
 pip install -r requirements-build.txt
 ```
 
-2. Suppose you want to debug the coded tool for `music_nerd_pro` agent network. Add the following lines of code to the `music_nerd_pro`'s coded tool Python file (E.g., to the first line of `invoke` method in `Accountant` [class](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/coded_tools/music_nerd_pro/accounting.py)
+* Suppose you want to debug the coded tool for `music_nerd_pro` agent network. Add the following lines of code to the
+`music_nerd_pro`'s coded tool Python file (E.g., to the first line of `invoke` method in `Accountant` [class](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/coded_tools/music_nerd_pro/accounting.py)
 
-```
+```python
 import pytest
 pytest.set_trace()
 ```
 
-3. Start the client and server via `python3 -m run`, select `music_berd_pro` agent network, and ask a question like `Where was John Lennon born?`.
-The code execution stops at the line where you added `pytest.set_trace` statement. You can step through the code, view variable values, etc. by typing commands in the terminal. For all the debugger options, please refer to pdb documentation [here](https://ugoproto.github.io/ugo_py_doc/pdf/Python-Debugger-Cheatsheet.pdf)
+* Start the client and server via `python3 -m run`, select `music_berd_pro` agent network, and ask a question like
+`Where was John Lennon born?`. The code execution stops at the line where you added `pytest.set_trace` statement. You
+can step through the code, view variable values, etc. by typing commands in the terminal. For all the debugger options,
+please refer to pdb [documentation](https://ugoproto.github.io/ugo_py_doc/pdf/Python-Debugger-Cheatsheet.pdf)
 
 The client and server logs will be saved to `logs/nsflow.log` and `logs/server.log` respectively.
 
 ## Advanced
 
-- Tools' arguments can be overidden in the agent network config file using the `args` key.
+* Tools' arguments can be overidden in the agent network config file using the `args` key.
+
 Example:
+
 ```hocon
 {
     "name": "web_searcher",
@@ -473,7 +522,6 @@ Example:
 }
 ```
 
-
 ### Subnetworks
 
 ### AAOSA
@@ -484,22 +532,25 @@ In this architecture, agents decide if they can answer inquiries or if they need
 
 Reference:
 [Iterative Statistical Language Model Generation for Use with an
-Agent-Oriented Natural Language Interface ](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=3004005f1e736815b367be83f2f90cc0fa9e0411)
+Agent-Oriented Natural Language Interface](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=3004005f1e736815b367be83f2f90cc0fa9e0411)
 
 <!-- (https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=011fb718658d611294613286c0f4b143aed40f43) -->
 
 Look at [../registries/smart_home.hocon](../registries/smart_home.hocon) and in particular:
-- aaosa_instructions
-- aaosa_call
-- aaosa_command
+
+* aaosa_instructions
+* aaosa_call
+* aaosa_command
 
 ## Connect with other agent frameworks
 
-- MCP: [MCP BMI SSE](./examples/mcp_bmi_sse.md) is an example of an agent network that uses [MCP](https://www.anthropic.com/news/model-context-protocol)
+* MCP: [MCP BMI SSE](./examples/mcp_bmi_sse.md) is an example of an agent network that uses [MCP](https://www.anthropic.com/news/model-context-protocol)
 to call an agent that calculates the body mass index (BMI).
-- A2A: [A2A research report](./examples/a2a_research_report.md) is an example of an agent network that uses a coded tool as an A2A client to
-connect to CrewAI agents running in an A2A server to write a report on a provided topic.
-- CrewAI: see the A2A example above.
-- Agentforce: [Agentforce](./examples/agentforce.md) is an agent network that delegates queries to a [Salesforce Agentforce](https://www.salesforce.com/agentforce/)
+* A2A: [A2A research report](./examples/a2a_research_report.md) is an example of an agent network that uses a coded tool
+as an A2A client to connect to CrewAI agents running in an A2A server to write a report on a provided topic.
+* CrewAI: see the A2A example above.
+* Agentforce: [Agentforce](./examples/agentforce.md) is an agent network that delegates queries to a [Salesforce Agentforce](https://www.salesforce.com/agentforce/)
 agent to interact with a CRM system.
-- Agentspace: [Agentspace_adapter](./examples/agentspace_adapter.md) is an agent network adapter that delegates queries to a [Google Agentspace](https://cloud.google.com/agentspace/agentspace-enterprise/docs/overview) agent to interact with different data store connectors on google cloud.
+* Agentspace: [Agentspace_adapter](./examples/agentspace_adapter.md) is an agent network adapter that delegates queries
+to a [Google Agentspace](https://cloud.google.com/agentspace/agentspace-enterprise/docs/overview) agent to interact with
+different data store connectors on google cloud.
