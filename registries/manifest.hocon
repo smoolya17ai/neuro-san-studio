@@ -12,6 +12,7 @@
     # Currently we list each hocon file we want to serve as a key with a boolean value.
     # Eventually we might have a dictionary value with server specifications for each.
 
+
     # Basic examples
     "music_nerd.hocon": true,
     "music_nerd_local.hocon": true,
@@ -32,6 +33,15 @@
     "agentic_rag.hocon": false,
     "kwik_agents.hocon": false,
 
+    # To use this agent network, start by installing the required package:
+    #     pip install atlassian-python-api
+    #
+    # Additional installations may be required depending on the attachment types used.
+    # For details, see https://python.langchain.com/api_reference/_modules/langchain_community/document_loaders/confluence.html#ConfluenceLoader
+    # Set "username" and "api_key" in the agent network hocon or 
+    # as environment variable "JIRA_USERNAME" and "JIRA_API_TOKEN", respectively.
+    "confluence_rag.hocon": false,
+    
     # Before turning on and running the following agent network, make sure that:
     # The MCP server is running.
     # The server can be found at servers/MCP/bmi_server.py and run using the following command
@@ -51,6 +61,7 @@
     # Once you've downloaded the credentials.json file and put it in the top level of this repo,
     # you can start using the agent network.
     "gmail.hocon": false,
+
 
     # Use cases
     "airline_policy.hocon": true,
