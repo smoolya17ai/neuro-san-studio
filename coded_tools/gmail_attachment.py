@@ -93,7 +93,7 @@ class GmailAttachment(CodedTool):
         bcc: Optional[List[str]] = None,
         subject: Optional[str] = "",
         message: Optional[str] = "",
-        html: Optional[bool] = False
+        html: Optional[bool] = False,
     ) -> str:
         """
         Sends an email with a file attachment using the Gmail API.

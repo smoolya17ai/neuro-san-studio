@@ -11,9 +11,9 @@
 
 import asyncio
 import json
+import webbrowser
 from typing import Any
 from typing import Dict
-import webbrowser
 
 from neuro_san.interfaces.coded_tool import CodedTool
 from neuro_san.internals.graph.persistence.agent_tool_registry_restorer import AgentToolRegistryRestorer
@@ -93,7 +93,8 @@ def generate_html(agent_name: str, network_dict: Dict[str, Any]):
     net = Network(height="1000px", width="100%", directed=False)
 
     # Set global styling (without node shape override)
-    net.set_options("""
+    net.set_options(
+        """
     var options = {
     "nodes": {
         "font": { "color": "#ffffff" },
@@ -115,7 +116,8 @@ def generate_html(agent_name: str, network_dict: Dict[str, Any]):
         }
     }
     }
-    """)
+    """
+    )
 
     # Add nodes
     for node in network_dict.get("tools"):
@@ -123,8 +125,16 @@ def generate_html(agent_name: str, network_dict: Dict[str, Any]):
         tooltip = json.dumps(node, indent=4)
 
         # Force rectangular box-shaped nodes
-        net.add_node(node_name, label=node_name, color="#4169E1", shape="box", widthConstraint={"minimum": 180, "maximum": 200},
-                     heightConstraint={"minimum": 80}, font={"multi": "html"}, title=tooltip)
+        net.add_node(
+            node_name,
+            label=node_name,
+            color="#4169E1",
+            shape="box",
+            widthConstraint={"minimum": 180, "maximum": 200},
+            heightConstraint={"minimum": 80},
+            font={"multi": "html"},
+            title=tooltip,
+        )
 
     # Add edges
     for node in [n for n in network_dict.get("tools", []) if "tools" in n]:

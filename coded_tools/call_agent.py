@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 from typing import Any
 from typing import Dict
 from typing import Tuple
@@ -77,7 +77,9 @@ class CallAgent(CodedTool):
         agent_session = sly_data.get("agent_session", None)
         agent_state_info = sly_data.get("agent_state_info", None)
         if not agent_state_info or not agent_session:
-            agent_session, agent_state_info = set_up_agent(agent_name, connection_type, host, port, local_externals_direct)
+            agent_session, agent_state_info = set_up_agent(
+                agent_name, connection_type, host, port, local_externals_direct
+            )
         response, agent_state_info = call_agent(agent_session, agent_state_info, inquiry, agent_thinking_path)
         sly_data["agent_session"] = agent_session
         sly_data["agent_state_info"] = agent_state_info
@@ -87,11 +89,7 @@ class CallAgent(CodedTool):
 
 
 def set_up_agent(
-        agent_name: str,
-        connection_type: str,
-        host: int,
-        port: int,
-        local_externals_direct: bool
+    agent_name: str, connection_type: str, host: int, port: int, local_externals_direct: bool
 ) -> Tuple[AgentSession, Dict[str, Any]]:
     """Configure these as needed."""
 
@@ -114,10 +112,7 @@ def set_up_agent(
 
 
 def call_agent(
-        agent_session: AgentSession,
-        agent_state_info: Dict[str, Any],
-        user_input: str,
-        agent_thinking_path: str
+    agent_session: AgentSession, agent_state_info: Dict[str, Any], user_input: str, agent_thinking_path: str
 ) -> Tuple[Union[str], Dict[str, Any]]:
     """
     Processes a single turn of user input within the selected agent's session.

@@ -19,12 +19,12 @@ from neuro_san.interfaces.coded_tool import CodedTool
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 TIME_TO_FIND_ELEMENT = 120.0
@@ -46,7 +46,12 @@ class NsflowSelenium(CodedTool):
             read-only.
 
             The argument dictionary expects the following keys:
-                "agent_name"
+                "agent_name": Name of the network to run
+                "query": Input for the agent network
+                "url": URL of nsflow to run the network
+                "time_to_find_element": Maximum seconds to wait for page elements to appear
+                "time_before_click_send": Seconds to wait after typing the query before clicking send
+                "time_after_response_before_close": Seconds to wait after receiving response before closing the browser
 
         :param sly_data: A dictionary whose keys are defined by the agent
             hierarchy, but whose values are meant to be kept out of the
@@ -83,9 +88,13 @@ class NsflowSelenium(CodedTool):
         # Optional arguments
         time_to_find_element: float = args.get("time_to_find_element", TIME_TO_FIND_ELEMENT)
         time_before_click_send: float = args.get("time_before_click_send", TIME_BEFORE_CLICK_SEND)
-        time_after_response_before_close: float = args.get("time_after_response_before_close", TIME_AFTER_RESPONSE_BEFORE_CLOSE)
+        time_after_response_before_close: float = args.get(
+            "time_after_response_before_close", TIME_AFTER_RESPONSE_BEFORE_CLOSE
+        )
 
-        return connect_run_agent_nsflow(url, agent_name, query, time_to_find_element, time_before_click_send, time_after_response_before_close)
+        return connect_run_agent_nsflow(
+            url, agent_name, query, time_to_find_element, time_before_click_send, time_after_response_before_close
+        )
 
     async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """Run invoke asynchronously."""
@@ -95,12 +104,12 @@ class NsflowSelenium(CodedTool):
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-positional-arguments
 def connect_run_agent_nsflow(
-        url: str,
-        agent_name: str,
-        query: str,
-        time_to_find_element: Optional[float]=TIME_TO_FIND_ELEMENT,
-        time_before_click_send: Optional[float]=TIME_BEFORE_CLICK_SEND,
-        time_after_response_before_close: Optional[float]=TIME_AFTER_RESPONSE_BEFORE_CLOSE
+    url: str,
+    agent_name: str,
+    query: str,
+    time_to_find_element: Optional[float] = TIME_TO_FIND_ELEMENT,
+    time_before_click_send: Optional[float] = TIME_BEFORE_CLICK_SEND,
+    time_after_response_before_close: Optional[float] = TIME_AFTER_RESPONSE_BEFORE_CLOSE,
 ) -> str:
     """
     Automates interaction with a web-based agent interface using Selenium WebDriver.
@@ -145,7 +154,9 @@ def connect_run_agent_nsflow(
         response = get_response(driver, wait, agent_name)
 
         print(f"Agent response: {response}")
-        print(f"Agent {agent_name} response detected, waiting {time_after_response_before_close} seconds before closing the browser.")
+        print(
+            f"Agent {agent_name} response detected, waiting {time_after_response_before_close} seconds before closing the browser."
+        )
 
         time.sleep(time_after_response_before_close)
 
