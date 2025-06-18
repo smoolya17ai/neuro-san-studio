@@ -24,6 +24,7 @@
     #     Then download the `credentials.json` file and place it at the top level of this repo.
     # - Install Selenium and WebDriver Manager:
     #     pip install selenium webdriver-manager
+    # - Install Chrome browser
     #
     # Additional setup for running the "NsflowSelenium" coded tool:
     # - Start the nsflow service in a separate terminal.

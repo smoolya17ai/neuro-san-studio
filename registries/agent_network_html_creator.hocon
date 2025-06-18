@@ -9,6 +9,10 @@
 # neuro-san SDK Software in commercial settings.
 #
 # END COPYRIGHT
+
+# This agent network create a html file for a specified agent netowrk, and open the file in Chrome browser.
+# Requirement: Chrome browser.
+
 {
     "llm_config": {
         "model_name": "gpt-4o",

@@ -120,7 +120,7 @@ class GmailAttachment(CodedTool):
             if subject:
                 email_message["Subject"] = subject
 
-            # Set body
+            # Set body message as html or plain text
             if message:
                 if html:
                     email_message.add_alternative(message, subtype="html")

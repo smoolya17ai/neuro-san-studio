@@ -85,6 +85,7 @@ class CallAgent(CodedTool):
         logger.info(">>>>>>>>>>>>>>>>>>>DONE !!!>>>>>>>>>>>>>>>>>>")
         return response
 
+
 def set_up_agent(
         agent_name: str,
         connection_type: str,
@@ -110,6 +111,7 @@ def set_up_agent(
         "chat_filter": {"chat_filter_type": "MAXIMAL"},
     }
     return agent_session, agent_state_info
+
 
 def call_agent(
         agent_session: AgentSession,
