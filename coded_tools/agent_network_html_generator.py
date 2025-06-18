@@ -13,7 +13,6 @@ import asyncio
 import json
 from typing import Any
 from typing import Dict
-from typing import List
 import webbrowser
 
 from neuro_san.interfaces.coded_tool import CodedTool
