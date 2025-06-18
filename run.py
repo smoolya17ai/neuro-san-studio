@@ -25,11 +25,12 @@ from dotenv import load_dotenv
 class NeuroSanRunner:
     """Command-line tool to run the Neuro SAN server and web client."""
 
+    # pylint: disable=too-many-instance-attributes
     def __init__(self):
         """Initialize configuration and parse CLI arguments."""
         self.is_windows = os.name == "nt"
         self.root_dir = os.path.dirname(os.path.abspath(__file__))
-        self.logs_dir = os.path.join(self.root_dir, 'logs')
+        self.logs_dir = os.path.join(self.root_dir, "logs")
         self.thinking_file = os.path.join(self.logs_dir, "agent_thinking.txt")
         self.thinking_dir = os.path.join(self.logs_dir, "thinking_dir")
         print(f"Root directory: {self.root_dir}")
