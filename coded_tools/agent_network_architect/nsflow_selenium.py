@@ -120,11 +120,12 @@ def connect_run_agent_nsflow(
     :param url: The URL of the web page hosting the agent interface.
     :param agent_name: The exact name of the agent to interact with (must match the sidebar button text).
     :param query: The text query to send to the agent.
-    :param time_to_find_element: Maximum seconds to wait for page elements to appear (default: TIME_TO_FIND_ELEMENT).
-    :param time_before_click_send: Seconds to wait after typing the query before clicking send (default: TIME_BEFORE_CLICK_SEND).
-    :param time_after_response_before_close: Seconds to wait after receiving response before closing the browser (default: TIME_AFTER_RESPONSE_BEFORE_CLOSE).
+    :param time_to_find_element: Maximum seconds to wait for page elements to appear.
+    :param time_before_click_send: Seconds to wait after typing the query before clicking send.
+    :param time_after_response_before_close: Seconds to wait after receiving response before closing the browser.
 
-    :return: A formatted string containing the original query and the agent's response, or an error message if a timeout or WebDriver error occurs.
+    :return: A formatted string containing the original query and the agent's response,
+                or an error message if a timeout or WebDriver error occurs.
     """
 
     # Set up Chrome window size to max
@@ -155,7 +156,8 @@ def connect_run_agent_nsflow(
 
         print(f"Agent response: {response}")
         print(
-            f"Agent {agent_name} response detected, waiting {time_after_response_before_close} seconds before closing the browser."
+            f"Agent {agent_name} response detected, waiting "
+            f"{time_after_response_before_close} seconds before closing the browser."
         )
 
         time.sleep(time_after_response_before_close)

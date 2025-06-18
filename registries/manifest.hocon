@@ -119,5 +119,5 @@
     #   The default ports (30011 for gRPC, 8080 for HTTP, and 4173 for nsflow) must be changed.
     #   For example, you can run:
     #     python -m run --server-grpc-port 30012 --server-http-port 8081 --nsflow-port 4174
-    "agent_network_architect.hocon": true,
+    "agent_network_architect.hocon": false,
 }

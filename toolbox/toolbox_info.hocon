@@ -77,6 +77,33 @@
             # The other arguments are optional
         }
     },
+        
+    # ---------- RAG Tools ----------
+
+    # To use this tool, start by installing the required package:
+    #     pip install atlassian-python-api
+    #
+    # Additional installations may be required depending on the attachment types used.
+    # For details, see https://python.langchain.com/api_reference/_modules/langchain_community/document_loaders/confluence.html#ConfluenceLoader
+    # Set "username" and "api_key" in the agent network hocon or 
+    # as environment variable "JIRA_USERNAME" and "JIRA_API_TOKEN", respectively.
+    "confluence_rag": {
+        # This is a coded tool for RAG on confluence pages.
+        "class": "confluence_rag.ConfluenceRag",
+        "description": "Retrieve information from the given confluence documents",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Query for retrieval"
+                }
+            },
+            "required": ["query"]
+        }      
+    },
+
+    # ---------- Agent Network Tools ----------
 
     "call_agent": {
         "class": "call_agent.CallAgent",
@@ -111,31 +138,6 @@
             },
             "required": ["agent_name"]
         }
-    },
-        
-    # ---------- RAG Tools ----------
-
-    # To use this tool, start by installing the required package:
-    #     pip install atlassian-python-api
-    #
-    # Additional installations may be required depending on the attachment types used.
-    # For details, see https://python.langchain.com/api_reference/_modules/langchain_community/document_loaders/confluence.html#ConfluenceLoader
-    # Set "username" and "api_key" in the agent network hocon or 
-    # as environment variable "JIRA_USERNAME" and "JIRA_API_TOKEN", respectively.
-    "confluence_rag": {
-        # This is a coded tool for RAG on confluence pages.
-        "class": "confluence_rag.ConfluenceRag",
-        "description": "Retrieve information from the given confluence documents",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "query": {
-                    "type": "string",
-                    "description": "Query for retrieval"
-                }
-            },
-            "required": ["query"]
-        }      
     },
 
 }
