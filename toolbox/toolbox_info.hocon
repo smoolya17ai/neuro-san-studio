@@ -77,7 +77,7 @@
             # The other arguments are optional
         }
     },
-
+        
     # ---------- RAG Tools ----------
 
     # To use this tool, start by installing the required package:
@@ -101,6 +101,43 @@
             },
             "required": ["query"]
         }      
+    },
+
+    # ---------- Agent Network Tools ----------
+
+    "call_agent": {
+        "class": "call_agent.CallAgent",
+        "description": "Call the agent to response to inquiry.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "agent_name": {
+                    "type": "string",
+                    "description": "Name of the agent to call. Do not include file extension such as '.hocon' in the name."
+                },
+                "inquiry": {
+                    "type": "string",
+                    "description": "The inquiry"
+                },
+            },
+            "required": ["inquiry"]
+        } 
+    },
+
+    # This tool uses pyvis to generate a html, and open it in chrome browser.
+    "agent_network_html_generator": {
+        "class": "agent_network_html_generator.AgentNetworkHtmlGenerator"
+        "description": "Generate a html file from agent network hocon",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "agent_name": {
+                    "type": "string",
+                    "description": "Name of the agent to create html for. Do not include file extension such as '.hocon' in the name."
+                }
+            },
+            "required": ["agent_name"]
+        }
     },
 
 }

@@ -9,6 +9,7 @@
 #
 # END COPYRIGHT
 
+import asyncio
 import base64
 import mimetypes
 import os
@@ -17,7 +18,6 @@ from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
-from typing import Union
 
 # pylint: disable=import-error
 from googleapiclient.errors import HttpError
@@ -34,7 +34,7 @@ class GmailAttachment(CodedTool):
         # Create the Gmail API client
         self.service = build_resource_service()
 
-    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]):
+    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         :param args: An argument dictionary whose keys are the parameters
             to the coded tool and whose values are the values passed for
@@ -73,6 +73,7 @@ class GmailAttachment(CodedTool):
         bcc: List[str] = args.get("bcc")
         subject: str = args.get("subject", "")
         message: str = args.get("message", "")
+        html: bool = args.get("html", False)
 
         # Validate presence of required inputs
         if not to:
@@ -80,7 +81,7 @@ class GmailAttachment(CodedTool):
         if not attachment_paths:
             return "Error: No attachment_path provided."
 
-        return self.gmail_send_message_with_attachment(to, attachment_paths, cc, bcc, subject, message)
+        return self.gmail_send_message_with_attachment(to, attachment_paths, cc, bcc, subject, message, html)
 
     # pylint: disable=too-many-arguments
     # pylint: disable=too-many-positional-arguments
@@ -92,6 +93,7 @@ class GmailAttachment(CodedTool):
         bcc: Optional[List[str]] = None,
         subject: Optional[str] = "",
         message: Optional[str] = "",
+        html: Optional[bool] = False,
     ) -> str:
         """
         Sends an email with a file attachment using the Gmail API.
@@ -118,9 +120,12 @@ class GmailAttachment(CodedTool):
             if subject:
                 email_message["Subject"] = subject
 
-            # Set body
+            # Set body message as html or plain text
             if message:
-                email_message.set_content(message)
+                if html:
+                    email_message.add_alternative(message, subtype="html")
+                else:
+                    email_message.set_content(message)
 
             # Add attachments
             self.attach_file_to_email(email_message, attachment_paths)
@@ -160,5 +165,6 @@ class GmailAttachment(CodedTool):
                     f.read(), maintype=maintype, subtype=subtype, filename=os.path.basename(path)
                 )
 
-    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
-        raise NotImplementedError
+    async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
+        """Run invoke asynchronously."""
+        return await asyncio.to_thread(self.invoke, args, sly_data)
