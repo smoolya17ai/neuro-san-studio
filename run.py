@@ -25,18 +25,18 @@ from dotenv import load_dotenv
 class NeuroSanRunner:
     """Command-line tool to run the Neuro SAN server and web client."""
 
+    # pylint: disable=too-many-instance-attributes
     def __init__(self):
         """Initialize configuration and parse CLI arguments."""
         self.is_windows = os.name == "nt"
+        self.root_dir = os.path.dirname(os.path.abspath(__file__))
+        self.logs_dir = os.path.join(self.root_dir, "logs")
+        self.thinking_file = os.path.join(self.logs_dir, "agent_thinking.txt")
+        self.thinking_dir = os.path.join(self.logs_dir, "thinking_dir")
+        print(f"Root directory: {self.root_dir}")
 
         # Load environment variables from .env file
-        self.root_dir = os.path.dirname(os.path.abspath(__file__))
-
-        # self.root_dir = os.getcwd()
-        print(f"Root directory: {self.root_dir}")
         self.load_env_variables()
-
-        thinking_file = "C:\\tmp\\agent_thinking.txt" if self.is_windows else "/tmp/agent_thinking.txt"
 
         # Default Configuration
         self.args: Dict[str, Any] = {
@@ -52,7 +52,8 @@ class NeuroSanRunner:
             "vite_api_protocol": os.getenv("VITE_API_PROTOCOL", "http"),
             "vite_ws_protocol": os.getenv("VITE_WS_PROTOCOL", "ws"),
             "neuro_san_web_client_port": int(os.getenv("NEURO_SAN_WEB_CLIENT_PORT", "5003")),
-            "thinking_file": os.getenv("THINKING_FILE", thinking_file),
+            "thinking_file": os.getenv("THINKING_FILE", self.thinking_file),
+            "thinking_dir": os.getenv("THINKING_DIR", self.thinking_dir),
             # Ensure all paths are resolved relative to `self.root_dir`
             "agent_manifest_file": os.getenv(
                 "AGENT_MANIFEST_FILE", os.path.join(self.root_dir, "registries", "manifest.hocon")
@@ -61,11 +62,12 @@ class NeuroSanRunner:
             "agent_toolbox_info_file": os.getenv(
                 "AGENT_TOOLBOX_INFO_FILE", os.path.join(self.root_dir, "toolbox", "toolbox_info.hocon")
             ),
-            "logs_dir": os.path.join(self.root_dir, "logs"),
+            "logs_dir": self.logs_dir,
         }
 
         # Ensure logs directory exists
-        os.makedirs("logs", exist_ok=True)
+        os.makedirs(self.logs_dir, exist_ok=True)
+        os.makedirs(self.thinking_dir, exist_ok=True)
 
         # Parse command-line arguments
         self.args.update(self.parse_args())
@@ -168,6 +170,10 @@ class NeuroSanRunner:
 
         # Client-only env variables
         if not self.args["server_only"]:
+            os.environ["THINKING_FILE"] = self.args["thinking_file"]
+            os.environ["THINKING_DIR"] = self.args["thinking_dir"]
+            print(f"THINKING_FILE set to: {os.environ['THINKING_FILE']}")
+            print(f"THINKING_DIR set to: {os.environ['THINKING_DIR']}")
             if self.args["use_flask_web_client"]:
                 os.environ["NEURO_SAN_WEB_CLIENT_PORT"] = str(self.args["web_client_port"])
                 print(f"NEURO_SAN_WEB_CLIENT_PORT set to: {os.environ['NEURO_SAN_WEB_CLIENT_PORT']}")
