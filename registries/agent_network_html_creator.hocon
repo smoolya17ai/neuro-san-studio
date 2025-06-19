@@ -33,10 +33,10 @@
             # distinguishing it from the rest of the tools.
 
             "function": {
-                "description": "Create a html file for agnet network.",
+                "description": "Create a html file for agent network.",
             },
 
-            "instructions": """Use your tools to create a html file for agnet network.""",
+            "instructions": """Use your tools to create a html file for agent network.""",
             "tools": ["html_generator"]
         },
         {

@@ -17,7 +17,7 @@
     #
     # Requirements:
     # - Install Gmail support:
-    #     pip install -U langchain-google-community[gmail]
+    #     pip install -U langchain-google-community\[gmail\]
     # - Set up Gmail API credentials:
     #     Follow the instructions at
     #     https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application
