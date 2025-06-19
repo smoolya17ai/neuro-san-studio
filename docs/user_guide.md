@@ -248,11 +248,13 @@ Here you can get an Anthropic API [key](https://console.anthropic.com/settings/k
 
 To use Gemini models, set the `GOOGLE_API_KEY` environment variable to your Google Gemini API key
 and specify which model to use in the `model_name` field of the `llm_config` section of an agent network hocon file:
+
 ```hocon
     "llm_config": {
         "model_name": "gemini-2.0-flash",
     },
 ```
+
 You can get an Google Gemini API key [here](https://ai.google.dev/gemini-api/docs/api-key)
 
 ### Ollama
