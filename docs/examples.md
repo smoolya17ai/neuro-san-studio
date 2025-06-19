@@ -13,7 +13,7 @@ Here are a few examples ordered by level of complexity.
     * [Music Nerd Pro Sly Local](#music-nerd-pro-sly-local)
   * [🧰 Tool Integration Examples](#-tool-integration-examples)
     * [Gmail Assistant](#gmail-assistant)
-    * [Agent Network HTML Creator]()
+    * [Agent Network HTML Creator](#agent-network-html-creator)
     * [Agentforce](#agentforce)
     * [Agentspace](#agentspace)
     * [MCP BMI STREAMABLE HTTP](#mcp-bmi-streamable-http)
