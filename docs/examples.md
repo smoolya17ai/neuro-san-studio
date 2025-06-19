@@ -13,6 +13,7 @@ Here are a few examples ordered by level of complexity.
     * [Music Nerd Pro Sly Local](#music-nerd-pro-sly-local)
   * [🧰 Tool Integration Examples](#-tool-integration-examples)
     * [Gmail Assistant](#gmail-assistant)
+    * [Agent Network HTML Creator]()
     * [Agentforce](#agentforce)
     * [Agentspace](#agentspace)
     * [MCP BMI STREAMABLE HTTP](#mcp-bmi-streamable-http)
@@ -89,6 +90,11 @@ Examples that demonstrate how to integrate external tools and services.
 [Gmail Assistant](./examples/gmail.md) is a conversational agent that helps users manage their Gmail inbox using natural language. It can search, read, draft, and send emails by delegating tasks to specialized tools in the Gmail Toolkit.
 
 **Tags:** `tool`, `Gmail`, `API`
+
+### Agent Network HTML Creator
+[Agent Network HTML Creator](./examples/agent_network_html_creator.md) visualizes the structure of a specified multi-agent system by generating an interactive HTML graph and opening it in Chrome. It helps users quickly understand the relationships and roles of agents within the network.
+
+**Tags:** `tool`, `HTML`
 
 ### Agentforce
 
