@@ -1,6 +1,8 @@
 # Gmail Assistant
 
-The **Gmail Assistant** is a task-oriented agentic system designed to help users manage their Gmail accounts efficiently. It leverages a specialized toolkit of Gmail-related tools—such as searching, reading, drafting, and sending emails—through a dedicated assistant agent.
+The **Gmail Assistant** is a task-oriented agentic system designed to help users manage their Gmail accounts efficiently.
+It leverages a specialized toolkit of Gmail-related tools—such as searching, reading, drafting, and sending emails—through
+a dedicated assistant agent.
 
 This system demonstrates how tool-based delegation can automate and streamline email workflows using natural language commands.
 
@@ -14,36 +16,46 @@ This system demonstrates how tool-based delegation can automate and streamline e
 
 ## Description
 
-At the core of the system is the Gmail Assistant agent, which serves as the primary interface between the user and the underlying Gmail tools. When a user gives an instruction—such as “find emails from Alice” or “send a follow-up email”—the agent intelligently routes the request to the appropriate tool in the Gmail Toolkit.
+At the core of the system is the Gmail Assistant agent, which serves as the primary interface between the user and the
+underlying Gmail tools. When a user gives an instruction—such as “find emails from Alice” or “send a follow-up email”—the
+agent intelligently routes the request to the appropriate tool in the Gmail Toolkit.
 
 - **Modular Email Management**: Each Gmail operation is encapsulated in a tool, making the system easily extensible and composable.
 
 - **Context-Aware Execution**: The assistant handles multi-step tasks by chaining tool outputs.
 
-- **Natural Language Control**: Users can express email intents conversationally, without needing to know the underlying API details.
+- **Natural Language Control**: Users can express email intents conversationally, without needing to know the underlying
+API details.
 
 ---
 
 ## Prerequisites
 
-- This agent is **disabled by default**. To test it,
-    - ```bash
-        pip install -U langchain-google-community\[gmail\]
-        ```
-    - get `credentials.json` by following the instructions from [https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application.](https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application) and place it at the top level of the repo.
+This agent is **disabled by default**. To test it,
+
+```bash
+pip install -U langchain-google-community\[gmail\]
+```
+
+Get `credentials.json` by following the instructions from [authorize_credentials_for_a_desktop_application.](
+    https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application)
+    and place it at the top level of the repo.
   
 ---
 
 ## Example Conversation
 
-### Human:
-```
+### Human
+
+```text
 Can you check if I received an email from Jane yesterday?
 ```
 
-### AI (Gmail Assistant):
-```
-Yes, you received an email from Jane yesterday at 3:47 PM with the subject "Project Update". Would you like me to summarize it for you?
+### AI (Gmail Assistant)
+
+```text
+Yes, you received an email from Jane yesterday at 3:47 PM with the subject "Project Update". Would you like me to summarize
+it for you?
 ```
 
 ---
@@ -60,29 +72,24 @@ Yes, you received an email from Jane yesterday at 3:47 PM with the subject "Proj
 
 ---
 
-### Tools from toolbox:
+### Tools from toolbox
 
 - #### gmail_handler_no_attachment
 
-    These tools are defined in the `gmail_toolkit`, a langchain toolkit that is implemented via `toolbox` and are called as needed by the assistant:
+  These tools are defined in the `gmail_toolkit`, a langchain toolkit that is implemented via `toolbox` and are called
+    as needed by the assistant:
 
-    - Email Search (GmailSearch)
+  - Email Search (GmailSearch)
+  - Email Reader (GmailGetMessage)
+  - Thread Reader (GmailGetThread)
+  - Draft Composer (GmailCreateDraft)
+  - Email Sender (GmailSendMessage)
 
-    - Email Reader (GmailGetMessage)
-
-    - Thread Reader (GmailGetThread)
-
-    - Draft Composer (GmailCreateDraft)
-
-    - Email Sender (GmailSendMessage)
-
-    > Note that these tools do not support file attachment.
+  > Note that these tools do not support file attachment.
 
 - #### gmail_handler_with_attachment
 
     This handler includes a single specialized tool designed specifically to send emails **with file attachments**.
-
-
 
 ---
 
@@ -90,7 +97,8 @@ Yes, you received an email from Jane yesterday at 3:47 PM with the subject "Proj
 
 When developing or debugging the Gmail Assistant, keep the following in mind:
 
-- Make sure both of the `gmail_handler_no_attachment` and `gmail_handler_with_attachment` are correctly registered and mapped to the valid tool in toolbox.
+- Make sure both of the `gmail_handler_no_attachment` and `gmail_handler_with_attachment` are correctly registered and mapped
+to the valid tool in toolbox.
 
 - Confirm that the Gmail API credentials and OAuth flow are correctly configured.
 
@@ -103,6 +111,7 @@ When developing or debugging the Gmail Assistant, keep the following in mind:
 ---
 
 ## Resources
+
 - [LangChain Gmail Toolkit Documentation](https://python.langchain.com/docs/integrations/tools/gmail/)
 Overview and usage examples of the Gmail tools from the LangChain ecosystem.
 
