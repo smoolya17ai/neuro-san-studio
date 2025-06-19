@@ -57,6 +57,10 @@
             # This tool is solely for sending an email with attachment.
             # The code of this tool can be found at coded_tools/gmail_attachment.py
             "toolbox": "send_gmail_message_with_attachment"
+            "args": {
+                # This is an optional argument for sending the message as html. Default is False.
+                "html": false
+            }
         }
     ]
 }
