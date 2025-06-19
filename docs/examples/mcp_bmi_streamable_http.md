@@ -1,6 +1,7 @@
 # MCP BMI STREAMABLE HTTP
 
-The **MCP BMI STREAMABLE HTTP** is a simple agentic system that connects LLM to the MCP server using streamable http as transport method. The main purpose is to show how one can connect to mcp server in coded tool.
+The **MCP BMI STREAMABLE HTTP** is a simple agentic system that connects LLM to the MCP server using streamable http as
+transport method. The main purpose is to show how one can connect to mcp server in coded tool.
 
 ---
 
@@ -24,20 +25,22 @@ The **MCP BMI STREAMABLE HTTP** is a simple agentic system that connects LLM to 
 
 ---
 
-
 ## Architecture Overview
 
 ### Frontman Agent: **bmi_provider**
+
 - Acts as the entry point for external queries.
 - Parses user input and prepares parameters for the tool.
 - Integrates tool responses into a final answer.
 
 ### Tool: `bmi_calculator`
+
 - Connects to the MCP server using `langchain-mcp-adapters`.
 - Sends the request and receives the response.
 - Source: [`bmi_calculator.py`](../../coded_tools/mcp_bmi_sse/bmi_calculator.py)
 
-### MCP Server:
+### MCP Server
+
 - Defines tool metadata:
   - **Name**: From function name
   - **Description**: From docstring
