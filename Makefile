@@ -38,7 +38,7 @@ lint: ## Run code formatting and linting tools on source
 	black run.py apps/ coded_tools/
 	flake8 run.py apps/ coded_tools/
 	pylint run.py apps/ coded_tools/
-	markdownlint -c .markdownlint.yaml ./docs/**/*.md
+	docker run -v ${PWD}:/workdir ghcr.io/igorshubovych/markdownlint-cli:latest "**/*.md" --ignore venv
 
 lint-tests: ## Run code formatting and linting tools on tests
 	@if [ -z "$$VIRTUAL_ENV" ]; then \

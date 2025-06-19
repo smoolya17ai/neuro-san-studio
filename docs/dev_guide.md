@@ -16,6 +16,40 @@ or suggests running `make install` (if it doesn't)
 These Makefile commands provide a convenient alternative to the manual steps described in the Installation section for
 macOS users. Windows users should follow the manual installation instructions instead.
 
+### Note on Markdown Linting
+
+We use [markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli) to run linting on .md files.
+`markdownlint-cli` can be configured via `.markdownlint.yaml` located in the projects top level folder. See
+this [yaml file](https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml) for all the configuration
+options.
+
+You can run `markdownlint-cli` in two ways:
+
+- Using a Docker container
+
+  - ```bash
+    docker run -v ${PWD}:/workdir ghcr.io/igorshubovych/markdownlint-cli:latest "**/*.md" --ignore venv
+    ```
+
+  - The `-v` flag mounts a host directory into the container
+
+- Using an installed version of `markdownlint-cli`
+  - Install `markdownlint-cli` on your machine via [instructions](https://github.com/igorshubovych/markdownlint-cli?tab=readme-ov-file#installation)
+  here
+
+  - ```bash
+    markdownlint -c .markdownlint.yaml "**/*.md" --ignore venv
+    ```
+
+  - The `-c` flag is used to pass in a configuration file to `markdownlint-cli`
+  - To see all the options, run the following command:
+
+    ```bash
+    markdownlint --help
+    ```
+
+`make lint` command invokes `markdownlint-cli` via a Docker container.
+
 ## Python Project Configuration
 
 This project uses `pyproject.toml` for configuration of various Python development tools. This modern approach
