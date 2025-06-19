@@ -30,6 +30,7 @@ Here are a few examples ordered by level of complexity.
     * [Therapy Vignette Supervision](#therapy-vignette-supervision)
   * [🧪 Experimental and Research](#-experimental-and-research)
     * [Agent Network Designer](#agent-network-designer)
+    * [Agent Network Architect](#agent-network-architect)
     * [KWIK Agents](#kwik-agents)
     * [CRUSE](#cruse)
     * [Conscious Assistant](#conscious-assistant)
@@ -209,6 +210,12 @@ Enter the name of an organization or describe the use-case and will create an ag
 your registries directory and give you some usage examples.
 
 **Tags:** `tool`
+
+### Agent Network Architect
+
+[Agent Network Architect](examples/agent_network_architect.md) is an automated, multi-agent system that designs, visualizes, tests, and shares agent networks. It begins by generating a .hocon configuration file using an external designer agent, then creates an interactive HTML graph of the network, runs a live demonstration using Selenium with Nsflow, and optionally emails the results. This network streamlines the end-to-end workflow for building and showcasing agent systems.
+
+**Tags:** `tool`, `external_network`, `HTML`, `nsflow`, `Gmail` 
 
 ### KWIK Agents
 
