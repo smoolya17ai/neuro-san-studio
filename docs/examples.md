@@ -13,6 +13,7 @@ Here are a few examples ordered by level of complexity.
     * [Music Nerd Pro Sly Local](#music-nerd-pro-sly-local)
   * [🧰 Tool Integration Examples](#-tool-integration-examples)
     * [Gmail Assistant](#gmail-assistant)
+    * [Agent Network HTML Creator](#agent-network-html-creator)
     * [Agentforce](#agentforce)
     * [Agentspace](#agentspace)
     * [MCP BMI STREAMABLE HTTP](#mcp-bmi-streamable-http)
@@ -29,6 +30,7 @@ Here are a few examples ordered by level of complexity.
     * [Therapy Vignette Supervision](#therapy-vignette-supervision)
   * [🧪 Experimental and Research](#-experimental-and-research)
     * [Agent Network Designer](#agent-network-designer)
+    * [Agent Network Architect](#agent-network-architect)
     * [KWIK Agents](#kwik-agents)
     * [CRUSE](#cruse)
     * [Conscious Assistant](#conscious-assistant)
@@ -89,6 +91,11 @@ Examples that demonstrate how to integrate external tools and services.
 [Gmail Assistant](./examples/gmail.md) is a conversational agent that helps users manage their Gmail inbox using natural language. It can search, read, draft, and send emails by delegating tasks to specialized tools in the Gmail Toolkit.
 
 **Tags:** `tool`, `Gmail`, `API`
+
+### Agent Network HTML Creator
+[Agent Network HTML Creator](./examples/agent_network_html_creator.md) visualizes the structure of a specified multi-agent system by generating an interactive HTML graph and opening it in Chrome. It helps users quickly understand the relationships and roles of agents within the network.
+
+**Tags:** `tool`, `HTML`
 
 ### Agentforce
 
@@ -203,6 +210,12 @@ Enter the name of an organization or describe the use-case and will create an ag
 your registries directory and give you some usage examples.
 
 **Tags:** `tool`
+
+### Agent Network Architect
+
+[Agent Network Architect](examples/agent_network_architect.md) is an automated, multi-agent system that designs, visualizes, tests, and shares agent networks. It begins by generating a .hocon configuration file using an external designer agent, then creates an interactive HTML graph of the network, runs a live demonstration using Selenium with Nsflow, and optionally emails the results. This network streamlines the end-to-end workflow for building and showcasing agent systems.
+
+**Tags:** `tool`, `external_network`, `HTML`, `nsflow`, `Gmail` 
 
 ### KWIK Agents
 

@@ -26,17 +26,17 @@
         # he is the only one with no parameters in his function definition,
         # and therefore he needs to talk to the outside world to get things rolling.
         {
-            "name": "Agent_Network_HTML_Creator",
+            "name": "Agent Network HTML Creator",
 
             # Note that there are no parameters defined for this guy's "function" key.
             # This is the primary way to identify this tool as a front-man,
             # distinguishing it from the rest of the tools.
 
             "function": {
-                "description": "Create a html file for agnet network.",
+                "description": "Create a html file for agent network.",
             },
 
-            "instructions": """Use your tools to create a html file for agnet network.""",
+            "instructions": """Use your tools to create a html file for agent network.""",
             "tools": ["html_generator"]
         },
         {
