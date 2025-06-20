@@ -1,6 +1,10 @@
 # Neuro AI Multi-Agent Accelerator – Getting Started
 
-Welcome to the **Neuro AI Multi-Agent Accelerator** tutorial. In this guide, we will walk you through the process of setting up a **Data-Driven Multi-Agent Network** using the `neuro-san` library, managing it via a Flask-based web UI, and customizing how Large Language Model (LLM) based Agents coordinate with each other to solve tasks. We will also explore switching LLM providers (like Ollama and Anthropic), adding custom-coded Tools, and running everything from a single command.
+Welcome to the **Neuro AI Multi-Agent Accelerator** tutorial. In this guide, we will walk you through the process of
+setting up a **Data-Driven Multi-Agent Network** using the `neuro-san` library, managing it via a Flask-based web UI,
+and customizing how Large Language Model (LLM) based Agents coordinate with each other to solve tasks. We will also
+explore switching LLM providers (like Ollama and Anthropic), adding custom-coded Tools, and running everything from a
+single command.
 
 ---
 
@@ -47,9 +51,12 @@ Welcome to the **Neuro AI Multi-Agent Accelerator** tutorial. In this guide, we 
 
 ## 1. Introduction
 
-**Neuro-San** is a multi-agent orchestration library that enables you to build **data-driven agent networks**. These networks of agents can use **LLMs** (Large Language Models) and **coded tools** to coordinate and solve complex tasks autonomously. 
+**Neuro-San** is a multi-agent orchestration library that enables you to build **data-driven agent networks**. These
+networks of agents can use **LLMs** (Large Language Models) and **coded tools** to coordinate and solve complex tasks
+autonomously.
 
-The library comes with a **Flask Web Client** (`neuro_san_web_client`) so that users can interact with these multi-agent networks through a web-based UI. This entire setup is easily configurable using **HOCON** (`.hocon`) files.
+The library comes with a **Flask Web Client** (`neuro_san_web_client`) so that users can interact with these multi-agent
+networks through a web-based UI. This entire setup is easily configurable using **HOCON** (`.hocon`) files.
 
 **Note**: This tutorial is written with the help of the agent network example [advanced_calculator.hocon](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/registries/advanced_calculator.hocon).
 
@@ -75,19 +82,20 @@ Below is a simplified view of the reference project structure. You can adapt it 
 ├── run.py
 ```
 
-### Key directories and files:
+### Key directories and files
 
-- `coded_tools/`: Contains custom-coded tool classes (e.g., `calculator_tool.py`).
-- `registries/`: Holds `.hocon` files that define multi-agent networks and their configurations.
-- `logs/`: Where client and server logs are written.
-- `run.py`: A starter script to run the server and the web client.
+* `coded_tools/`: Contains custom-coded tool classes (e.g., `calculator_tool.py`).
+* `registries/`: Holds `.hocon` files that define multi-agent networks and their configurations.
+* `logs/`: Where client and server logs are written.
+* `run.py`: A starter script to run the server and the web client.
 
-- Here are the detailed instructions to run an agent network along with a web client here:
-    - https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/README.md
+* Here are the detailed [instructions](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/README.md) to run
+an agent network along with a web client.
 
 ---
 
 ## 3. Setting Up a Working Python Environment
+
 Follow these steps to set up and activate your Python virtual environment:
 
 ```bash
@@ -108,35 +116,43 @@ source venv/bin/activate && export PYTHONPATH=`pwd`
 pip install -r requirements.txt
 ```
 
-Please find the detailed instructions to run an agent network along with a web client here:
-- https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/README.md
+Please find the detailed [instructions](https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/README.md) to
+run an agent network along with a web client.
 
 Note: You may need to adapt the filenames if versions differ.
-
 
 ---
 
 ## 4. What is an LLM-based Agent?
-An **LLM-based Agent** is a component in your agent network that uses a **Large Language Model** to process instructions and make decisions. By embedding the agent’s logic in a data-driven configuration (the `.hocon` file), you can define:
 
-- **Agent roles and responsibilities**
-- **Tools** (or other agents) it can call
-- **Function schema** that the agent can handle
+An **LLM-based Agent** is a component in your agent network that uses a **Large Language Model** to process instructions
+and make decisions. By embedding the agent’s logic in a data-driven configuration (the `.hocon` file), you can define:
+
+* **Agent roles and responsibilities**
+* **Tools** (or other agents) it can call
+* **Function schema** that the agent can handle
 
 ### Agents for Autonomous Decision Making
-These agents can coordinate tasks among themselves. A top-level (or front-man) agent can receive a user’s query, figure out which sub-agents (or tools) are best suited to answer it, and orchestrate the communication necessary to generate a response.
+
+These agents can coordinate tasks among themselves. A top-level (or front-man) agent can receive a user’s query, figure
+out which sub-agents (or tools) are best suited to answer it, and orchestrate the communication necessary to generate a response.
 
 ### Function Calling with Agents
-In Neuro AI Multi-Agent Accelerator, Agents may declare a function with defined parameters. Other agents can call this function by providing the required parameters. This allows complex tasks to be broken into sub-tasks, each handled by specialized agents or tools.
 
-**Note**: Refer to this [OpenAI blog](https://community.openai.com/t/function-calling-parameter-types/268564/7) and [OpenAI Cookbook](https://cookbook.openai.com/examples/function_calling_with_an_openapi_spec) for more information.
+In Neuro AI Multi-Agent Accelerator, Agents may declare a function with defined parameters. Other agents can call this
+function by providing the required parameters. This allows complex tasks to be broken into sub-tasks, each handled by
+specialized agents or tools.
+
+**Note**: Refer to this [OpenAI blog](https://community.openai.com/t/function-calling-parameter-types/268564/7) and
+[OpenAI Cookbook](https://cookbook.openai.com/examples/function_calling_with_an_openapi_spec) for more information.
 
 ### Data-Driven Agent Network
+
 A Data-Driven Agent Network is composed of multiple agents defined in a `.hocon` file. This file describes:
 
-- **LLM configuration**: which model to use, how to connect to it, etc.
-- **Agent definitions**: including instructions, roles, domain knowledge, and which tools/agents they can call.
-- **Tools**: references to Coded Tools that contain Python functions or classes.
+* **LLM configuration**: which model to use, how to connect to it, etc.
+* **Agent definitions**: including instructions, roles, domain knowledge, and which tools/agents they can call.
+* **Tools**: references to Coded Tools that contain Python functions or classes.
 
 ---
 
@@ -144,9 +160,11 @@ A Data-Driven Agent Network is composed of multiple agents defined in a `.hocon`
 
 ### Single Agent Network Example
 
-Let’s start simple. We’ll build a minimal `.hocon` file containing only one agent – the Math Geek. This will show how to run a single-agent network that can handle basic math operations (though it won’t actually do the math by itself unless you also link to or embed the coded tool).
+Let’s start simple. We’ll build a minimal `.hocon` file containing only one agent – the Math Geek. This will show how to
+run a single-agent network that can handle basic math operations (though it won’t actually do the math by itself unless
+you also link to or embed the coded tool).
 
-#### Step 1: Create a file `registries/single_agent_example.hocon`:
+#### Step 1: Create a file `registries/single_agent_example.hocon`
 
 ```hocon
 {
@@ -187,9 +205,10 @@ Let’s start simple. We’ll build a minimal `.hocon` file containing only one 
 }
 ```
 
-**Note**: You can also automatically create simple agent networks using our example agent_network_designer agent network (see: [agent_network_designer.md](examples/agent_network_designer.md))
+**Note**: You can also automatically create simple agent networks using our example agent_network_designer agent network
+(see: [agent_network_designer.md](examples/agent_network_designer.md))
 
-#### Step 2: Run the server with this `.hocon` file. You can do so by:
+#### Step 2: Run the server with this `.hocon` file. You can do so by
 
 ```bash
 # Make sure your venv is active
@@ -198,10 +217,13 @@ export AGENT_TOOL_PATH="./coded_tools"
 python -m run
 ```
 
-Since this agent has no further sub-agents or coded tools, it will simply respond to queries but won’t be able to do actual calculations. It is functionally incomplete, but demonstrates a minimal single-agent network.
+Since this agent has no further sub-agents or coded tools, it will simply respond to queries but won’t be able to do
+actual calculations. It is functionally incomplete, but demonstrates a minimal single-agent network.
 
 ### Multi-Agent Network Example
-Let’s take a look at a more robust multi-agent network file: `advanced_calculator.hocon`. Below is a simplified variant with two agents: Math Geek and problem_formulator, plus a coded tool named `CalculatorTool`.
+
+Let’s take a look at a more robust multi-agent network file: `advanced_calculator.hocon`. Below is a simplified variant
+with two agents: Math Geek and problem_formulator, plus a coded tool named `CalculatorTool`.
 
 ```hocon
 {
@@ -281,20 +303,30 @@ Let’s take a look at a more robust multi-agent network file: `advanced_calcula
 }
 ```
 
-A few points to note about multi-agent networks: 
-- The snippet above is intentionally simplified. The actual `advanced_calculator.hocon` is more verbose and includes more detail (you can see the full example provided in this tutorial’s introduction).
-- The relationship between different agents can be defined in the hocon file itself. The down-chain agents can be defined in the `tools` section of each agent definition in a parent-child style. For example the `Math Geek` agent has access to the `problem_formulator` agent and the `problem_formulator` agent has access to the calculator agent via '`"tools": ["CalculatorTool"]`
-- It is possible to have the same down-chain agent available for several other agents at the same time.
-- Defining an agent network is highly flexible. We can define all sort of networks: Single Agent Network, Hierarchical Agent Network, DAG oriented Network, Single Agent with Coded Tools, Multiple Agents with Multiple Coded Tools.
+A few points to note about multi-agent networks:
 
+* The snippet above is intentionally simplified. The actual `advanced_calculator.hocon` is more verbose and includes
+more detail (you can see the full example provided in this tutorial’s introduction).
+* The relationship between different agents can be defined in the hocon file itself. The down-chain agents can be
+defined in the `tools` section of each agent definition in a parent-child style. For example the `Math Geek` agent has
+access to the `problem_formulator` agent and the `problem_formulator` agent has access to the calculator agent via
+'`"tools": ["CalculatorTool"]`
+* It is possible to have the same down-chain agent available for several other agents at the same time.
+* Defining an agent network is highly flexible. We can define all sort of networks: Single Agent Network, Hierarchical
+Agent Network, DAG oriented Network, Single Agent with Coded Tools, Multiple Agents with Multiple Coded Tools.
 
 ### LLM Config
 
-LLM configurations is a way to tell the agents which LLM (Large Language Model) to use in order to process a query sent to it.
+LLM configurations is a way to tell the agents which LLM (Large Language Model) to use in order to process a query sent
+to it.
 
-- LLM config is defined on top of the hocon file which implies that the same config is accessible to all the agents in the network by default.
-- It is possible to keep the default config and have separate config for each agent in the network. This means an agent that does not have a defined config always uses the default llm_config defined on top of the hocon file.
-- It is possible to have different LLMs for each of our agents for example, we can use `gpt-4o` for the front-man agent `Math Geek` and `llama3.1` for the `problem_formulator`. Here is the hocon example to show that:
+* LLM config is defined on top of the hocon file which implies that the same config is accessible to all the agents in
+the network by default.
+* It is possible to keep the default config and have separate config for each agent in the network. This means an agent
+that does not have a defined config always uses the default llm_config defined on top of the hocon file.
+* It is possible to have different LLMs for each of our agents for example, we can use `gpt-4o` for the front-man agent
+`Math Geek` and `llama3.1` for the `problem_formulator`. Here is the hocon example to show that:
+
 ```hocon
 {
     "llm_config": {
@@ -356,21 +388,25 @@ LLM configurations is a way to tell the agents which LLM (Large Language Model) 
 }
 ```
 
-#### Notes on `llm_config`:
-- The llm_config uses `model_name` as a parameter. We can use these models with openai, azure, ollama, anthropic and nvidia as a provider.
-- Here is a list of supported LLMs that can be used as `model_name` as of 26-Feb-2025:
-    - OpenAI: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k', 'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4-turbo-preview', 'gpt-4-1106-preview', 'gpt-4-vision-preview', 'gpt-4', 'gpt-4-32k']
-    - AzureChatOpenAI: ['azure-gpt-3.5-turbo', 'azure-gpt-4']
-    - Anthropic: ['claude-3-haiku', 'claude-3-sonnet', 'claude-3-opus', 'claude-2.1', 'claude-2.0', 'claude-instant-1.2']
-    - Ollama: ['llama2', 'llama3', 'llama3.1', 'llama3:70b', 'llava', 'mistral', 'mistral-nemo', 'mixtral', 'qwen2.5:14b', 'deepseek-r1:14b']
-    - ChatNvidia: ['nvidia-llama-3.1-405b-instruct', 'nvidia-llama-3.3-70b-instruct', 'nvidia-deepseek-r1']
-- Note that not all of these LLMs support function-calling, it is advisable to read the documentation before using any of the LLMs.
-- Each of these LLMs have several config params. Some of the common config parameters are: `model_name`, `temperature`, `max_tokens`.
-- For the available configuration parameters of the above chat models, please refer to [Langchain Chat Models](https://python.langchain.com/docs/concepts/chat_models/) and their [respective documentation](https://python.langchain.com/docs/integrations/chat/)
+#### Notes on `llm_config`
 
+* The llm_config uses `model_name` as a parameter. We can use these models with openai, azure, ollama, anthropic and
+nvidia as a provider.
+* Here is a list of supported LLMs that can be used as `model_name` as of 26-Feb-2025:
+  * OpenAI: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k', 'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4-turbo-preview',
+    'gpt-4-1106-preview', 'gpt-4-vision-preview', 'gpt-4', 'gpt-4-32k']
+  * AzureChatOpenAI: ['azure-gpt-3.5-turbo', 'azure-gpt-4']
+  * Anthropic: ['claude-3-haiku', 'claude-3-sonnet', 'claude-3-opus', 'claude-2.1', 'claude-2.0', 'claude-instant-1.2']
+  * Ollama: ['llama2', 'llama3', 'llama3.1', 'llama3:70b', 'llava', 'mistral', 'mistral-nemo', 'mixtral', 'qwen2.5:14b',
+  'deepseek-r1:14b']
+  * ChatNvidia: ['nvidia-llama-3.1-405b-instruct', 'nvidia-llama-3.3-70b-instruct', 'nvidia-deepseek-r1']
+* Note that not all of these LLMs support function-calling, it is advisable to read the documentation before using any
+of the LLMs.
+* Each of these LLMs have several config params. Some of the common config parameters are: `model_name`, `temperature`, `max_tokens`.
+* For the available configuration parameters of the above chat models, please refer to [Langchain Chat Models](
+  https://python.langchain.com/docs/concepts/chat_models/) and their [respective documentation](https://python.langchain.com/docs/integrations/chat/)
 
-
-#### Running the multi-agent network:
+#### Running the multi-agent network
 
 ```bash
 export AGENT_MANIFEST_FILE="./registries/manifest.hocon"
@@ -378,12 +414,15 @@ export AGENT_TOOL_PATH="./coded_tools"
 python -m run
 ```
 
-Now, the top-level **Math Geek** agent will parse user queries, pass them to **problem_formulator**, which in turn calls the **CalculatorTool**. The final answer is then relayed back to the user.
+Now, the top-level **Math Geek** agent will parse user queries, pass them to **problem_formulator**, which in turn calls
+the **CalculatorTool**. The final answer is then relayed back to the user.
 
---- 
+---
 
 ## 6. How to Switch LLMs Using the HOCON File
-Because **Neuro AI Multi-Agent Accelerator** uses `neuro-san`, it is LLM-agnostic, you can switch to different model providers by changing the `llm_config` in your `.hocon` file.
+
+Because **Neuro AI Multi-Agent Accelerator** uses `neuro-san`, it is LLM-agnostic, you can switch to different model
+providers by changing the `llm_config` in your `.hocon` file.
 
 ```hocon
 "llm_config": {
@@ -395,6 +434,7 @@ Because **Neuro AI Multi-Agent Accelerator** uses `neuro-san`, it is LLM-agnosti
 **Note**: The `base_url` config parameter is not needed when running `ollama` on a local machine or a laptop.
 
 ### Setting Up Ollama Locally
+
 Ollama is a local LLM runner for Mac (and also works on Windows via Docker or other means).
 
 1. Download and Install Ollama (follow official instructions from [ollama.com](https://ollama.com/)).
@@ -405,10 +445,12 @@ On macOS, that might look like:
 ```bash
 ollama serve --port 11434
 ```
+
 On Windows, you might use Docker:
 Refer to the [docker hub ollama documentation](https://hub.docker.com/r/ollama/ollama) on how to set up a docker instance.
 
 ### Adding Endpoint URL for Any Cloud-Hosted LLM
+
 To direct the calls to your local Ollama, or a cloud-hosted model endpoint, add:
 
 ```hocon
@@ -418,9 +460,12 @@ To direct the calls to your local Ollama, or a cloud-hosted model endpoint, add:
 }
 ```
 
-If you use other providers (e.g., Anthropic, OpenAI, Azure, etc.), simply adjust these values to match the respective endpoints and model names. Be sure to set any necessary environment variables (e.g., `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `ANTHROPIC_API_URL`, `AZURE_OPENAI_ENDPOINT`, etc.).
+If you use other providers (e.g., Anthropic, OpenAI, Azure, etc.), simply adjust these values to match the respective
+endpoints and model names. Be sure to set any necessary environment variables (e.g., `OPENAI_API_KEY`,
+`ANTHROPIC_API_KEY`, `ANTHROPIC_API_URL`, `AZURE_OPENAI_ENDPOINT`, etc.).
 
-**Note**: Please check [langchain api reference](https://python.langchain.com/api_reference/reference.html) for supported parameters.
+**Note**: Please check [langchain api reference](https://python.langchain.com/api_reference/reference.html) for
+supported parameters.
 
 ---
 
@@ -428,20 +473,23 @@ If you use other providers (e.g., Anthropic, OpenAI, Azure, etc.), simply adjust
 
 Neuro-San supports two types of tools that agents can call during execution:
 
-1. **Custom Tools** – Built using Neuro-San’s `CodedTool` interface. These allow you to define your own logic in Python and integrate it with the agent.
+1. **Custom Tools** – Built using Neuro-San’s `CodedTool` interface. These allow you to define your own logic in Python
+and integrate it with the agent.
 2. **Prebuilt Tools (via toolbox)** – Tools that are already implemented and configured for reuse. These include:
 
 LangChain’s `BaseTool` implementations (e.g., `bing_search`, `requests_get`)
 
 Shared `CodedTool` implementations that are registered in the toolbox config file
 
-Use **Custom Tools** when your application needs behavior that isn't covered by the prebuilt options — such as accessing APIs, performing custom calculations, or interacting with internal systems.
+Use **Custom Tools** when your application needs behavior that isn't covered by the prebuilt options — such as accessing
+APIs, performing custom calculations, or interacting with internal systems.
 
 ### Custom Tools
 
 In Neuro-San, custom tool integration is done through **Coded Tools** — Python class that implement the `CodedTool` interface.
 
-These tools allow agents to perform specialized operations like API calls, database queries, or computations that go beyond the LLM’s native capabilities.
+These tools allow agents to perform specialized operations like API calls, database queries, or computations that go
+beyond the LLM’s native capabilities.
 
 To integrate a custom tool, **you must define it in both HOCON and python files**:
 
@@ -456,13 +504,13 @@ Each tool must define a `function` block, and reference a Python `class`.
 >The **LLM provides values** for inputs defined in `function.parameters`.  
 However, users can **manually provide additional arguments** using the `args` field.
 
-- **`function`**
-  - `description`: Describes when and how to use the tool.
-  - `parameters`: Defines input arguments. Optional if no parameters are required.
-- **`class`**
-  - Python class reference in `module.Class` format.
-- **`args`**
-  - User-specified arguments that override or supplement LLM inputs. Optional.
+* **`function`**
+  * `description`: Describes when and how to use the tool.
+  * `parameters`: Defines input arguments. Optional if no parameters are required.
+* **`class`**
+  * Python class reference in `module.Class` format.
+* **`args`**
+  * User-specified arguments that override or supplement LLM inputs. Optional.
 
 ---
 
@@ -471,9 +519,9 @@ However, users can **manually provide additional arguments** using the `args` fi
 Neuro-San supports the following data types:  
 `string`, `int`, `float`, `boolean`, `array` (list), `object` (dict)
 
-- `array` must include an `items` field to define the element type
-- `object` must include a `properties` field
-- The top-level `parameters` must always be an `object`
+* `array` must include an `items` field to define the element type
+* `object` must include a `properties` field
+* The top-level `parameters` must always be an `object`
 
 | Field       | Description                                                                 |
 |-------------|-----------------------------------------------------------------------------|
@@ -485,31 +533,33 @@ Neuro-San supports the following data types:
 
 #### Defining Tool in Python (Coded Tool)
 
-- Inherit from `CodedTool`
-- Implement either `invoke` or `async_invoke`  
+* Inherit from `CodedTool`
+* Implement either `invoke` or `async_invoke`
   > Neuro-San prefers `async_invoke`, and falls back to `invoke` if unavailable
-- Access LLM and user-provided arguments via `args`
+* Access LLM and user-provided arguments via `args`
 
 #### Tool Path
-- The tool's path can be set via the environment variable:  
+
+* The tool's path can be set via the environment variable:
   `AGENT_TOOL_PATH`
 
-- If not set, the default path is:  
+* If not set, the default path is:
   `neuro_san/coded_tools`
 
-- A tool module placed in a folder that **matches the HOCON file name** (excluding `.hocon`)  
+* A tool module placed in a folder that **matches the HOCON file name** (excluding `.hocon`)
   will be **scoped only to that specific agent network**.
 
-- To **reuse a tool across multiple networks**, place its module directly in the configured tool path (`AGENT_TOOL_PATH`).
+* To **reuse a tool across multiple networks**, place its module directly in the configured tool path (`AGENT_TOOL_PATH`).
 
-- This allows you to choose between:
-  - **Local tools** tied to one agent network, and  
-  - **Shared tools** accessible by multiple networks.
+* This allows you to choose between:
+  * **Local tools** tied to one agent network, and
+  * **Shared tools** accessible by multiple networks.
 
 ---
 
 #### Example 1: Tool with parameters
-**HOCON**
+
+##### HOCON
 
 ```json
 {
@@ -546,7 +596,8 @@ Neuro-San supports the following data types:
 }
 ```
 
-**Python**
+##### Python
+
 ```python
 class WeatherTool(CodedTool):
 
@@ -559,10 +610,12 @@ class WeatherTool(CodedTool):
         
         return f"It is always sunny in {location}."
 ```
+
 ---
 
 #### Example 2: Tool with no parameters
-**HOCON**
+
+##### HOCON (with no parameters)
 
 ```json
 {
@@ -586,7 +639,8 @@ class WeatherTool(CodedTool):
 }
 ```
 
-**Python**
+##### Python (with no parameters)
+
 ```python
 class DateTime(CodedTool):
 
@@ -599,20 +653,25 @@ class DateTime(CodedTool):
 
 ### Prebuilt Tools (via Toolbox)
 
-Neuro-San includes a powerful **Toolbox** system that allows you to reuse existing tools across agent networks without redefining them every time.
+Neuro-San includes a powerful **Toolbox** system that allows you to reuse existing tools across agent networks without
+redefining them every time.
 
 These tools are already integrated and can be plugged into agents directly via configuration.
 
 Toolbox tools come in two forms:
 
-- LangChain Tools – Built-in tools like bing_search, requests_get, etc., implemented using LangChain’s BaseTool.
+* LangChain Tools – Built-in tools like bing_search, requests_get, etc., implemented using LangChain’s BaseTool.
 
-- Shared Coded Tools – Predefined tools using the CodedTool interface (Python classes) that are already available and registered in your Toolbox config.
+* Shared Coded Tools – Predefined tools using the CodedTool interface (Python classes) that are already available and
+registered in your Toolbox config.
 
-These are called prebuilt because you can use them right away without defining their logic or schema again in the agent network config.
+These are called prebuilt because you can use them right away without defining their logic or schema again in the agent
+network config.
 
 #### Using Toolbox Tools in Agent Network
+
 To use any tool from the Toolbox, simply reference it in the toolbox field of your agent config:
+
 ```json
 {
   "name": "search_agent",
@@ -620,13 +679,19 @@ To use any tool from the Toolbox, simply reference it in the toolbox field of yo
   "toolbox": "bing_search"
 }
 ```
- > You do **not** need to define `function`, `parameters`, or `class` for toolbox tools — that information is already included in the langchain tools class or the Toolbox config file.
+
+ > You do **not** need to define `function`, `parameters`, or `class` for toolbox tools — that information is already
+ included in the langchain tools class or the Toolbox config file.
 
 #### Toolbox Configuration
-Toolbox tools are defined in a centralized configuration file.
-This [file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox/toolbox_info.hocon) includes definitions for both LangChain tools and shared coded tools. If the tool is defined in the toolbox config, you don’t need to redefine it in the agent network — just reference it by name.
 
-**LangChain Example**
+Toolbox tools are defined in a centralized configuration file.
+This [file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox/toolbox_info.hocon)
+includes definitions for both LangChain tools and shared coded tools. If the tool is defined in the toolbox config, you
+don’t need to redefine it in the agent network — just reference it by name.
+
+##### LangChain Example
+
 ```json
 "bing_search": {
   "class": "langchain_community.tools.bing_search.BingSearchResults",
@@ -638,7 +703,8 @@ This [file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/in
 }
 ```
 
-**Coded Tool Example**
+##### Coded Tool Example
+
 ```json
 "rag_retriever": {
   "class": "rag.Rag",
@@ -655,62 +721,72 @@ This [file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/in
 ```
 
 #### Extending the Toolbox
+
 If you want to add your own tools to the Toolbox (so they can be reused easily):
 
-- For coded tools, create your tool using the CodedTool interface in Python.
+* For coded tools, create your tool using the CodedTool interface in Python.
 
-- Add an entry to your toolbox config file similar to examples in the previous section.
+* Add an entry to your toolbox config file similar to examples in the previous section.
 
-- Set the `AGENT_TOOLBOX_INFO_FILE` environment variable to point to this config.
+* Set the `AGENT_TOOLBOX_INFO_FILE` environment variable to point to this config.
 
 ---
 
 ## 8. How to Access the Logs
+
 By default, when you run:
 
 ```bash
 python -m run
 ```
 
-- The server logs go to logs/server.log.
-- The client (web UI) logs go to logs/client.log.
+* The server logs go to logs/server.log.
+* The client (web UI) logs go to logs/client.log.
 
 Additionally, you will see logs on your terminal. Checking these files is useful for:
-- Debugging agent interactions
-- Viewing any errors or exceptions
-- Auditing how the queries are being orchestrated
+
+* Debugging agent interactions
+* Viewing any errors or exceptions
+* Auditing how the queries are being orchestrated
 
 ---
 
 ## 9. How to Stop the servers
+
 When you are running the server in the foreground (via `python -m run`), simply press:
 
-- `CTRL + C` on Windows/Mac/Linux terminals
-- This will terminate both the Flask web client server and the `neuro_san` server gracefully.
+* `CTRL + C` on Windows/Mac/Linux terminals
+* This will terminate both the Flask web client server and the `neuro_san` server gracefully.
 
 If you launched them separately, you would stop each process individually (again by `CTRL + C` or sending a kill signal).
 
 ---
 
 ## 10. Key Aspects of Neuro AI Multi-Agent Accelerator
-- **Flexibility of Use**: Define any agent network structure using `.hocon` files, easily adjustable for different use cases and tasks.
-- **LLM Agnostic**: Swap between OpenAI, Anthropic, Ollama, Azure, or your own custom model endpoints with minimal configuration changes.
-- **Cloud Agnostic**: Host your solutions on any cloud or on-prem python environment.
-- **Tool/Function Calling**: Agents can systematically call coded tools or other sub-agents, enabling powerful, modular, and autonomous decision workflows.
-- **Hierarchical Agent Networks**: You can create nested agent networks to handle complex tasks in a structured manner.
+
+* **Flexibility of Use**: Define any agent network structure using `.hocon` files, easily adjustable for different use
+cases and tasks.
+* **LLM Agnostic**: Swap between OpenAI, Anthropic, Ollama, Azure, or your own custom model endpoints with minimal
+configuration changes.
+* **Cloud Agnostic**: Host your solutions on any cloud or on-prem python environment.
+* **Tool/Function Calling**: Agents can systematically call coded tools or other sub-agents, enabling powerful, modular,
+and autonomous decision workflows.
+* **Hierarchical Agent Networks**: You can create nested agent networks to handle complex tasks in a structured manner.
 
 ---
 
 ## 11. End Notes
+
 You’ve now seen how to:
 
-- Set up a Python environment and install the requirements.
-- Create single-agent and multi-agent networks in `.hocon` files.
-- Switch LLM providers (e.g., Ollama, Anthropic, OpenAI).
-- Add coded tools to expand agent capabilities.
-- Run the server and Flask client.
-- Check logs and stop the server.
+* Set up a Python environment and install the requirements.
+* Create single-agent and multi-agent networks in `.hocon` files.
+* Switch LLM providers (e.g., Ollama, Anthropic, OpenAI).
+* Add coded tools to expand agent capabilities.
+* Run the server and Flask client.
+* Check logs and stop the server.
 
-Feel free to be creative, explore adding more complex agents, linking them in various ways, or building advanced coded tools. We hope you find Neuro AI Multi-Agent Accelerator intuitive, powerful, and adaptable to your needs.
+Feel free to be creative, explore adding more complex agents, linking them in various ways, or building advanced coded
+tools. We hope you find Neuro AI Multi-Agent Accelerator intuitive, powerful, and adaptable to your needs.
 
 ---

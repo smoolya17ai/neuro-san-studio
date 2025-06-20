@@ -39,6 +39,15 @@ lint: ## Run code formatting and linting tools on source
 	flake8 run.py apps/ coded_tools/
 	pylint run.py apps/ coded_tools/
 
+    # Only run markdown linting if Docker is installed
+	@echo "🔍 Checking for Docker..."
+	@if command -v docker >/dev/null 2>&1; then \
+		echo "✅ Docker is installed."; \
+		podman run -v ${PWD}:/workdir ghcr.io/igorshubovych/markdownlint-cli:latest "**/*.md" --ignore venv; \
+	else \
+		echo "❌ Docker is NOT installed."; \
+	fi
+
 lint-tests: ## Run code formatting and linting tools on tests
 	@if [ -z "$$VIRTUAL_ENV" ]; then \
 		echo ""; \

@@ -88,7 +88,9 @@ a **tool-calling** LLM that runs locally with Ollama.
 Examples that demonstrate how to integrate external tools and services.
 
 ### Gmail Assistant
-[Gmail Assistant](./examples/gmail.md) is a conversational agent that helps users manage their Gmail inbox using natural language. It can search, read, draft, and send emails by delegating tasks to specialized tools in the Gmail Toolkit.
+
+[Gmail Assistant](./examples/gmail.md) is a conversational agent that helps users manage their Gmail inbox using natural
+language. It can search, read, draft, and send emails by delegating tasks to specialized tools in the Gmail Toolkit.
 
 **Tags:** `tool`, `Gmail`, `API`
 
@@ -113,8 +115,8 @@ interact with different datastore connectors on Google Cloud.
 
 ### MCP BMI STREAMABLE HTTP
 
-[MCP BMI STREAMABLE HTTP](./examples/mcp_bmi_streamable_http.md) is an agent that calls a tool in MCP server via streamable http to
-calculate BMI. It serves as an example of how to connect to MCP servers in coded tools.
+[MCP BMI STREAMABLE HTTP](./examples/mcp_bmi_streamable_http.md) is an agent that calls a tool in MCP server via
+streamable http to calculate BMI. It serves as an example of how to connect to MCP servers in coded tools.
 
 **Tags:** `tool`, `MCP`
 
@@ -136,7 +138,8 @@ PDF retrieval tool, enabling accurate responses from static documents.
 
 ### Confluence RAG Assistant
 
-[Confluence RAG Assistant](./examples/confluence_rag.md) answers user queries using RAG over Confluence pages by loading page content (and optional attachments), building a vector store, and retrieving relevant info to respond.
+[Confluence RAG Assistant](./examples/confluence_rag.md) answers user queries using RAG over Confluence pages by loading
+page content (and optional attachments), building a vector store, and retrieving relevant info to respond.
 
 **Tags** `tool`, `RAG`
 
@@ -225,7 +228,9 @@ your registries directory and give you some usage examples.
 
 ### CRUSE
 
-[CRUSE](examples/cruse.md) is an agent that can dynamically attach to any agent in your registry and make it run with a context reactive user experience. This is a good example of how to switch down-chain agents dynamically using coded tools and sly_data.
+[CRUSE](examples/cruse.md) is an agent that can dynamically attach to any agent in your registry and make it run with a
+context reactive user experience. This is a good example of how to switch down-chain agents dynamically using coded
+tools and sly_data.
 
 **Tags:** `tool`, `ui`, `app`
 
