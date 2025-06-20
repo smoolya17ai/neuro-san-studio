@@ -14,19 +14,19 @@ The **Confluence RAG Assistant** answers user queries using Retrieval-Augmented 
 
 This agent is **disabled by default**. To enable and use it:
 
-- Installing the required package:
+1. Installing the required package:
 
-  ```bash
-  pip install atlassian-python-api
-  ```
+   ```bash
+    pip install atlassian-python-api
+    ```
 
-- Install additional dependencies depending on the attachment types (e.g., PDFs, images, Office files). These may include
+2. Install additional dependencies depending on the attachment types (e.g., PDFs, images, Office files). These may include
 both Python packages and system tools. See: [ConfluenceLoader documentation](https://python.langchain.com/api_reference/_modules/langchain_community/document_loaders/confluence.html#ConfluenceLoader)
 
-- Set authentication credentials, either in the HOCON config file or via environment variables:
+3. Set authentication credentials, either in the HOCON config file or via environment variables:
 
-  - HOCON: `username` and `api_key`
-  - Environment variable: `JIRA_USERNAME` and `JIRA_API_TOKEN`
+    - HOCON: `username` and `api_key`
+    - Environment variable: `JIRA_USERNAME` and `JIRA_API_TOKEN`
 
 ---
 

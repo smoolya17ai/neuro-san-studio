@@ -33,11 +33,11 @@ API details.
 
 This agent is **disabled by default**. To test it,
 
-```bash
-pip install -U langchain-google-community\[gmail\]
-```
+- ```bash
+  pip install -U langchain-google-community\[gmail\]
+  ```
 
-Get `credentials.json` by following the instructions from [authorize_credentials_for_a_desktop_application.](
+- Get `credentials.json` by following the instructions from [authorize_credentials_for_a_desktop_application.](
     https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application)
     and place it at the top level of the repo.
   

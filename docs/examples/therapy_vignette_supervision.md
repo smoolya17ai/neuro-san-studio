@@ -34,7 +34,7 @@ barriers, and is also the primary caregiver for their two young children at home
 
 ### AI (therapy_supervisor)
 
-```text
+```markdown
 1. **Diagnostic Assessment**: Ali and Maryam are experiencing significant relationship distress, characterized by
 frequent arguments, communication breakdowns, and a lack of intimacy. The challenges have impacted their parenting and
 work life, and cultural differences, religious practices, and family dynamics are contributing factors. Maryam may be

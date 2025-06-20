@@ -34,7 +34,7 @@ I recently got married
 
 ### AI (intranet_agents)
 
-```text
+```markdown
 Congratulations on your recent marriage! Here are some ways I can assist you across different areas:
 
 IT and Security:
