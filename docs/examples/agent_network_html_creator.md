@@ -28,6 +28,7 @@ To run this agent, ensure the following:
 
 ### Tool: `agent_network_html_generator`
 - Creates an HTML-based graph representation of the specified agent network.
+- If the `agent_name` is not provided or the corresponding file is invalid or missing, the tool will attempt to retrieve the name from `sly_data`.
 - Automatically opens the generated HTML file in the Chrome browser.
 
 ---
