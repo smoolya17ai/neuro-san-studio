@@ -218,6 +218,8 @@ class GetAgentNetworkHocon(CodedTool):
             return "Error: No network in sly data!"
 
         the_agent_network_name: str = args.get("agent_network_name", "")
+        # Add the agent network name into sly data.
+        sly_data["agent_name"] = the_agent_network_name
         if the_agent_network_name == "":
             return "Error: No agent_name provided."
 

@@ -4,7 +4,7 @@ The **Agent Network Architect** is a modular, multi-agent system that automates 
 - Invokes the external `agent_network_designer` agent to generate a `.hocon` configuration file.
 - Uses the `agent_network_html_generator` toolbox tool to create an HTML visualization of the network.
 - Demonstrates the functionality of the generated network by calling the `NsflowSelenium` coded tool.
-- Sends an email with the `.hocon` and HTML files attached using the `send_gmail_message_with_attachment` toolbox tool.
+- Sends an email with the `.hocon` and HTML files attached using the `send_gmail_hocon_html` coded tool.
 
 ---
 
@@ -70,8 +70,12 @@ To run this agent, ensure the following are installed and configured:
    - Wait times for each step (element detection, input submission, browser close) are configurable in the `.hocon` file.
    - Returns the query and response to the frontman.
 
-4. **gmail_handler_with_attachment**
-   - Uses the toolbox tool `send_gmail_message_with_attachment` to send an HTML email with the `.hocon` and `.html` files attached.
+4. **email_sender**
+   - Uses the coded tool `send_gmail_hocon_html` to send an HTML email with the `.hocon` and `.html` files attached.
+
+> **Note:**
+    For tools that require an agent_name, if the corresponding .hocon file does not exist, the system will attempt to fall back to the agent_name provided in sly_data.
+    Similarly, if attachment paths (e.g. .hocon, .html files) are not explicitly provided or the files do not exist, the system will try to construct them based on the agent_name from sly_data.
 
 ---
 

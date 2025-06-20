@@ -13,7 +13,7 @@
     # 1. Calls "agent_network_designer" as an external agent to generate a .hocon configuration file.
     # 2. Uses the "agent_network_html_generator" tool (from the toolbox) to create an HTML visualization of the network.
     # 3. Demonstrates how the generated network works by calling the coded tool "NsflowSelenium".
-    # 4. Sends an email with the .hocon and HTML files attached using the "gmail_with_attachment" tool (also from the toolbox).
+    # 4. Sends an email with the .hocon and HTML files attached using the "send_gmail_hocon_html" coded tool.
     #
     # Requirements:
     # - neuro-san>=0.5.38
@@ -80,31 +80,28 @@ Always ask for clarification if the user's intent is ambiguous.
 """,
             "allow": {
                 "to_upstream": {
-                    "sly_data": {
-                        "AutomaticallyDesignedAgentNetwork": true,
-                    }
+                    "sly_data": ["AutomaticallyDesignedAgentNetwork", "agent_name"]
                 },
                 "from_downstream": {
-                    "sly_data": {
-                        "AutomaticallyDesignedAgentNetwork": true,
-                    }
+                    "sly_data": ["AutomaticallyDesignedAgentNetwork", "agent_name"]
                 },
                 "to_downstream": {
-                    "sly_data": {
-                        "AutomaticallyDesignedAgentNetwork": true,
-                    }
+                    "sly_data": ["AutomaticallyDesignedAgentNetwork", "agent_name"]
                 }
             },
-            "tools": ["/agent_network_designer", "agent_network_html_generator", "agent_network_tester", "gmail_handler_with_attachment"]
+            "tools": ["/agent_network_designer", "agent_network_html_generator", "agent_network_tester", "email_sender"]
         },
 
         {
             "name": "agent_network_html_generator",
+            # Generates an HTML file for the specified "agent_name". Falls back to sly_data if the HOCON file is missing or invalid.
             "toolbox": "agent_network_html_generator"
         },
 
         {
             "name": "agent_network_tester",
+            # Run NSFlow for the specified "agent_name" with the given "query". Falls back to using "agent_name" from sly_data if no valid HOCON file is found.
+            "class": "nsflow_selenium.NsflowSelenium"
             "function": {
                 "description": "Test the agent network by sending it a test or sample query.",
                 "parameters": {
@@ -122,7 +119,6 @@ Always ask for clarification if the user's intent is ambiguous.
                     "required": ["agent_name", "query"]
                 }
             },
-            "class": "nsflow_selenium.NsflowSelenium"
             "args": {
                 # User-defined arguments for the tool
 
@@ -145,12 +141,57 @@ Always ask for clarification if the user's intent is ambiguous.
         },
 
         {
-            "name": "gmail_handler_with_attachment",
-
-            # "send_gmail_message_with_attachment" is a coded tool from the toolbox located at toolbox/toolbox_info.hocon
-            # This tool is solely for sending an email with attachment.
-            # The code of this tool can be found at coded_tools/gmail_attachment.py
-            "toolbox": "send_gmail_message_with_attachment"
+            "name": "email_sender",
+            # "send_gmail_hocon_html" is a coded tool that send email with attachment.
+            # This tool is mainlly designed for sending an email with hocon and html as attachment since it will fallback
+            # to sending the hocon and html file of the agent network if the attachment provided in args is invalid.
+            # The code of this tool can be found at coded_tools/agent_network_architect/send_gmail_hocon_html.py
+            "class": "send_gmail_hocon_html.SendGmailHoconHtml"
+            "function": {
+                "description": "Send an email to specified email addresses",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "to": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of recipient email addresses"
+                        },
+                        "attachment_paths": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of absolute paths of the attached files"
+                        },
+                        "cc": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of CC email addresses"
+                        },
+                        "bcc": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of BCC email addresses"
+                        },
+                        "subject": {
+                            "type": "string",
+                            "description": "Subject of the email"
+                        },
+                        "message": {
+                            "type": "string",
+                            "description": "Message or body of the email"
+                        }
+                    },
+                    "required": ["to", "attachment_paths"]
+                }
+            }
             "args": {
 
                 # Set "html" to true to send message as html.

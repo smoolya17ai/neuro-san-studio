@@ -46,9 +46,7 @@ relevant workflows and responsible nodes. Call your network_generator tool for t
             """,
             "allow": {
                 "to_upstream": {
-                    "sly_data": {
-                        "AutomaticallyDesignedAgentNetwork": true,
-                    }
+                    "sly_data": ["AutomaticallyDesignedAgentNetwork", "agent_name"]
                 }
             },
            "tools": ["network_generator", "query_generator", "instruction_refiner", "produce_agent_network_hocon"]

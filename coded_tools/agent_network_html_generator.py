@@ -11,6 +11,7 @@
 
 import asyncio
 import json
+import os
 import webbrowser
 from typing import Any
 from typing import Dict
@@ -48,16 +49,23 @@ class AgentNetworkHtmlGenerator(CodedTool):
             once.
 
             Keys expected for this implementation are:
-                None
+                "agent_name"
         :return: successful sent message ID or error message
         """
 
-        # Extract arguments from the input dictionary
+        # Try to get "agent_name" from args; if the corresponding HOCON file doesn't exist, fall back to sly_data.
         agent_name: str = args.get("agent_name")
+        hocon_file = f"registries/{agent_name}.hocon"
 
-        # Validate presence of required inputs
-        if not agent_name:
-            return "Error: No agent_name provided."
+        if not os.path.isfile(hocon_file):
+            print(f"Cannot find agent network HOCON file for '{agent_name}' from args.")
+            print("Attempting to get 'agent_name' from sly_data instead.")
+            agent_name = sly_data.get("agent_name")
+            hocon_file = f"registries/{agent_name}.hocon"
+
+        # Final validation: ensure agent_name is set and the file exists.
+        if not agent_name or not os.path.isfile(hocon_file):
+            return f"Error: HOCON file not found for agent '{agent_name}'. Expected at: registries/{agent_name}.hocon"
 
         print(f"Generating HTML file for {agent_name}")
 
