@@ -37,7 +37,7 @@ Here are a few examples ordered by level of complexity.
     * [Log Analyzer](#log-analyzer)
 <!-- TOC -->
 
-## 🔰 Basic Examples 
+## 🔰 Basic Examples
 
 Introductory examples designed to help users get started with Neuro SAN.
 
