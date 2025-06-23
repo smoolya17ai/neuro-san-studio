@@ -95,7 +95,10 @@ language. It can search, read, draft, and send emails by delegating tasks to spe
 **Tags:** `tool`, `Gmail`, `API`
 
 ### Agent Network HTML Creator
-[Agent Network HTML Creator](./examples/agent_network_html_creator.md) visualizes the structure of a specified multi-agent system by generating an interactive HTML graph and opening it in Chrome. It helps users quickly understand the relationships and roles of agents within the network.
+
+[Agent Network HTML Creator](./examples/agent_network_html_creator.md) visualizes the structure of a specified multi-agent
+system by generating an interactive HTML graph and opening it in Chrome. It helps users quickly understand the relationships
+and roles of agents within the network.
 
 **Tags:** `tool`, `HTML`
 
@@ -216,9 +219,12 @@ your registries directory and give you some usage examples.
 
 ### Agent Network Architect
 
-[Agent Network Architect](examples/agent_network_architect.md) is an automated, multi-agent system that designs, visualizes, tests, and shares agent networks. It begins by generating a .hocon configuration file using an external designer agent, then creates an interactive HTML graph of the network, runs a live demonstration using Selenium with Nsflow, and optionally emails the results. This network streamlines the end-to-end workflow for building and showcasing agent systems.
+[Agent Network Architect](examples/agent_network_architect.md) is an automated, multi-agent system that designs, visualizes,
+tests, and shares agent networks. It begins by generating a .hocon configuration file using an external designer agent, then
+creates an interactive HTML graph of the network, runs a live demonstration using Selenium with Nsflow, and optionally emails
+the results. This network streamlines the end-to-end workflow for building and showcasing agent systems.
 
-**Tags:** `tool`, `external_network`, `HTML`, `nsflow`, `Gmail` 
+**Tags:** `tool`, `external_network`, `HTML`, `nsflow`, `Gmail`
 
 ### KWIK Agents
 

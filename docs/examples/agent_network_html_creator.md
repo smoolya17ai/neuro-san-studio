@@ -1,6 +1,7 @@
 # Agent Network HTML Creator
 
-The **Agent Network HTML Creator** generates an HTML visualization of a specified agent network and opens it in the Chrome browser.
+The **Agent Network HTML Creator** generates an HTML visualization of a specified agent network and opens it in the Chrome
+browser.
 
 ---
 
@@ -23,12 +24,15 @@ To run this agent, ensure the following:
 ## Architecture Overview
 
 ### Frontman Agent: **Agent Network HTML Creator**
+
 - Acts as the main entry point for user interactions.
 - Extracts the `agent_name` from user input and delegates the task to the tool `agent_network_html_generator`.
 
 ### Tool: `agent_network_html_generator`
+
 - Creates an HTML-based graph representation of the specified agent network.
-- If the `agent_name` is not provided or the corresponding file is invalid or missing, the tool will attempt to retrieve the name from `sly_data`.
+- If the `agent_name` is not provided or the corresponding file is invalid or missing, the tool will attempt to retrieve
+the name from `sly_data`.
 - Automatically opens the generated HTML file in the Chrome browser.
 
 ---
