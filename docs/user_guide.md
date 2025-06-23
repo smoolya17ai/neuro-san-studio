@@ -212,6 +212,7 @@ For example:
 ```hocon
 "llm_config": {
         "model_name": "azure-gpt-4o",
+        "openai_api_key": "your_api_key"
         "openai_api_version": "your_api_version",
         "azure_endpoint": "your_end_point",
         "deployment_name": "your_deployment_name"
@@ -221,12 +222,15 @@ For example:
 You can set some of these as environment variables or add them in your .env file in order to use Azure OpenAI:  
 AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"  <!-- markdownlint-disable-line MD034 -->
 OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"  
-OPENAI_API_KEY="your Azure OpenAI API key"  
+AZURE_OPENAI_API_KEY="your Azure OpenAI API key"  
 
+> **Tip**: While `OPENAI_API_KEY` may still be recognized for backward compatibility,
+> it's recommended to use `AZURE_OPENAI_API_KEY` to avoid conflicts and align with upcoming changes in LangChain.
+>
 > **Note**: Some Azure OpenAI deployments may have a lower `max_tokens` limit than the default associated with the
-`model_name` in Neuro-San. If the `max_tokens` value in your `llm_config` exceeds the actual limit of the model
-specified by `deployment_name`, the LLM will fail to return a response — even if the prompt itself is within limits.
-To fix this, explicitly set a `max_tokens` value in your `llm_config` that matches the deployed model’s actual capacity.
+> `model_name` in Neuro-San. If the `max_tokens` value in your `llm_config` exceeds the actual limit of the model
+> specified by `deployment_name`, the LLM will fail to return a response — even if the prompt itself is within limits.
+> To fix this, explicitly set a `max_tokens` value in your `llm_config` that matches the deployed model’s actual capacity.
 
 See [Azure OpenAI Quickstart](
     https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=keyless%2Ctypescript-keyless%2Cpython-new%2Ccommand-line&pivots=programming-language-python) for more information. <!-- markdownlint-disable-line MD013 -->
