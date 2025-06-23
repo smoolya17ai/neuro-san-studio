@@ -23,7 +23,7 @@ We use [markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli) to 
 this [yaml file](https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml) for all the configuration
 options.
 
-You can run `markdownlint-cli` in two ways:
+You can run `markdownlint-cli` in three ways:
 
 - Using a Docker container
 
@@ -48,7 +48,14 @@ You can run `markdownlint-cli` in two ways:
     markdownlint --help
     ```
 
-`make lint` command invokes `markdownlint-cli` via a Docker container.
+- If using VSCode IDE, using VSCode `markdownlint` extension
+
+  - Install `markdownlint` extension by following these [instructions](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
+
+  - Any lines that violate one of markdownlint's rules will trigger a Warning in the editor. Warnings are indicated by a
+  wavy green underline
+
+`make lint` command invokes `markdownlint-cli` via an installed version of `markdownlint-cli`.
 
 ## Python Project Configuration
 
