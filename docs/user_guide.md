@@ -224,7 +224,8 @@ AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"  <!-- markdownlin
 OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"  
 AZURE_OPENAI_API_KEY="your Azure OpenAI API key"  
 
-> **Tip**: While `OPENAI_API_KEY` may still be recognized for backward compatibility, it's recommended to use `AZURE_OPENAI_API_KEY` to avoid conflicts and align with upcoming changes in LangChain.
+> **Tip**: While `OPENAI_API_KEY` may still be recognized for backward compatibility, 
+it's recommended to use `AZURE_OPENAI_API_KEY` to avoid conflicts and align with upcoming changes in LangChain.
 
 > **Note**: Some Azure OpenAI deployments may have a lower `max_tokens` limit than the default associated with the
 `model_name` in Neuro-San. If the `max_tokens` value in your `llm_config` exceeds the actual limit of the model
