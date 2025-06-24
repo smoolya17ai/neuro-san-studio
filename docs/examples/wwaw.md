@@ -38,5 +38,3 @@ and automatically creates intermediary agents to manage agent fanout.
 Pages that are smaller than 200 characters are skipped.
 
 The agent names are shortened.
-
----
