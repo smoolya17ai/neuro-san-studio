@@ -35,7 +35,7 @@ Here are a few examples ordered by level of complexity.
     * [CRUSE](#cruse)
     * [Conscious Assistant](#conscious-assistant)
     * [Log Analyzer](#log-analyzer)
-    * [WWAW](#WWAW)
+    * [WWAW](#wwaw)
 <!-- TOC -->
 
 ## 🔰 Basic Examples
