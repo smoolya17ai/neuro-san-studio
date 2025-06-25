@@ -18,7 +18,6 @@ with agent networks on NeuroSAN.
 
 ## Prerequisites
 
-
 - Set the constants at the top of the file to point it at a start page on the web, and give it the target number of 
 agents.
 - The app will generate an agent network hocon and store it in the registries directory.
