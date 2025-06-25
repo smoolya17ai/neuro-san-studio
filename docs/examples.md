@@ -257,6 +257,6 @@ good example of how to run an agent network on an agent network log for various 
 
 ### WWAW
 
-[wwaw.md](examples/wwaw.md) stands for worldwide agentic web, and is an app to generate an arbitrarily sized agent 
+[wwaw.md](examples/wwaw.md) stands for worldwide agentic web, and is an app to generate an arbitrarily sized agent
 network using the web as the template for the agent connections and content.
 **Tags:** `scale`, `app`
