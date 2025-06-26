@@ -15,12 +15,12 @@ of this agent network is to show how one can connect to A2A server using coded t
 ## Prerequisites
 
 - This agent is **disabled by default**. To test it:
-  - Manually enable it in the `manifest.hocon` file.
-  - As A2A is not published to pypi yet
-    - Clone the repo from [https://github.com/google/a2a-python/tree/main](https://github.com/google/a2a-python/tree/main)
-    - `pip install .`
-  - Install `crewai`
-  - Run the A2A server:
+    - Manually enable it in the `manifest.hocon` file.
+    - As A2A is not published to pypi yet
+        - Clone the repo from [https://github.com/google/a2a-python/tree/main](https://github.com/google/a2a-python/tree/main)
+        - `pip install .`
+    - Install `crewai`
+    - Run the A2A server:
 
     ```bash
     python server.py
@@ -47,9 +47,9 @@ of this agent network is to show how one can connect to A2A server using coded t
 ### A2A Server
 
 - There are 3 files in `servers/a2a`
-  - **agent.py**: agent configuration adapted from [https://docs.crewai.com/quickstart](https://docs.crewai.com/quickstart)
-  - **agent_executor.py**: run agent and prepare response message
-  - **server.py**: connect to client and return response
+    - **agent.py**: agent configuration adapted from [https://docs.crewai.com/quickstart](https://docs.crewai.com/quickstart)
+    - **agent_executor.py**: run agent and prepare response message
+    - **server.py**: connect to client and return response
 - Default port: `9999` (can be customized)
 - Source: [`server.py`](../../servers/a2a/server.py)
 

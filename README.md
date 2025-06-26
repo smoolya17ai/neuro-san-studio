@@ -228,13 +228,13 @@ API keys section in your profile.
   ```
 
 * For Windows:
-  * On Command Prompt:
+    * On Command Prompt:
 
     ```cmd
     set OPENAI_API_KEY=XXX
     ```
 
-  * On PowerShell:
+    * On PowerShell:
 
     ```powershell
     $env:OPENAI_API_KEY="XXX"
@@ -260,8 +260,8 @@ If you want to use neuro-san with a FastAPI-based developer-oriented client, fol
   ```
 
 * As a default
-  * Frontend will be available at: `http://127.0.0.1:4173`
-  * The client and server logs will be saved to `logs/nsflow.log` and `logs/server.log` respectively.
+    * Frontend will be available at: `http://127.0.0.1:4173`
+    * The client and server logs will be saved to `logs/nsflow.log` and `logs/server.log` respectively.
 
 * To see the various config options for this app, on terminal
 

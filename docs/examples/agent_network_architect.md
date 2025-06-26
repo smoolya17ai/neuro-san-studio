@@ -29,8 +29,8 @@ To run this agent, ensure the following are installed and configured:
     ```
 
 - Set up Gmail API credentials:
-  - Follow the [instructions](https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application)
-  - Download the `credentials.json` file and place it at the root of the repo.
+    - Follow the [instructions](https://developers.google.com/workspace/gmail/api/quickstart/python#authorize_credentials_for_a_desktop_application)
+    - Download the `credentials.json` file and place it at the root of the repo.
 - **Selenium and WebDriver Manager**:
 
     ```bash

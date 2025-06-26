@@ -27,22 +27,22 @@ You can run `markdownlint-cli` in three ways:
 
 - Using a Docker container
 
-  - ```bash
-    docker run -v ${PWD}:/workdir ghcr.io/igorshubovych/markdownlint-cli:latest "**/*.md" --ignore venv
-    ```
+    - ```bash
+      docker run -v ${PWD}:/workdir ghcr.io/igorshubovych/markdownlint-cli:latest "**/*.md" --ignore venv
+      ```
 
-  - The `-v` flag mounts a host directory into the container
+    - The `-v` flag mounts a host directory into the container
 
 - Using an installed version of `markdownlint-cli`
-  - Install `markdownlint-cli` on your machine via [instructions](https://github.com/igorshubovych/markdownlint-cli?tab=readme-ov-file#installation)
+    - Install `markdownlint-cli` on your machine via [instructions](https://github.com/igorshubovych/markdownlint-cli?tab=readme-ov-file#installation)
   here
 
-  - ```bash
-    markdownlint -c .markdownlint.yaml "**/*.md" --ignore venv
-    ```
+    - ```bash
+      markdownlint -c .markdownlint.yaml "**/*.md" --ignore venv
+      ```
 
-  - The `-c` flag is used to pass in a configuration file to `markdownlint-cli`
-  - To see all the options, run the following command:
+    - The `-c` flag is used to pass in a configuration file to `markdownlint-cli`
+    - To see all the options, run the following command:
 
     ```bash
     markdownlint --help
@@ -50,10 +50,10 @@ You can run `markdownlint-cli` in three ways:
 
 - If using VSCode IDE, using VSCode `markdownlint` extension
 
-  - Install `markdownlint` extension by following these [instructions](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
+    - Install `markdownlint` extension by following these [instructions](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
 
-  - Any lines that violate one of markdownlint's rules will trigger a Warning in the editor. Warnings are indicated by a
-  wavy green underline
+    - Any lines that violate one of markdownlint's rules will trigger a Warning in the editor. Warnings are indicated by
+    a wavy green underline
 
 `make lint` command invokes `markdownlint-cli` via an installed version of `markdownlint-cli`.
 

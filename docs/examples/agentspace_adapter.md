@@ -15,7 +15,7 @@ See the [Agentspace documentation](https://cloud.google.com/agentspace/agentspac
 ## Prerequisites
 
 - This agent is **disabled by default**. To test it:
-  - Manually enable it in the `manifest.hocon` file.
+    - Manually enable it in the `manifest.hocon` file.
 
 ### Steps to install and use agentspace-neurosan-adapter
 
@@ -24,7 +24,7 @@ See the [Agentspace documentation](https://cloud.google.com/agentspace/agentspac
 - You should have a google cloud account with access to vertexai, googleapis, accesstoken, discoveryengine. (Following
 instructions assume that you have a service acccount that has all the necessary access)
 - Download and install google cloud CLI by following these [instructions](https://cloud.google.com/sdk/docs/install-sdk)
-  - Install python if prompted.
+    - Install python if prompted.
 - Source from your zshrc profile:
 
     ```bash
@@ -37,7 +37,7 @@ instructions assume that you have a service acccount that has all the necessary 
     gcloud init
     ```
 
-  - Note: Select your own google cloud account
+    - Note: Select your own google cloud account
 - For individual access (Authenticate on browser if needed):
 
     ```bash

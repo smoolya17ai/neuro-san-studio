@@ -90,16 +90,16 @@ in the RFP.
 These tools are independently defined and invoked by the frontman agent:
 
 - **Bing Search Tool (`website_search`)**
-  - Retrieves public web data using Bing.
-  - Accepts configurable arguments like number of results.
+    - Retrieves public web data using Bing.
+    - Accepts configurable arguments like number of results.
 
 - **RAG PDF Retriever (`rag_retriever`)**
-  - Loads a remote PDF, builds an in-memory vectorstore, and answers questions from it.
-  - Ideal for scenarios where precise answers are locked inside static documents.
+    - Loads a remote PDF, builds an in-memory vectorstore, and answers questions from it.
+    - Ideal for scenarios where precise answers are locked inside static documents.
 
 - **Slack Message Retriever (`slack_tool`)**
-  - Pulls messages from specified Slack channels.
-  - Useful for blending informal organizational context with structured knowledge.
+    - Pulls messages from specified Slack channels.
+    - Useful for blending informal organizational context with structured knowledge.
 
 ---
 

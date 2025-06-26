@@ -14,10 +14,10 @@
 ## Prerequisites
 
 - This agent is **disabled by default**. To test it:
-  - Manually enable it in the `manifest.hocon` file.
-  - Make sure to install the requirements for this app using the following command:
-  `pip install -r apps/cruse/requirements.txt`
-  - run the application with the command:`python -m apps.cruse.interface_flask
+    - Manually enable it in the `manifest.hocon` file.
+    - Make sure to install the requirements for this app using the following command:
+    `pip install -r apps/cruse/requirements.txt`
+    - run the application with the command:`python -m apps.cruse.interface_flask
 
 ---
 

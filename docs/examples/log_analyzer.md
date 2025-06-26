@@ -17,9 +17,10 @@ token consumption.
 ## Prerequisites
 
 - This agent is **disabled by default**. To test it:
-  - Manually enable it in the `manifest.hocon` file.
+    - Manually enable it in the `manifest.hocon` file.
 - Run a client with --thinking_dir and interact with an agent network so that the agent logs are stored in `/private/tmp/thinking_dir`
-  - For example within neuro-san, call the following: `python client.agent_cli --connection direct --agent hello_world --thinking_dir`
+    - For example within neuro-san, call the following:
+    `python client.agent_cli --connection direct --agent hello_world --thinking_dir`
 - Run the application with the command:`python -m apps.log_analyzer.log_analyzer`
 
 ---
