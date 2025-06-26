@@ -44,8 +44,7 @@
 
             "function": {
 
-                # When there are no function parameters to the front-man,
-                # its description acts as an initial prompt. 
+                # The description acts as an initial prompt. 
 
                 "description": """
                 Your name is MyIntranet. You respond to employee inquiries related to company's intranet.
