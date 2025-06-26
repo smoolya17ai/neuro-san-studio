@@ -14,6 +14,7 @@
     * [OpenAI](#openai)
     * [AzureOpenAI](#azureopenai)
     * [Anthropic](#anthropic)
+    * [Gemini](#gemini)
     * [Ollama](#ollama)
   * [Multi-agent networks](#multi-agent-networks)
   * [Coded tools](#coded-tools)
