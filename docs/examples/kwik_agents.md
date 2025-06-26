@@ -72,10 +72,10 @@ Retrieved the fact that Bill has a dog named Max from memory. Based on this fact
 
 - Acts as the entry point for all user commands.
 - Follows a set of steps to:
-  - retrieve past memory topics (this triggers a memory file load)
-  - determines relevant topics and retrieves all memories related to those topics
-  - stores to memory any new facts encountered in the user input
-  - formulates a response based on the retrieved memories (if any)
+    - retrieve past memory topics (this triggers a memory file load)
+    - determines relevant topics and retrieves all memories related to those topics
+    - stores to memory any new facts encountered in the user input
+    - formulates a response based on the retrieved memories (if any)
 - Note that the agent determines topics and memory entries by itself.
 - Memory entries are time stamped
 

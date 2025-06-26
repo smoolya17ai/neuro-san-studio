@@ -287,21 +287,21 @@ chain and contract specialists?"
 These are coded tools called by various policy agents:
 
 - **add_agent**
-  - Adds the name, instructions, and list of down-chains of an agent to a data structure stored in sly_data. It also determines
+    - Adds the name, instructions, and list of down-chains of an agent to a data structure stored in sly_data. It also determines
   of the agent is the top agent.
 
 - **get_agent_network**
-  - Retrieves the agent network data structure from sly_data and returns a string representation of it.
+    - Retrieves the agent network data structure from sly_data and returns a string representation of it.
 
 - **set_agent_instructions**
-  - Replaces the instructions for a given agent in the list of agents in the agent network data structure in sly_data.
+    - Replaces the instructions for a given agent in the list of agents in the agent network data structure in sly_data.
 
 - **get_agent_network_hocon**
-  - Retrieves the agent network data structure from sly_data.
-  - Formats the agent network as a hocon definition config.
-  - Appends a header.
-  - Saves the hocon file under the local registries directory.
-  - Adds an entry to the local manifest.hocon file.
+    - Retrieves the agent network data structure from sly_data.
+    - Formats the agent network as a hocon definition config.
+    - Appends a header.
+    - Saves the hocon file under the local registries directory.
+    - Adds an entry to the local manifest.hocon file.
 
 **Note**: it is assumed that the agent coordination mechanism is AAOSA, and the LLM is GPT-4o.
 

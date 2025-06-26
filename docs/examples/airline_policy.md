@@ -99,10 +99,10 @@ Please ensure your guitar fits within the specified dimensions and policies to a
 These are coded tools called by various policy agents:
 
 - **ExtractDocs**
-  - Retrieves text content from internal policy documents.
+    - Retrieves text content from internal policy documents.
 
-- **URLProvider**
-  - Provides links to official airline pages for additional resources.
+    - **URLProvider**
+    - Provides links to official airline pages for additional resources.
 
 ---
 

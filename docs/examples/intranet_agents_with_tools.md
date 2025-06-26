@@ -111,15 +111,15 @@ For more details, please visit company's intranet.
 These are coded tools called by AbsenceManagement agent:
 
 - **ScheduleLeaveAPI**
-  - Directly schedules a leave for a specific start date and end date for employees. For a single day, end date can be automatically
-  set to start date. Return what the tool returns, formatted in markdown.
+    - Directly schedules a leave for a specific start date and end date for employees. For a single day, end date can be
+    automatically set to start date. Return what the tool returns, formatted in markdown.
 
 - **CheckLeaveBalancesAPI**
-  - Checks a leave balance (i.e., how much vacation or PTO the employee has left). Returns the leave balances for employees,
-  including the vacation time, for the current user and for the current date. If no date is provided, assumes today's date.
+    - Checks a leave balance (i.e., how much vacation or PTO the employee has left). Returns the leave balances for employees,
+    including the vacation time, for the current user and for the current date. If no date is provided, assumes today's date.
 
 - **URLProvider**
-  - Returns the URL to the company's internal web pages, web apps or tools on company's intranet website. The name of the
+    - Returns the URL to the company's internal web pages, web apps or tools on company's intranet website. The name of the
   app must be passed as a parameter.
 
 **Note**: it is assumed that the agent coordination mechanism is AAOSA.

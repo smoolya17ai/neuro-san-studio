@@ -79,11 +79,11 @@ it for you?
   These tools are defined in the `gmail_toolkit`, a langchain toolkit that is implemented via `toolbox` and are called
     as needed by the assistant:
 
-  - Email Search (GmailSearch)
-  - Email Reader (GmailGetMessage)
-  - Thread Reader (GmailGetThread)
-  - Draft Composer (GmailCreateDraft)
-  - Email Sender (GmailSendMessage)
+    - Email Search (GmailSearch)
+    - Email Reader (GmailGetMessage)
+    - Thread Reader (GmailGetThread)
+    - Draft Composer (GmailCreateDraft)
+    - Email Sender (GmailSendMessage)
 
   > Note that these tools do not support file attachment.
 
