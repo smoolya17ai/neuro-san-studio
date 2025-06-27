@@ -9,6 +9,13 @@
 # neuro-san SDK Software in commercial settings.
 #
 # END COPYRIGHT
+
+# To use this agent network with Brave Search, obtain an API key from: https://brave.com/search/api/
+# Once you have the API key, set it using the BRAVE_API_KEY environment variable.
+# You can optionally set a custom search URL via the BRAVE_URL environment variable.
+# If BRAVE_URL is not set, the default is: https://api.search.brave.com/res/v1/web/search?q=
+# You can also configure the request timeout (in seconds) using BRAVE_TIMEOUT; the default is 30 seconds.
+
 {
     "llm_config": {
         "model_name": "gpt-4o",
@@ -54,24 +61,7 @@ Use your tool to respond to the inquiry.
         },
         {
             "name": "brave_search",
-            "function": {
-                "description": """
-Assist caller with searching an url on the web by using your tool.
-```
-                """,
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "search_terms": {
-                            "type": "string",
-                            "description": "Search terms to return options."
-                        },
-                    },
-                    "required": ["search_terms"]
-                }
-            },
-            "class": "brave_search.BraveSearch",
-            "command": "Call the Brave search API to get a list of URLs for available options."
+            "toolbox": "brave_search"
         },
     ]
 }
