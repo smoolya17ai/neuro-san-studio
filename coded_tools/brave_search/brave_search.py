@@ -1,3 +1,15 @@
+# Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
+# All Rights Reserved.
+# Issued under the Academic Public License.
+#
+# You can be released from the terms, and requirements of the Academic Public
+# License by purchasing a commercial license.
+# Purchase of a commercial license is mandatory for any use of the
+# neuro-san-studio SDK Software in commercial settings.
+#
+# END COPYRIGHT
+
+import asyncio
 import logging
 import os
 from typing import Any
@@ -71,7 +83,8 @@ class BraveSearch(CodedTool):
         return links_str
 
     async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
-        return self.invoke(args, sly_data)
+        """Run invoke asynchronously."""
+        return await asyncio.to_thread(self.invoke, args, sly_data)
 
     def brave_search(self, query: str, num_results: int = 5) -> list:
         """
