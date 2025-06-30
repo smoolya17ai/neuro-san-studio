@@ -7,6 +7,11 @@
   examples to get started, explore, extend, and experiment with custom multi-agent networks!
 </p>
 
+<!-- pyml disable-next-line no-inline-html -->
+<p align="center">
+  <a href="https://deepwiki.com/cognizant-ai-lab/neuro-san-studio"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki: Neuro SAN Studio" /></a>
+</p>
+
 ---
 
 <!-- pyml disable-next-line no-inline-html -->
@@ -40,6 +45,7 @@
   <a href="https://pepy.tech/projects/neuro-san"><img alt="PyPI Downloads"
   src="https://static.pepy.tech/badge/neuro-san" /></a>
   <a href="https://pypi.org/project/neuro-san/"><img alt="neuro-san@PyPI" src="https://img.shields.io/pypi/v/neuro-san.svg?style=flat-square"></a>
+  <a href="https://deepwiki.com/cognizant-ai-lab/neuro-san"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki: Neuro SAN" /></a>
 </p>
 
 ## What is Neuro SAN?
