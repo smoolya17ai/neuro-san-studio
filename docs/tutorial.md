@@ -11,6 +11,7 @@ single command.
 ## Table of Contents
 
 <!-- TOC -->
+
 * [Neuro AI Multi-Agent Accelerator – Getting Started](#neuro-ai-multi-agent-accelerator--getting-started)
     * [Table of Contents](#table-of-contents)
     * [1. Introduction](#1-introduction)
@@ -45,6 +46,7 @@ single command.
     * [9. How to Stop the servers](#9-how-to-stop-the-servers)
     * [10. Key Aspects of Neuro AI Multi-Agent Accelerator](#10-key-aspects-of-neuro-ai-multi-agent-accelerator)
     * [11. End Notes](#11-end-notes)
+
 <!-- TOC -->
 
 ---
@@ -128,9 +130,11 @@ Note: You may need to adapt the filenames if versions differ.
 An **LLM-based Agent** is a component in your agent network that uses a **Large Language Model** to process instructions
 and make decisions. By embedding the agent’s logic in a data-driven configuration (the `.hocon` file), you can define:
 
+<!-- pyml disable no-emphasis-as-heading,no-emphasis-as-header -->
 * **Agent roles and responsibilities**
 * **Tools** (or other agents) it can call
 * **Function schema** that the agent can handle
+<!-- pyml enable no-emphasis-as-heading,no-emphasis-as-header -->
 
 ### Agents for Autonomous Decision Making
 
@@ -607,7 +611,7 @@ class WeatherTool(CodedTool):
 
         if current_weather:
             return f"It is {current_weather} in {location}."
-        
+
         return f"It is always sunny in {location}."
 ```
 
@@ -680,8 +684,8 @@ To use any tool from the Toolbox, simply reference it in the toolbox field of yo
 }
 ```
 
- > You do **not** need to define `function`, `parameters`, or `class` for toolbox tools — that information is already
- included in the langchain tools class or the Toolbox config file.
+You do **not** need to define `function`, `parameters`, or `class` for toolbox tools — that information is already
+included in the langchain tools class or the Toolbox config file.
 
 #### Toolbox Configuration
 

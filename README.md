@@ -1,5 +1,6 @@
 # Neuro San
 
+<!-- pyml disable-next-line no-inline-html -->
 <h2 align="center">Neuro SAN Studio</h2>
 <p align="center">
   A playground for <a href="https://github.com/cognizant-ai-lab/neuro-san">Neuro SAN</a> - this repo includes working
@@ -8,13 +9,14 @@
 
 ---
 
+<!-- pyml disable-next-line no-inline-html -->
 <p align="center">
   Neuro SAN is the open-source library powering the Cognizant Neuro® AI Multi-Agent Accelerator, allowing domain experts,
   researchers and developers to immediately start prototyping and building agent networks across any industry vertical.
 </p>
 
 ---
-
+<!-- pyml disable-next-line no-inline-html -->
 <p align="center">
   <!-- GitHub Stats -->
   <img src="https://img.shields.io/github/stars/cognizant-ai-lab/neuro-san-studio?style=social" alt="GitHub stars">
@@ -28,6 +30,7 @@
   <img src="https://img.shields.io/github/issues-pr/cognizant-ai-lab/neuro-san-studio" alt="Pull Requests">
 </p>
 
+<!-- pyml disable-next-line no-inline-html -->
 <p align="center">
   <!-- Neuro SAN Stats -->
   Neuro SAN library <br>
@@ -50,10 +53,12 @@ Neuro SAN enables multiple large language model (LLM)-powered agents to collabor
 delegating subtasks through adaptive inter-agent communication protocols. This approach addresses the limitations inherent
 to single-agent systems, where no single model has all the expertise or context necessary for multifaceted problems.
 
+<!-- pyml disable line-length -->
 | Build a multi-agent network in minutes                                              | Neuro SAN overview                                                                     | Quick start                                                              |
 |-------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
 | [![Build](./docs/images/designer.png)](https://www.youtube.com/watch?v=wGxvPBN34Mk) | [![Overview](./docs/images/overview.png)](https://www.youtube.com/watch?v=NmniQWQT6vI) | [![Start](./docs/images/nsflow_thumb.png)](https://youtu.be/gfem8ylphWA) |
 
+<!-- pyml enable line-length -->
 ---
 
 ### ✨ Key Features
@@ -80,6 +85,7 @@ etc.) and deployable in diverse environments (local machines, containers, or clo
 
 Here are a few examples of use-cases that have been implemented with Neuro SAN.
 For more examples, check out [docs/examples.md](docs/examples.md).
+<!-- pyml disable no-inline-html -->
 <table>
   <thead>
     <tr>
@@ -144,6 +150,7 @@ For more examples, check out [docs/examples.md](docs/examples.md).
     </tr>
   </tbody>
 </table>
+<!-- pyml enable no-inline-html -->
 
 And many more: check out [docs/examples.md](docs/examples.md).
 
@@ -151,9 +158,11 @@ And many more: check out [docs/examples.md](docs/examples.md).
 
 ## High level Architecture
 
+<!-- pyml disable no-inline-html -->
 <p align="left">
   <img src="./docs/images/neuroai_arch_diagram.png" alt="neuro-san architecture" width="800"/>
 </p>
+<!-- pyml enable no-inline-html -->
 
 ---
 
@@ -227,6 +236,7 @@ API keys section in your profile.
   export OPENAI_API_KEY="XXX" && echo 'export OPENAI_API_KEY="XXX"' >> ~/.zshrc
   ```
 
+<!-- pyml disable commands-show-output -->
 * For Windows:
     * On Command Prompt:
 
@@ -240,6 +250,8 @@ API keys section in your profile.
     $env:OPENAI_API_KEY="XXX"
     ```
 
+<!-- pyml enable commands-show-output -->
+
 Other providers such as Anthropic, AzureOpenAI, Ollama and more are supported too but will require proper setup.
 Look at the `.env.example` file to set up environment variables for specific use-cases.
 
@@ -249,6 +261,7 @@ Look at the `.env.example` file to set up environment variables for specific use
 
 There are multiple ways in which we can now use the neuro-san server with a client:
 
+<!-- pyml disable-next-line line-length -->
 #### Option 1: Using [`nsflow`](https://github.com/cognizant-ai-lab/nsflow) as a developer-oriented web client
 
 If you want to use neuro-san with a FastAPI-based developer-oriented client, follow these steps:

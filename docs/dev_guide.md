@@ -18,44 +18,32 @@ macOS users. Windows users should follow the manual installation instructions in
 
 ### Note on Markdown Linting
 
-We use [markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli) to run linting on .md files.
-`markdownlint-cli` can be configured via `.markdownlint.yaml` located in the projects top level folder. See
-this [yaml file](https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml) for all the configuration
-options.
+We use [pymarkdown](https://pymarkdown.readthedocs.io/en/latest/) to run linting on .md files.
+`pymarkdown` can be configured via `.pymarkdown.yaml` located in the projects top level folder. See
+this [page](https://pymarkdown.readthedocs.io/en/latest/rules/) for all the configuration options.
+`pymarkdown` is installed in the virtual environment as part of the build dependency requirements
+specified in `build-requirements.txt`.
 
-You can run `markdownlint-cli` in three ways:
+You can run `pymarkdown` in two ways:
 
-- Using a Docker container
-
-    - ```bash
-      docker run -v ${PWD}:/workdir ghcr.io/igorshubovych/markdownlint-cli:latest "**/*.md" --ignore venv
-      ```
-
-    - The `-v` flag mounts a host directory into the container
-
-- Using an installed version of `markdownlint-cli`
-    - Install `markdownlint-cli` on your machine via [instructions](https://github.com/igorshubovych/markdownlint-cli?tab=readme-ov-file#installation)
-  here
+<!-- pyml disable blanks-around-fences -->
+- Using an installed version of `pymarkdown`
 
     - ```bash
-      markdownlint -c .markdownlint.yaml "**/*.md" --ignore venv
+      pymarkdown --config ./.pymarkdownlint.yaml scan ./docs ./README.md
       ```
 
-    - The `-c` flag is used to pass in a configuration file to `markdownlint-cli`
+    - The `--config` flag is used to pass in a configuration file to `pymarkdownlint`
     - To see all the options, run the following command:
 
     ```bash
-    markdownlint --help
+    pymarkdown --help
     ```
 
-- If using VSCode IDE, using VSCode `markdownlint` extension
+<!-- pyml enable blanks-around-fences -->
+- Using Make
 
-    - Install `markdownlint` extension by following these [instructions](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
-
-    - Any lines that violate one of markdownlint's rules will trigger a Warning in the editor. Warnings are indicated by
-    a wavy green underline
-
-`make lint` command invokes `markdownlint-cli` via an installed version of `markdownlint-cli`.
+    - `make lint`
 
 ## Python Project Configuration
 

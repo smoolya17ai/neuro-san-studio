@@ -38,15 +38,7 @@ lint: ## Run code formatting and linting tools on source
 	black run.py apps/ coded_tools/
 	flake8 run.py apps/ coded_tools/
 	pylint run.py apps/ coded_tools/
-
-    # Only run markdown linting if `markdownlint` is installed
-	@echo "🔍 Checking if markdownlint is installed..."
-	@if command -v markdownlint >/dev/null 2>&1; then \
-		echo "✅ markdownlint is installed."; \
-		markdownlint -c .markdownlint.yaml "**/*.md" --ignore venv; \
-	else \
-		echo "❌ markdownlint is NOT installed."; \
-	fi
+	pymarkdown --config ./.pymarkdownlint.yaml scan ./docs ./README.md
 
 lint-tests: ## Run code formatting and linting tools on tests
 	@if [ -z "$$VIRTUAL_ENV" ]; then \

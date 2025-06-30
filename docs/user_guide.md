@@ -1,6 +1,7 @@
 # User guide
 
 <!-- TOC -->
+
 * [User guide](#user-guide)
     * [Simple agent network](#simple-agent-network)
     * [Hocon files](#hocon-files)
@@ -32,6 +33,7 @@
         * [Subnetworks](#subnetworks)
         * [AAOSA](#aaosa)
     * [Connect with other agent frameworks](#connect-with-other-agent-frameworks)
+
 <!-- TOC -->
 
 ## Simple agent network
@@ -145,6 +147,7 @@ For more details, please check the [Agent Manifest HOCON File Reference](
 
 #### Agent specifications
 
+<!-- pyml disable line-length -->
 | **Field**    | **Description**                                                                                                                              |
 |--------------|----------------------------------------------------------------------------------------------------------------------------------------------|
 | agent_name   | text handle for other agent specs and hosting system to refer to                                                                             |
@@ -153,6 +156,7 @@ For more details, please check the [Agent Manifest HOCON File Reference](
 | command      | text that sets the agent in motion after it receives all its inputs                                                                          |
 | tools        | optional list of references to other agents that this agent is allowed to call in the course of working through their input and instructions |
 | llm_config   | optional agent-specification for different LLMs for different purposes such as specialization, costs, etc.                                   |
+<!-- pyml enable line-length -->
 
 #### Tool specifications
 
@@ -164,11 +168,13 @@ For more details, please check the [Agent Manifest HOCON File Reference](
 
 #### LLM specifications
 
+<!-- pyml disable line-length -->
 | **Field**   | **Description**                                                                                                                       |
 |-------------|---------------------------------------------------------------------------------------------------------------------------------------|
 | model_name  | name of the model to use (i.e. “gpt-4o”, “claude-3-haiku”)                                                                            |
 | *_api_key   | api key value or environment variable to reference to allow access to the LLM provider if different from hosting environment default. |
 | temperature | optional level of randomness 0.0-1.0 to use for LLM results                                                                           |
+<!-- pyml enable line-length -->
 
 See next section for more information about how to specify the LLM(s) to use.
 
@@ -221,7 +227,7 @@ For example:
 ```
 
 You can set some of these as environment variables or add them in your .env file in order to use Azure OpenAI:  
-AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"  <!-- markdownlint-disable-line MD034 -->
+AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"
 OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"  
 AZURE_OPENAI_API_KEY="your Azure OpenAI API key"  
 
@@ -233,8 +239,10 @@ AZURE_OPENAI_API_KEY="your Azure OpenAI API key"
 > specified by `deployment_name`, the LLM will fail to return a response — even if the prompt itself is within limits.
 > To fix this, explicitly set a `max_tokens` value in your `llm_config` that matches the deployed model’s actual capacity.
 
+<!-- pyml disable line-length-->
 See [Azure OpenAI Quickstart](
-    https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=keyless%2Ctypescript-keyless%2Cpython-new%2Ccommand-line&pivots=programming-language-python) for more information. <!-- markdownlint-disable-line MD013 -->
+    https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=keyless%2Ctypescript-keyless%2Cpython-new%2Ccommand-line&pivots=programming-language-python) for more information.
+<!-- pyml enable line-length-->
 
 ### Anthropic
 
@@ -421,10 +429,10 @@ To use tools from toolbox in your agent network, simply call them with field `to
 
 1. Create the toolbox configuration file. This can be either HOCON or JSON files.
 2. Define the tools
-    * langchain tools
-        * Each tool or toolkit must have a `class` key.
-        * The specified class must be available in the server's `PYTHONPATH`.
-        * Additional dependencies (outside of `langchain_community`) must be installed separately.
+   * langchain tools
+       * Each tool or toolkit must have a `class` key.
+       * The specified class must be available in the server's `PYTHONPATH`.
+       * Additional dependencies (outside of `langchain_community`) must be installed separately.
 
         Example:
 
@@ -447,11 +455,11 @@ To use tools from toolbox in your agent network, simply call them with field `to
             }
         ```
 
-    * coded tools
-        * Similar to how one can define it in agent network config file
-        * `description` let the agent know what the tool does.
-        * `parameters` are arguments' definitions and types. This is optional.
-        * `class` specifies the tool's implementation as **module.ClassName** where the module can be found in `AGENT_TOOL_PATH`.
+   * coded tools
+       * Similar to how one can define it in agent network config file
+       * `description` let the agent know what the tool does.
+       * `parameters` are arguments' definitions and types. This is optional.
+       * `class` specifies the tool's implementation as **module.ClassName** where the module can be found in `AGENT_TOOL_PATH`.
 
         Example:
 
