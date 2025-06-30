@@ -33,10 +33,10 @@ You can run `markdownlint-cli` in three ways:
 
     - The `-v` flag mounts a host directory into the container
 
+<!-- pyml disable blanks-around-fences -->
 - Using an installed version of `markdownlint-cli`
     - Install `markdownlint-cli` on your machine via [instructions](https://github.com/igorshubovych/markdownlint-cli?tab=readme-ov-file#installation)
   here
-
     - ```bash
       markdownlint -c .markdownlint.yaml "**/*.md" --ignore venv
       ```
@@ -48,6 +48,7 @@ You can run `markdownlint-cli` in three ways:
     markdownlint --help
     ```
 
+<!-- pyml enable blanks-around-fences -->
 - If using VSCode IDE, using VSCode `markdownlint` extension
 
     - Install `markdownlint` extension by following these [instructions](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)

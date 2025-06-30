@@ -3,6 +3,7 @@
 Here are a few examples ordered by level of complexity.
 
 <!-- TOC -->
+
 * [Examples](#examples)
     * [🔰 Basic Examples](#-basic-examples)
         * [Music Nerd](#music-nerd)
@@ -35,6 +36,7 @@ Here are a few examples ordered by level of complexity.
         * [CRUSE](#cruse)
         * [Conscious Assistant](#conscious-assistant)
         * [Log Analyzer](#log-analyzer)
+
 <!-- TOC -->
 
 ## 🔰 Basic Examples
