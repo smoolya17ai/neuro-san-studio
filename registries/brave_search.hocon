@@ -61,7 +61,34 @@ Use your tool to respond to the inquiry.
         },
         {
             "name": "brave_search",
-            "toolbox": "brave_search"
+            "toolbox": "brave_search",
+            "args": {
+                # --- Optional Arguments ---
+
+                # --- Request Configuration ---
+
+                # Brave Search API endpoint
+                # This will override the env var BRAVE_URL
+                # (defaults to https://api.search.brave.com/res/v1/web/search)
+                "brave_url": "https://api.search.brave.com/res/v1/web/search",
+
+                # Request timeout in seconds
+                # This will override the env var BRAVE_TIMEOUT
+                # (default: 30.0)
+                "brave_timeout": 10.0,
+
+                # --- Search Query Parameters ---
+
+                # Search query string
+                # "q": "<what_to_search_for>"
+                # If specified, this will override the query provided by the LLM
+
+                # Maximum number of search results to return
+                "count": 3,
+
+                # For more query parameter options, see:
+                # https://api-dashboard.search.brave.com/app/documentation/web-search/query
+            }
         },
     ]
 }

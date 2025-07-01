@@ -14,10 +14,21 @@ import logging
 import os
 from typing import Any
 from typing import Dict
+from typing import List
+from typing import Optional
 from typing import Union
 
 import requests
 from neuro_san.interfaces.coded_tool import CodedTool
+
+BRAVE_URL = "https://api.search.brave.com/res/v1/web/search"
+BRAVE_TIMEOUT = 30.0
+# The following parameters are from https://api-dashboard.search.brave.com/app/documentation/web-search/query.
+BRAVE_QUERY_PARAMS = [
+    "q", "country", "search_lang", "ui_lang", "count", "offset", "safesearch", "freshness",
+    "text_decorations", "spellcheck", "result_filter", "goggles_id", "goggles", "units",
+    "extra_snippets", "summary"
+]
 
 
 class BraveSearch(CodedTool):
@@ -27,21 +38,18 @@ class BraveSearch(CodedTool):
     """
 
     def __init__(self):
-        self.top_n = 5
         self.brave_api_key = os.getenv("BRAVE_API_KEY")
         if self.brave_api_key is None:
             logging.error("BRAVE_API_KEY is not set!")
-        self.brave_url = os.getenv("BRAVE_URL", "https://api.search.brave.com/res/v1/web/search?q=")
-        self.brave_timeout = os.getenv("BRAVE_TIMEOUT", "30")
 
-    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
+    def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[List[Dict[str, Any]], str]:
         """
         :param args: An argument dictionary whose keys are the parameters
                 to the coded tool and whose values are the values passed for them
                 by the calling agent.  This dictionary is to be treated as read-only.
 
                 The argument dictionary expects the following keys:
-                    "app_name" the name of the One Cognizant app for which the URL is needed.
+                    "search_terms"
 
         :param sly_data: A dictionary whose keys are defined by the agent hierarchy,
                 but whose values are meant to be kept out of the chat stream.
@@ -58,49 +66,74 @@ class BraveSearch(CodedTool):
 
         :return:
             In case of successful execution:
-                The URL to the app as a string.
+                A list of dictionary of search results
             otherwise:
                 a text string an error message in the format:
                 "Error: <error message>"
         """
-        search_terms: str = args.get("search_terms", "")
-        if search_terms == "":
-            return "Error: No search terms provided."
+
+        # Extract URL and timeout from args, then environment variables, then fall back to defaults
+        brave_url: str = args.get("brave_url") or os.getenv("BRAVE_URL") or BRAVE_URL
+        brave_timeout: float = float(args.get("brave_timeout") or os.getenv("BRAVE_TIMEOUT") or BRAVE_TIMEOUT)
+
+        # Filter user-specified args using the BRAVE_QUERY_PARAMS
+        brave_search_params = {param: param_value for param, param_value in args.items() if param in BRAVE_QUERY_PARAMS}
+
+        # Use user-specified query 'q' if available; otherwise fall back to LLM-provided 'search_terms'
+        brave_search_params.setdefault("q", args.get("search_terms"))
+
+        # Ensure a query was provided
+        if not brave_search_params.get("q"):
+            return "Error: No 'search terms' or 'q' provided."
 
         logger = logging.getLogger(self.__class__.__name__)
         logger.info(">>>>>>>>>>>>>>>>>>>BraveSearch>>>>>>>>>>>>>>>>>>")
-        logger.info("BraveSearch Terms: %s", str(search_terms))
-        results = self.brave_search(search_terms, self.top_n)
+        logger.info("BraveSearch Terms: %s", brave_search_params.get("q"))
+        results: Dict[str, Any] = self.brave_search(brave_search_params, brave_url, brave_timeout)
 
-        links_str = ""
-        index = 1
-        for result in results.get("web", {}).get("results", []):
-            the_link = result.get("url")
-            links_str += f"{index}. {the_link} ; "
-            logger.info("%s. %s", str(index), str(the_link))
-            index += 1
+        results_list: List[Dict[str, Any]] = []
+        # If there are results from search, get "title", "url", "description", and "extra_snippets"
+        # from each result
+        if results:
+            for result in results.get("web", {}).get("results"):
+                result_dict: Dict[str, str] = {}
+                result_dict["title"] = result.get("title")
+                result_dict["url"] = result.get("url")
+                result_dict["description"] = result.get("description")
+                result_dict["extra_snippets"] = result.get("extra_snippets")
+                results_list.append(result_dict)
 
-        return links_str
+        return results_list
 
     async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """Run invoke asynchronously."""
         return await asyncio.to_thread(self.invoke, args, sly_data)
 
-    def brave_search(self, query: str, num_results: int = 5) -> list:
+    def brave_search(
+            self,
+            brave_search_params: Dict[str, Any],
+            brave_url: Optional[str] = BRAVE_URL,
+            brave_timeout: Optional[float] = BRAVE_TIMEOUT
+    ) -> Dict[str, Any]:
         """
-        Search the web for a given query using Brave Search API
-        and return a list of result URLs.
+        Perform a search request to the Brave Search API.
 
-        :param query: The search query (e.g., "10.5 white men sneakers").
-        :param num_results: Number of links to retrieve (default=5).
-        :return: List of hyperlink strings.
+        :param brave_search_params: Dictionary of query parameters to include in the search request.
+        :param brave_url: The Brave Search API endpoint to send the request to (default: BRAVE_URL).
+        :param brave_timeout: Timeout for the request in seconds (default: BRAVE_TIMEOUT).
+
+        :return: The parsed JSON response from the Brave Search API as a dictionary.
         """
         headers = {
             "Accept": "application/json",
             "X-Subscription-Token": self.brave_api_key,
         }
 
-        url = self.brave_url + f"{query}&count={num_results}"
-        response = requests.get(url, headers=headers, timeout=int(self.brave_timeout))
+        response = requests.get(
+            brave_url,
+            headers=headers,
+            params=brave_search_params,
+            timeout=brave_timeout
+        )
         results = response.json()
         return results
