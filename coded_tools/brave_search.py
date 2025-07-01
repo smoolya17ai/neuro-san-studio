@@ -90,7 +90,7 @@ class BraveSearch(CodedTool):
         logger.info("BraveSearch Terms: %s", brave_search_params.get("q"))
         results: Dict[str, Any] = self.brave_search(brave_search_params, brave_url, brave_timeout)
 
-        resutls_list: List[Dict[str, Any]] = []
+        results_list: List[Dict[str, Any]] = []
         # If there are results from search, get "title", "url", "description", and "extra_snippets"
         # from each result
         if results:
@@ -100,9 +100,9 @@ class BraveSearch(CodedTool):
                 result_dict["url"] = result.get("url")
                 result_dict["description"] = result.get("description")
                 result_dict["extra_snippets"] = result.get("extra_snippets")
-                resutls_list.append(result_dict)
+                results_list.append(result_dict)
 
-        return resutls_list
+        return results_list
 
     async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """Run invoke asynchronously."""
