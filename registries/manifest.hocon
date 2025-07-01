@@ -28,9 +28,6 @@
 
     # To use this agent network with Brave Search, obtain an API key from: https://brave.com/search/api/
     # Once you have the API key, set it using the BRAVE_API_KEY environment variable.
-    # You can optionally set a custom search URL via the BRAVE_URL environment variable.
-    # If BRAVE_URL is not set, the default is: https://api.search.brave.com/res/v1/web/search?q=
-    # You can also configure the request timeout (in seconds) using BRAVE_TIMEOUT; the default is 30 seconds.
     "brave_search.hocon": false,
 
     "agent_network_html_creator.hocon": true,
