@@ -23,6 +23,7 @@ from neuro_san.interfaces.coded_tool import CodedTool
 
 BRAVE_URL = "https://api.search.brave.com/res/v1/web/search"
 BRAVE_TIMEOUT = 30.0
+# The following parameters are from https://api-dashboard.search.brave.com/app/documentation/web-search/query.
 BRAVE_QUERY_PARAMS = [
     "q", "country", "search_lang", "ui_lang", "count", "offset", "safesearch", "freshness",
     "text_decorations", "spellcheck", "result_filter", "goggles_id", "goggles", "units",
