@@ -12,6 +12,9 @@
 
 # To use this agent network with Brave Search, obtain an API key from: https://brave.com/search/api/
 # Once you have the API key, set it using the BRAVE_API_KEY environment variable.
+# You can optionally set a custom search URL via the BRAVE_URL environment variable.
+# If BRAVE_URL is not set, the default is: https://api.search.brave.com/res/v1/web/search?q=
+# You can also configure the request timeout (in seconds) using BRAVE_TIMEOUT; the default is 30 seconds.
 
 {
     "llm_config": {
@@ -64,10 +67,14 @@ Use your tool to respond to the inquiry.
 
                 # --- Request Configuration ---
 
-                # Brave Search API endpoint (defaults to https://api.search.brave.com/res/v1/web/search)
+                # Brave Search API endpoint
+                # This will override the env var BRAVE_URL
+                # (defaults to https://api.search.brave.com/res/v1/web/search)
                 "brave_url": "https://api.search.brave.com/res/v1/web/search",
 
-                # Request timeout in seconds (default: 30.0)
+                # Request timeout in seconds
+                # This will override the env var BRAVE_TIMEOUT
+                # (default: 30.0)
                 "brave_timeout": 10.0,
 
                 # --- Search Query Parameters ---

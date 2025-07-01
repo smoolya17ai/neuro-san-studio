@@ -72,9 +72,9 @@ class BraveSearch(CodedTool):
                 "Error: <error message>"
         """
 
-        # Extract url and timeout from args or use defaults
-        brave_url: str = args.get("brave_url", BRAVE_URL)
-        brave_timeout: float = args.get("brave_timeout", BRAVE_TIMEOUT)
+        # Extract URL and timeout from args, then environment variables, then fall back to defaults
+        brave_url: str = args.get("brave_url") or os.getenv("BRAVE_URL") or BRAVE_URL
+        brave_timeout: float = float(args.get("brave_timeout") or os.getenv("BRAVE_TIMEOUT") or BRAVE_TIMEOUT)
 
         # Filter user-specified args using the BRAVE_QUERY_PARAMS
         brave_search_params = {param: param_value for param, param_value in args.items() if param in BRAVE_QUERY_PARAMS}
