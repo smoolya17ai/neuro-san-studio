@@ -31,8 +31,8 @@ def test_open_ai_api_key():
 
     except Exception as e:
         print("Failed call to OpenAI")
-        exceptio_msg = ApiKeyErrorCheck.check_for_api_key_exception(e)
-        print(f"Exception message: {exceptio_msg}")
+        exception_msg = ApiKeyErrorCheck.check_for_api_key_exception(e)
+        print(f"Exception message: {exception_msg}")
 
 
 if __name__ == "__main__":
