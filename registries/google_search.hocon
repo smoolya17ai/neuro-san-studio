@@ -70,7 +70,7 @@ Use your tool to respond to the inquiry.
                 # Google Search API endpoint
                 # This will override the env var GOOGLE_URL
                 # (defaults to https://www.googleapis.com/customsearch/v1)
-                "brave_url": "https://www.googleapis.com/customsearch/v1",
+                "google_url": "https://www.googleapis.com/customsearch/v1",
 
                 # Request timeout in seconds
                 # This will override the env var GOOGLE_TIMEOUT

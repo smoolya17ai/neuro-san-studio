@@ -19,10 +19,10 @@ import requests
 from neuro_san.interfaces.coded_tool import CodedTool
 from requests import HTTPError, JSONDecodeError, RequestException
 
-GOOGLE_URL = "https://www.googleapis.com/customsearch/v1"
-GOOGLE_TIMEOUT = 30.0
+GOOGLE_SEARCH_URL = "https://www.googleapis.com/customsearch/v1"
+GOOGLE_SEARCH_TIMEOUT = 30.0
 # The following parameters are from https://developers.google.com/custom-search/v1/reference/rest/v1/cse/list#request.
-GOOGLE_QUERY_PARAMS = [
+GOOGLE_SEARCH_QUERY_PARAMS = [
     "q",
     "c2coff",
     "cr",
@@ -64,11 +64,11 @@ class GoogleSearch(CodedTool):
     """
 
     def __init__(self):
-        self.google_api_key = os.getenv("GOOGLE_API_KEY")
+        self.google_api_key = os.getenv("GOOGLE_SEARCH_API_KEY")
         if self.google_api_key is None:
             logging.error("GOOGLE_API_KEY is not set!")
 
-        self.google_cse_id = os.getenv("GOOGLE_CSE_ID")
+        self.google_cse_id = os.getenv("GOOGLE_SEARCH_CSE_ID")
         if self.google_cse_id is None:
             logging.error("GOOGLE_CSE_ID is not set!")
 
@@ -103,12 +103,12 @@ class GoogleSearch(CodedTool):
         """
 
         # Extract URL and timeout from args, then environment variables, then fall back to defaults
-        google_url: str = args.get("google_url") or os.getenv("GOOGLE_URL") or GOOGLE_URL
-        google_timeout: float = float(args.get("google_timeout") or os.getenv("GOOGLE_TIMEOUT") or GOOGLE_TIMEOUT)
+        google_url: str = args.get("google_url") or os.getenv("GOOGLE_SEARCH_URL") or GOOGLE_SEARCH_URL
+        google_timeout: float = float(args.get("google_timeout") or os.getenv("GOOGLE_SEARCH_TIMEOUT") or GOOGLE_SEARCH_TIMEOUT)
 
         # Filter user-specified args using the GOOGLE_QUERY_PARAMS
         google_search_params = {
-            param: param_value for param, param_value in args.items() if param in GOOGLE_QUERY_PARAMS
+            param: param_value for param, param_value in args.items() if param in GOOGLE_SEARCH_QUERY_PARAMS
         }
 
         # Use user-specified query 'q' if available; otherwise fall back to LLM-provided 'search_terms'
@@ -152,8 +152,8 @@ class GoogleSearch(CodedTool):
     def google_search(
         self,
         google_search_params: Dict[str, Any],
-        google_url: Optional[str] = GOOGLE_URL,
-        google_timeout: Optional[float] = GOOGLE_TIMEOUT,
+        google_url: Optional[str] = GOOGLE_SEARCH_URL,
+        google_timeout: Optional[float] = GOOGLE_SEARCH_TIMEOUT,
     ) -> Dict[str, Any]:
         """
         Perform a search request to the Google Search API.
