@@ -9,20 +9,18 @@ from openai import AzureOpenAI
 #  Creates a client, and submits a simple query ("What's the capital of France?").
 #  The response should includes the word "Paris".
 #  Any exceptions (Invalid API Key, Azure OpenAI access being blocked, etc.) are reported.
+#  See Azure OpenAI Quickstart for more information
+#  https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=keyless%2Ctypescript-keyless%2Cpython-new%2Ccommand-line&pivots=programming-language-python
 def test_azure_open_ai_api_key():
 
     # Set your Azure details
-    api_key = os.getenv("AZURE_OPENAI_API_KEY")           # or use a string directly
-    api_version = os.getenv("OPENAI_API_VERSION")         # or use a string directly
-    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")   # e.g., "https://your-resource.openai.azure.com/"
+    api_key = os.getenv("AZURE_OPENAI_API_KEY")  # or use a string directly
+    api_version = os.getenv("OPENAI_API_VERSION")  # or use a string directly
+    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")  # e.g., "https://your-resource.openai.azure.com/"
     deployment_name = os.getenv("AZURE_DEPLOYMENT_NAME")  # e.g., "gpt-4" or "gpt-3.5-turbo"
 
     # Create AzureOpenAI client
-    client = AzureOpenAI(
-        api_key=api_key,
-        api_version=api_version,
-        azure_endpoint=azure_endpoint
-    )
+    client = AzureOpenAI(api_key=api_key, api_version=api_version, azure_endpoint=azure_endpoint)
 
     # Set up the client with your API key
     response = None
