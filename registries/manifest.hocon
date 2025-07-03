@@ -33,6 +33,8 @@
     # You can also configure the request timeout (in seconds) using BRAVE_TIMEOUT; the default is 30 seconds.
     "brave_search.hocon": false,
 
+    "google_search.hocon": true,
+
     "agent_network_html_creator.hocon": true,
     "agentforce.hocon": true,
     "agentspace_adapter.hocon": false,
