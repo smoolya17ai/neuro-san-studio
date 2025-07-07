@@ -132,3 +132,5 @@ If you need further details or have additional questions, feel free to ask!
       - `site_inspector` - Performs on-site damage assessments and collects supporting evidence.
       - `report_verification_handler` - Authenticates and validates third-party reports and documents.
   - `claims_adjustment_agent` - Finalizes claim settlements by applying policy terms and coordinating payouts.
+ 
+---
