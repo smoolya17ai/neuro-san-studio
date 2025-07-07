@@ -42,29 +42,23 @@ export GUARDIAN_API_KEY=your_guardian_key
 
 ## Description
 
-The assistant is anchored by a Frontman agent that acts as the primary interface with users and manages coordination across all downstream agents and 
-tools. 
+The assistant is anchored by a Frontman agent that acts as the primary interface with users and manages coordination across all downstream agents and tools. 
 It orchestrates the execution pipeline by sequentially invoking agents, managing dependencies, and structuring inputs and outputs at each stage.
 
 - **Source-Specific Pipelines**  
-  Dedicated agents scrape articles from each media outlet using pipelines equipped with exponential backoff strategies to ensure reliable, fault
-  tolerant data retrieval under rate limits or network disruptions.
+  Dedicated agents scrape articles from each media outlet using pipelines equipped with exponential backoff strategies to ensure reliable, fault tolerant data retrieval under rate limits or network disruptions.
 
 - **Sentence-Level Analysis**  
-  The system filters and analyzes only those sentences that contain the specified keywords, allowing for context-aware sentiment evaluation while
-  minimizing irrelevant content.
+  The system filters and analyzes only those sentences that contain the specified keywords, allowing for context-aware sentiment evaluation while minimizing irrelevant content.
 
 - **VADER-Powered Scoring**  
-  Keyword-matched sentences are scored using the VADER framework and aggregated to generate sentence-level, article-level and source-level sentiment
-  summaries, providing both granular and holistic insights.
+  Keyword-matched sentences are scored using the VADER framework and aggregated to generate sentence-level, article-level and source-level sentiment summaries, providing both granular and holistic insights.
 
 - **Natural Language Summarization**  
-  Rather than exposing raw `.json` outputs, the assistant interprets quantitative sentiment data and generates user-facing natural language summaries
-  making insights more interpretable and actionable.
+  Rather than exposing raw `.json` outputs, the assistant interprets quantitative sentiment data and generates user-facing natural language summaries making insights more interpretable and actionable.
 
 - **Modular & Extensible Architecture**  
-  The system is designed for flexibility, enabling seamless integration of new sources, languages, or alternative sentiment engines without affecting
-  core functionality.
+  The system is designed for flexibility, enabling seamless integration of new sources, languages, or alternative sentiment engines without affecting core functionality.
 
 ---
 
@@ -90,14 +84,17 @@ Here is the comprehensive sentiment analysis report for news related to space:
   - **Overall**: Avg_compound: 0.13
 
 - **Tone and Stance:**
-  - **NYT**: With an avg_compound score of 0.27, exhibits a mildly positive tone, highlighting achievements and advancements in space exploration.
-  - **Guardian**: Scoring 0.13 indicates a neutral tone, balancing positive and negative aspects of space news, providing factual updates without
-strong emotional language.
-  - **Al Jazeera**: A score of 0.12 also indicates a neutral tone, similar to the Guardian, focusing on balanced reporting.
+  - **NYT**: With an avg_compound score of 0.27, exhibits a mildly positive tone, highlighting achievements and
+advancements in space exploration.
+  - **Guardian**: Scoring 0.13 indicates a neutral tone, balancing positive and negative aspects of space news,
+providing factual updates without strong emotional language.
+  - **Al Jazeera**: A score of 0.12 also indicates a neutral tone, similar to the Guardian, focusing on balanced
+reporting.
 
 - **Emotional Framing:**
   - **NYT**: Coverage often evokes hope and excitement, highlighting technological progress.
-  - **Guardian and Al Jazeera**: Maintain neutrality, providing straightforward updates without emotional influence.
+  - **Guardian and Al Jazeera**: Maintain neutrality, providing straightforward updates without emotional
+influence.
 
 **2. Tone Variation and Examples:**
 
@@ -108,23 +105,23 @@ strong emotional language.
 **3. Media Bias:**
 
 - **Comparative Analysis**:
-  - On similar topics, such as space exploration funding, NYT's tone is optimistic, emphasizing potential benefits, whereas the Guardian and Al
-Jazeera maintain a balanced viewpoint.
+  - On similar topics, such as space exploration funding, NYT's tone is optimistic, emphasizing potential benefits,
+whereas the Guardian and Al Jazeera maintain a balanced viewpoint.
   
 - **Editorial Bias**:
-  - NYT displays a tendency towards optimism and support for space endeavors, while Guardian and Al Jazeera show neutral reporting, providing
-comprehensive coverage.
+  - NYT displays a tendency towards optimism and support for space endeavors, while Guardian and Al Jazeera show
+neutral reporting, providingmcomprehensive coverage.
 
 **4. Key Insights:**
 
-- The analysis highlights distinct tonal differences among the outlets, with NYT showing positivity and enthusiasm, the Guardian and Al Jazeera
-maintaining a neutral stance.
+- The analysis highlights distinct tonal differences among the outlets, with NYT showing positivity and enthusiasm,
+the Guardian and Al Jazeera maintaining a neutral stance.
 - Emotional framing varies, with NYT fostering hope, and the Guardian and Al Jazeera staying factual.
-- Overall, while NYT exhibits some degree of editorial bias, Guardian and Al Jazeera's reporting appear balanced and unbiased, offering comprehensive
-coverage of space news.
+- Overall, while NYT exhibits some degree of editorial bias, Guardian and Al Jazeera's reporting appear balanced and
+unbiased, offering comprehensive coverage of space news.
 
-This report provides a quantitative and qualitative look at how different media outlets cover space-related news, offering insights into the tone,
-emotional framing, and potential biases present in the reporting.
+This report provides a quantitative and qualitative look at how different media outlets cover space-related news,
+offering insights into the tone, emotional framing, and potential biases present in the reporting.
 ```
 ---
 
