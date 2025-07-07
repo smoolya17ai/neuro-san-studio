@@ -29,7 +29,7 @@ pip install newspaper3k beautifulsoup4 nltk vaderSentiment backoff lxml
 - Get API key: [https://open-platform.theguardian.com/documentation/](https://open-platform.theguardian.com/documentation/)
 
 #### Al Jazeera
-- No API Key needed; directly extracts news from RSS feeds.
+- No API key needed; directly scraps news from RSS feed: [https://www.aljazeera.com/xml/rss/all.xml](https://www.aljazeera.com/xml/rss/all.xml)
 
 ### 3. Set API Keys via Environment Variables
 
