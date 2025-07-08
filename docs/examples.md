@@ -239,9 +239,9 @@ validation, risk assessment, underwriting decisions, and claims intake. The syst
 
 ### Sentimental Analysis of News Sources
 
-[Sentimental Analysis of News Sources](examples/news_sentimental_analysis.md) is a multi-agent system that analyzes 
-news coverage from The New York Times, The Guardian, and Al Jazeera to reveal emotional framing across geopolitical 
-perspectives. Using keyword-driven sentiment analysis, it automates news retrieval, sentiment scoring, and report 
+[Sentimental Analysis of News Sources](examples/news_sentimental_analysis.md) is a multi-agent system that analyzes
+news coverage from The New York Times, The Guardian, and Al Jazeera to reveal emotional framing across geopolitical
+perspectives. Using keyword-driven sentiment analysis, it automates news retrieval, sentiment scoring, and report
 generation to provide concise, data-backed insights on sentiment polarity, tone variations, and media bias.
 
 **Tags:** `tool`, `API`, `AAOSA`
