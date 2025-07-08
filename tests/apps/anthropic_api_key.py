@@ -1,7 +1,7 @@
 import os
 
+import anthropic
 from neuro_san.internals.run_context.langchain.util.api_key_error_check import ApiKeyErrorCheck
-from openai import OpenAI
 
 
 # Method for Testing Anthropic API key
@@ -13,28 +13,25 @@ def test_anthropic_api_key():
 
     # Set your Anthropic details
     api_key = os.getenv("ANTHROPIC_API_KEY")  # or use a string directly
-    base_url = os.getenv("ANTHROPIC_BASE_URL")  # e.g., "https://api.anthropic.com/v1/"
-    model_name = os.getenv("ANTHROPIC_MODEL_NAME")  # e.g., "claude-opus-4-20250514"
 
-    # Create OpenAI client
-    client = OpenAI(api_key=api_key, base_url=base_url)
+    # Set model to the model you want to use, e.g., "claude-opus-4-20250514"
+    model = "claude-opus-4-20250514"
+
+    # Create Anthropic client
+    client = anthropic.Anthropic(api_key=api_key)
 
     # Set up the client with your API key
-    response = None
     try:
-
-        # Make a chat completion request
-        response = client.chat.completions.create(
-            model=model_name,
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": "What's the capital of France?"},
-            ],
+        message = client.messages.create(
+            model=model,
+            max_tokens=1024,
+            system="You are a helpful assistant.",
+            messages=[{"role": "user", "content": [{"type": "text", "text": "What's the capital of France?"}]}],
         )
 
         # Print the assistant's reply
         print("Successful call to Anthropic")
-        print(f"reponse: {response.choices[0].message.content}")
+        print(f"reponse: {message.content[0].text}")
 
     except Exception as e:
         print("Failed call to Anthropic")

@@ -47,11 +47,10 @@ Setup a virtual environment, install the dependencies, and activate the virtual 
 
     ```bash
     export ANTHROPIC_API_KEY="XXX"
-    export ANTHROPIC_BASE_URL=https://api.anthropic.com/v1/
-    export ANTHROPIC_MODEL_NAME=claude-3-sonnet-20240229
+    export ANTHROPIC_BASE_URL="https://api.anthropic.com"
     ```
 
-- Run the script testing OpenAI API key
+- Set the `model` variable in the script (e.g., to `claude-opus-4-20250514`) and run the script testing Anthropic API key
 
     ```bash
     python3 ./tests/apps/anthropic_api_key.py
@@ -65,10 +64,9 @@ Setup a virtual environment, install the dependencies, and activate the virtual 
 
     ```bash
     export GOOGLE_API_KEY="XXX"
-    export GOOGLE_MODEL_NAME=gemini-1.5-pro
     ```
 
-- Run the script testing Gemini API key
+- Set the `model` variable in the script (e.g., to `gemini-1.5-pro`) and run the script testing Gemini API key
 
     ```bash
     python3 ./tests/apps/gemini_api_key.py
