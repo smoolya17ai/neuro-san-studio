@@ -29,6 +29,10 @@ Here are a few examples ordered by level of complexity.
         * [Real Estate Agent](#real-estate-agent)
         * [Consumer Decision Assistant Agents](#consumer-decision-assistant-agents)
         * [Therapy Vignette Supervision](#therapy-vignette-supervision)
+        * [Banking Operations](#banking-operations)
+        * [Retail Operations and Customer Service Assistant](#retail-operations-and-customer-service-assistant)
+        * [Insurance Underwriting Agents](#insurance-underwriting-agents)
+        * [Sentimental Analysis of News Sources](#sentimental-analysis-of-news-sources)
     * [🧪 Experimental and Research](#-experimental-and-research)
         * [Agent Network Designer](#agent-network-designer)
         * [Agent Network Architect](#agent-network-architect)
@@ -206,6 +210,39 @@ it a therapy vignette, and it will produce a consensus treatment plan after the 
 opinion.
 
 **Tags:** `AAOSA`
+
+### Banking Operations
+
+[Banking Operations](examples/banking_ops.md) is a multi-agent system that simulates an end-to-end banking support 
+framework covering account servicing, fraud prevention, credit underwriting, and wealth management. Specialized agents 
+collaborate to deliver bank policy-compliant responses to users, with the system currently operating in demo mode.
+
+**Tags:** `AAOSA`
+
+### Retail Operations and Customer Service Assistant
+
+[Retail Operations and Customer Service Assistant](examples/retail_ops_and_customer_service.md) is a modular, 
+multi-agent system that simulates a real-world helpdesk, automating the management of orders, returns, refunds, and 
+product queries while ensuring compliance with company policies. It uses domain-specific task delegation across 
+specialized agents, each handling a particular query or retail operation, and is currently in demo mode.
+
+**Tags:** `AAOSA`
+
+### Insurance Underwriting Agents
+[Insurance Underwriting Agent](examples/insurance_underwriting_agents.md) is a hierarchical, multi-agent system that 
+automates Hartford’s business insurance workflows, replicating a real-world operations desk. It seamlessly coordinates 
+information flow across multiple agents (teams), managing underwriting and claims processes. Key tasks include ACORD form
+validation, risk assessment, underwriting decisions, and claims intake. The system is currently in demo mode.
+
+**Tags:** `AAOSA`
+
+### Sentimental Analysis of News Sources
+[Sentimental Analysis of News Sources](examples/news_sentimental_analysis.md) is a multi-agent system that analyzes news 
+coverage from The New York Times, The Guardian, and Al Jazeera to reveal emotional framing across geopolitical perspectives. 
+Using keyword-driven sentiment analysis, it automates news retrieval, sentiment scoring, and report generation to provide 
+concise, data-backed insights on sentiment polarity, tone variations, and media bias.
+
+**Tags:** `tool`, `API`, `AAOSA`
 
 ## 🧪 Experimental and Research
 
