@@ -232,6 +232,10 @@ OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"
 AZURE_OPENAI_API_KEY="your Azure OpenAI API key"  
 AZURE_OPENAI_DEPLOYMENT_NAME="your Azure OpenAI API deployment name"
 
+Azure OpenAI requires you to first deploy a model and then reference it using the deployment name in API calls.
+Deployment name is NOT the model name itself. It's a label you assign to the model when you deploy it. E.g., you
+may deploy a "gpt-4" model and label it "my-gpt-4".
+
 > **Tip**: While `OPENAI_API_KEY` may still be recognized for backward compatibility,
 > it's recommended to use `AZURE_OPENAI_API_KEY` to avoid conflicts and align with upcoming changes in LangChain.
 >
