@@ -26,7 +26,7 @@ Setup a virtual environment, install the dependencies, and activate the virtual 
     export AZURE_OPENAI_API_KEY="YOUR_API_KEY"
     export OPENAI_API_VERSION="2025-04-01-preview"
     export AZURE_OPENAI_ENDPOINT="https://YOUR_RESOURCE_NAME.openai.azure.com/"
-    export AZURE_DEPLOYMENT_NAME="gpt-4o"
+    export AZURE_OPENAI_DEPLOYMENT_NAME="gpt-4o"
 
     ```
 

@@ -17,7 +17,7 @@ def test_azure_open_ai_api_key():
     api_key = os.getenv("AZURE_OPENAI_API_KEY")  # or use a string directly
     api_version = os.getenv("OPENAI_API_VERSION")  # or use a string directly
     azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")  # e.g., "https://your-resource.openai.azure.com/"
-    deployment_name = os.getenv("AZURE_DEPLOYMENT_NAME")  # e.g., "gpt-4" or "gpt-3.5-turbo"
+    deployment_name = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")  # e.g., "gpt-4" or "gpt-3.5-turbo"
 
     # Create AzureOpenAI client
     client = AzureOpenAI(api_key=api_key, api_version=api_version, azure_endpoint=azure_endpoint)

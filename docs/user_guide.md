@@ -230,6 +230,7 @@ You can set some of these as environment variables or add them in your .env file
 AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"
 OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"  
 AZURE_OPENAI_API_KEY="your Azure OpenAI API key"  
+AZURE_OPENAI_DEPLOYMENT_NAME="your Azure OpenAI API deployment name"
 
 > **Tip**: While `OPENAI_API_KEY` may still be recognized for backward compatibility,
 > it's recommended to use `AZURE_OPENAI_API_KEY` to avoid conflicts and align with upcoming changes in LangChain.
