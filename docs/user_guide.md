@@ -228,7 +228,7 @@ After your Azure OpenAI resource is created, you must deploy a model
 * Find the `api_version` on the deployed model page (e.g., "2024-12-01-preview")
 * Optionally, set environment variables to the value of the deployment name and API version
 
-    export AZURE_OPENAI_DEPLOYMENT_NAME="Your deployment name"
+    export AZURE_OPENAI_DEPLOYMENT_NAME="Your deployment name"\
     export OPENAI_API_VERSION="Your OpenAI API version"
 
 Finally, get your API key and endpoint
@@ -238,7 +238,7 @@ Finally, get your API key and endpoint
 * Click on `Click here to view endpoints`
 * Optionally, set environment variables to the value of the API key and the endpoint
 
-    export AZURE_OPENAI_API_KEY="your Azure OpenAI API key"
+    export AZURE_OPENAI_API_KEY="your Azure OpenAI API key"\
     export AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"
 
 If you set the environment variables (recommended), the `llm_config` in your `.hocon` file would be as follows:
