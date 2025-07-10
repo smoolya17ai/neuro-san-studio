@@ -26,9 +26,13 @@ Setup a virtual environment, install the dependencies, and activate the virtual 
     export AZURE_OPENAI_API_KEY="YOUR_API_KEY"
     export OPENAI_API_VERSION="2025-04-01-preview"
     export AZURE_OPENAI_ENDPOINT="https://YOUR_RESOURCE_NAME.openai.azure.com/"
-    export AZURE_DEPLOYMENT_NAME="gpt-4o"
+    export AZURE_OPENAI_DEPLOYMENT_NAME="gpt-4o"
 
     ```
+
+    - Azure OpenAI requires you to first deploy a model and then reference it using the deployment name in API calls.
+    Deployment name is NOT the model name itself. It's a label you assign to the model when you deploy it. E.g., you
+    may deploy a "gpt-4" model and label it "my-gpt-4".
 
 - Run the script testing Azure OpenAI API key
 
