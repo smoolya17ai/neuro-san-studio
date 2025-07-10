@@ -30,9 +30,10 @@ single command.
         * [LLM Config](#llm-config)
             * [Notes on `llm_config`:](#notes-on-llm_config)
             * [Running the multi-agent network:](#running-the-multi-agent-network)
-    * [6. How to Switch LLMs Using the HOCON File](#6-how-to-switch-llms-using-the-hocon-file)
-        * [Setting Up Ollama Locally](#setting-up-ollama-locally)
-        * [Adding Endpoint URL for Any Cloud-Hosted LLM](#adding-endpoint-url-for-any-cloud-hosted-llm)
+    * [6. How to Switch LLMs in the Agent Network](#6-how-to-switch-llms-in-the-agent-network)
+        * [Available Models and Preset Parameters](#available-models-and-preset-parameters)
+        * [API Keys & Environment Variables](#api-keys--environment-variables)
+        * [Using Local LLMs via Ollama](#using-local-llms-via-ollama)
     * [7. How to use tools in Neuro-San](#7-how-to-use-tools-in-neuro-san)
         * [Custom Tools](#custom-tools)
             * [Defining Functions in Agent Network (HOCON)](#defining-functions-in-agent-network-hocon)
@@ -423,53 +424,54 @@ the **CalculatorTool**. The final answer is then relayed back to the user.
 
 ---
 
-## 6. How to Switch LLMs Using the HOCON File
+## 6. How to Switch LLMs in the Agent Network
 
-Because **Neuro AI Multi-Agent Accelerator** uses `neuro-san`, it is LLM-agnostic, you can switch to different model
-providers by changing the `llm_config` in your `.hocon` file.
-
-```hocon
-"llm_config": {
-    "model_name": "llama3.1",
-    # Additional fields like endpoint_url for remote inference servers
-}
-```
-
-**Note**: The `base_url` config parameter is not needed when running `ollama` on a local machine or a laptop.
-
-### Setting Up Ollama Locally
-
-Ollama is a local LLM runner for Mac (and also works on Windows via Docker or other means).
-
-1. Download and Install Ollama (follow official instructions from [ollama.com](https://ollama.com/)).
-2. Start an Ollama instance listening to a local port (e.g., 11434).
-
-On macOS, that might look like:
-
-```bash
-ollama serve --port 11434
-```
-
-On Windows, you might use Docker:
-Refer to the [docker hub ollama documentation](https://hub.docker.com/r/ollama/ollama) on how to set up a docker instance.
-
-### Adding Endpoint URL for Any Cloud-Hosted LLM
-
-To direct the calls to your local Ollama, or a cloud-hosted model endpoint, add:
+Because **Neuro AI Multi-Agent Accelerator** uses `neuro-san`, it is LLM-agnostic, you can switch to different models or
+providers by changing the `model_name` of `llm_config` in your `.hocon` file.
 
 ```hocon
 "llm_config": {
-    "model_name": "llama3.1",
-    "base_url": "http://localhost:11434/api/chat" # replace the url in base_url with your actual url
+    "model_name": "<your_model>",
+    # Replace with the name of the model you want to use
+    # You can also specify other fields, like temperature, max_tokens, etc.
 }
 ```
 
-If you use other providers (e.g., Anthropic, OpenAI, Azure, etc.), simply adjust these values to match the respective
-endpoints and model names. Be sure to set any necessary environment variables (e.g., `OPENAI_API_KEY`,
-`ANTHROPIC_API_KEY`, `ANTHROPIC_API_URL`, `AZURE_OPENAI_ENDPOINT`, etc.).
+### Available Models and Preset Parameters
 
-**Note**: Please check [langchain api reference](https://python.langchain.com/api_reference/reference.html) for
-supported parameters.
+All available models and their providers are listed in the
+[default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
+Each entry in this file includes preset parameters that define how the model should be used.
+
+If needed, you can **override these preset parameters** directly in your `llm_config`.
+
+Please refer to
+
+* [LLM Info HOCON Reference Guide](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/llm_info_hocon_reference.md)
+* [LangChain Chat Model Integration](https://python.langchain.com/docs/integrations/chat/)
+for provider-specific parameter options.
+
+### API Keys & Environment Variables
+
+For most cloud-based providers (e.g. OpenAI, Anthropic, Azure),
+you’ll need to set the appropriate environment variables in your shell or .env file.
+Common examples include:
+
+* `OPENAI_API_KEY`
+* `ANTHROPIC_API_KEY`
+* `AZURE_OPENAI_ENDPOINT`
+
+More details can be found in the following resources:
+
+* [User Guide: LLM Configuration](user_guide.md#llm-configuration)
+* [API Key Documentation](api_key.md)
+* [.env.example](../.env.example)
+
+### Using Local LLMs via Ollama
+
+To use a locally hosted LLM with Ollama, follow the instructions in the [Ollama section](user_guide.md#ollama)
+of the user guide.
+These models can be configured in the same way, provided they are correctly installed and running locally.
 
 ---
 
