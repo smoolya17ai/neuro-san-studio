@@ -272,24 +272,54 @@ You can get an Google Gemini API [key](https://ai.google.dev/gemini-api/docs/api
 
 ### Ollama
 
-To use an LLM that runs locally with [Ollama](https://ollama.com/):
+This guide walks you through how to use a locally running LLM via [Ollama](https://ollama.com/).
 
-* Make sure the Ollama server is running
-* Make sure the model is downloaded, up to date and available in the Ollama server. For instance, `ollama run llama3.1`
-  will download the model and make it available for use. `ollama pull llama3.1`
-  will update the model to the latest version if needed.
-* If the agent network contains tools, make sure the model can call tools:
-  see [Ollama's documentation for models that support tools](https://ollama.com/search?c=tools)
-* Set the `class` and `model_name` fields in the `llm_config` section of the agent network configuration file:
+#### Prerequisites
+
+1. **Download and Install Ollama**
+
+   Download Ollama from [https://ollama.com](https://ollama.com) and install it on your machine.
+
+2. **Download the Model**
+
+   Use the following command to download and prepare the model:
+
+   ```bash
+    ollama run <model_name>      # replace <model_name> with your chosen model, e.g. qwen3:8b
+   ```
+
+   This ensures the model is downloaded and ready for use.
+
+3. **Update the Model (Optional)**
+    To update the model to the latest version:
+
+    ```bash
+    ollama pull <model_name>     # replace <model_name> with your chosen model, e.g. qwen3:8b
+    ```
+
+4. **Tool Calling Support**
+
+    Ensure that the chosen model from Ollama supports tool use. You can check this in [Ollama's searchable model directory](https://ollama.com/search?c=tools).
+
+5. **Default LLM Info**
+
+   To use the model in the `hocon` file, its name and relevant information, such as `max_token`, must be included in the [default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
+
+#### Configuration
+
+In your agent network hocon file, set the model name in the `llm_config` section. For example:
 
 ```hocon
-    "llm_config": {
-        "class": "ollama",
-        "model_name": "llama3.1",
-    },
+"llm_config": {
+    "model_name": "qwen3:8b",
+}
 ```
 
-See [./examples/music_nerd_pro_local.md](./examples/music_nerd_pro_local.md) for an example.
+Make sure the model you specify is already downloaded and available in the Ollama server.
+
+#### Example Agent Network
+
+See the [./examples/music_nerd_pro_local.md](./examples/music_nerd_pro_local.md) for a complete working example.
 
 For more information about how to use Ollama with LangChain,
 see [this page](https://python.langchain.com/docs/integrations/chat/ollama/)
