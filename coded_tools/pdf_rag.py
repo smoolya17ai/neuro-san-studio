@@ -1,3 +1,5 @@
+"""Tool module for doing RAG from a pdf file"""
+
 # Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
 # All Rights Reserved.
 # Issued under the Academic Public License.
@@ -10,13 +12,18 @@
 # END COPYRIGHT
 
 import os
-from typing import Any, Dict, List
+import re
+from typing import Any
+from typing import Dict
+from typing import List
 
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_core.documents import Document
 
-# Import BaseRag from your module
 from .base_rag import BaseRag
+
+INVALID_PATH_PATTERN = r"[<>:\"|?*\x00-\x1F]"
+
 
 class PdfRag(BaseRag):
     """
@@ -53,8 +60,8 @@ class PdfRag(BaseRag):
             or error message
         """
         # Extract arguments from the input dictionary
-        query = args.get("query", "")
-        urls = args.get("urls", [])
+        query: str = args.get("query", "")
+        urls: List[str] = args.get("urls", [])
 
         # Validate presence of required inputs
         if not query:

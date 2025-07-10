@@ -1,3 +1,5 @@
+"""Tool module for doing RAG from confluence pages"""
+
 # Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
 # All Rights Reserved.
 # Issued under the Academic Public License.
@@ -9,16 +11,22 @@
 #
 # END COPYRIGHT
 
-import os
 import inspect
-from typing import Any, Dict, List
+import os
+from typing import Any
+from typing import Dict
+from typing import List
 
+# pylint: disable=import-error
 from atlassian.errors import ApiPermissionError
-from requests.exceptions import HTTPError
 from langchain_community.document_loaders.confluence import ConfluenceLoader
 from langchain_core.documents import Document
+from requests.exceptions import HTTPError
 
 from .base_rag import BaseRag
+
+INVALID_PATH_PATTERN = r"[<>:\"|?*\x00-\x1F]"
+
 
 class ConfluenceRag(BaseRag):
     """
@@ -52,7 +60,7 @@ class ConfluenceRag(BaseRag):
             or error message
         """
         # Extract arguments from the input dictionary
-        query = args.get("query", "")
+        query: str = args.get("query", "")
 
 
         # Create a list of parameters of ConfluenceLoader
@@ -98,7 +106,7 @@ class ConfluenceRag(BaseRag):
         try:
             loader = ConfluenceLoader(**confluence_loader_args)
             docs = await loader.aload()
-            print(f"Successfully loaded confluence pages from {url}")
+            print(f"Successfully load confluence pages from {url}")
         except HTTPError as http_error:
             print(f"HTTP error: {http_error}")
         except ApiPermissionError as api_error:
