@@ -306,7 +306,7 @@ You can get an Google Gemini API [key](https://ai.google.dev/gemini-api/docs/api
 
 ### Ollama
 
-This guide walks you through how to use a locally running LLM via [Ollama](https://ollama.com/).
+This guide walks you through how to use a locally running LLM via [Ollama](https://github.com/ollama/ollama) in neuro-san.
 
 #### Prerequisites
 
