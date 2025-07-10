@@ -62,7 +62,6 @@ class ConfluenceRag(BaseRag):
         # Extract arguments from the input dictionary
         query: str = args.get("query", "")
 
-
         # Create a list of parameters of ConfluenceLoader
         # https://python.langchain.com/api_reference/community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html
         confluence_loader_params = [
@@ -79,13 +78,11 @@ class ConfluenceRag(BaseRag):
         # Validate presence of required inputs
         if not query:
             return "❌ Missing required input: 'query'."
-
         if not loader_args.get("url"):
             return (
                 "❌ Missing required input: 'url'.\n"
                 "This should look like: https://your-domain.atlassian.net/wiki/"
             )
-
         if not loader_args.get("space_key") and not loader_args.get("page_ids"):
             return (
                 "❌ Missing both 'space_key' and 'page_ids'.\n"
