@@ -211,10 +211,45 @@ See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
 
 ### AzureOpenAI
 
-If you are using Azure OpenAI in your hocon file, make sure to **set `deployment_name`** in the `llm_config` to use the
-right model.
+To create an Azure OpenAI resource
 
-For example:
+* Go to Azure [portal](https://portal.azure.com/)
+* Click on `Create a resource`
+* Search for `Azure OpenAI`
+* Select `Azure OpenAI`, then click Create  
+
+After your Azure OpenAI resource is created, you must deploy a model
+
+* Go to Azure [portal](https://portal.azure.com/)
+* Under `Resources`, select your Azure OpenAI resource
+* Click on `Go to Azure AI Foundry portal`
+* Click on `Create new deployment`
+* Choose a model (e.g., `gpt-4o`), then pick a deployment name (e.g., `my-gpt4o`), and click `Deploy`
+* Find the `api_version` on the deployed model page (e.g., "2024-12-01-preview")
+* Optionally, set environment variables to the value of the deployment name and API version
+
+    export AZURE_OPENAI_DEPLOYMENT_NAME="Your deployment name"
+    export OPENAI_API_VERSION="Your OpenAI API version"
+
+Finally, get your API key and endpoint
+
+* Go to Azure [portal](https://portal.azure.com/)
+* Under `Resources`, select your Azure OpenAI resource
+* Click on `Click here to view endpoints`
+* Optionally, set environment variables to the value of the API key and the endpoint
+
+    export AZURE_OPENAI_API_KEY="your Azure OpenAI API key"
+    export AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"
+
+If you set the environment variables (recommended), the `llm_config` in your `.hocon` file would be as follows:
+
+```hocon
+"llm_config": {
+        "model_name": "azure-gpt-4o",
+},
+```
+
+If you did NOT set the environment variables, the `llm_config` in your `.hocon` file would be as follows:
 
 ```hocon
 "llm_config": {
@@ -226,11 +261,10 @@ For example:
 },
 ```
 
-You can set some of these as environment variables or add them in your .env file in order to use Azure OpenAI:  
-AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"
-OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"  
-AZURE_OPENAI_API_KEY="your Azure OpenAI API key"  
-
+> **Note**: Make sure your `model_name` starts with `azure-`. E.g., if you have a `gpt-4o` model,
+> your model name should be `azure-gpt-4o`, or else your agent network might think you are using
+> an OpenAI model (and not an Azure OpenAI model).
+>
 > **Tip**: While `OPENAI_API_KEY` may still be recognized for backward compatibility,
 > it's recommended to use `AZURE_OPENAI_API_KEY` to avoid conflicts and align with upcoming changes in LangChain.
 >
