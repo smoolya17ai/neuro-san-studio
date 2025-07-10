@@ -448,11 +448,13 @@ If needed, you can **override these preset parameters** directly in your `llm_co
 Please refer to
 
 * [LLM Info HOCON Reference Guide](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/llm_info_hocon_reference.md)
-* [LangChain Chat Model Integration](https://python.langchain.com/docs/integrations/chat/) for provider-specific parameter options.
+* [LangChain Chat Model Integration](https://python.langchain.com/docs/integrations/chat/)
+for provider-specific parameter options.
 
 ### API Keys & Environment Variables
 
-For most cloud-based providers (e.g. OpenAI, Anthropic, Azure), you’ll need to set the appropriate environment variables in your shell or .env file.
+For most cloud-based providers (e.g. OpenAI, Anthropic, Azure),
+you’ll need to set the appropriate environment variables in your shell or .env file.
 Common examples include:
 
 * `OPENAI_API_KEY`
@@ -467,7 +469,8 @@ More details can be found in the following resources:
 
 ### Using Local LLMs via Ollama
 
-To use a locally hosted LLM with Ollama, follow the instructions in the [Ollama section](user_guide.md#ollama) of the user guide.
+To use a locally hosted LLM with Ollama, follow the instructions in the [Ollama section](user_guide.md#ollama)
+of the user guide.
 These models can be configured in the same way, provided they are correctly installed and running locally.
 
 ---

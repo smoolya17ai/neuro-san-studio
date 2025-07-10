@@ -276,11 +276,11 @@ This guide walks you through how to use a locally running LLM via [Ollama](https
 
 #### Prerequisites
 
-1. **Download and Install Ollama**
+1. Download and Install Ollama
 
    Download Ollama from [https://ollama.com](https://ollama.com) and install it on your machine.
 
-2. **Download the Model**
+2. Download the Model
 
    Use the following command to download and prepare the model:
 
@@ -290,19 +290,19 @@ This guide walks you through how to use a locally running LLM via [Ollama](https
 
    This ensures the model is downloaded and ready for use.
 
-3. **Update the Model (Optional)**
+3. Update the Model (Optional)
     To update the model to the latest version:
 
     ```bash
     ollama pull <model_name>     # replace <model_name> with your chosen model, e.g. qwen3:8b
     ```
 
-4. **Tool Calling Support**
+4. Tool Calling Support
 
     Ensure that the chosen model from Ollama supports tool use. You can check this in
     [Ollama's searchable model directory](https://ollama.com/search?c=tools).
 
-5. **Default LLM Info**
+5. Default LLM Info
 
    To use the model in the `hocon` file, its name and relevant information, such as `max_token`, must be included in the
    [default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
