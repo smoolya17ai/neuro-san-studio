@@ -291,6 +291,7 @@ This guide walks you through how to use a locally running LLM via [Ollama](https
    This ensures the model is downloaded and ready for use.
 
 3. Update the Model (Optional)
+
     To update the model to the latest version:
 
     ```bash
