@@ -299,11 +299,13 @@ This guide walks you through how to use a locally running LLM via [Ollama](https
 
 4. **Tool Calling Support**
 
-    Ensure that the chosen model from Ollama supports tool use. You can check this in [Ollama's searchable model directory](https://ollama.com/search?c=tools).
+    Ensure that the chosen model from Ollama supports tool use. You can check this in
+    [Ollama's searchable model directory](https://ollama.com/search?c=tools).
 
 5. **Default LLM Info**
 
-   To use the model in the `hocon` file, its name and relevant information, such as `max_token`, must be included in the [default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
+   To use the model in the `hocon` file, its name and relevant information, such as `max_token`, must be included in the
+   [default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
 
 #### Configuration
 

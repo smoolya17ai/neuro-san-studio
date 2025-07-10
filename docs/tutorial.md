@@ -439,7 +439,9 @@ providers by changing the `model_name` of `llm_config` in your `.hocon` file.
 
 ### Available Models and Preset Parameters
 
-All available models and their providers are listed in the [default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon). Each entry in this file includes preset parameters that define how the model should be used.
+All available models and their providers are listed in the
+[default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
+Each entry in this file includes preset parameters that define how the model should be used.
 
 If needed, you can **override these preset parameters** directly in your `llm_config`.
 
@@ -450,7 +452,8 @@ Please refer to
 
 ### API Keys & Environment Variables
 
-For most cloud-based providers (e.g. OpenAI, Anthropic, Azure), you’ll need to set the appropriate environment variables in your shell or .env file. Common examples include:
+For most cloud-based providers (e.g. OpenAI, Anthropic, Azure), you’ll need to set the appropriate environment variables in your shell or .env file.
+Common examples include:
 
 * `OPENAI_API_KEY`
 * `ANTHROPIC_API_KEY`
@@ -464,7 +467,8 @@ More details can be found in the following resources:
 
 ### Using Local LLMs via Ollama
 
-To use a locally hosted LLM with Ollama, follow the instructions in the [Ollama section](user_guide.md#ollama) of the user guide. These models can be configured in the same way, provided they are correctly installed and running locally.
+To use a locally hosted LLM with Ollama, follow the instructions in the [Ollama section](user_guide.md#ollama) of the user guide.
+These models can be configured in the same way, provided they are correctly installed and running locally.
 
 ---
 
