@@ -11,40 +11,43 @@ single command.
 ## Table of Contents
 
 <!-- TOC -->
+
 * [Neuro AI Multi-Agent Accelerator – Getting Started](#neuro-ai-multi-agent-accelerator--getting-started)
-  * [Table of Contents](#table-of-contents)
-  * [1. Introduction](#1-introduction)
-  * [2. Project Structure](#2-project-structure)
-    * [Key directories and files:](#key-directories-and-files)
-  * [3. Setting Up a Working Python Environment](#3-setting-up-a-working-python-environment)
-  * [4. What is an LLM-based Agent?](#4-what-is-an-llm-based-agent)
-    * [Agents for Autonomous Decision Making](#agents-for-autonomous-decision-making)
-    * [Function Calling with Agents](#function-calling-with-agents)
-    * [Data-Driven Agent Network](#data-driven-agent-network)
-  * [5. Creating an Agent Network from Scratch](#5-creating-an-agent-network-from-scratch)
-    * [Single Agent Network Example](#single-agent-network-example)
-      * [Step 1: Create a file `registries/single_agent_example.hocon`:](#step-1-create-a-file-registriessingle_agent_examplehocon)
-      * [Step 2: Run the server with this `.hocon` file. You can do so by:](#step-2-run-the-server-with-this-hocon-file-you-can-do-so-by)
-    * [Multi-Agent Network Example](#multi-agent-network-example)
-    * [LLM Config](#llm-config)
-      * [Notes on `llm_config`:](#notes-on-llm_config)
-      * [Running the multi-agent network:](#running-the-multi-agent-network)
-  * [6. How to Switch LLMs Using the HOCON File](#6-how-to-switch-llms-using-the-hocon-file)
-    * [Setting Up Ollama Locally](#setting-up-ollama-locally)
-    * [Adding Endpoint URL for Any Cloud-Hosted LLM](#adding-endpoint-url-for-any-cloud-hosted-llm)
-  * [7. How to use tools in Neuro-San](#7-how-to-use-tools-in-neuro-san)
-    * [Custom Tools](#custom-tools)
-      * [Defining Functions in Agent Network (HOCON)](#defining-functions-in-agent-network-hocon)
-      * [Schema of Parameters](#schema-of-parameters)
-      * [Defining Tool in Python (Coded Tool)](#defining-tool-in-python-coded-tool)
-    * [Prebuilt Tools (via toolbox)](#prebuilt-tools-via-toolbox)
-      * [Using Toolbox Tools in Agent Network](#using-toolbox-tools-in-agent-network)
-      * [Toolbox Configuration](#toolbox-configuration)
-      * [Extending the Toolbox](#extending-the-toolbox)
-  * [8. How to Access the Logs](#8-how-to-access-the-logs)
-  * [9. How to Stop the servers](#9-how-to-stop-the-servers)
-  * [10. Key Aspects of Neuro AI Multi-Agent Accelerator](#10-key-aspects-of-neuro-ai-multi-agent-accelerator)
-  * [11. End Notes](#11-end-notes)
+    * [Table of Contents](#table-of-contents)
+    * [1. Introduction](#1-introduction)
+    * [2. Project Structure](#2-project-structure)
+        * [Key directories and files:](#key-directories-and-files)
+    * [3. Setting Up a Working Python Environment](#3-setting-up-a-working-python-environment)
+    * [4. What is an LLM-based Agent?](#4-what-is-an-llm-based-agent)
+        * [Agents for Autonomous Decision Making](#agents-for-autonomous-decision-making)
+        * [Function Calling with Agents](#function-calling-with-agents)
+        * [Data-Driven Agent Network](#data-driven-agent-network)
+    * [5. Creating an Agent Network from Scratch](#5-creating-an-agent-network-from-scratch)
+        * [Single Agent Network Example](#single-agent-network-example)
+            * [Step 1: Create a file `registries/single_agent_example.hocon`:](#step-1-create-a-file-registriessingle_agent_examplehocon)
+            * [Step 2: Run the server with this `.hocon` file. You can do so by:](#step-2-run-the-server-with-this-hocon-file-you-can-do-so-by)
+        * [Multi-Agent Network Example](#multi-agent-network-example)
+        * [LLM Config](#llm-config)
+            * [Notes on `llm_config`:](#notes-on-llm_config)
+            * [Running the multi-agent network:](#running-the-multi-agent-network)
+    * [6. How to Switch LLMs in the Agent Network](#6-how-to-switch-llms-in-the-agent-network)
+        * [Available Models and Preset Parameters](#available-models-and-preset-parameters)
+        * [API Keys & Environment Variables](#api-keys--environment-variables)
+        * [Using Local LLMs via Ollama](#using-local-llms-via-ollama)
+    * [7. How to use tools in Neuro-San](#7-how-to-use-tools-in-neuro-san)
+        * [Custom Tools](#custom-tools)
+            * [Defining Functions in Agent Network (HOCON)](#defining-functions-in-agent-network-hocon)
+            * [Schema of Parameters](#schema-of-parameters)
+            * [Defining Tool in Python (Coded Tool)](#defining-tool-in-python-coded-tool)
+        * [Prebuilt Tools (via toolbox)](#prebuilt-tools-via-toolbox)
+            * [Using Toolbox Tools in Agent Network](#using-toolbox-tools-in-agent-network)
+            * [Toolbox Configuration](#toolbox-configuration)
+            * [Extending the Toolbox](#extending-the-toolbox)
+    * [8. How to Access the Logs](#8-how-to-access-the-logs)
+    * [9. How to Stop the servers](#9-how-to-stop-the-servers)
+    * [10. Key Aspects of Neuro AI Multi-Agent Accelerator](#10-key-aspects-of-neuro-ai-multi-agent-accelerator)
+    * [11. End Notes](#11-end-notes)
+
 <!-- TOC -->
 
 ---
@@ -128,9 +131,11 @@ Note: You may need to adapt the filenames if versions differ.
 An **LLM-based Agent** is a component in your agent network that uses a **Large Language Model** to process instructions
 and make decisions. By embedding the agent’s logic in a data-driven configuration (the `.hocon` file), you can define:
 
+<!-- pyml disable no-emphasis-as-heading,no-emphasis-as-header -->
 * **Agent roles and responsibilities**
 * **Tools** (or other agents) it can call
 * **Function schema** that the agent can handle
+<!-- pyml enable no-emphasis-as-heading,no-emphasis-as-header -->
 
 ### Agents for Autonomous Decision Making
 
@@ -393,13 +398,13 @@ that does not have a defined config always uses the default llm_config defined o
 * The llm_config uses `model_name` as a parameter. We can use these models with openai, azure, ollama, anthropic and
 nvidia as a provider.
 * Here is a list of supported LLMs that can be used as `model_name` as of 26-Feb-2025:
-  * OpenAI: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k', 'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4-turbo-preview',
+    * OpenAI: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k', 'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4-turbo-preview',
     'gpt-4-1106-preview', 'gpt-4-vision-preview', 'gpt-4', 'gpt-4-32k']
-  * AzureChatOpenAI: ['azure-gpt-3.5-turbo', 'azure-gpt-4']
-  * Anthropic: ['claude-3-haiku', 'claude-3-sonnet', 'claude-3-opus', 'claude-2.1', 'claude-2.0', 'claude-instant-1.2']
-  * Ollama: ['llama2', 'llama3', 'llama3.1', 'llama3:70b', 'llava', 'mistral', 'mistral-nemo', 'mixtral', 'qwen2.5:14b',
+    * AzureChatOpenAI: ['azure-gpt-3.5-turbo', 'azure-gpt-4']
+    * Anthropic: ['claude-3-haiku', 'claude-3-sonnet', 'claude-3-opus', 'claude-2.1', 'claude-2.0', 'claude-instant-1.2']
+    * Ollama: ['llama2', 'llama3', 'llama3.1', 'llama3:70b', 'llava', 'mistral', 'mistral-nemo', 'mixtral', 'qwen2.5:14b',
   'deepseek-r1:14b']
-  * ChatNvidia: ['nvidia-llama-3.1-405b-instruct', 'nvidia-llama-3.3-70b-instruct', 'nvidia-deepseek-r1']
+    * ChatNvidia: ['nvidia-llama-3.1-405b-instruct', 'nvidia-llama-3.3-70b-instruct', 'nvidia-deepseek-r1']
 * Note that not all of these LLMs support function-calling, it is advisable to read the documentation before using any
 of the LLMs.
 * Each of these LLMs have several config params. Some of the common config parameters are: `model_name`, `temperature`, `max_tokens`.
@@ -419,53 +424,54 @@ the **CalculatorTool**. The final answer is then relayed back to the user.
 
 ---
 
-## 6. How to Switch LLMs Using the HOCON File
+## 6. How to Switch LLMs in the Agent Network
 
-Because **Neuro AI Multi-Agent Accelerator** uses `neuro-san`, it is LLM-agnostic, you can switch to different model
-providers by changing the `llm_config` in your `.hocon` file.
-
-```hocon
-"llm_config": {
-    "model_name": "llama3.1",
-    # Additional fields like endpoint_url for remote inference servers
-}
-```
-
-**Note**: The `base_url` config parameter is not needed when running `ollama` on a local machine or a laptop.
-
-### Setting Up Ollama Locally
-
-Ollama is a local LLM runner for Mac (and also works on Windows via Docker or other means).
-
-1. Download and Install Ollama (follow official instructions from [ollama.com](https://ollama.com/)).
-2. Start an Ollama instance listening to a local port (e.g., 11434).
-
-On macOS, that might look like:
-
-```bash
-ollama serve --port 11434
-```
-
-On Windows, you might use Docker:
-Refer to the [docker hub ollama documentation](https://hub.docker.com/r/ollama/ollama) on how to set up a docker instance.
-
-### Adding Endpoint URL for Any Cloud-Hosted LLM
-
-To direct the calls to your local Ollama, or a cloud-hosted model endpoint, add:
+Because **Neuro AI Multi-Agent Accelerator** uses `neuro-san`, it is LLM-agnostic, you can switch to different models or
+providers by changing the `model_name` of `llm_config` in your `.hocon` file.
 
 ```hocon
 "llm_config": {
-    "model_name": "llama3.1",
-    "base_url": "http://localhost:11434/api/chat" # replace the url in base_url with your actual url
+    "model_name": "<your_model>",
+    # Replace with the name of the model you want to use
+    # You can also specify other fields, like temperature, max_tokens, etc.
 }
 ```
 
-If you use other providers (e.g., Anthropic, OpenAI, Azure, etc.), simply adjust these values to match the respective
-endpoints and model names. Be sure to set any necessary environment variables (e.g., `OPENAI_API_KEY`,
-`ANTHROPIC_API_KEY`, `ANTHROPIC_API_URL`, `AZURE_OPENAI_ENDPOINT`, etc.).
+### Available Models and Preset Parameters
 
-**Note**: Please check [langchain api reference](https://python.langchain.com/api_reference/reference.html) for
-supported parameters.
+All available models and their providers are listed in the
+[default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
+Each entry in this file includes preset parameters that define how the model should be used.
+
+If needed, you can **override these preset parameters** directly in your `llm_config`.
+
+Please refer to
+
+* [LLM Info HOCON Reference Guide](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/llm_info_hocon_reference.md)
+* [LangChain Chat Model Integration](https://python.langchain.com/docs/integrations/chat/)
+for provider-specific parameter options.
+
+### API Keys & Environment Variables
+
+For most cloud-based providers (e.g. OpenAI, Anthropic, Azure),
+you’ll need to set the appropriate environment variables in your shell or .env file.
+Common examples include:
+
+* `OPENAI_API_KEY`
+* `ANTHROPIC_API_KEY`
+* `AZURE_OPENAI_ENDPOINT`
+
+More details can be found in the following resources:
+
+* [User Guide: LLM Configuration](user_guide.md#llm-configuration)
+* [API Key Documentation](api_key.md)
+* [.env.example](../.env.example)
+
+### Using Local LLMs via Ollama
+
+To use a locally hosted LLM with Ollama, follow the instructions in the [Ollama section](user_guide.md#ollama)
+of the user guide.
+These models can be configured in the same way, provided they are correctly installed and running locally.
 
 ---
 
@@ -505,12 +511,12 @@ Each tool must define a `function` block, and reference a Python `class`.
 However, users can **manually provide additional arguments** using the `args` field.
 
 * **`function`**
-  * `description`: Describes when and how to use the tool.
-  * `parameters`: Defines input arguments. Optional if no parameters are required.
+    * `description`: Describes when and how to use the tool.
+    * `parameters`: Defines input arguments. Optional if no parameters are required.
 * **`class`**
-  * Python class reference in `module.Class` format.
+    * Python class reference in `module.Class` format.
 * **`args`**
-  * User-specified arguments that override or supplement LLM inputs. Optional.
+    * User-specified arguments that override or supplement LLM inputs. Optional.
 
 ---
 
@@ -552,8 +558,8 @@ Neuro-San supports the following data types:
 * To **reuse a tool across multiple networks**, place its module directly in the configured tool path (`AGENT_TOOL_PATH`).
 
 * This allows you to choose between:
-  * **Local tools** tied to one agent network, and
-  * **Shared tools** accessible by multiple networks.
+    * **Local tools** tied to one agent network, and
+    * **Shared tools** accessible by multiple networks.
 
 ---
 
@@ -607,7 +613,7 @@ class WeatherTool(CodedTool):
 
         if current_weather:
             return f"It is {current_weather} in {location}."
-        
+
         return f"It is always sunny in {location}."
 ```
 
@@ -680,8 +686,8 @@ To use any tool from the Toolbox, simply reference it in the toolbox field of yo
 }
 ```
 
- > You do **not** need to define `function`, `parameters`, or `class` for toolbox tools — that information is already
- included in the langchain tools class or the Toolbox config file.
+You do **not** need to define `function`, `parameters`, or `class` for toolbox tools — that information is already
+included in the langchain tools class or the Toolbox config file.
 
 #### Toolbox Configuration
 

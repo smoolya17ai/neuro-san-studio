@@ -1,36 +1,39 @@
 # User guide
 
 <!-- TOC -->
+
 * [User guide](#user-guide)
-  * [Simple agent network](#simple-agent-network)
-  * [Hocon files](#hocon-files)
-    * [Import and Substitution](#import-and-substitution)
-    * [Manifest](#manifest)
-    * [Agent network](#agent-network)
-      * [Agent specifications](#agent-specifications)
-      * [Tool specifications](#tool-specifications)
-      * [LLM specifications](#llm-specifications)
-  * [LLM configuration](#llm-configuration)
-    * [OpenAI](#openai)
-    * [AzureOpenAI](#azureopenai)
-    * [Anthropic](#anthropic)
-    * [Ollama](#ollama)
-  * [Multi-agent networks](#multi-agent-networks)
-  * [Coded tools](#coded-tools)
-    * [Simple tool](#simple-tool)
-    * [API calling tool](#api-calling-tool)
-    * [Sly data](#sly-data)
-  * [Toolbox](#toolbox)
-    * [Default tools in toolbox](#default-tools-in-toolbox)
-      * [Langchain tools](#langchain-tools-in-toolbox)
-      * [Coded tools](#coded-tools-in-toolbox)
-    * [Usage in agent network config](#usage-in-agent-network-config)
-    * [Adding tools in toolbox](#adding-tools-in-toolbox)
-  * [Logging and debugging](#logging-and-debugging)
-  * [Advanced](#advanced)
-    * [Subnetworks](#subnetworks)
-    * [AAOSA](#aaosa)
-  * [Connect with other agent frameworks](#connect-with-other-agent-frameworks)
+    * [Simple agent network](#simple-agent-network)
+    * [Hocon files](#hocon-files)
+        * [Import and Substitution](#import-and-substitution)
+        * [Manifest](#manifest)
+        * [Agent network](#agent-network)
+            * [Agent specifications](#agent-specifications)
+            * [Tool specifications](#tool-specifications)
+            * [LLM specifications](#llm-specifications)
+    * [LLM configuration](#llm-configuration)
+        * [OpenAI](#openai)
+        * [AzureOpenAI](#azureopenai)
+        * [Anthropic](#anthropic)
+        * [Gemini](#gemini)
+        * [Ollama](#ollama)
+    * [Multi-agent networks](#multi-agent-networks)
+    * [Coded tools](#coded-tools)
+        * [Simple tool](#simple-tool)
+        * [API calling tool](#api-calling-tool)
+        * [Sly data](#sly-data)
+    * [Toolbox](#toolbox)
+        * [Default tools in toolbox](#default-tools-in-toolbox)
+            * [Langchain tools](#langchain-tools-in-toolbox)
+            * [Coded tools](#coded-tools-in-toolbox)
+        * [Usage in agent network config](#usage-in-agent-network-config)
+        * [Adding tools in toolbox](#adding-tools-in-toolbox)
+    * [Logging and debugging](#logging-and-debugging)
+    * [Advanced](#advanced)
+        * [Subnetworks](#subnetworks)
+        * [AAOSA](#aaosa)
+    * [Connect with other agent frameworks](#connect-with-other-agent-frameworks)
+
 <!-- TOC -->
 
 ## Simple agent network
@@ -132,7 +135,7 @@ In this example the server will load agent networks A and C but not B.
 When you start the server, you can see which agent networks have been loaded by looking at the logs:
 
 ```bash
-> python -m neuro_san.service.agent_main_loop --port 30011
+> python -m neuro_san.service.main_loop.server_main_loop --port 30011
 
 tool_registries found: ['agent_network_A', 'agent_network_C']
 ```
@@ -144,6 +147,7 @@ For more details, please check the [Agent Manifest HOCON File Reference](
 
 #### Agent specifications
 
+<!-- pyml disable line-length -->
 | **Field**    | **Description**                                                                                                                              |
 |--------------|----------------------------------------------------------------------------------------------------------------------------------------------|
 | agent_name   | text handle for other agent specs and hosting system to refer to                                                                             |
@@ -152,6 +156,7 @@ For more details, please check the [Agent Manifest HOCON File Reference](
 | command      | text that sets the agent in motion after it receives all its inputs                                                                          |
 | tools        | optional list of references to other agents that this agent is allowed to call in the course of working through their input and instructions |
 | llm_config   | optional agent-specification for different LLMs for different purposes such as specialization, costs, etc.                                   |
+<!-- pyml enable line-length -->
 
 #### Tool specifications
 
@@ -163,11 +168,13 @@ For more details, please check the [Agent Manifest HOCON File Reference](
 
 #### LLM specifications
 
+<!-- pyml disable line-length -->
 | **Field**   | **Description**                                                                                                                       |
 |-------------|---------------------------------------------------------------------------------------------------------------------------------------|
 | model_name  | name of the model to use (i.e. “gpt-4o”, “claude-3-haiku”)                                                                            |
 | *_api_key   | api key value or environment variable to reference to allow access to the LLM provider if different from hosting environment default. |
 | temperature | optional level of randomness 0.0-1.0 to use for LLM results                                                                           |
+<!-- pyml enable line-length -->
 
 See next section for more information about how to specify the LLM(s) to use.
 
@@ -204,10 +211,45 @@ See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
 
 ### AzureOpenAI
 
-If you are using Azure OpenAI in your hocon file, make sure to **set `deployment_name`** in the `llm_config` to use the
-right model.
+To create an Azure OpenAI resource
 
-For example:
+* Go to Azure [portal](https://portal.azure.com/)
+* Click on `Create a resource`
+* Search for `Azure OpenAI`
+* Select `Azure OpenAI`, then click Create  
+
+After your Azure OpenAI resource is created, you must deploy a model
+
+* Go to Azure [portal](https://portal.azure.com/)
+* Under `Resources`, select your Azure OpenAI resource
+* Click on `Go to Azure AI Foundry portal`
+* Click on `Create new deployment`
+* Choose a model (e.g., `gpt-4o`), then pick a deployment name (e.g., `my-gpt4o`), and click `Deploy`
+* Find the `api_version` on the deployed model page (e.g., "2024-12-01-preview")
+* Optionally, set environment variables to the value of the deployment name and API version
+
+    export AZURE_OPENAI_DEPLOYMENT_NAME="Your deployment name"\
+    export OPENAI_API_VERSION="Your OpenAI API version"
+
+Finally, get your API key and endpoint
+
+* Go to Azure [portal](https://portal.azure.com/)
+* Under `Resources`, select your Azure OpenAI resource
+* Click on `Click here to view endpoints`
+* Optionally, set environment variables to the value of the API key and the endpoint
+
+    export AZURE_OPENAI_API_KEY="your Azure OpenAI API key"\
+    export AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"
+
+If you set the environment variables (recommended), the `llm_config` in your `.hocon` file would be as follows:
+
+```hocon
+"llm_config": {
+        "model_name": "azure-gpt-4o",
+},
+```
+
+If you did NOT set the environment variables, the `llm_config` in your `.hocon` file would be as follows:
 
 ```hocon
 "llm_config": {
@@ -219,11 +261,10 @@ For example:
 },
 ```
 
-You can set some of these as environment variables or add them in your .env file in order to use Azure OpenAI:  
-AZURE_OPENAI_ENDPOINT="https://your_base_url.openai.azure.com"  <!-- markdownlint-disable-line MD034 -->
-OPENAI_API_VERSION="<your Azure OpenAI API version e.g. 2024-12-01-preview>"  
-AZURE_OPENAI_API_KEY="your Azure OpenAI API key"  
-
+> **Note**: Make sure your `model_name` starts with `azure-`. E.g., if you have a `gpt-4o` model,
+> your model name should be `azure-gpt-4o`, or else your agent network might think you are using
+> an OpenAI model (and not an Azure OpenAI model).
+>
 > **Tip**: While `OPENAI_API_KEY` may still be recognized for backward compatibility,
 > it's recommended to use `AZURE_OPENAI_API_KEY` to avoid conflicts and align with upcoming changes in LangChain.
 >
@@ -232,8 +273,10 @@ AZURE_OPENAI_API_KEY="your Azure OpenAI API key"
 > specified by `deployment_name`, the LLM will fail to return a response — even if the prompt itself is within limits.
 > To fix this, explicitly set a `max_tokens` value in your `llm_config` that matches the deployed model’s actual capacity.
 
+<!-- pyml disable line-length-->
 See [Azure OpenAI Quickstart](
-    https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=keyless%2Ctypescript-keyless%2Cpython-new%2Ccommand-line&pivots=programming-language-python) for more information. <!-- markdownlint-disable-line MD013 -->
+    https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=keyless%2Ctypescript-keyless%2Cpython-new%2Ccommand-line&pivots=programming-language-python) for more information.
+<!-- pyml enable line-length-->
 
 ### Anthropic
 
@@ -263,24 +306,58 @@ You can get an Google Gemini API [key](https://ai.google.dev/gemini-api/docs/api
 
 ### Ollama
 
-To use an LLM that runs locally with [Ollama](https://ollama.com/):
+This guide walks you through how to use a locally running LLM via [Ollama](https://github.com/ollama/ollama) in neuro-san.
 
-* Make sure the Ollama server is running
-* Make sure the model is downloaded, up to date and available in the Ollama server. For instance, `ollama run llama3.1`
-  will download the model and make it available for use. `ollama pull llama3.1`
-  will update the model to the latest version if needed.
-* If the agent network contains tools, make sure the model can call tools:
-  see [Ollama's documentation for models that support tools](https://ollama.com/search?c=tools)
-* Set the `class` and `model_name` fields in the `llm_config` section of the agent network configuration file:
+#### Prerequisites
+
+1. Download and Install Ollama
+
+   Download Ollama from [https://ollama.com](https://ollama.com) and install it on your machine.
+
+2. Download the Model
+
+   Use the following command to download and prepare the model:
+
+   ```bash
+    ollama run <model_name>      # replace <model_name> with your chosen model, e.g. qwen3:8b
+   ```
+
+   This ensures the model is downloaded and ready for use.
+
+3. Update the Model (Optional)
+
+    Ollama may release updates to a model (e.g., performance improvements) under the same model name.
+    To update the model to the latest version:
+
+    ```bash
+    ollama pull <model_name>     # replace <model_name> with your chosen model, e.g. qwen3:8b
+    ```
+
+4. Tool Calling Support
+
+    Ensure that the chosen model from Ollama supports tool use. You can check this in
+    [Ollama's searchable model directory](https://ollama.com/search?c=tools).
+
+5. Default LLM Info
+
+   To use the model in the `hocon` file, its name and relevant information, such as `max_token`, must be included in the
+   [default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
+
+#### Configuration
+
+In your agent network hocon file, set the model name in the `llm_config` section. For example:
 
 ```hocon
-    "llm_config": {
-        "class": "ollama",
-        "model_name": "llama3.1",
-    },
+"llm_config": {
+    "model_name": "qwen3:8b",
+}
 ```
 
-See [./examples/music_nerd_pro_local.md](./examples/music_nerd_pro_local.md) for an example.
+Make sure the model you specify is already downloaded and available in the Ollama server.
+
+#### Example Agent Network
+
+See the [./examples/music_nerd_pro_local.md](./examples/music_nerd_pro_local.md) for a complete working example.
 
 For more information about how to use Ollama with LangChain,
 see [this page](https://python.langchain.com/docs/integrations/chat/ollama/)
@@ -420,10 +497,10 @@ To use tools from toolbox in your agent network, simply call them with field `to
 
 1. Create the toolbox configuration file. This can be either HOCON or JSON files.
 2. Define the tools
-    * langchain tools
-        * Each tool or toolkit must have a `class` key.
-        * The specified class must be available in the server's `PYTHONPATH`.
-        * Additional dependencies (outside of `langchain_community`) must be installed separately.
+   * langchain tools
+       * Each tool or toolkit must have a `class` key.
+       * The specified class must be available in the server's `PYTHONPATH`.
+       * Additional dependencies (outside of `langchain_community`) must be installed separately.
 
         Example:
 
@@ -446,11 +523,11 @@ To use tools from toolbox in your agent network, simply call them with field `to
             }
         ```
 
-    * coded tools
-        * Similar to how one can define it in agent network config file
-        * `description` let the agent know what the tool does.
-        * `parameters` are arguments' definitions and types. This is optional.
-        * `class` specifies the tool's implementation as **module.ClassName** where the module can be found in `AGENT_TOOL_PATH`.
+   * coded tools
+       * Similar to how one can define it in agent network config file
+       * `description` let the agent know what the tool does.
+       * `parameters` are arguments' definitions and types. This is optional.
+       * `class` specifies the tool's implementation as **module.ClassName** where the module can be found in `AGENT_TOOL_PATH`.
 
         Example:
 

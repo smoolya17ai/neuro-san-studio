@@ -9,6 +9,13 @@
 # neuro-san SDK Software in commercial settings.
 #
 # END COPYRIGHT
+
+# To use this agent network with Brave Search, obtain an API key from: https://brave.com/search/api/
+# Once you have the API key, set it using the BRAVE_API_KEY environment variable.
+# You can optionally set a custom search URL via the BRAVE_URL environment variable.
+# If BRAVE_URL is not set, the default is: https://api.search.brave.com/res/v1/web/search?q=
+# You can also configure the request timeout (in seconds) using BRAVE_TIMEOUT; the default is 30 seconds.
+
 {
     "llm_config": {
         "model_name": "gpt-4o",
@@ -18,15 +25,18 @@
         # How they are linked and call each other is defined within their
         # own specs.  This could be a graph, potentially even with cycles.
 
-        # This first guy is the "Front Man".  He is identified as such because
-        # he is the only one with no parameters in his function definition,
-        # and therefore he needs to talk to the outside world to get things rolling.
+        # This first agent definition is regarded as the "Front Man", which
+        # does all the talking to the outside world/client.
+        # It is identified as such because it is either:
+        #   A) The only one with no parameters in his function definition,
+        #      and therefore he needs to talk to the outside world to get things rolling.
+        #   B) The first agent listed, regardless of function parameters.
+        #
+        # Some disqualifications from being a front man:
+        #   1) Cannot use a CodedTool "class" definition
+        #   2) Cannot use a Tool "toolbox" definition
         {
             "name": "searcher",
-
-            # Note that there are no parameters defined for this guy's "function" key.
-            # This is the primary way to identify this tool as a front-man,
-            # distinguishing it from the rest of the tools.
 
             "function": {
                 "description": "Assist caller with searching a url.",
@@ -51,24 +61,34 @@ Use your tool to respond to the inquiry.
         },
         {
             "name": "brave_search",
-            "function": {
-                "description": """
-Assist caller with searching an url on the web by using your tool.
-```
-                """,
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "search_terms": {
-                            "type": "string",
-                            "description": "Search terms to return options."
-                        },
-                    },
-                    "required": ["search_terms"]
-                }
-            },
-            "class": "brave_search.BraveSearch",
-            "command": "Call the Brave search API to get a list of URLs for available options."
+            "toolbox": "brave_search",
+            "args": {
+                # --- Optional Arguments ---
+
+                # --- Request Configuration ---
+
+                # Brave Search API endpoint
+                # This will override the env var BRAVE_URL
+                # (defaults to https://api.search.brave.com/res/v1/web/search)
+                "brave_url": "https://api.search.brave.com/res/v1/web/search",
+
+                # Request timeout in seconds
+                # This will override the env var BRAVE_TIMEOUT
+                # (default: 30.0)
+                "brave_timeout": 10.0,
+
+                # --- Search Query Parameters ---
+
+                # Search query string
+                # "q": "<what_to_search_for>"
+                # If specified, this will override the query provided by the LLM
+
+                # Maximum number of search results to return
+                "count": 3,
+
+                # For more query parameter options, see:
+                # https://api-dashboard.search.brave.com/app/documentation/web-search/query
+            }
         },
     ]
 }

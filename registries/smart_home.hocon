@@ -12,7 +12,7 @@
     # The include keyword must be unquoted and followed by a quoted URL or file path.
     # File paths should be absolute or relative to the script's working directory, not the HOCON file location.
 
-   # This "aaosa.hocon" file contains key-value pairs used for substitution.
+    # This "aaosa.hocon" file contains key-value pairs used for substitution.
     # Specifically, it provides values for the following keys:
     #   - aaosa_call
     #   - aaosa_command
@@ -47,8 +47,7 @@ Do not mention what you can NOT do. Only mention what you can do.
 
             "function": {
 
-                # When there are no function parameters to the front-man,
-                # its description acts as an initial prompt. 
+                # The description acts as an initial prompt. 
 
                 "description": """
 An assistant that answer inquiries from the user.

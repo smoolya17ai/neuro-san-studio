@@ -14,12 +14,12 @@ transport method. The main purpose is to show how one can connect to mcp server 
 ## Prerequisites
 
 - This agent is **disabled by default**. To test it:
-  - Manually enable it in the `manifest.hocon` file.
-  - Run the MCP server:
+    - Manually enable it in the `manifest.hocon` file.
+    - Run the MCP server:
 
-    ```bash
-    python bmi_server.py
-    ```
+      ```bash
+      python bmi_server.py
+      ```
 
     Located at: [`bmi_server.py`](../../servers/mcp/bmi_server.py)
 
@@ -42,9 +42,9 @@ transport method. The main purpose is to show how one can connect to mcp server 
 ### MCP Server
 
 - Defines tool metadata:
-  - **Name**: From function name
-  - **Description**: From docstring
-  - **Arguments Schema**: From type hints
+    - **Name**: From function name
+    - **Description**: From docstring
+    - **Arguments Schema**: From type hints
 - Default port: `8000` (can be customized)
 - Source: [`bmi_server.py`](../../servers/mcp/bmi_server.py)
 
