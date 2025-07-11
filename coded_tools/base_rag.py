@@ -36,11 +36,11 @@ class BaseRag(CodedTool, ABC):
         self.abs_vector_store_path: Optional[str] = None
 
     @abstractmethod
-    async def load_documents(self, *args, **kwargs) -> List[Document]:
+    async def load_documents(self, loader_args: Any) -> List[Document]:
         """
         Abstract method to load documents from a specific data source.
         """
-        pass
+        raise NotImplementedError
 
     async def generate_vector_store(self, *args, **kwargs) -> InMemoryVectorStore:
         """

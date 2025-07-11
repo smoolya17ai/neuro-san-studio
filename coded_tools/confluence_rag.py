@@ -33,9 +33,6 @@ class ConfluenceRag(BaseRag):
     CodedTool implementation which provides a way to do RAG on confluence pages
     """
 
-    def __init__(self):
-        super().__init__()
-
     async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         Load confluence pages from URLs, build a vector store, and run a query against it.
@@ -96,12 +93,12 @@ class ConfluenceRag(BaseRag):
         # Build the vector store and run the query
         return await self.process_and_query(args, loader_args)
 
-    async def load_documents(self, confluence_loader_args: Dict[str, Any]) -> List[Document]:
-        
-        url = confluence_loader_args.get("url")
+    async def load_documents(self, loader_args: Dict[str, Any]) -> List[Document]:
+
+        url = loader_args.get("url")
         docs: List[Document] = []
         try:
-            loader = ConfluenceLoader(**confluence_loader_args)
+            loader = ConfluenceLoader(**loader_args)
             docs = await loader.aload()
             print(f"Successfully load confluence pages from {url}")
         except HTTPError as http_error:

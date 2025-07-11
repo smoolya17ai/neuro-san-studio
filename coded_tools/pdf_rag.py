@@ -28,9 +28,6 @@ class PdfRag(BaseRag):
     CodedTool implementation which provides a way to do RAG on pdf files
     """
 
-    def __init__(self):
-        super().__init__()
-
     async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> str:
         """
         Load a PDF from URL, build a vector store, and run a query against it.
@@ -70,8 +67,9 @@ class PdfRag(BaseRag):
         # Build the vector store and run the query
         return await self.process_and_query(args, urls)
 
-    async def load_documents(self, urls: List[str]) -> List[Document]:
+    async def load_documents(self, loader_args: Dict[str, Any]) -> List[Document]:
         docs: List[Document] = []
+        urls = loader_args.get("urls", [])
 
         for url in urls:
             try:
