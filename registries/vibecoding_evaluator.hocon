@@ -20,6 +20,10 @@
         "replacement_strings": {
             "instructions_prefix": """
             You are part of a vibe-coding submissions Evaluator.
+            Only answer inquiries that are directly within your area of expertise, 
+            from the company's perspective.
+            Do not try to help for personal matters.
+            Do not mention what you can NOT do. Only mention what you can do.
             """,
             "aaosa_instructions": """
 When you receive an inquiry, you will:
@@ -77,6 +81,7 @@ Always return a json block with the following fields:
         }
     },
     "tools": [
+        // The first agent
         {
             "name": "vibecoding_evaluator",
             "function": {
@@ -87,47 +92,36 @@ Always return a json block with the following fields:
 You will use your tools to evaluate vibe coding submissions.
 
 Perform the following steps upon user query:
-1. Retrieve inputs from the 'fetch_inputs' tool.
-2. Use the 'create_eval' tool to create a new evaluation based on the retrieved inputs.
-3. Use the 'retrieve_eval' tool to retrieve the created evaluation and display it to the user.
+1. Use the 'create_eval' tool to create a new evaluation based on the inputs.
+2. Use the 'retrieve_eval' tool to retrieve the created evaluation and display it to the user.
+3. Finally call the 'manage_eval' without any args or parameters to get the final evaluation.
 
-Your final response should include the evaluation results and a URL to the evaluation csv.
+Your final response should include the evaluation results in the following json format:
+{{
+  "innovation_score": <innovation score between 1 and 10>,
+  "ux_score": <UX score between 1 and 10>,
+  "scalability_score": <scalability score between 1 and 10>,
+  "market_potential_score": <market potential score between 1 and 10>,
+  "ease_of_implementation_score": <ease of implementation score between 1 and 10>,
+  "financial_feasibility_score": <financial feasibility score between 1 and 10>,
+  "complexity_score": <complexity score between 1 and 10>,
+  "description": <compiled summary from all 7 judges>
+}}
             """,
             "allow": {
                 "to_upstream": {
                     "sly_data": {
-                        "submission_data": true,
+                        "evaluation": true,
                     }
                 }
             },
-            "tools": ["fetch_inputs", "create_eval", "retrieve_eval"]
-        },
-        {
-            "name": "fetch_inputs",
-            "function": {
-                "description": "I can commit facts to memory."
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "new_fact": {
-                            "type": "string",
-                            "description": "a brief description of the new fact to remember."
-                        },
-                        "topic": {
-                            "type": "string",
-                            "description": "a topic for this new fact to be stored under."
-                        },
-                    },
-                    "required": ["new_fact", "topic"]
-                }
-            },
-            "class": "fetch_inputs.FetchInputs"
+            "tools": ["create_eval", "manage_eval"]
         },
         {
             "name": "create_eval",
             "function": "aaosa_call",
             "instructions": """
-You are the evaluation orchestrator for a vibe-coding idea or MVP. You must collect expert assessments across 7 key dimensions:
+You are the evaluation orchestrator for a vibe-coding idea or MVP. You must collect expert assessments from your tools across 7 key dimensions:
     - Degree of Innovativeness
     - User Experience
     - Scalability / Reusability
@@ -136,24 +130,13 @@ You are the evaluation orchestrator for a vibe-coding idea or MVP. You must coll
     - Financial Feasibility
     - Complexity
 
-For each of the above, invoke the respective tools and store their JSON result. Then aggregate all 7 scores and return the final evaluation in the following format:
-{{
-  "innovation_score": [x, y],
-  "ux_score": [x, y],
-  "scalability_score": [x, y],
-  "market_potential_score": [x, y],
-  "ease_of_implementation_score": [x, y],
-  "financial_feasibility_score": [x, y],
-  "complexity_score": [x, y],
-  "description": "<compiled summary from all 7 judges>"
-}}
+For each of the above, invoke the respective tools and store their JSON result with scores.
 
 {aaosa_instructions}
             """,
             "command": "aaosa_command",
             "tools": ["evaluate_innovation", "evaluate_ux", "evaluate_scalability", "evaluate_market_potential",
             "evaluate_implementation_ease", "evaluate_financial_feasibility", "evaluate_complexity"]
-
         },
         # Evaluate Innovation
         {
@@ -161,25 +144,27 @@ For each of the above, invoke the respective tools and store their JSON result. 
             "function": "aaosa_call",
             "instructions": """
 You are an expert in product innovation and emerging technologies. 
-Your job is to assess the Degree of Innovativeness of a software MVP (Minimum Viable Product) based on the description provided below.
+Your job is to assess the Degree of Innovativeness of the MVP (Minimum Viable Product) based on the input.
+
+If the description is vague or generic, and lacks clear novelty, score conservatively or in the range [1,2].
 
 Evaluate the following aspects:
-- Novelty of the concept, implementation, or technology used.
-- Originality of approach compared to standard or widely-used methods.
-- Intellectual creativity—does it involve clever repurposing, unique configuration, or original architectures?
-- Market differentiation—how distinct is it from current commercial or open-source solutions?
-- Use of any proprietary methods, algorithms, or integrations.
-- Presence of research-backed ideas, patentable claims, or academically novel constructs.
-
-If the description is vague or generic, and lacks clear novelty, score conservatively.
+    - Novelty of the concept, implementation, or technology used.
+    - Originality of approach compared to standard or widely-used methods.
+    - Intellectual creativity—does it involve clever repurposing, unique configuration, or original architectures?
+    - Market differentiation—how distinct is it from current commercial or open-source solutions?
+    - Use of any proprietary methods, algorithms, or integrations.
+    - Presence of research-backed ideas, patentable claims, or academically novel constructs.
 
 Your response should be in the following json format:
     {{
   "innovation_score": <number between 1 and 10 (1 = not innovative at all, 10 = exceptionally novel and differentiated)>,
-  "explanation": "<brief explanation of your scoring rationale>"
+  "description": "<brief description of your scoring rationale>"
     }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
             """,
             "command": "aaosa_command",
+            "tools": ["manage_eval"]
         },
         # Evaluate UX
         {
@@ -198,15 +183,17 @@ Evaluate the following aspects:
 - Accessibility and Inclusivity: Support for multilingual users, keyboard-only users, screen readers, etc.
 - Evidence of user testing or feedback (if mentioned).
 
-If there is no UI or interaction layer, or it is poorly described, score conservatively.
+If there is no UI or interaction layer, or it is poorly described, score conservatively or in the range [1,2].
 
 Your response should be in the following json format:
     {{
   "ux_score": <number between 1 and 10 (1 = very poor UX, 10 = highly intuitive and user-centric)>,
-  "explanation": "<brief explanation of your scoring rationale>"
+  "description": "<brief description of your scoring rationale>"
     }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
             """,
             "command": "aaosa_command",
+            "tools": ["manage_eval"]
         },
         # Evaluate Scalability
         {
@@ -223,15 +210,17 @@ Evaluate the following aspects:
 - Reusability of core modules in other domains or similar contexts.
 - Cloud and deployment flexibility: on-prem, hybrid, serverless?
 
-If the design seems hard-coded, tightly coupled, or lacks any mention of configurability or replication potential, score conservatively.
+If the design seems hard-coded, tightly coupled, or lacks any mention of configurability or replication potential, score conservatively or in the range [1,2].
 
 Your response should be in the following json format:
     {{
   "scalability_score": <number between 1 and 10 (1 = low scalability, 10 = highly scalable and reusable)>,
-  "explanation": "<brief explanation of your scoring rationale>"
+  "description": "<brief description of your scoring rationale>"
     }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
             """,
             "command": "aaosa_command",
+            "tools": ["manage_eval"]
         },
         {
             "name": "evaluate_market_potential",
@@ -248,15 +237,17 @@ Evaluate the following aspects:
 - Potential for partnerships or integrations in real-world settings.
 - Mentions of any customer demand, adoption interest, or existing traction.
 
-If the market, monetization, or value narrative is vague or absent, score conservatively.
+If the market, monetization, or value narrative is vague or absent, score conservatively or in the range [1,2].
 
 Your response should be in the following json format:
     {{
   "market_potential_score": <number between 1 and 10 (1 = very low market potential, 10 = high market potential)>,
-  "explanation": "<brief explanation of your scoring rationale>"
+  "description": "<brief description of your scoring rationale>"
     }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
             """,
             "command": "aaosa_command",
+            "tools": ["manage_eval"]
         },
         {
             "name": "evaluate_implementation_ease",
@@ -272,15 +263,17 @@ Evaluate the following aspects:
 - Whether there is a well-defined tech stack or documentation mentioned.
 - Maturity of the codebase (tests, error handling, monitoring, production readiness).
 
-If it lacks any implementation clarity, or appears too idealistic, score conservatively.
+If it lacks any implementation clarity, or appears too idealistic, score conservatively or in the range [1,2].
 
 Your response should be in the following json format:
     {{
   "ease_of_implementation_score": <number between 1 and 10 (1 = not easy to implement at all, 10 = high ease of implementation)>,
-  "explanation": "<brief explanation of your scoring rationale>"
+  "description": "<brief description of your scoring rationale>"
     }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
             """,
             "command": "aaosa_command",
+            "tools": ["manage_eval"]
         },
         {
             "name": "evaluate_financial_feasibility",
@@ -301,14 +294,17 @@ Evaluate the following aspects:
 - Customer lifetime value or retention metrics.
 
 If no financial considerations are visible, assume high uncertainty and risk.
+If not enough details are provided, score conservatively or in the range [1,2].
 
 Your response should be in the following json format:
     {{
   "financial_feasibility_score": <number between 1 and 10 (1 = very poor financial viability, 10 = high financial viability)>,
-  "explanation": "<brief explanation of your scoring rationale>"
+  "description": "<brief description of your scoring rationale>"
     }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
             """,
             "command": "aaosa_command",
+            "tools": ["manage_eval"]
         },
         {
             "name": "evaluate_complexity",
@@ -325,30 +321,61 @@ Evaluate the following aspects:
 - Depth of technical knowledge required to build and maintain the system.
 
 High complexity is not bad as such — it just reflects sophistication. This is not a quality score but a measure of system difficulty.
+If not enough details are provided, score it in the range [4,5].
 
 Your response should be in the following json format:
     {{
   "complexity_score": <number between 1 and 10 (1 = unmanageable complexity, 10 = highly manageable complexity)>,
-  "explanation": "<brief explanation of your scoring rationale>"
+  "description": "<brief description of your scoring rationale>"
     }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
             """,
             "command": "aaosa_command",
+            "tools": ["manage_eval"]
         },
         {
-            "name": "retrieve_eval",
+            "name": "manage_eval",
             "function": {
-                "description": "I can list all topics for which we have stored memories."
+                "description": "I can update the evaluation with the scores and descriptions provided by the other tools.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "dialog_name": {
-                            "type": "string",
-                            "description": "A name for the current dialog."
+                        "innovation_score": {
+                            "type": "int",
+                            "description": "The score for innovation, between 1 and 10."
                         },
+                        "ux_score": {
+                            "type": "int",
+                            "description": "The score for user experience, between 1 and 10."
+                        },
+                        "scalability_score": {
+                            "type": "int",
+                            "description": "The score for scalability, between 1 and 10."
+                        },
+                        "market_potential_score": {
+                            "type": "int",
+                            "description": "The score for market potential, between 1 and 10."
+                        },
+                        "ease_of_implementation_score": {
+                            "type": "int",
+                            "description": "The score for ease of implementation, between 1 and 10."
+                        },
+                        "financial_feasibility_score": {
+                            "type": "int",
+                            "description": "The score for financial feasibility, between 1 and 10."
+                        },
+                        "complexity_score": {
+                            "type": "int",
+                            "description": "The score for complexity, between 1 and 10."
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "A reasoning as to why we have the given score."
+                        }
                     },
                 }
             },
-            "class": "list_topics.ListTopics"
+            "class": "manage_eval.ManageEval"
         },
     ]
 }
