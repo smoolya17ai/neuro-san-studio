@@ -170,7 +170,7 @@ For more details, please check the [Agent Manifest HOCON File Reference](
 | class     | A Python import path pointing to the class or function to invoke when the tool is called. Must follow the format `<module>.<Class>`. See [Coded tools](#coded-tools) for more details. |
 | function  | An OpenAI-compatible function schema that defines the expected input parameters for the tool specified in `class`. |
 | toolbox   | The name of a predefined tool from the toolbox. If this field is set, you must not specify `class` or `function`.  |
-<!-- pyml disable line-length -->
+<!-- pyml enable line-length -->
 
 #### LLM specifications
 
