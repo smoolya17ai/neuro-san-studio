@@ -195,8 +195,8 @@ You can specify it at two levels:
 * **Network-level**: Applies to all agents in the file.
 * **Agent-level**: Overrides the network-level configuration for a specific agent.
 
-Neuro-SAN includes several predefined LLM providers and models. To use one of these, set the `model_name` key to the name of the model you want.  
-A full list of available models can be found in the
+Neuro-SAN includes several predefined LLM providers and models. To use one of these, set the `model_name` key to
+the name of the model you want. A full list of available models can be found in the
 [default LLM info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
 
 > ⚠️ Different providers may require unique configurations or environment variables.
@@ -388,89 +388,91 @@ you can use it in one of two ways:
 
 You can define an LLM directly in `llm_config` using the `class` key in two different scenarios:
 
-**1. For supported providers**
+1. For supported providers
 
-Set the `class` key to one of the values listed below, then specify the model using the `model_name` key.
+    Set the `class` key to one of the values listed below, then specify the model using the `model_name` key.
 
-| LLM Provider  | `class` Value   |
-|:--------------|:--------------|
-| Anthropic     | `anthropic`     |
-| Azure OpenAI  | `azure_openai`  |
-| Google Gemini | `gemini`        |
-| NVidia        | `nvidiea`       |
-| Ollma         | `ollama`        |
-| OpenAI        | `openai`        |
+    | LLM Provider  | `class` Value   |
+    |:--------------|:--------------|
+    | Anthropic     | `anthropic`     |
+    | Azure OpenAI  | `azure_openai`  |
+    | Google Gemini | `gemini`        |
+    | NVidia        | `nvidiea`       |
+    | Ollma         | `ollama`        |
+    | OpenAI        | `openai`        |
 
-You may only provide parameters that are explicitly defined for that provider's class under the `classes.<class>.args`
-section of  
-[default llm info file](../neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).  
-Unsupported parameters will be ignored
+    You may only provide parameters that are explicitly defined for that provider's class under the `classes.<class>.args`
+    section of  
+    [default llm info file](../neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).  
+    Unsupported parameters will be ignored
 
-**2. For custom providers**
+2. For custom providers
 
-Set the `class` key to the full Python path of the desired LangChain-compatible chat model class in the format:
+    Set the `class` key to the full Python path of the desired LangChain-compatible chat model class in the format:
 
-```hocon
-<langchain_package>.<module>.<ChatModelClass>
-```
+    ```hocon
+    <langchain_package>.<module>.<ChatModelClass>
+    ```
 
-Then, provide any constructor arguments supported by that class in `llm_config`.
+    Then, provide any constructor arguments supported by that class in `llm_config`.
 
-For a full list of available chat model classes and their parameters, refer to:  
-[LangChain Chat Integrations Documentation](https://python.langchain.com/docs/integrations/chat/)
+    For a full list of available chat model classes and their parameters, refer to:  
+    [LangChain Chat Integrations Documentation](https://python.langchain.com/docs/integrations/chat/)
 
-> _Note: Neuro-SAN requires models that support **tool-calling** capabilities._
+    > _Note: Neuro-SAN requires models that support **tool-calling** capabilities._
 
 ### Extending the default LLM info file
 
 You can also add new models or providers by extending the [default llm info file](../neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
 
-**1. Adding new models for supported providers**
+1. Adding new models for supported providers
 
-In your custom LLM info file, define the new model using a unique key (e.g. `gpt-4.1-mini`) and assign it a `class` and `max_output_tokens`, such as:
+    In your custom LLM info file, define the new model using a unique key (e.g. `gpt-4.1-mini`) and assign it a `class` and `max_output_tokens`, such as:
 
-```hocon
-"gpt-4.1-mini": {
-    "class": "openai",
-    "max_output_tokens": 32768
-}
-```
-
-**2. Adding custom providers**
-
-To support a custom provider, define the `class` value (e.g. `groq`), the model config, and also extend the `classes` section:
-
-```hocon
-"llama-3.3-70b-versatile": {
-    "class": "groq",
-    "max_output_tokens": 32768
-}
-
-"classes": {
-    "factories": [ "llm_info.groq_langchain_llm_factory.GroqLangChainLlmFactory" ]
-    "groq": {
-        "temperature": 0.5,
-        # Add arguments that you want to pass to the llm here.
+    ```hocon
+    "gpt-4.1-mini": {
+        "class": "openai",
+        "max_output_tokens": 32768
     }
-}
-```
+    ```
 
-You can then reference the new provider class (`groq` in this case) in any `llm_config`.
+2. Adding custom providers
 
-**Implementing a custom factory**
+* Adding model and class in llm info file
 
-You’ll need to implement a factory class that matches the path you specified in `factories`.
+    To support a custom provider, define the `class` value (e.g. `groq`), the model config, and also extend the `classes` section:
 
-* Your factory must subclass [`LangChainLlmFactory`](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/langchain_llm_factory.py)
-* It must implement a `create_base_chat_model(config, callbacks)` method
-    * `config` will contain:
-        * `model_name`
-        * `class` (e.g. `groq`)
-        * Parameters defined under `classes.groq
-    `callbacks` is typically used for token counting
+    ```hocon
+    "llama-3.3-70b-versatile": {
+        "class": "groq",
+        "max_output_tokens": 32768
+    }
 
-See
-[StandardLangChainLlmFactory]((https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py)) as a reference implementation.
+    "classes": {
+        "factories": [ "llm_info.groq_langchain_llm_factory.GroqLangChainLlmFactory" ]
+        "groq": {
+            "temperature": 0.5,
+            # Add arguments that you want to pass to the llm here.
+        }
+    }
+    ```
+
+    You can then reference the new provider class (`groq` in this case) in any `llm_config`.
+
+* Implementing a custom factory
+
+    You’ll need to implement a factory class that matches the path you specified in `factories`.
+
+    * Your factory must subclass [`LangChainLlmFactory`](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/langchain_llm_factory.py)
+    * It must implement a `create_base_chat_model(config, callbacks)` method
+        * `config` will contain:
+            * `model_name`
+            * `class` (e.g. `groq`)
+            * Parameters defined under `classes.groq
+        `callbacks` is typically used for token counting
+
+    See
+    [StandardLangChainLlmFactory]((https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py)) as a reference implementation.
 
 #### Registering custom LLM info file
 
