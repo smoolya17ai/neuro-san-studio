@@ -427,7 +427,8 @@ You can also add new models or providers by extending the [default llm info file
 
 1. Adding new models for supported providers
 
-    In your custom LLM info file, define the new model using a unique key (e.g. `gpt-4.1-mini`) and assign it a `class` and `max_output_tokens`, such as:
+    In your custom LLM info file, define the new model using a unique key (e.g. `gpt-4.1-mini`) and assign it a `class`
+    and `max_output_tokens`, such as:
 
     ```hocon
     "gpt-4.1-mini": {
@@ -440,7 +441,8 @@ You can also add new models or providers by extending the [default llm info file
 
 * Adding model and class in llm info file
 
-    To support a custom provider, define the `class` value (e.g. `groq`), the model config, and also extend the `classes` section:
+    To support a custom provider, define the `class` value (e.g. `groq`), the model config, and also extend the
+    `classes` section:
 
     ```hocon
     "llama-3.3-70b-versatile": {
@@ -472,7 +474,7 @@ You can also add new models or providers by extending the [default llm info file
         `callbacks` is typically used for token counting
 
     See
-    [StandardLangChainLlmFactory]((https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py)) as a reference implementation.
+    [StandardLangChainLlmFactory](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py) as a reference implementation.
 
 #### Registering custom LLM info file
 
