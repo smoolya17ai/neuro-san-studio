@@ -476,8 +476,10 @@ You can also add new models or providers by extending the
             * Parameters defined under `classes.groq
         `callbacks` is typically used for token counting
 
+    <!-- markdownlint-disable-line MD013 -->
     See
-    [`StandardLangChainLlmFactory`](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py) as a reference implementation. <!-- markdownlint-disable-line MD013 -->
+    [`StandardLangChainLlmFactory`](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py) as a reference implementation.
+    <!-- markdownlint-enable-line MD013 -->
 
 #### Registering custom LLM info file
 
