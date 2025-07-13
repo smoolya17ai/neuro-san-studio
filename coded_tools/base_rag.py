@@ -107,7 +107,7 @@ class BaseRag(ABC):
         if self.save_vector_store and self.abs_vector_store_path:
             os.makedirs(os.path.dirname(self.abs_vector_store_path), exist_ok=True)
             vectorstore.dump(path=self.abs_vector_store_path)
-            logger.info(f"Vector store saved to: {self.abs_vector_store_path}")
+            logger.info("Vector store saved to: %s", self.abs_vector_store_path)
 
         return vectorstore
 
