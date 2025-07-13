@@ -14,16 +14,22 @@
 from typing import Any
 from typing import Dict
 from typing import List
+import logging
 
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_core.documents import Document
+
+from neuro_san.interfaces.coded_tool import CodedTool
 
 from .base_rag import BaseRag
 
 INVALID_PATH_PATTERN = r"[<>:\"|?*\x00-\x1F]"
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-class PdfRag(BaseRag):
+
+class PdfRag(CodedTool, BaseRag):
     """
     CodedTool implementation which provides a way to do RAG on pdf files
     """
@@ -64,8 +70,17 @@ class PdfRag(BaseRag):
         if not urls:
             return "❌ Missing required input: 'urls'."
 
-        # Build the vector store and run the query
-        return await self.process_and_query(args, urls)
+        # Save the generated vector store as a JSON file if True
+        self.save_vector_store = args.get("save_vector_store", False)
+
+        # Configure the vector store path
+        self.configure_vector_store_path(args.get("vector_store_path"))
+
+        # Prepare the vector store
+        vectorstore = await self.generate_vector_store(loader_args={"urls": urls})
+
+        # Run the query against the vector store
+        return await self.query_vectorstore(vectorstore, query)
 
     async def load_documents(self, loader_args: Dict[str, Any]) -> List[Document]:
         docs: List[Document] = []
@@ -76,10 +91,10 @@ class PdfRag(BaseRag):
                 loader = PyMuPDFLoader(file_path=url)
                 doc: List[Document] = await loader.aload()
                 docs.extend(doc)
-                print(f"Successfully loaded PDF file from {url}")
+                logger.info(f"Successfully loaded PDF file from {url}")
             except FileNotFoundError:
-                print(f"File not found: {url}")
+                logger.error(f"File not found: {url}")
             except ValueError as e:
-                print(f"Invalid file path or unsupported input: {url} – {e}")
+                logger.error(f"Invalid file path or unsupported input: {url} – {e}")
 
         return docs

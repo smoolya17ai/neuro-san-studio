@@ -12,7 +12,8 @@
 import os
 import re
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Any, List, Optional
+import logging
 
 from langchain_community.vectorstores import InMemoryVectorStore
 from langchain_core.documents import Document
@@ -20,12 +21,12 @@ from langchain_core.vectorstores.base import VectorStoreRetriever
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from neuro_san.interfaces.coded_tool import CodedTool
-
 # Invalid file path character pattern
 INVALID_PATH_PATTERN = r"[<>:\"|?*\x00-\x1F]"
 
-class BaseRag(CodedTool, ABC):
+logger = logging.getLogger(__name__)
+
+class BaseRag(ABC):
     """
     Abstract Base Class for different types of RAG implementations.
     """
@@ -41,28 +42,55 @@ class BaseRag(CodedTool, ABC):
         Abstract method to load documents from a specific data source.
         """
         raise NotImplementedError
+    
+    def configure_vector_store_path(self, vector_store_path: Optional[str]):
+        """
+        Validate the vector store file path and set it as an absolute path.
 
-    async def generate_vector_store(self, *args, **kwargs) -> InMemoryVectorStore:
+        :param vector_store_path: Relative or absolute path to the vector store JSON file.
+        :raises ValueError: If the path contains invalid characters or has an incorrect file extension.
+        """
+        if not vector_store_path:
+            return
+
+        # Check for obviously invalid characters in filenames (basic check)
+        if re.search(INVALID_PATH_PATTERN, vector_store_path):
+            logger.error(f"Invalid characters in vector_store_path: '{vector_store_path}'")
+            raise ValueError(f"Invalid vector_store_path: '{vector_store_path}'")
+
+        # Check file extension
+        if not vector_store_path.endswith(".json"):
+            logger.error(f"vector_store_path must be a .json file, got: '{vector_store_path}'")
+            raise ValueError(f"vector_store_path must be a .json file, got: '{vector_store_path}'")
+
+        if os.path.isabs(vector_store_path):
+            # It's already an absolute path — use it directly
+            self.abs_vector_store_path = vector_store_path
+        else:
+            # Combine to relative path to base path to make absolute path
+            base_path: str = os.path.dirname(__file__)
+            self.abs_vector_store_path = os.path.abspath(os.path.join(base_path, vector_store_path))
+
+    async def generate_vector_store(self, loader_args: Any) -> InMemoryVectorStore:
         """
         Asynchronously loads documents from a given data source, split them into
-        chunks, and build an in-memory vector store using OpenAI embeddings
-        or load vectorstore if it is available.
+        chunks, and build an in-memory vector store using OpenAI embeddings or
+        load vectorstore from memory if it is available. 
 
-        :param args: Positional arguments for the document loader.
-        :param kwargs: Keyword arguments for the document loader (e.g., Confluence config or PDF paths).
+        :param loader_args: Arguments specific to the document loader (e.g., Confluence params or PDF file paths).
         :return: In-memory vector store containing the embedded document chunks
         """
         # If vector store file path is provided (abs_vector_store_path is not None), try to load vector store first.
         if self.abs_vector_store_path:
             try:
                 vectorstore = InMemoryVectorStore.load(path=self.abs_vector_store_path, embedding=OpenAIEmbeddings())
-                print(f"Loaded vector store from: {self.abs_vector_store_path}")
+                logger.info(f"Loaded vector store from: {self.abs_vector_store_path}")
                 return vectorstore
             except FileNotFoundError:
-                print("Vector store not found. Creating from source.")
+                logger.error(f"Vector store not found at: {self.abs_vector_store_path}. Creating from source.")
 
         # Load documents and build the vector store
-        docs = await self.load_documents(*args, **kwargs)
+        docs = await self.load_documents(loader_args)
 
         # Split documents into smaller chunks for better embedding and retrieval
         text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(chunk_size=100, chunk_overlap=50)
@@ -78,29 +106,9 @@ class BaseRag(CodedTool, ABC):
         if self.save_vector_store and self.abs_vector_store_path:
             os.makedirs(os.path.dirname(self.abs_vector_store_path), exist_ok=True)
             vectorstore.dump(path=self.abs_vector_store_path)
-            print(f"Vector store saved to: {self.abs_vector_store_path}")
+            logger.info(f"Vector store saved to: {self.abs_vector_store_path}")
 
         return vectorstore
-
-    async def process_and_query(self, args: Dict[str, Any], loader_args: Any) -> str:
-        """
-        Build or load a vector store using the given loader arguments and return the query result.
-
-        :param args: Arguments containing the query, save flag, and vector store path.
-        param loader_args: Loader-specific arguments (e.g., Confluence params or PDF file paths).
-        :return: Query result as a combined text string from retrieved documents.
-        """
-
-        # Save the generated vector store as a JSON file if True
-        self.save_vector_store = args.get("save_vector_store", False)
-
-        # Configure the vector store path
-        self.configure_vector_store_path(args.get("vector_store_path"))
-
-        # Build the vector store and run the query
-        vectorstore = await self.generate_vector_store(loader_args)
-        query = args.get("query", "")
-        return await self.query_vectorstore(vectorstore, query)
 
     async def query_vectorstore(self, vectorstore: InMemoryVectorStore, query: str) -> str:
         """
@@ -118,33 +126,7 @@ class BaseRag(CodedTool, ABC):
         results: List[Document] = await retriever.ainvoke(query)
 
         if results:
-            print("Retrieval completed!")
+            logger.info("Retrieval completed!")
 
         # Concatenate the content of all retrieved documents
         return "\n\n".join(doc.page_content for doc in results)
-
-    def configure_vector_store_path(self, vector_store_path: Optional[str]):
-        """
-        Validate the vector store file path and set it as an absolute path.
-
-        :param vector_store_path: Relative or absolute path to the vector store JSON file.
-        :raises ValueError: If the path contains invalid characters or has an incorrect file extension.
-        """
-        if not vector_store_path:
-            return
-
-        # Check for obviously invalid characters in filenames (basic check)
-        if re.search(INVALID_PATH_PATTERN, vector_store_path):
-            raise ValueError(f"Invalid vector_store_path: '{vector_store_path}'")
-
-        # Check file extension
-        if not vector_store_path.endswith(".json"):
-            raise ValueError(f"vector_store_path must be a .json file, got: '{vector_store_path}'")
-
-        if os.path.isabs(vector_store_path):
-            # It's already an absolute path — use it directly
-            self.abs_vector_store_path = vector_store_path
-        else:
-            # Combine to relative path to base path to make absolute path
-            base_path: str = os.path.dirname(__file__)
-            self.abs_vector_store_path = os.path.abspath(os.path.join(base_path, vector_store_path))

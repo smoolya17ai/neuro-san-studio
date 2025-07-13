@@ -16,6 +16,7 @@ import os
 from typing import Any
 from typing import Dict
 from typing import List
+import logging
 
 # pylint: disable=import-error
 from atlassian.errors import ApiPermissionError
@@ -23,12 +24,17 @@ from langchain_community.document_loaders.confluence import ConfluenceLoader
 from langchain_core.documents import Document
 from requests.exceptions import HTTPError
 
+from neuro_san.interfaces.coded_tool import CodedTool
+
 from .base_rag import BaseRag
 
 INVALID_PATH_PATTERN = r"[<>:\"|?*\x00-\x1F]"
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-class ConfluenceRag(BaseRag):
+
+class ConfluenceRag(CodedTool, BaseRag):
     """
     CodedTool implementation which provides a way to do RAG on confluence pages
     """
@@ -90,8 +96,19 @@ class ConfluenceRag(BaseRag):
                 "https://your-domain.atlassian.net/wiki/spaces/<space_key>/pages/<page_id>/<title>"
             )
 
-        # Build the vector store and run the query
-        return await self.process_and_query(args, loader_args)
+        # Save the generated vector store as a JSON file if True
+        self.save_vector_store = args.get("save_vector_store", False)
+
+        # Configure the vector store path
+        self.configure_vector_store_path(args.get("vector_store_path"))
+
+        # Prepare the vector store
+        vectorstore = await self.generate_vector_store(
+            loader_args=loader_args
+        )
+
+        # Run the query against the vector store
+        return await self.query_vectorstore(vectorstore, query)
 
     async def load_documents(self, loader_args: Dict[str, Any]) -> List[Document]:
 
@@ -100,10 +117,11 @@ class ConfluenceRag(BaseRag):
         try:
             loader = ConfluenceLoader(**loader_args)
             docs = await loader.aload()
-            print(f"Successfully load confluence pages from {url}")
+            logger.info(f"Successfully loaded Confluence pages from {url}")
         except HTTPError as http_error:
-            print(f"HTTP error: {http_error}")
+            logger.error(f"HTTP error while loading from {url}: {http_error}")
         except ApiPermissionError as api_error:
-            print(f"API Permission error: {api_error}")
+            logger.error(f"API Permission error while loading from {url}: {api_error}")
 
         return docs
+    
