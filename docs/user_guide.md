@@ -478,7 +478,8 @@ You can also add new models or providers by extending the
 
     <!-- markdownlint-disable MD013 -->
     See
-    [`StandardLangChainLlmFactory`](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py) as a reference implementation.
+    [`StandardLangChainLlmFactory`](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py)
+    as a reference implementation.
     <!-- markdownlint-enable MD013 -->
 
 #### Registering custom LLM info file
