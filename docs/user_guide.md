@@ -401,12 +401,12 @@ You can define an LLM directly in `llm_config` using the `class` key in two diff
     | Ollma         | `ollama`        |
     | OpenAI        | `openai`        |
 
-    <!-- markdownlint-disable-line MD013 -->
+    <!-- markdownlint-disable MD013 -->
     You may only provide parameters that are explicitly defined for that provider's class under the `classes.<class>.args`
     section of  
     [default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
     Unsupported parameters will be ignored.
-    <!-- markdownlint-enable-line MD013 -->
+    <!-- markdownlint-enable MD013 -->
 
 2. For custom providers
 
@@ -476,10 +476,10 @@ You can also add new models or providers by extending the
             * Parameters defined under `classes.groq
         `callbacks` is typically used for token counting
 
-    <!-- markdownlint-disable-line MD013 -->
+    <!-- markdownlint-disable MD013 -->
     See
     [`StandardLangChainLlmFactory`](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py) as a reference implementation.
-    <!-- markdownlint-enable-line MD013 -->
+    <!-- markdownlint-enable MD013 -->
 
 #### Registering custom LLM info file
 
