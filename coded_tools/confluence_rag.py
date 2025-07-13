@@ -80,13 +80,16 @@ class ConfluenceRag(CodedTool, BaseRag):
 
         # Validate presence of required inputs
         if not query:
+            logger.error("Missing required input: 'query'")
             return "❌ Missing required input: 'query'."
         if not loader_args.get("url"):
+            logger.error("Missing required input: 'url'")
             return (
                 "❌ Missing required input: 'url'.\n"
                 "This should look like: https://your-domain.atlassian.net/wiki/"
             )
         if not loader_args.get("space_key") and not loader_args.get("page_ids"):
+            logger.error("Missing both 'space_key' and 'page_ids'")
             return (
                 "❌ Missing both 'space_key' and 'page_ids'.\n"
                 "Provide at least one to locate the Confluence content to load.\n"
@@ -111,17 +114,23 @@ class ConfluenceRag(CodedTool, BaseRag):
         return await self.query_vectorstore(vectorstore, query)
 
     async def load_documents(self, loader_args: Dict[str, Any]) -> List[Document]:
+        """
+        Load Confluence pages from the provided loader arguments.
 
+        :param loader_args: Dictionary containing 'url', 'space_key', and/or 'page_ids' of the Confluence pages to load
+        :return: List of loaded Confluence pages
+        """
         url = loader_args.get("url")
         docs: List[Document] = []
         try:
             loader = ConfluenceLoader(**loader_args)
             docs = await loader.aload()
-            logger.info(f"Successfully loaded Confluence pages from {url}")
+            logger.info("Successfully loaded Confluence pages from %s", url)
         except HTTPError as http_error:
-            logger.error(f"HTTP error while loading from {url}: {http_error}")
+            logger.error("HTTP error while loading from %s: %s", url, http_error)
+            return []
         except ApiPermissionError as api_error:
-            logger.error(f"API Permission error while loading from {url}: {api_error}")
+            logger.error("API Permission error while loading from %s: %s", url, api_error)
 
         return docs
     

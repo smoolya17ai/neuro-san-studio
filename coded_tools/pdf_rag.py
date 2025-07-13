@@ -83,6 +83,12 @@ class PdfRag(CodedTool, BaseRag):
         return await self.query_vectorstore(vectorstore, query)
 
     async def load_documents(self, loader_args: Dict[str, Any]) -> List[Document]:
+        """
+        Load PDF documents from URLs.
+
+        :param loader_args: Dictionary containing 'urls' (list of PDF file URLs)
+        :return: List of loaded PDF documents
+        """     
         docs: List[Document] = []
         urls = loader_args.get("urls", [])
 
@@ -91,10 +97,10 @@ class PdfRag(CodedTool, BaseRag):
                 loader = PyMuPDFLoader(file_path=url)
                 doc: List[Document] = await loader.aload()
                 docs.extend(doc)
-                logger.info(f"Successfully loaded PDF file from {url}")
+                logger.info("Successfully loaded PDF file from %s", url)
             except FileNotFoundError:
-                logger.error(f"File not found: {url}")
+                logger.error("File not found: %s", url)
             except ValueError as e:
-                logger.error(f"Invalid file path or unsupported input: {url} – {e}")
+                logger.error("Invalid file path or unsupported input: %s – %s", url, e)
 
         return docs
