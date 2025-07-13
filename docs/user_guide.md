@@ -403,7 +403,7 @@ You can define an LLM directly in `llm_config` using the `class` key in two diff
 
     You may only provide parameters that are explicitly defined for that provider's class under the `classes.<class>.args`
     section of  
-    [default llm info file](../neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).  
+    [default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).  
     Unsupported parameters will be ignored
 
 2. For custom providers
@@ -423,7 +423,8 @@ You can define an LLM directly in `llm_config` using the `class` key in two diff
 
 ### Extending the default LLM info file
 
-You can also add new models or providers by extending the [default llm info file](../neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
+You can also add new models or providers by extending the
+[default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
 
 1. Adding new models for supported providers
 
@@ -473,8 +474,10 @@ You can also add new models or providers by extending the [default llm info file
             * Parameters defined under `classes.groq
         `callbacks` is typically used for token counting
 
+    <!-- pyml disable line-length-->
     See
-    [StandardLangChainLlmFactory](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py) as a reference implementation.
+    [`StandardLangChainLlmFactory`](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py) as a reference implementation.
+    <!-- pyml enable line-length-->
 
 #### Registering custom LLM info file
 
