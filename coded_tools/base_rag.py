@@ -56,12 +56,13 @@ class BaseRag(ABC):
         # Check for obviously invalid characters in filenames (basic check)
         if re.search(INVALID_PATH_PATTERN, vector_store_path):
             logger.error("Invalid characters in vector_store_path: '%s'", vector_store_path)
-            raise ValueError("Invalid vector_store_path: '%s'" % vector_store_path)
+            raise ValueError(f"Invalid vector_store_path: '{vector_store_path}'")
 
         # Check file extension
         if not vector_store_path.endswith(".json"):
             logger.error("vector_store_path must be a .json file, got: '%s'", vector_store_path)
-            raise ValueError("vector_store_path must be a .json file, got: '%s'" % vector_store_path)
+            raise ValueError(f"vector_store_path must be a .json file, got: '{vector_store_path}'")
+
 
         if os.path.isabs(vector_store_path):
             # It's already an absolute path — use it directly
