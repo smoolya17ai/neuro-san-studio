@@ -178,7 +178,7 @@ For more details, please check the [Agent Manifest HOCON File Reference](
 | **Field**   | **Description**                                                                                                                       |
 |-------------|---------------------------------------------------------------------------------------------------------------------------------------|
 | model_name  | Name of the model to use (i.e. “gpt-4o”, “claude-3-haiku”).                                                                            |
-| class   | Optional key for using custom models or providers. See [Using Custom or Non-Default LLMs](#using-custom-or-non-default-llms) for more details.|
+| class       | Optional key for using custom models or providers. See [Using Custom or Non-Default LLMs](#using-custom-or-non-default-llms) for more details.|
 | temperature | Optional level of randomness 0.0-1.0 to use for LLM results.                                                                           |
 <!-- pyml enable line-length -->
 
@@ -192,16 +192,16 @@ For a full description of the fields, please refer to the [Agent Network HOCON F
 The `llm_config` section in the agent network configuration file defines which LLM should be used by the agents.
 
 You can specify it at two levels:
-- **Network-level**: Applies to all agents in the file.
-- **Agent-level**: Overrides the network-level configuration for a specific agent.
+* **Network-level**: Applies to all agents in the file.
+* **Agent-level**: Overrides the network-level configuration for a specific agent.
 
 Neuro-SAN includes several predefined LLM providers and models. To use one of these, set the `model_name` key to the name of the model you want.  
-A full list of available models can be found in the [default LLM info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
+A full list of available models can be found in the
+[default LLM info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
 
 > ⚠️ Different providers may require unique configurations or environment variables.
 
 The following sections provide details for each supported provider, including required parameters and setup instructions.
-
 
 ### OpenAI
 
@@ -370,12 +370,15 @@ For more information about how to use Ollama with LangChain,
 see [this page](https://python.langchain.com/docs/integrations/chat/ollama/)
 
 ### See also
+
 For a full description of `llm_config`, please refer to the [LLM config](
     https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md#llm_config) documentation.
 
 ## Using custom or non-default LLMs
 
-If your desired model is not listed in the [default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon), you can use it in one of two ways:
+If your desired model is not listed in the
+[default llm info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon),
+you can use it in one of two ways:
 
 1. Use the `class` key directly in `llm_config`.
 
@@ -398,7 +401,8 @@ Set the `class` key to one of the values listed below, then specify the model us
 | Ollma         | `ollama`        |
 | OpenAI        | `openai`        |
 
-You may only provide parameters that are explicitly defined for that provider's class under the `classes.<class>.args` section of  
+You may only provide parameters that are explicitly defined for that provider's class under the `classes.<class>.args`
+section of  
 [default llm info file](../neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).  
 Unsupported parameters will be ignored
 
@@ -465,7 +469,8 @@ You’ll need to implement a factory class that matches the path you specified i
         * Parameters defined under `classes.groq
     `callbacks` is typically used for token counting
 
-See [StandardLangChainLlmFactory]((https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py)) as a reference implementation.
+See
+[StandardLangChainLlmFactory]((https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/standard_langchain_llm_factory.py)) as a reference implementation.
 
 #### Registering custom LLM info file
 
