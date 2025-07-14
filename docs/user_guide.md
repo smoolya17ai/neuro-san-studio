@@ -709,7 +709,7 @@ To use tools from toolbox in your agent network, simply call them with field `to
     ```
 
 For more information on toolbox, please see [Toolbox Info HOCON File Reference](
-    https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/toolbox_info_hocon_reference.md) documentation. 
+    https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/toolbox_info_hocon_reference.md) documentation.
 
 ## Logging and debugging
 
