@@ -209,9 +209,9 @@ To use an OpenAI LLM, set the `OPENAI_API_KEY` environment variable to your Open
 and specify which model to use in the `model_name` field:
 
 ```hocon
-"llm_config": {
-    "model_name": "gpt-4o",
-}
+    "llm_config": {
+        "model_name": "gpt-4o",
+    }
 ```
 
 See [./examples/music_nerd.md](./examples/music_nerd.md) for an example.
@@ -251,21 +251,21 @@ Finally, get your API key and endpoint
 If you set the environment variables (recommended), the `llm_config` in your `.hocon` file would be as follows:
 
 ```hocon
-"llm_config": {
+    "llm_config": {
         "model_name": "azure-gpt-4o",
-}
+    }
 ```
 
 If you did NOT set the environment variables, the `llm_config` in your `.hocon` file would be as follows:
 
 ```hocon
-"llm_config": {
+    "llm_config": {
         "model_name": "azure-gpt-4o",
         "openai_api_key": "your_api_key"
         "openai_api_version": "your_api_version",
         "azure_endpoint": "your_end_point",
         "deployment_name": "your_deployment_name"
-}
+    }
 ```
 
 > **Note**: Make sure your `model_name` starts with `azure-`. E.g., if you have a `gpt-4o` model,
@@ -291,9 +291,9 @@ To use Anthropic models, set the `ANTHROPIC_API_KEY` environment variable to you
 and specify which model to use in the `model_name` field of the `llm_config` section of an agent network hocon file:
 
 ```hocon
-"llm_config": {
-    "model_name": "claude-3-5-haiku",
-}
+    "llm_config": {
+        "model_name": "claude-3-5-haiku",
+    }
 ```
 
 Here you can get an Anthropic API [key](https://console.anthropic.com/settings/keys)
@@ -304,9 +304,9 @@ To use Gemini models, set the `GOOGLE_API_KEY` environment variable to your Goog
 and specify which model to use in the `model_name` field of the `llm_config` section of an agent network hocon file:
 
 ```hocon
-"llm_config": {
-    "model_name": "gemini-2.0-flash",
-}
+    "llm_config": {
+        "model_name": "gemini-2.0-flash",
+    }
 ```
 
 You can get an Google Gemini API [key](https://ai.google.dev/gemini-api/docs/api-key) here.
@@ -355,9 +355,9 @@ This guide walks you through how to use a locally running LLM via [Ollama](https
 In your agent network hocon file, set the model name in the `llm_config` section. For example:
 
 ```hocon
-"llm_config": {
-    "model_name": "qwen3:8b",
-}
+    "llm_config": {
+        "model_name": "qwen3:8b",
+    }
 ```
 
 Make sure the model you specify is already downloaded and available in the Ollama server.
@@ -397,17 +397,17 @@ You can define an LLM directly in `llm_config` using the `class` key in two diff
     | Anthropic     | `anthropic`     |
     | Azure OpenAI  | `azure_openai`  |
     | Google Gemini | `gemini`        |
-    | NVidia        | `nvidiea`       |
+    | NVidia        | `nvidia`        |
     | Ollma         | `ollama`        |
     | OpenAI        | `openai`        |
 
     For example,
 
     ```hocon
-    "llm_config": {
-        "class": "openai,
-        "model_name": "gpt-4.1-mini"
-    }
+        "llm_config": {
+            "class": "openai",
+            "model_name": "gpt-4.1-mini"
+        }
     ```
 
     <!-- markdownlint-disable MD013 -->
@@ -428,11 +428,11 @@ You can define an LLM directly in `llm_config` using the `class` key in two diff
     Then, provide any constructor arguments supported by that class in `llm_config`, such as
 
     ```hocon
-    "llm_config": {
-        "class": "langchain_groq.chat_models.ChatGroq",
-        "model": "llama-3.1-8b-instant",
-        "temperature": 0.5
-    }
+        "llm_config": {
+            "class": "langchain_groq.chat_models.ChatGroq",
+            "model": "llama-3.1-8b-instant",
+            "temperature": 0.5
+        }
     ```
 
     For a full list of available chat model classes and their parameters, refer to:  
@@ -505,6 +505,9 @@ You can point to your custom LLM info file using either:
 
 * The `AGENT_LLM_INFO_FILE` environment variable
 * The `agent_llm_info_file` key in your agent network HOCON config
+
+For more information on llm info file, please see [LLM Info HOCON File Reference](
+    https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/llm_info_hocon_reference.md) documentation.
 
 ## Coded tools
 
@@ -704,6 +707,9 @@ To use tools from toolbox in your agent network, simply call them with field `to
     ```bash
     export AGENT_TOOLBOX_INFO_FILE=/path/to/my_toolbox_config.hocon
     ```
+
+For more information on toolbox, please see [Toolbox Info HOCON File Reference](
+    https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/toolbox_info_hocon_reference.md) documentation. 
 
 ## Logging and debugging
 
