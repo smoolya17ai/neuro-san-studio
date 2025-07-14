@@ -361,7 +361,7 @@ In your agent network hocon file, set the model name in the `llm_config` section
 ```
 
 > Note: Some Ollama models include reasoning or "thinking" capabilities, which may make their responses more verbose.
-You can disable this behavior by adding `"reasoning": "false"` to `llm_config`.
+You can disable this behavior by adding `"reasoning": false` to `llm_config`.
 The default is `None`, which means the model will use its built-in default behavior. For more details,
 see [ChatOllama documentation](https://python.langchain.com/api_reference/ollama/chat_models/langchain_ollama.chat_models.ChatOllama.html#langchain_ollama.chat_models.ChatOllama.reasoning)
 
