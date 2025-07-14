@@ -151,35 +151,35 @@ For more details, please check the [Agent Manifest HOCON File Reference](
 #### Agent specifications
 
 <!-- pyml disable line-length -->
-| **Field**    | **Description**                                                                                                                              |
-|--------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| **Field**    | **Description**                                                                                                                               |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | name         | Text handle for other agent specs and hosting system to refer to.                                                                             |
 | function     | Open AI function spec (standard) that formally describes the various inputs that the agent expects.                                           |
 | instructions | Text that sets up the agent in detail for its task.                                                                                           |
 | command      | Text that sets the agent in motion after it receives all its inputs.                                                                          |
 | tools        | Optional list of references to other agents that this agent is allowed to call in the course of working through their input and instructions. |
-| llm_config   | Optional agent-specification for different LLMs for different purposes such as specialization, costs, etc.                                   |
+| llm_config   | Optional agent-specification for different LLMs for different purposes such as specialization, costs, etc.                                    |
 <!-- pyml enable line-length -->
 
 #### Tool specifications
 
 <!-- pyml disable line-length -->
-| **Field** | **Description**                                                                                   |
-|-----------|---------------------------------------------------------------------------------------------------|
-| name      | A unique identifier used to reference this tool in other agent specifications.                    |
+| **Field** | **Description**                                                                                                                                                                        |
+|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| name      | A unique identifier used to reference this tool in other agent specifications.                                                                                                         |
 | class     | A Python import path pointing to the class or function to invoke when the tool is called. Must follow the format `<module>.<Class>`. See [Coded tools](#coded-tools) for more details. |
-| function  | An OpenAI-compatible function schema that defines the expected input parameters for the tool specified in `class`. |
-| toolbox   | The name of a predefined tool from the toolbox. If this field is set, you must not specify `class` or `function`.  |
+| function  | An OpenAI-compatible function schema that defines the expected input parameters for the tool specified in `class`.                                                                     |
+| toolbox   | The name of a predefined tool from the toolbox. If this field is set, you must not specify `class` or `function`.                                                                      |
 <!-- pyml enable line-length -->
 
 #### LLM specifications
 
 <!-- pyml disable line-length -->
-| **Field**   | **Description**                                                                                                                       |
-|-------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| model_name  | Name of the model to use (i.e. “gpt-4o”, “claude-3-haiku”).                                                                            |
-| class       | Optional key for using custom models or providers. See [Using Custom or Non-Default LLMs](#using-custom-or-non-default-llms) for more details.|
-| temperature | Optional level of randomness 0.0-1.0 to use for LLM results.                                                                           |
+| **Field**   | **Description**                                                                                                                                |
+|-------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| model_name  | Name of the model to use (i.e. “gpt-4o”, “claude-3-haiku”).                                                                                    |
+| class       | Optional key for using custom models or providers. See [Using Custom or Non-Default LLMs](#using-custom-or-non-default-llms) for more details. |
+| temperature | Optional level of randomness 0.0-1.0 to use for LLM results.                                                                                   |
 <!-- pyml enable line-length -->
 
 See next section for more information about how to specify the LLM(s) to use.
@@ -393,13 +393,22 @@ You can define an LLM directly in `llm_config` using the `class` key in two diff
     Set the `class` key to one of the values listed below, then specify the model using the `model_name` key.
 
     | LLM Provider  | `class` Value   |
-    |:--------------|:--------------|
+    |:--------------|:----------------|
     | Anthropic     | `anthropic`     |
     | Azure OpenAI  | `azure_openai`  |
     | Google Gemini | `gemini`        |
     | NVidia        | `nvidiea`       |
     | Ollma         | `ollama`        |
     | OpenAI        | `openai`        |
+
+    For example,
+
+    ```hocon
+    "llm_config": {
+        "class": "openai,
+        "model_name": "gpt-4.1-mini"
+    }
+    ```
 
     <!-- markdownlint-disable MD013 -->
     You may only provide parameters that are explicitly defined for that provider's class under the `classes.<class>.args`
@@ -416,7 +425,15 @@ You can define an LLM directly in `llm_config` using the `class` key in two diff
     <langchain_package>.<module>.<ChatModelClass>
     ```
 
-    Then, provide any constructor arguments supported by that class in `llm_config`.
+    Then, provide any constructor arguments supported by that class in `llm_config`, such as
+
+    ```hocon
+    "llm_config": {
+        "class": "langchain_groq.chat_models.ChatGroq",
+        "model": "llama-3.1-8b-instant",
+        "temperature": 0.5
+    }
+    ```
 
     For a full list of available chat model classes and their parameters, refer to:  
     [LangChain Chat Integrations Documentation](https://python.langchain.com/docs/integrations/chat/)
