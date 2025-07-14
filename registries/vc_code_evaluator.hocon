@@ -1,0 +1,372 @@
+
+# Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
+# All Rights Reserved.
+# Issued under the Academic Public License.
+#
+# You can be released from the terms, and requirements of the Academic Public
+# License by purchasing a commercial license.
+# Purchase of a commercial license is mandatory for any use of the
+# neuro-san SDK Software in commercial settings.
+#
+# END COPYRIGHT
+{
+    "llm_config": {
+        "class": "openai",
+        "use_model_name": "gpt-4.1-2025-04-14",
+    },
+    "max_iterations": 40000,
+    "max_execution_seconds": 6000,
+    "commondefs": {
+        "replacement_strings": {
+            "instructions_prefix": """
+            You are part of a vibe-coding code submissions Evaluator.
+            Only answer inquiries that are directly within your area of expertise, 
+            from the company's perspective.
+            Do not try to help for personal matters.
+            Do not mention what you can NOT do. Only mention what you can do.
+            """,
+            "aaosa_instructions": """
+When you receive an inquiry, you will:
+1. If you are clearly not the right agent for this type of inquiry, reply you're not relevant.
+2. If there is a chance you're relevant, call your down-chain agents to determine if they can answer all or part of the inquiry.
+   Do not assume what your down-chain agents can do. Always call them. You'll be surprised.
+3. Determine which down-chain agents have the strongest claims to the inquiry.
+   3.1 If the inquiry is ambiguous, for example if more than one agent can fulfill the inquiry, then always ask for clarification.
+   3.2 Otherwise, call the relevant down-chain agents and:
+       - ask them for follow-up information if needed,
+       - or ask them to fulfill their part of the inquiry.
+4. Once all relevant down-chain agents have responded, either follow up with them to provide requirements or,
+   if all requirements have been fulfilled, compile their responses and return the final response.
+You may, in turn, be called by other agents in the system and have to act as a down-chain agent to them.
+            """,
+        },
+        "replacement_values": {
+            "aaosa_call": {
+                "description": "Depending on the mode, returns a natural language string in response.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "inquiry": {
+                            "type": "string",
+                            "description": "The inquiry"
+                        },
+                        "mode": {
+                            "type": "string",
+                            "description": """
+'Determine' to ask the agent if the inquiry belongs to it, in its entirety or in part.
+'Fulfill' to ask the agent to fulfill the inquiry, if it can.
+'Follow up' to ask the agent to respond to a follow up.
+                            """
+                        }
+                    },
+                    "required": [
+                        "inquiry",
+                        "mode"
+                    ]
+                }
+            },
+            "aaosa_command": """
+Always return a json block with the following fields:
+{{
+    "Name": <your name>,
+    "Inquiry": <the inquiry>,
+    "Mode": <Determine | Fulfill>,
+    "Relevant": <Yes | No>,
+    "Strength": <number between 1 and 10 representing how certain you are in your claim>,
+    "Claim:" <All | Partial>,
+    "Requirements": <None | list of requirements>,
+    "Response": <your response>
+}}
+            """
+        }
+    },
+    "tools": [
+        // The first agent
+        {
+            "name": "code_evaluator",
+            "function": {
+                "description": "I can help you evaluate vibe coding repos."
+            },
+            "instructions": """
+{instructions_prefix}
+You will use your tools to evaluate vibe coding submissions.
+
+Perform the following steps upon user query:
+1. Use the 'create_eval' tool to create a new evaluation based on the inputs.
+2. Use the 'retrieve_eval' tool to retrieve the created evaluation and display it to the user.
+3. Finally call the 'manage_eval' without any args or parameters to get the final evaluation.
+
+Your final response should include the evaluation results in the following json format:
+{{
+  "innovation_score": <innovation score between 1 and 10>,
+  "ux_score": <UX score between 1 and 10>,
+  "scalability_score": <scalability score between 1 and 10>,
+  "market_potential_score": <market potential score between 1 and 10>,
+  "ease_of_implementation_score": <ease of implementation score between 1 and 10>,
+  "financial_feasibility_score": <financial feasibility score between 1 and 10>,
+  "complexity_score": <complexity score between 1 and 10>,
+  "description": <compiled summary from all 7 judges>
+}}
+            """,
+            "allow": {
+                "to_upstream": {
+                    "sly_data": {
+                        "evaluation": true,
+                    }
+                }
+            },
+            "tools": ["create_code_eval", "manage_code_eval"]
+        },
+        {
+            "name": "create_code_eval",
+            "function": "aaosa_call",
+            "instructions": """
+You are the evaluation orchestrator for a vibe-coding repo. You must collect expert assessments from your tools across 7 key dimensions:
+    - Degree of Innovativeness
+    - User Experience
+    - Scalability / Reusability
+    - Market Potential
+    - Ease of Implementation
+    - Financial Feasibility
+    - Complexity
+
+For each of the above, invoke the respective tools and store their JSON result with scores.
+
+{aaosa_instructions}
+            """,
+            "command": "aaosa_command",
+            "tools": ["evaluate_code_innovation", "evaluate_code_ux", "evaluate_code_scalability", "evaluate_code_market_potential",
+            "evaluate_code_implementation_ease", "evaluate_code_financial_feasibility", "evaluate_code_complexity"]
+        },
+        # Evaluate Innovation
+        {
+            "name": "evaluate_code_innovation",
+            "function": "aaosa_call",
+            "instructions": """
+You are an expert in software innovation evaluating a project based on extracted metadata.
+Based on the metadata, evaluate on the following aspects:
+- Use of uncommon technologies (e.g., .ts, .toml, .rs, .jsx, GraphQL, WebAssembly, HOCON).
+- Breadth of architectural components (e.g., backend, frontend, infra, config).
+- Named subdirectories and tree structure depth suggesting tooling, orchestration, agents, etc.
+- Presence of agentic framework files like langgraph_query.py, agent.py, workflow.yaml, pipeline.yml, etc.
+- Does the system suggest an LLM-driven, DSL-based, or modular reasoning architecture?
+- Is there evidence of research-backed, ML-oriented, or intelligent tooling?
+
+Score between 1 to 10
+1 = trivial app or boilerplate
+10 = novel systems-level innovation or domain-specific breakthrough
+
+Your response should be in the following json format:
+    {{
+  "innovation_score": <number between 1 and 10 (1 = not innovative at all, 10 = exceptionally novel and differentiated)>,
+  "description": "<brief description of your scoring rationale>"
+    }}
+IMPORTANT: Call the 'manage_code_eval' tool with above json to store the evaluation results.
+            """,
+            "command": "aaosa_command",
+            "tools": ["manage_code_eval"]
+        },
+        # Evaluate UX
+        {
+            "name": "evaluate_code_ux",
+            "function": "aaosa_call",
+            "instructions": """
+You are a UX design and usability reviewer assessing the user-centric quality of a project using its code metadata.
+Based on the metadata, evaluate on the following aspects:
+- Size of README.md (> 300 LOC suggests documentation effort)
+- Presence of UI files: .html, .css, .jsx, .ts, or folders like public/, ui/, pages/, etc.
+- Presence of test directories or filenames with test_, spec, etc.
+- Indicators of onboarding tools: demo scripts, CLI entry points, example.env, sample config files.
+- Evidence of front-facing design or consumer interfaces.
+
+Score from 1–10
+1 = minimal UX thought
+10 = clearly designed with user experience and accessibility in mind
+
+Your response should be in the following json format:
+    {{
+  "ux_score": <number between 1 and 10 (1 = very poor UX, 10 = highly intuitive and user-centric)>,
+  "description": "<brief description of your scoring rationale>"
+    }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+            """,
+            "command": "aaosa_command",
+            "tools": ["manage_code_eval"]
+        },
+        # Evaluate Scalability
+        {
+            "name": "evaluate_code_scalability",
+            "function": "aaosa_call",
+            "instructions": """
+You are a systems architect evaluating scalability and reusability of this codebase using structured metadata.
+Based on the metadata, evaluate on the following aspects:
+- Docker, Makefile, docker-compose.yml, or Kubernetes YAMLs for deployability.
+- CI/CD detection (.github/workflows/, .gitlab-ci.yml) for reusable delivery pipelines.
+- Config-driven logic (e.g., config.py, pipeline.yaml, params.json, .env.example) for adaptability.
+- Tree structure and modular folders like services/, plugins/, adapters/, or modules/ for reusability.
+- Flat vs. nested file organization indicating separation of concerns.
+
+Score from 1–10
+1 = hardcoded, tightly coupled code
+10 = reusable, modular, and infrastructure-agnostic
+
+Your response should be in the following json format:
+    {{
+  "scalability_score": <number between 1 and 10 (1 = low scalability, 10 = highly scalable and reusable)>,
+  "description": "<brief description of your scoring rationale>"
+    }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+            """,
+            "command": "aaosa_command",
+            "tools": ["manage_code_eval"]
+        },
+        {
+            "name": "evaluate_code_market_potential",
+            "function": "aaosa_call",
+            "instructions": """
+You are a product strategist evaluating this software project for market relevance and monetization potential.
+Based on the metadata, evaluate on the following aspects:
+- Domain indicators in README, license, or filenames (e.g., fintech, chatbot, edtech, RAG, analytics).
+- Use of deployable APIs (main.py, app.js, server.ts) or microservices.
+- Modularity suggesting multi-tenant or SaaS potential.
+- CI/CD, Docker, and orchestration support that suggests production-readiness.
+- Any signals of integration readiness: webhook, api_client, sdk, agent, etc.
+
+Score from 1–10
+1 = toy or research-only code
+10 = well-structured, real-world ready, and commercially viable
+
+Your response should be in the following json format:
+    {{
+  "market_potential_score": <number between 1 and 10 (1 = very low market potential, 10 = high market potential)>,
+  "description": "<brief description of your scoring rationale>"
+    }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+            """,
+            "command": "aaosa_command",
+            "tools": ["manage_code_eval"]
+        },
+        {
+            "name": "evaluate_code_implementation_ease",
+            "function": "aaosa_call",
+            "instructions": """
+You are a senior software engineer judging the ease of setup, install, and maintenance based on the metadata.
+Based on the metadata, evaluate on the following aspects:
+- Presence of README.md, Makefile, Dockerfile, or install scripts.
+- Entry points like main.py, start.sh, or CLI wrappers.
+- requirements.txt, package.json, pyproject.toml, or setup.py for dependency clarity.
+- Simplified folder structure, consistent naming, shallow nesting.
+- Ready-to-run examples, .env.example, or integration tests.
+
+Score from 1–10
+1 = undocumented or convoluted setup
+10 = easy to run, portable, and dev-friendly
+
+Your response should be in the following json format:
+    {{
+  "ease_of_implementation_score": <number between 1 and 10 (1 = not easy to implement at all, 10 = high ease of implementation)>,
+  "description": "<brief description of your scoring rationale>"
+    }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+            """,
+            "command": "aaosa_command",
+            "tools": ["manage_code_eval"]
+        },
+        {
+            "name": "evaluate_code_financial_feasibility",
+            "function": "aaosa_call",
+            "instructions": """
+You are assessing the financial feasibility of deploying and maintaining this codebase.
+Based on the metadata, evaluate on the following aspects:
+- Are heavy infra or ML frameworks likely (e.g., torch, transformers, pipeline.yaml)?
+- Are lightweight stacks used (e.g., Flask, FastAPI, Node)?
+- Evidence of resource configuration: .env, .secrets, config.py, gpus, .yml schedulers?
+- Does it require LLM access (e.g., openai, agent, rag_pipeline) or cloud APIs?
+- Are there CI/CD optimizations and containerization for cost control?
+
+Score from 1–10
+1 = expensive, resource-intensive, unclear cost structure
+10 = lightweight, cost-aware, and efficient
+
+Your response should be in the following json format:
+    {{
+  "financial_feasibility_score": <number between 1 and 10 (1 = very poor financial viability, 10 = high financial viability)>,
+  "description": "<brief description of your scoring rationale>"
+    }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+            """,
+            "command": "aaosa_command",
+            "tools": ["manage_code_eval"]
+        },
+        {
+            "name": "evaluate_code_complexity",
+            "function": "aaosa_call",
+            "instructions": """
+You are a technical reviewer evaluating the complexity of this software submission.
+Based on the metadata, evaluate on the following aspects:
+- Number of files and total lines of code (LOC).
+- Number of distinct file types/languages (Python + JS + configs + infra?).
+- Presence of nested, multi-level directories (src/agents/tools/, modules/observations/).
+- Orchestrators, pipelines, or async logic indicated by filenames and folders.
+- Longest file by LOC and presence of multiple high-LOC files.
+
+Score from 1–10
+1 = single script or static website
+10 = complex orchestration with multiple interacting layers
+
+Your response should be in the following json format:
+    {{
+  "complexity_score": <number between 1 and 10 (1 = unmanageable complexity, 10 = highly manageable complexity)>,
+  "description": "<brief description of your scoring rationale>"
+    }}
+IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+            """,
+            "command": "aaosa_command",
+            "tools": ["manage_code_eval"]
+        },
+        {
+            "name": "manage_code_eval",
+            "function": {
+                "description": "I can update the evaluation with the scores and descriptions provided by the other tools.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "innovation_score": {
+                            "type": "int",
+                            "description": "The score for innovation, between 1 and 10."
+                        },
+                        "ux_score": {
+                            "type": "int",
+                            "description": "The score for user experience, between 1 and 10."
+                        },
+                        "scalability_score": {
+                            "type": "int",
+                            "description": "The score for scalability, between 1 and 10."
+                        },
+                        "market_potential_score": {
+                            "type": "int",
+                            "description": "The score for market potential, between 1 and 10."
+                        },
+                        "ease_of_implementation_score": {
+                            "type": "int",
+                            "description": "The score for ease of implementation, between 1 and 10."
+                        },
+                        "financial_feasibility_score": {
+                            "type": "int",
+                            "description": "The score for financial feasibility, between 1 and 10."
+                        },
+                        "complexity_score": {
+                            "type": "int",
+                            "description": "The score for complexity, between 1 and 10."
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "A reasoning as to why we have the given score."
+                        }
+                    },
+                }
+            },
+            "class": "manage_code_eval.ManageCodeEval"
+        },
+    ]
+}
