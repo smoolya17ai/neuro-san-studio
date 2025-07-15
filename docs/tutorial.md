@@ -442,13 +442,15 @@ providers by changing the `model_name` of `llm_config` in your `.hocon` file.
 All available models and their corresponding providers are defined in the
 [default LLM info file](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/llms/default_llm_info.hocon).
 
-Each entry includes **preset parameters** that determine how the model should be used, such as token limits or default temperature values.
+Each entry includes **preset parameters** that determine how the model should be used,
+such as token limits or default temperature values.
 
 If needed, you can **override these preset values** directly in your `llm_config`.
 
 For more information on customizing or extending available models, refer to:
 * [Using Custom or Non-Default LLMs](user_guide.md#using-custom-or-non-default-llms)
-* [LangChain Chat Model Integration](https://python.langchain.com/docs/integrations/chat/) for provider-specific parameter options
+* [LangChain Chat Model Integration](https://python.langchain.com/docs/integrations/chat/)
+for provider-specific parameter options
 
 ### API Keys & Environment Variables
 
@@ -467,7 +469,6 @@ More details can be found in the following resources:
 * [.env.example](../.env.example)
 * [LLM Info HOCON Reference Guide](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/llm_info_hocon_reference.md)
 * [Agent HOCON Reference Guide](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md)
-
 
 ### Using Local LLMs via Ollama
 
@@ -746,9 +747,9 @@ following the structure shown in the previous examples.
 
 This setup allows you to introduce custom tools without modifying the built-in toolbox definitions.
 
-**See also**
+See also
 
-* [Toolbox](user_guide.md#toolbox) section of the user guide 
+* [Toolbox](user_guide.md#toolbox) section of the user guide
 * [Toolbox Info HOCON File Reference](
     https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/toolbox_info_hocon_reference.md) documentation
 

@@ -650,10 +650,10 @@ To use tools from toolbox in your agent network, simply call them with field `to
 
 1. Create the toolbox configuration file. This can be either HOCON or JSON files.
 2. Define the tools
-   * langchain tools
-       * Each tool or toolkit must have a `class` key.
-       * The specified class must be available in the server's `PYTHONPATH`.
-       * Additional dependencies (outside of `langchain_community`) must be installed separately.
+    * langchain tools
+        * Each tool or toolkit must have a `class` key.
+        * The specified class must be available in the server's `PYTHONPATH`.
+        * Additional dependencies (outside of `langchain_community`) must be installed separately.
 
         Example:
 
@@ -676,11 +676,11 @@ To use tools from toolbox in your agent network, simply call them with field `to
             }
         ```
 
-   * coded tools
-       * Similar to how one can define it in agent network config file
-       * `description` let the agent know what the tool does.
-       * `parameters` are arguments' definitions and types. This is optional.
-       * `class` specifies the tool's implementation as **module.ClassName** where the module can be found in `AGENT_TOOL_PATH`.
+    * coded tools
+        * Similar to how one can define it in agent network config file
+        * `description` let the agent know what the tool does.
+        * `parameters` are arguments' definitions and types. This is optional.
+        * `class` specifies the tool's implementation as **module.ClassName** where the module can be found in `AGENT_TOOL_PATH`.
 
         Example:
 
@@ -710,12 +710,11 @@ To use tools from toolbox in your agent network, simply call them with field `to
 
         > Note: if environment variable `AGENT_TOOL_PATH` is not set, it defaults to the `coded_tool/` directory.
 
-3. Make your own toolbox info file available to the agent system in one of the following ways (priority order from highest to lowest):
+3. Make your own toolbox info file available to the agent system in one of the following ways
+(priority order from highest to lowest):
 
     * Define the `agent_toolbox_info_file` key in your agent’s HOCON configuration (preferred method)
-
     * Use the `toolbox_info_file` key in the same config file as a fallback option
-
     * Set the `AGENT_TOOLBOX_INFO_FILE` environment variable to provide a global toolbox path for all agents
 
 For more information on toolbox, please see [Toolbox Info HOCON File Reference](
