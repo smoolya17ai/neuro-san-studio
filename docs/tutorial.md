@@ -738,8 +738,7 @@ If you want to add your own tools to the Toolbox (so they can be reused easily):
 * **Add your tool to a config file**: Define an entry in your custom toolbox info file,
 following the structure shown in the previous examples.
 
-* **Register the config file** by one of the following methods (in priority order):
-    * Set the `agent_toolbox_info_file key` in the agent network HOCON
+* **Register the config file** by one of the following methods:
 
     * Set the `toolbox_info_file` key
 
