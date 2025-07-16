@@ -506,10 +506,14 @@ You can also add new models or providers by extending the
 
 #### Registering custom LLM info file
 
-You can point to your custom LLM info file using either:
+To load your own llm info file, you can specify its location using one of the following methods:
 
-* The `AGENT_LLM_INFO_FILE` environment variable
-* The `agent_llm_info_file` key in your agent network HOCON config
+* The `llm_info_file` key in your agent’s HOCON configuration
+    > **Note:** The `agent_llm_info_file` key has been **deprecated as of version 0.5.46**.  
+    > Please use `llm_info_file` instead.  
+    > `agent_llm_info_file` will remain supported until `neuro-san==0.6.0`.
+
+* The `AGENT_LLM_INFO_FILE` environment variable (fallback if the above is not set)
 
 For more information on llm info file, please see [LLM Info HOCON File Reference](
     https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/llm_info_hocon_reference.md) documentation.
@@ -705,13 +709,15 @@ To use tools from toolbox in your agent network, simply call them with field `to
             }
         ```
 
-        For more examples, please see [https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox/toolbox_info.hocon](https://github.com/cognizant-ai-lab/neuro-san/blob/main/neuro_san/internals/run_context/langchain/toolbox/toolbox_info.hocon)
+        > Note: if environment variable `AGENT_TOOL_PATH` is not set, it defaults to the `coded_tool/` directory.
 
-3. Point to the config file by setting the environment variable `AGENT_TOOLBOX_INFO_FILE` to your custom config:
+3. Make your own toolbox info file available to the agent system in one of the following ways
 
-    ```bash
-    export AGENT_TOOLBOX_INFO_FILE=/path/to/my_toolbox_config.hocon
-    ```
+   * Define the `toolbox_info_file` key in your agent’s HOCON configuration (preferred method)
+       > **Note:** The `agent_toolbox_info_file` key has been **deprecated as of version 0.5.46**.  
+       > Please use `toolbox_info_file` instead.  
+       > `agent_toolbox_info_file` will remain supported until `neuro-san==0.6.0`.
+   * Set the `AGENT_TOOLBOX_INFO_FILE` environment variable as a fallback option
 
 For more information on toolbox, please see [Toolbox Info HOCON File Reference](
     https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/toolbox_info_hocon_reference.md) documentation.
