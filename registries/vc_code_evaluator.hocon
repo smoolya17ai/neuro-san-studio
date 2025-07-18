@@ -83,29 +83,27 @@ Always return a json block with the following fields:
     "tools": [
         // The first agent
         {
-            "name": "code_evaluator",
+            "name": "vibecoding_repo_evaluator",
             "function": {
-                "description": "I can help you evaluate vibe coding repos."
+                "description": "I can help you evaluate vibe coding repo metadata."
             },
             "instructions": """
 {instructions_prefix}
 You will use your tools to evaluate vibe coding submissions.
 
-Perform the following steps upon user query:
-1. Use the 'create_eval' tool to create a new evaluation based on the inputs.
-2. Use the 'retrieve_eval' tool to retrieve the created evaluation and display it to the user.
-3. Finally call the 'manage_eval' without any args or parameters to get the final evaluation.
+First, call the 'create_repo_eval' tool to create a new evaluation based on the inputs.
 
-Your final response should include the evaluation results in the following json format:
+Finally call the 'manage_repo_eval' without any args or parameters to get the final evaluation.
+Return the exact response from manage_repo_eval with the evaluation results in the following json format:
 {{
-  "innovation_score": <innovation score between 1 and 10>,
-  "ux_score": <UX score between 1 and 10>,
-  "scalability_score": <scalability score between 1 and 10>,
-  "market_potential_score": <market potential score between 1 and 10>,
-  "ease_of_implementation_score": <ease of implementation score between 1 and 10>,
-  "financial_feasibility_score": <financial feasibility score between 1 and 10>,
-  "complexity_score": <complexity score between 1 and 10>,
-  "description": <compiled summary from all 7 judges>
+  "repo_innovation_score": <innovation score between 1 and 100>,
+  "repo_ux_score": <UX score between 1 and 100>,
+  "repo_scalability_score": <scalability score between 1 and 100>,
+  "repo_market_potential_score": <market potential score between 1 and 100>,
+  "repo_ease_of_implementation_score": <ease of implementation score between 1 and 100>,
+  "repo_financial_feasibility_score": <financial feasibility score between 1 and 100>,
+  "repo_complexity_score": <complexity score between 1 and 100>,
+  "repo_description": <compiled summary from all 7 judges>
 }}
             """,
             "allow": {
@@ -115,13 +113,15 @@ Your final response should include the evaluation results in the following json 
                     }
                 }
             },
-            "tools": ["create_code_eval", "manage_code_eval"]
+            "tools": ["create_repo_eval", "manage_repo_eval"]
         },
+        // Create code evaluation
         {
-            "name": "create_code_eval",
+            "name": "create_repo_eval",
             "function": "aaosa_call",
             "instructions": """
-You are the evaluation orchestrator for a vibe-coding repo. You must collect expert assessments from your tools across 7 key dimensions:
+You are the evaluation orchestrator for a vibe-coding repo.
+You must collect expert assessments from all of your tools across 7 key dimensions:
     - Degree of Innovativeness
     - User Experience
     - Scalability / Reusability
@@ -130,243 +130,352 @@ You are the evaluation orchestrator for a vibe-coding repo. You must collect exp
     - Financial Feasibility
     - Complexity
 
-For each of the above, invoke the respective tools and store their JSON result with scores.
-
-{aaosa_instructions}
+Invoke all your tools to evaluate the inputs.
+IMPORTANT: Call all your tools.
             """,
-            "command": "aaosa_command",
-            "tools": ["evaluate_code_innovation", "evaluate_code_ux", "evaluate_code_scalability", "evaluate_code_market_potential",
-            "evaluate_code_implementation_ease", "evaluate_code_financial_feasibility", "evaluate_code_complexity"]
+            "command": "Call all your tools to evaluate the vibe coding repo metadata.",
+            "tools": ["evaluate_repo_innovation", "evaluate_repo_ux", "evaluate_repo_scalability", "evaluate_repo_market_potential",
+            "evaluate_repo_implementation_ease", "evaluate_repo_financial_feasibility", "evaluate_repo_complexity"]
         },
         # Evaluate Innovation
         {
-            "name": "evaluate_code_innovation",
+            "name": "evaluate_repo_innovation",
             "function": "aaosa_call",
             "instructions": """
-You are an expert in software innovation evaluating a project based on extracted metadata.
-Based on the metadata, evaluate on the following aspects:
-- Use of uncommon technologies (e.g., .ts, .toml, .rs, .jsx, GraphQL, WebAssembly, HOCON).
-- Breadth of architectural components (e.g., backend, frontend, infra, config).
-- Named subdirectories and tree structure depth suggesting tooling, orchestration, agents, etc.
-- Presence of agentic framework files like langgraph_query.py, agent.py, workflow.yaml, pipeline.yml, etc.
-- Does the system suggest an LLM-driven, DSL-based, or modular reasoning architecture?
-- Is there evidence of research-backed, ML-oriented, or intelligent tooling?
+You are an expert in software innovation evaluating a project based on its extracted code metadata (tree structure, file types, key files, and LOC).
 
-Score between 1 to 10
-1 = trivial app or boilerplate
-10 = novel systems-level innovation or domain-specific breakthrough
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Presence of uncommon or advanced technologies (.ts, .toml, .rs, .jsx, GraphQL, WebAssembly, HOCON)
+    - Breadth of architectural layers (backend, frontend, infra, configs)
+    - Depth and organization of directory tree (suggesting tooling/orchestration)
+    - Presence of agentic or workflow-oriented files (e.g., langgraph_query.py, agent.py, workflow.yaml, pipeline.yml)
+    - Evidence of modular reasoning architecture (LLM-driven, DSL-based)
+    - Variety of languages and components used
+    - Research-backed or ML-oriented tooling (e.g., model training scripts, AI pipelines)
+    - Originality of structure compared to typical templates
+    - Clever or unique use of configuration and environment files
+    - Signals of forward-looking tech (e.g., experimental frameworks, orchestrators)
 
-Your response should be in the following json format:
-    {{
-  "innovation_score": <number between 1 and 10 (1 = not innovative at all, 10 = exceptionally novel and differentiated)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_code_eval' tool with above json to store the evaluation results.
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_innovation_score`.  
+Provide a single sentence brief description of your rationale behind the score.
+Use the following json format:
+{{
+  "repo_innovation_score": <number between 1 and 100 (1 = not innovative at all, 100 = exceptionally novel and differentiated)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+
+Step 3:  
+IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
-            "command": "aaosa_command",
-            "tools": ["manage_code_eval"]
+            "command": """
+            Respond in the following json format:
+    {{
+    "repo_innovation_score": <number between 1 and 100 (1 = not innovative at all, 100 = exceptionally novel and differentiated)>,
+    "repo_description": "<brief description of your scoring rationale>"
+    }}
+            """,,
+            "tools": ["manage_repo_eval"]
         },
         # Evaluate UX
         {
-            "name": "evaluate_code_ux",
+            "name": "evaluate_repo_ux",
             "function": "aaosa_call",
             "instructions": """
-You are a UX design and usability reviewer assessing the user-centric quality of a project using its code metadata.
-Based on the metadata, evaluate on the following aspects:
-- Size of README.md (> 300 LOC suggests documentation effort)
-- Presence of UI files: .html, .css, .jsx, .ts, or folders like public/, ui/, pages/, etc.
-- Presence of test directories or filenames with test_, spec, etc.
-- Indicators of onboarding tools: demo scripts, CLI entry points, example.env, sample config files.
-- Evidence of front-facing design or consumer interfaces.
+You are a UX design and usability reviewer assessing the user‑centric quality of a project using its extracted code metadata (tree structure, key files, and LOC).
 
-Score from 1–10
-1 = minimal UX thought
-10 = clearly designed with user experience and accessibility in mind
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - README depth and quality (e.g., >300 LOC or well‑structured content)
+    - Presence of UI files (.html, .css, .jsx, .ts)
+    - Presence of dedicated UI folders (public/, ui/, pages/, components/)
+    - Presence of test directories or test/spec filenames
+    - Indicators of onboarding tools (demo scripts, example.env, sample configs)
+    - CLI or API entry points clearly exposed (main.py, app.js, etc.)
+    - Evidence of accessibility considerations (configurable themes, ARIA, etc.)
+    - Presence of usage examples or guides in code structure
+    - Front‑facing design hints (landing pages, user flows)
+    - Signals of maintainable UX structure (consistent naming, organized assets)
 
-Your response should be in the following json format:
-    {{
-  "ux_score": <number between 1 and 10 (1 = very poor UX, 10 = highly intuitive and user-centric)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_ux_score`.  
+Provide a single sentence brief description of your rationale behind the score.
+Use the following json format:
+{{
+  "repo_ux_score": <number between 1 and 100 (1 = very poor UX, 100 = highly intuitive and user‑centric)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+
+Step 3:  
+IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
-            "command": "aaosa_command",
-            "tools": ["manage_code_eval"]
+            "command": """
+            Respond in the following json format:
+{{
+  "repo_ux_score": <number between 1 and 100 (1 = very poor UX, 100 = highly intuitive and user‑centric)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+            """,
+            "tools": ["manage_repo_eval"]
         },
         # Evaluate Scalability
         {
-            "name": "evaluate_code_scalability",
+            "name": "evaluate_repo_scalability",
             "function": "aaosa_call",
             "instructions": """
-You are a systems architect evaluating scalability and reusability of this codebase using structured metadata.
-Based on the metadata, evaluate on the following aspects:
-- Docker, Makefile, docker-compose.yml, or Kubernetes YAMLs for deployability.
-- CI/CD detection (.github/workflows/, .gitlab-ci.yml) for reusable delivery pipelines.
-- Config-driven logic (e.g., config.py, pipeline.yaml, params.json, .env.example) for adaptability.
-- Tree structure and modular folders like services/, plugins/, adapters/, or modules/ for reusability.
-- Flat vs. nested file organization indicating separation of concerns.
+You are a systems architect evaluating the Scalability and Reusability of this codebase using its extracted metadata (tree structure, key files, and LOC).
 
-Score from 1–10
-1 = hardcoded, tightly coupled code
-10 = reusable, modular, and infrastructure-agnostic
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Presence of Dockerfile(s) for containerization
+    - Presence of Makefile or similar build automation
+    - Presence of docker-compose.yml or Kubernetes manifests for orchestration
+    - CI/CD pipeline indicators (.github/workflows/, .gitlab-ci.yml)
+    - Config‑driven design (config.py, pipeline.yaml, params.json, .env.example)
+    - Modular folder structure (services/, plugins/, adapters/, modules/)
+    - Reusability signals (well‑separated libraries/components)
+    - Depth of file organization indicating separation of concerns
+    - Environment flexibility (presence of multi‑env configs)
+    - Overall readiness for scaling (multi‑component deployment hints)
 
-Your response should be in the following json format:
-    {{
-  "scalability_score": <number between 1 and 10 (1 = low scalability, 10 = highly scalable and reusable)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_scalability_score`.  
+Provide a single sentence brief description of your rationale behind the score.
+Use the following json format:
+{{
+  "repo_scalability_score": <number between 1 and 100 (1 = low scalability, 100 = highly scalable and reusable)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+
+Step 3:  
+IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
+
             """,
-            "command": "aaosa_command",
-            "tools": ["manage_code_eval"]
+            "command": """
+            Respond in the following json format:
+{{
+  "repo_scalability_score": <number between 1 and 100 (1 = low scalability, 100 = highly scalable and reusable)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+            """,
+            "tools": ["manage_repo_eval"]
         },
+        # Evaluate Market Potential
         {
-            "name": "evaluate_code_market_potential",
+            "name": "evaluate_repo_market_potential",
             "function": "aaosa_call",
             "instructions": """
-You are a product strategist evaluating this software project for market relevance and monetization potential.
-Based on the metadata, evaluate on the following aspects:
-- Domain indicators in README, license, or filenames (e.g., fintech, chatbot, edtech, RAG, analytics).
-- Use of deployable APIs (main.py, app.js, server.ts) or microservices.
-- Modularity suggesting multi-tenant or SaaS potential.
-- CI/CD, Docker, and orchestration support that suggests production-readiness.
-- Any signals of integration readiness: webhook, api_client, sdk, agent, etc.
+You are a product strategist evaluating this software project for market relevance and monetization potential, based solely on its extracted code metadata (tree structure, key files, and LOC).
 
-Score from 1–10
-1 = toy or research-only code
-10 = well-structured, real-world ready, and commercially viable
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Domain indicators in README, license, or filenames (fintech, chatbot, edtech, RAG, analytics, etc.)
+    - Presence of deployable API entry points (main.py, app.js, server.ts)
+    - Evidence of microservices or multi‑service design
+    - Modularity suggesting multi‑tenant or SaaS potential
+    - Workflows presence (GitHub workflows, GitLab CI, etc.)
+    - Containerization/orchestration signals (Dockerfile, docker-compose.yml, Kubernetes)
+    - Integration readiness (webhook, api_client, sdk, agent references)
+    - Production‑readiness hints (configs for staging/prod, environment handling)
+    - Signs of commercial intent (license type, marketplace-related files)
+    - Overall structural polish and deployability
 
-Your response should be in the following json format:
-    {{
-  "market_potential_score": <number between 1 and 10 (1 = very low market potential, 10 = high market potential)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_market_potential_score`.  
+Provide a single sentence brief description of your rationale behind the score.
+Use the following json format:
+{{
+  "repo_market_potential_score": <number between 1 and 100 (1 = very low market potential, 100 = high market potential)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+
+Step 3:  
+IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
-            "command": "aaosa_command",
-            "tools": ["manage_code_eval"]
+            "command": """
+            Respond in the following json format:
+{{
+  "repo_market_potential_score": <number between 1 and 100 (1 = very low market potential, 100 = high market potential)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+            """,
+            "tools": ["manage_repo_eval"]
         },
+        # Evaluate Ease of Implementation
         {
-            "name": "evaluate_code_implementation_ease",
+            "name": "evaluate_repo_implementation_ease",
             "function": "aaosa_call",
             "instructions": """
-You are a senior software engineer judging the ease of setup, install, and maintenance based on the metadata.
-Based on the metadata, evaluate on the following aspects:
-- Presence of README.md, Makefile, Dockerfile, or install scripts.
-- Entry points like main.py, start.sh, or CLI wrappers.
-- requirements.txt, package.json, pyproject.toml, or setup.py for dependency clarity.
-- Simplified folder structure, consistent naming, shallow nesting.
-- Ready-to-run examples, .env.example, or integration tests.
+You are a senior software engineer judging the ease of setup, install, and maintenance based on the extracted code metadata (tree structure, key files, and LOC).
 
-Score from 1–10
-1 = undocumented or convoluted setup
-10 = easy to run, portable, and dev-friendly
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Presence and quality of README.md (clear instructions, setup guidance)
+    - Presence of Makefile or build automation scripts
+    - Presence of Dockerfile or container setup
+    - Entry points like main.py, start.sh, app.js, etc.
+    - Dependency clarity (requirements.txt, package.json, pyproject.toml, setup.py)
+    - Folder structure simplicity (consistent naming, shallow nesting)
+    - Presence of ready-to-run examples (sample scripts, example.env)
+    - Presence of integration or automated tests
+    - Indicators of environment flexibility (configs for dev/staging/prod)
+    - Overall dev-friendliness (quick start potential, minimal manual steps)
 
-Your response should be in the following json format:
-    {{
-  "ease_of_implementation_score": <number between 1 and 10 (1 = not easy to implement at all, 10 = high ease of implementation)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_ease_of_implementation_score`.  
+Provide a single sentence brief description of your rationale behind the score.
+Use the following json format:
+{{
+  "repo_ease_of_implementation_score": <number between 1 and 100 (1 = not easy to implement at all, 100 = high ease of implementation)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+
+Step 3:  
+IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
-            "command": "aaosa_command",
-            "tools": ["manage_code_eval"]
+            "command": """
+            Respond in the following json format:
+{{
+  "repo_ease_of_implementation_score": <number between 1 and 100 (1 = not easy to implement at all, 100 = high ease of implementation)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+            """,
+            "tools": ["manage_repo_eval"]
         },
+        # Evaluate Financial Feasibility
         {
-            "name": "evaluate_code_financial_feasibility",
+            "name": "evaluate_repo_financial_feasibility",
             "function": "aaosa_call",
             "instructions": """
-You are assessing the financial feasibility of deploying and maintaining this codebase.
-Based on the metadata, evaluate on the following aspects:
-- Are heavy infra or ML frameworks likely (e.g., torch, transformers, pipeline.yaml)?
-- Are lightweight stacks used (e.g., Flask, FastAPI, Node)?
-- Evidence of resource configuration: .env, .secrets, config.py, gpus, .yml schedulers?
-- Does it require LLM access (e.g., openai, agent, rag_pipeline) or cloud APIs?
-- Are there CI/CD optimizations and containerization for cost control?
+You are assessing the financial feasibility of deploying and maintaining this codebase based solely on the extracted metadata (tree structure, key files, and LOC).
 
-Score from 1–10
-1 = expensive, resource-intensive, unclear cost structure
-10 = lightweight, cost-aware, and efficient
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Presence of heavy infrastructure or ML frameworks (torch, transformers, etc.)
+    - Use of lightweight stacks (Flask, FastAPI, Node, etc.)
+    - Resource configuration management (.env, .secrets, config.py)
+    - GPU or hardware-specific indicators (e.g., CUDA, GPU folders)
+    - Cloud API or LLM dependencies (openai, rag_pipeline, agent usage)
+    - Multiple scripts presence for cost control and efficient ops
+    - Containerization (Dockerfile, docker-compose.yml) for resource optimization
+    - Modularity enabling selective deployment (services/plugins)
+    - Evidence of cost-awareness (separated dev/prod configs, minimal deps)
+    - Indicators of long-term operational efficiency (monitoring, scaling configs)
 
-Your response should be in the following json format:
-    {{
-  "financial_feasibility_score": <number between 1 and 10 (1 = very poor financial viability, 10 = high financial viability)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_financial_feasibility_score`.  
+Provide a single sentence brief description of your rationale behind the score.
+Use the following json format:
+{{
+  "repo_financial_feasibility_score": <number between 1 and 100 (1 = very poor financial viability, 100 = high financial viability)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+
+Step 3:  
+IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
-            "command": "aaosa_command",
-            "tools": ["manage_code_eval"]
+            "command": """
+            Respond in the following json format:
+{{
+  "repo_financial_feasibility_score": <number between 1 and 100 (1 = very poor financial viability, 100 = high financial viability)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+            """,
+            "tools": ["manage_repo_eval"]
         },
+        # Evaluate Complexity
         {
-            "name": "evaluate_code_complexity",
+            "name": "evaluate_repo_complexity",
             "function": "aaosa_call",
             "instructions": """
-You are a technical reviewer evaluating the complexity of this software submission.
-Based on the metadata, evaluate on the following aspects:
-- Number of files and total lines of code (LOC).
-- Number of distinct file types/languages (Python + JS + configs + infra?).
-- Presence of nested, multi-level directories (src/agents/tools/, modules/observations/).
-- Orchestrators, pipelines, or async logic indicated by filenames and folders.
-- Longest file by LOC and presence of multiple high-LOC files.
+You are a technical reviewer evaluating the complexity of this software submission based on its extracted code metadata (tree structure, key files, and LOC).
 
-Score from 1–10
-1 = single script or static website
-10 = complex orchestration with multiple interacting layers
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very low complexity, 100 = very high complexity):
+    - Total number of files in the repository
+    - Total lines of code (LOC)
+    - Number of distinct file types/languages (Python, JS, configs, infra, etc.)
+    - Depth of directory nesting (e.g., src/agents/tools/, modules/observations/)
+    - Presence of orchestration or workflow files (pipelines, schedulers)
+    - Presence of async logic indicators (async handlers, event loops)
+    - Longest single file by LOC
+    - Number of files with high LOC (indicating complexity hotspots)
+    - Variety of subsystems (UI, backend, infra, tests)
+    - Interconnections implied by naming or modular structures
 
-Your response should be in the following json format:
-    {{
-  "complexity_score": <number between 1 and 10 (1 = unmanageable complexity, 10 = highly manageable complexity)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_complexity_score`.  
+Provide a single sentence brief description of your rationale behind the score.
+Use the following json format:
+{{
+  "repo_complexity_score": <number between 1 and 100 (1 = very simple, 100 = extremely complex)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+
+Step 3:  
+IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
-            "command": "aaosa_command",
-            "tools": ["manage_code_eval"]
+            "command": """
+            Respond in the following json format:
+{{
+  "repo_complexity_score": <number between 1 and 100 (1 = very simple, 100 = extremely complex)>,
+  "repo_description": "<brief description of your scoring rationale>"
+}}
+            """,
+            "tools": ["manage_repo_eval"]
         },
+        # Manage code evaluation
         {
-            "name": "manage_code_eval",
+            "name": "manage_repo_eval",
             "function": {
                 "description": "I can update the evaluation with the scores and descriptions provided by the other tools.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "innovation_score": {
-                            "type": "int",
-                            "description": "The score for innovation, between 1 and 10."
+                        "repo_innovation_score": {
+                            "type": "float",
+                            "description": "The score for innovation, between 1 and 100."
                         },
-                        "ux_score": {
-                            "type": "int",
-                            "description": "The score for user experience, between 1 and 10."
+                        "repo_ux_score": {
+                            "type": "float",
+                            "description": "The score for user experience, between 1 and 100."
                         },
-                        "scalability_score": {
-                            "type": "int",
-                            "description": "The score for scalability, between 1 and 10."
+                        "repo_scalability_score": {
+                            "type": "float",
+                            "description": "The score for scalability, between 1 and 100."
                         },
-                        "market_potential_score": {
-                            "type": "int",
-                            "description": "The score for market potential, between 1 and 10."
+                        "repo_market_potential_score": {
+                            "type": "float",
+                            "description": "The score for market potential, between 1 and 100."
                         },
-                        "ease_of_implementation_score": {
-                            "type": "int",
-                            "description": "The score for ease of implementation, between 1 and 10."
+                        "repo_ease_of_implementation_score": {
+                            "type": "float",
+                            "description": "The score for ease of implementation, between 1 and 100."
                         },
-                        "financial_feasibility_score": {
-                            "type": "int",
-                            "description": "The score for financial feasibility, between 1 and 10."
+                        "repo_financial_feasibility_score": {
+                            "type": "float",
+                            "description": "The score for financial feasibility, between 1 and 100."
                         },
-                        "complexity_score": {
-                            "type": "int",
-                            "description": "The score for complexity, between 1 and 10."
+                        "repo_complexity_score": {
+                            "type": "float",
+                            "description": "The score for complexity, between 1 and 100."
                         },
-                        "description": {
+                        "repo_description": {
                             "type": "string",
                             "description": "A reasoning as to why we have the given score."
                         }
                     },
                 }
             },
-            "class": "manage_code_eval.ManageCodeEval"
+            "class": "manage_repo_eval.ManageRepoEval"
         },
     ]
 }

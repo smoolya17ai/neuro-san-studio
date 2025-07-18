@@ -14,23 +14,23 @@ from typing import Union
 from neuro_san.interfaces.coded_tool import CodedTool
 
 
-class ManageCodeEval(CodedTool):
+class ManageRepoEval(CodedTool):
     """
-    CodedTool implementation manages evaluation score for code submissions.
+    CodedTool implementation manages evaluation score.
     Returns a dictionary mapping the evaluation.
     """
 
     def __init__(self):
         self.eval_data: Dict[str, Any] = {
-            "innovation_score": None,
-            "ux_score": None,
-            "scalability_score": None,
-            "market_potential_score": None,
-            "ease_of_implementation_score": None,
-            "financial_feasibility_score": None,
-            "complexity_score": None,
+            "repo_innovation_score": None,
+            "repo_ux_score": None,
+            "repo_scalability_score": None,
+            "repo_market_potential_score": None,
+            "repo_ease_of_implementation_score": None,
+            "repo_financial_feasibility_score": None,
+            "repo_complexity_score": None,
             # we update the description separately
-            # "description": None
+            # "repo_description": None
         }
 
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
@@ -49,14 +49,14 @@ class ManageCodeEval(CodedTool):
             adding the data is not invoke()-ed more than once.
 
             Keys expected for this implementation are essential the evaluation scores:
-            - "innovation_score"
-            - "ux_score"
-            - "scalability_score"
-            - "market_potential_score"
-            - "ease_of_implementation_score"
-            - "financial_feasibility_score"
-            - "complexity_score"
-            - "description"
+            - "repo_innovation_score"
+            - "repo_ux_score"
+            - "repo_scalability_score"
+            - "repo_market_potential_score"
+            - "repo_ease_of_implementation_score"
+            - "repo_financial_feasibility_score"
+            - "repo_complexity_score"
+            - "repo_description"
 
         :return:
             A dictionary containing evaluation scores with the above listed keys.
@@ -83,11 +83,11 @@ class ManageCodeEval(CodedTool):
                     updated_evaluation[key] = args[key]
 
         # we should append to the text in description instead of replacing it with new values
-        if "description" in args:
-            if "description" in updated_evaluation:
-                updated_evaluation["description"] += f"\n{args['description']}"
+        if "repo_description" in args:
+            if "repo_description" in updated_evaluation:
+                updated_evaluation["repo_description"] += f"\n{args['repo_description']}"
             else:
-                updated_evaluation["description"] = args.get("description")
+                updated_evaluation["repo_description"] = args.get("repo_description")
 
         # Finally update the sly_data
         sly_data["evaluation"] = updated_evaluation

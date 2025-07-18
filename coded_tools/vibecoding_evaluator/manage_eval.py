@@ -30,7 +30,7 @@ class ManageEval(CodedTool):
             "financial_feasibility_score": None,
             "complexity_score": None,
             # we update the description separately
-            # "description": None
+            # "idea_description": None
         }
 
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
@@ -56,7 +56,7 @@ class ManageEval(CodedTool):
             - "ease_of_implementation_score"
             - "financial_feasibility_score"
             - "complexity_score"
-            - "description"
+            - "idea_description"
 
         :return:
             A dictionary containing evaluation scores with the above listed keys.
@@ -83,11 +83,11 @@ class ManageEval(CodedTool):
                     updated_evaluation[key] = args[key]
 
         # we should append to the text in description instead of replacing it with new values
-        if "description" in args:
-            if "description" in updated_evaluation:
-                updated_evaluation["description"] += f"\n{args['description']}"
+        if "idea_description" in args:
+            if "idea_description" in updated_evaluation:
+                updated_evaluation["idea_description"] += f"\n{args['idea_description']}"
             else:
-                updated_evaluation["description"] = args.get("description")
+                updated_evaluation["idea_description"] = args.get("idea_description")
 
         # Finally update the sly_data
         sly_data["evaluation"] = updated_evaluation

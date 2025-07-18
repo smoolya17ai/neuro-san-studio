@@ -83,7 +83,7 @@ Always return a json block with the following fields:
     "tools": [
         // The first agent
         {
-            "name": "vibecoding_evaluator",
+            "name": "vibecoding_idea_evaluator",
             "function": {
                 "description": "I can help you evaluate vibe coding ideas."
             },
@@ -91,21 +91,19 @@ Always return a json block with the following fields:
 {instructions_prefix}
 You will use your tools to evaluate vibe coding submissions.
 
-Perform the following steps upon user query:
-1. Use the 'create_eval' tool to create a new evaluation based on the inputs.
-2. Use the 'retrieve_eval' tool to retrieve the created evaluation and display it to the user.
-3. Finally call the 'manage_eval' without any args or parameters to get the final evaluation.
+First, call the 'create_eval' tool to create a new evaluation based on the inputs.
 
+Finally call the 'manage_eval' without any args or parameters to get the final evaluation.
 Your final response should include the evaluation results in the following json format:
 {{
-  "innovation_score": <innovation score between 1 and 10>,
-  "ux_score": <UX score between 1 and 10>,
-  "scalability_score": <scalability score between 1 and 10>,
-  "market_potential_score": <market potential score between 1 and 10>,
-  "ease_of_implementation_score": <ease of implementation score between 1 and 10>,
-  "financial_feasibility_score": <financial feasibility score between 1 and 10>,
-  "complexity_score": <complexity score between 1 and 10>,
-  "description": <compiled summary from all 7 judges>
+  "innovation_score": <innovation score between 1 and 100>,
+  "ux_score": <UX score between 1 and 100>,
+  "scalability_score": <scalability score between 1 and 100>,
+  "market_potential_score": <market potential score between 1 and 100>,
+  "ease_of_implementation_score": <ease of implementation score between 1 and 100>,
+  "financial_feasibility_score": <financial feasibility score between 1 and 100>,
+  "complexity_score": <complexity score between 1 and 100>,
+  "idea_description": <compiled summary from all 7 judges>
 }}
             """,
             "allow": {
@@ -117,11 +115,12 @@ Your final response should include the evaluation results in the following json 
             },
             "tools": ["create_eval", "manage_eval"]
         },
+        // Create evaluation
         {
             "name": "create_eval",
             "function": "aaosa_call",
             "instructions": """
-You are the evaluation orchestrator for a vibe-coding idea or MVP. You must collect expert assessments from your tools across 7 key dimensions:
+You are the evaluation orchestrator for a vibe-coding idea. You must collect expert assessments from your tools across 7 key dimensions:
     - Degree of Innovativeness
     - User Experience
     - Scalability / Reusability
@@ -130,11 +129,10 @@ You are the evaluation orchestrator for a vibe-coding idea or MVP. You must coll
     - Financial Feasibility
     - Complexity
 
-For each of the above, invoke the respective tools and store their JSON result with scores.
-
-{aaosa_instructions}
+Invoke all your tools to evaluate the inputs.
+IMPORTANT: Call all your tools.
             """,
-            "command": "aaosa_command",
+            "command": "Call all your tools to evaluate the vibe coding idea submission.",
             "tools": ["evaluate_innovation", "evaluate_ux", "evaluate_scalability", "evaluate_market_potential",
             "evaluate_implementation_ease", "evaluate_financial_feasibility", "evaluate_complexity"]
         },
@@ -144,26 +142,41 @@ For each of the above, invoke the respective tools and store their JSON result w
             "function": "aaosa_call",
             "instructions": """
 You are an expert in product innovation and emerging technologies. 
-Your job is to assess the Degree of Innovativeness of the MVP (Minimum Viable Product) based on the input.
+Your job is to assess the Degree of Innovativeness of the vibe coding idea submission based on the input.
 
-If the description is vague or generic, and lacks clear novelty, score conservatively or in the range [1,2].
-
+Step 1: 
 Evaluate the following aspects:
-    - Novelty of the concept, implementation, or technology used.
-    - Originality of approach compared to standard or widely-used methods.
-    - Intellectual creativity—does it involve clever repurposing, unique configuration, or original architectures?
-    - Market differentiation—how distinct is it from current commercial or open-source solutions?
-    - Use of any proprietary methods, algorithms, or integrations.
-    - Presence of research-backed ideas, patentable claims, or academically novel constructs.
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Novelty of concept
+    - Uniqueness of implementation
+    - Originality compared to existing solutions
+    - Clever use of technology or resources
+    - Use of proprietary methods or algorithms
+    - Research‑backed ideas or patents
+    - Integration of cutting‑edge tools (e.g., AI/ML, LLMs)
+    - Differentiation from open‑source or market solutions
+    - Breadth of components (backend, frontend, infra)
+    - Potential to inspire new approaches in the field
 
-Your response should be in the following json format:
+Step 2:
+After scoring all 10 criteria, take the average of the 10 scores to produce the final innovation_score.
+Provide a single sentence brief description of your rationale.
+Use the following json format:
     {{
-  "innovation_score": <number between 1 and 10 (1 = not innovative at all, 10 = exceptionally novel and differentiated)>,
-  "description": "<brief description of your scoring rationale>"
+    "innovation_score": <number between 1 and 100 (1 = not innovative at all, 100 = exceptionally novel and differentiated)>,
+    "idea_description": "<brief description of your scoring rationale>"
     }}
+
+Step 3:
 IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
             """,
-            "command": "aaosa_command",
+            "command": """
+            Respond in the following json format:
+    {{
+    "innovation_score": <number between 1 and 100 (1 = not innovative at all, 100 = exceptionally novel and differentiated)>,
+    "idea_description": "<brief description of your scoring rationale>"
+    }}
+            """,
             "tools": ["manage_eval"]
         },
         # Evaluate UX
@@ -171,28 +184,42 @@ IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation r
             "name": "evaluate_ux",
             "function": "aaosa_call",
             "instructions": """
-You are a UX designer and human-computer interaction expert evaluating the User Experience (UX) of a proposed MVP.
+You are a UX designer and human‑computer interaction expert evaluating the User Experience (UX) of the vibe‑coding idea submission based on the input.
 
-Evaluate the following aspects:
-- Ease of Use: Are the product goals easily discoverable and achievable by the end user?
-- Interface Quality: Is there a clearly described UI, CLI, or API interface? How intuitive is it?
-- Onboarding and Learnability: How much effort would it take for a new user to start using the product effectively?
-- Documentation Quality: Is there clear, comprehensive documentation for users and developers?
-- Interaction Design: Consider accessibility, responsiveness, clarity, and visual hierarchy (if a UI is described).
-- Error Prevention and Handling: Are there safeguards, feedback mechanisms, or helpful guidance?
-- Accessibility and Inclusivity: Support for multilingual users, keyboard-only users, screen readers, etc.
-- Evidence of user testing or feedback (if mentioned).
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Ease of use (goals discoverable and achievable)
+    - Interface clarity (UI, CLI, or API intuitiveness)
+    - Onboarding and learnability (ease for new users)
+    - Documentation quality (user/dev guidance)
+    - Interaction design (accessibility, responsiveness, visual hierarchy)
+    - Error prevention and handling (feedback, safeguards)
+    - Accessibility and inclusivity (multilingual, screen readers, keyboard-only)
+    - User feedback and iteration evidence (if mentioned)
+    - Consistency across touchpoints (UI patterns, predictable flows)
+    - Overall satisfaction potential (how pleasant and efficient the experience seems)
 
-If there is no UI or interaction layer, or it is poorly described, score conservatively or in the range [1,2].
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `ux_score`.  
+Provide a single sentence brief description of your rationale.
+Use the following json format:
+{{
+  "ux_score": <number between 1 and 100 (1 = very poor UX, 100 = highly intuitive and user-centric)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
 
-Your response should be in the following json format:
-    {{
-  "ux_score": <number between 1 and 10 (1 = very poor UX, 10 = highly intuitive and user-centric)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 3:  
+IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
+
             """,
-            "command": "aaosa_command",
+            "command": """
+            Respond in the following json format:
+{{
+  "ux_score": <number between 1 and 100 (1 = very poor UX, 100 = highly intuitive and user-centric)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
+            """,
             "tools": ["manage_eval"]
         },
         # Evaluate Scalability
@@ -200,139 +227,215 @@ IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation r
             "name": "evaluate_scalability",
             "function": "aaosa_call",
             "instructions": """
-You are a systems engineer and software architect evaluating the Scalability and Reusability of a given MVP.
+You are a systems engineer and software architect evaluating the Scalability and Reusability of a given vibe‑coding idea submission.
 
-Evaluate the following aspects:
-- Whether the architecture is modular, pluggable, or service-oriented.
-- If it can scale vertically/horizontally for increased load or use cases.
-- Whether it is configurable or adaptable for new environments (e.g., YAML/HOCON/JSON driven).
-- Use of standards, containerization, or CI/CD pipelines that support reuse or replication.
-- Reusability of core modules in other domains or similar contexts.
-- Cloud and deployment flexibility: on-prem, hybrid, serverless?
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Modularity of architecture (pluggable, service‑oriented)
+    - Horizontal scalability (handling increased load by adding nodes)
+    - Vertical scalability (handling increased load by upgrading resources)
+    - Configurability (YAML/HOCON/JSON driven adaptability)
+    - Standards adoption (industry standards, design patterns)
+    - Containerization (Docker, Kubernetes, etc.)
+    - CI/CD pipelines enabling easy deployment
+    - Reusability of core modules in other contexts
+    - Cloud/deployment flexibility (on‑prem, hybrid, serverless)
+    - Ease of integration with other systems or services
 
-If the design seems hard-coded, tightly coupled, or lacks any mention of configurability or replication potential, score conservatively or in the range [1,2].
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `scalability_score`.  
+Provide a single sentence brief description of your rationale.
+Use the following json format:
+{{
+  "scalability_score": <number between 1 and 100 (1 = low scalability, 100 = highly scalable and reusable)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
 
-Your response should be in the following json format:
-    {{
-  "scalability_score": <number between 1 and 10 (1 = low scalability, 10 = highly scalable and reusable)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 3:  
+IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
+
             """,
-            "command": "aaosa_command",
+            "command": """
+            Respond in the following json format:
+{{
+  "scalability_score": <number between 1 and 100 (1 = low scalability, 100 = highly scalable and reusable)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
+            """,
             "tools": ["manage_eval"]
         },
+        // Market Potential
         {
             "name": "evaluate_market_potential",
             "function": "aaosa_call",
             "instructions": """
-You are a business strategist and product-market fit expert assessing the Business Opportunity and Market Potential of a described software MVP.
+You are a business strategist and product‑market fit expert assessing the Business Opportunity and Market Potential of a described vibe‑coding idea submission.
 
-Evaluate the following aspects:
-- Problem Significance: Is the MVP solving a clearly articulated, high-impact problem?
-- Target Market: Is there a defined audience or vertical?
-- Market Size: Could this address a small niche, mid-sized segment, or global audience?
-- Monetization Potential: Is there a path to revenue (subscriptions, services, licensing)?
-- Competitive Landscape: Is it solving a problem better/cheaper than incumbents?
-- Potential for partnerships or integrations in real-world settings.
-- Mentions of any customer demand, adoption interest, or existing traction.
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Problem significance (impact and clarity of problem being solved)
+    - Target market definition (specific audience or vertical)
+    - Market size (niche, mid-sized, or global potential)
+    - Monetization strategy (subscriptions, licensing, services)
+    - Competitive differentiation (better, faster, cheaper than incumbents)
+    - Partnership potential (integrations, ecosystems)
+    - Evidence of demand or traction (users, interest, pilots)
+    - Scalability of market reach (geographic or segment expansion)
+    - Barriers to entry (low vs. high competition hurdles)
+    - Long-term sustainability (ability to maintain value in market)
 
-If the market, monetization, or value narrative is vague or absent, score conservatively or in the range [1,2].
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `market_potential_score`.  
+Provide a single sentence brief description of your rationale.
+Use the following json format:
+{{
+  "market_potential_score": <number between 1 and 100 (1 = very low market potential, 100 = high market potential)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
 
-Your response should be in the following json format:
-    {{
-  "market_potential_score": <number between 1 and 10 (1 = very low market potential, 10 = high market potential)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 3:  
+IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
             """,
-            "command": "aaosa_command",
+            "command": """
+            Respond in the following json format:
+{{
+  "market_potential_score": <number between 1 and 100 (1 = very low market potential, 100 = high market potential)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
+            """,
             "tools": ["manage_eval"]
         },
+        // Ease of Implementation
         {
             "name": "evaluate_implementation_ease",
             "function": "aaosa_call",
             "instructions": """
-You are a software engineering manager reviewing the Ease of Implementation of a given MVP.
+You are a software engineering manager reviewing the Ease of Implementation of a given vibe‑coding idea submission.
 
-Evaluate the following aspects:
-- Is the MVP described as deployable, or is it still conceptual?
-- How clearly are setup steps, dependencies, and environments specified?
-- Use of automation tools: Docker, Makefiles, CI/CD, pre-built containers, etc.
-- Developer effort: Time, expertise, and complexity of getting it to run or maintain it.
-- Whether there is a well-defined tech stack or documentation mentioned.
-- Maturity of the codebase (tests, error handling, monitoring, production readiness).
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Deployability (is it deployable vs. just conceptual)
+    - Clarity of setup steps (environments, prerequisites, instructions)
+    - Dependency specification (requirements.txt, package.json, etc.)
+    - Use of automation tools (Docker, Makefiles, CI/CD)
+    - Developer effort (time, expertise needed to implement)
+    - Tech stack definition (clear choice of frameworks, languages)
+    - Documentation quality for implementers
+    - Maturity of codebase (tests, error handling, monitoring)
+    - Production readiness indicators (logging, metrics, configs)
+    - Maintainability (ease of updates and fixes)
 
-If it lacks any implementation clarity, or appears too idealistic, score conservatively or in the range [1,2].
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `ease_of_implementation_score`.  
+Provide a single sentence brief description of your rationale.
+Use the following json format:
+{{
+  "ease_of_implementation_score": <number between 1 and 100 (1 = not easy to implement at all, 100 = high ease of implementation)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
 
-Your response should be in the following json format:
-    {{
-  "ease_of_implementation_score": <number between 1 and 10 (1 = not easy to implement at all, 10 = high ease of implementation)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 3:  
+IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
             """,
-            "command": "aaosa_command",
+            "command": """
+            Respond in the following json format:
+{{
+  "ease_of_implementation_score": <number between 1 and 100 (1 = not easy to implement at all, 100 = high ease of implementation)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
+            """,
             "tools": ["manage_eval"]
         },
+        // Financial Feasibility
         {
             "name": "evaluate_financial_feasibility",
             "function": "aaosa_call",
             "instructions": """
-You are a finance and cost analyst assessing the Financial Feasibility of a product MVP.
+You are a finance and cost analyst assessing the Financial Feasibility of a product vibe‑coding idea submission.
 
-Evaluate the following aspects:
-- Infrastructure and operational costs: e.g., compute, cloud, third-party APIs.
-- Developer and maintenance costs (e.g., niche expertise required?).
-- Whether there is potential for a return on investment or cost savings for users.
-- Monetization clarity: direct vs indirect models.
-- Are there fixed vs. variable costs, and are they scalable?
-- Licensing model (open-source, SaaS, enterprise tiers).
-- Any mention of funding, grants, or financial backing.
-- Customer acquisition costs or sales channels.
-- Are there any financial risks or uncertainties mentioned?
-- Customer lifetime value or retention metrics.
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Infrastructure and operational cost clarity
+    - Developer and maintenance cost implications
+    - Return on investment potential or cost savings
+    - Monetization clarity (direct vs. indirect revenue models)
+    - Fixed vs. variable cost scalability
+    - Licensing model suitability (open-source, SaaS, enterprise tiers)
+    - Mention of funding, grants, or financial backing
+    - Customer acquisition cost considerations
+    - Financial risk awareness (uncertainties, constraints)
+    - Customer lifetime value or retention potential
 
-If no financial considerations are visible, assume high uncertainty and risk.
-If not enough details are provided, score conservatively or in the range [1,2].
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `financial_feasibility_score`.  
+Provide a single sentence brief description of your rationale.
+Use the following json format:
+{{
+  "financial_feasibility_score": <number between 1 and 100 (1 = very poor financial viability, 100 = high financial viability)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
 
-Your response should be in the following json format:
-    {{
-  "financial_feasibility_score": <number between 1 and 10 (1 = very poor financial viability, 10 = high financial viability)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 3:  
+IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
             """,
-            "command": "aaosa_command",
+            "command": """
+            Respond in the following json format:
+{{
+  "financial_feasibility_score": <number between 1 and 100 (1 = very poor financial viability, 100 = high financial viability)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
+            """,
             "tools": ["manage_eval"]
         },
+        // Complexity
         {
             "name": "evaluate_complexity",
             "function": "aaosa_call",
             "instructions": """
-You are a technical reviewer evaluating the Complexity manageability of a described software MVP.
+You are a technical reviewer evaluating the Complexity of a described vibe‑coding idea submission.  
+This is not a quality score — high complexity can be good if well‑managed.  
+Your goal is to measure how sophisticated and multi‑layered the system is, based on the details provided.
 
-Evaluate the following aspects:
-- Number and type of components (UI, backend, DB, APIs, orchestration layers).
-- Use of advanced technologies like LLMs, distributed systems, real-time processing.
-- Coordination of multiple agents, tools, or systems.
-- Interoperability challenges (protocols, auth, data sync).
-- Presence of orchestration, async logic, or system-level interdependence.
-- Depth of technical knowledge required to build and maintain the system.
+Step 1:  
+Evaluate the following aspects:  
+For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very low complexity, 100 = extremely complex):
+    - Number of major components (UI, backend, DB, APIs)
+    - Variety of technologies/frameworks used
+    - Use of advanced tech (LLMs, distributed systems, real‑time processing)
+    - Coordination of multiple agents or subsystems
+    - Interoperability challenges (protocols, auth, data sync)
+    - Orchestration layers or async logic
+    - System‑level interdependencies
+    - Required depth of technical expertise
+    - Architectural layering (e.g., microservices, plugins)
+    - Expected maintenance and operational overhead
 
-High complexity is not bad as such — it just reflects sophistication. This is not a quality score but a measure of system difficulty.
-If not enough details are provided, score it in the range [4,5].
+Step 2:  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `complexity_score`.  
+Provide a single sentence brief description of your rationale.
+Use the following json format:
+{{
+  "complexity_score": <number between 1 and 100 (1 = very simple, 100 = extremely complex)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
 
-Your response should be in the following json format:
-    {{
-  "complexity_score": <number between 1 and 10 (1 = unmanageable complexity, 10 = highly manageable complexity)>,
-  "description": "<brief description of your scoring rationale>"
-    }}
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+Step 3:  
+IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
             """,
-            "command": "aaosa_command",
+            "command": """
+            Respond in the following json format:
+{{
+  "complexity_score": <number between 1 and 100 (1 = very simple, 100 = extremely complex)>,
+  "idea_description": "<brief description of your scoring rationale>"
+}}
+            """,
             "tools": ["manage_eval"]
         },
+        // Manage idea evaluation
         {
             "name": "manage_eval",
             "function": {
@@ -341,34 +444,34 @@ IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation r
                     "type": "object",
                     "properties": {
                         "innovation_score": {
-                            "type": "int",
-                            "description": "The score for innovation, between 1 and 10."
+                            "type": "float",
+                            "description": "The score for innovation, between 1 and 100."
                         },
                         "ux_score": {
-                            "type": "int",
-                            "description": "The score for user experience, between 1 and 10."
+                            "type": "float",
+                            "description": "The score for user experience, between 1 and 100."
                         },
                         "scalability_score": {
-                            "type": "int",
-                            "description": "The score for scalability, between 1 and 10."
+                            "type": "float",
+                            "description": "The score for scalability, between 1 and 100."
                         },
                         "market_potential_score": {
-                            "type": "int",
-                            "description": "The score for market potential, between 1 and 10."
+                            "type": "float",
+                            "description": "The score for market potential, between 1 and 100."
                         },
                         "ease_of_implementation_score": {
-                            "type": "int",
-                            "description": "The score for ease of implementation, between 1 and 10."
+                            "type": "float",
+                            "description": "The score for ease of implementation, between 1 and 100."
                         },
                         "financial_feasibility_score": {
-                            "type": "int",
-                            "description": "The score for financial feasibility, between 1 and 10."
+                            "type": "float",
+                            "description": "The score for financial feasibility, between 1 and 100."
                         },
                         "complexity_score": {
-                            "type": "int",
-                            "description": "The score for complexity, between 1 and 10."
+                            "type": "float",
+                            "description": "The score for complexity, between 1 and 100."
                         },
-                        "description": {
+                        "idea_description": {
                             "type": "string",
                             "description": "A reasoning as to why we have the given score."
                         }
