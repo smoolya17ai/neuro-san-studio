@@ -77,7 +77,7 @@ class ManageEval(CodedTool):
         # Update the evaluation scores from the supplied scores
         # Make sure description is handled properly
         if args is not None:
-            for key in self.eval_data.keys():
+            for key in self.eval_data:
                 if key in args:
                     # If the key is in args, update the evaluation score
                     updated_evaluation[key] = args[key]
