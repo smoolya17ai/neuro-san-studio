@@ -8,7 +8,6 @@
 # neuro-san-studio SDK Software in commercial settings.
 #
 
-import os
 import subprocess
 from pathlib import Path
 from typing import Optional
@@ -24,7 +23,8 @@ class VideoTranscriber:
         """
         :param video_path: Path to the video file.
         :param output_dir: Directory to save the extracted audio file. Defaults to the same directory as the video file.
-        :param use_api: If True, uses OpenAI Whisper API for transcription; otherwise uses local Whisper model.
+        :param use_api: If True, uses OpenAI Whisper API for transcription; 
+        otherwise uses local Whisper model.
         """
         self.video_path = Path(video_path)
         self.output_dir = Path(output_dir) if output_dir else self.video_path.parent
