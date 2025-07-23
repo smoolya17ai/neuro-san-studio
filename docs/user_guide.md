@@ -417,7 +417,6 @@ If you're encountering timeouts (the default agent executor timeout is 120 secon
 you can increase it by setting the `max_execution_seconds` key in the agent network HOCON.
 See [agent network documentation](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md#max_execution_seconds).
 
-
 #### Using Ollama in Docker or Remote Server
 
 By default, Ollama listens on `http://127.0.0.1:11434`. However, if you are running Ollama inside Docker or
