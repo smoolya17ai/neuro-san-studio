@@ -372,38 +372,28 @@ Make sure the model you specify is already downloaded and available in the Ollam
 By default, Ollama listens on `http://127.0.0.1:11434`. However, if you are running Ollama inside Docker or
 on a remote machine, you need to explicitly set the `base_url` in `llm_config`.
 
-You can set `base_url` to any of the following, depending on your setup:
+Here’s a ready-to-use `llm_config` block—just replace `<HOST>` with your setup:
 
-* An IP address:
+```hocon
+    "llm_config": {
+        "model_name": "qwen3:8b",
+        "base_url": "http://<HOST>:11434"
+    }
+```
 
-    ```hocon
-        "llm_config": {
-            "model_name": "qwen3:8b",
-            "base_url": "http://192.168.1.10:11434"
-        }
-    ```
+Examples:
 
-* A hostname or domain:
+* Local (default): omit `base_url` or use `127.0.0.1`
 
-    ```hocon
-        "llm_config": {
-            "model_name": "qwen3:8b",
-            "base_url": "http://example.com:11434"
-        }
-    ```
+* Remote VM: `<HOST>` → `192.168.1.10`
 
-* A Docker container name (e.g., when running in Docker Compose):
+* Public DNS: `<HOST>` → `example.com`
 
-    ```hocon
-        "llm_config": {
-            "model_name": "qwen3:8b",
-            "base_url": "http://<container_name>:11434"
-        }
-    ```
+* Docker Compose: `<HOST>` → container name (ensure port `11434` is exposed)
 
-    Make sure that the port (`11434` by default) is exposed from the Docker container.
+Just paste the block and update <HOST> to match your environment.
 
-If you omit the port, and `base_url` starts with
+> If you omit the port, and `base_url` starts with
 
 * `http` → port 80
 
