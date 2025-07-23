@@ -58,6 +58,8 @@
     "agentic_rag.hocon": false,
     "kwik_agents.hocon": false,
 
+    "openai_web_search.hocon": true
+
     # To use this agent network, start by installing the required package:
     #     pip install atlassian-python-api
     #
