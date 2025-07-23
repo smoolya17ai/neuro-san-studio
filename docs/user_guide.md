@@ -15,6 +15,7 @@
         * [OpenAI](#openai)
         * [AzureOpenAI](#azureopenai)
         * [Anthropic](#anthropic)
+        * [Bedrock](#bedrock)
         * [Gemini](#gemini)
         * [Ollama](#ollama)
     * [Using custom or non-default LLMs](#using-custom-or-non-default-llms)
@@ -298,6 +299,50 @@ and specify which model to use in the `model_name` field of the `llm_config` sec
 
 Here you can get an Anthropic API [key](https://console.anthropic.com/settings/keys)
 
+### Bedrock
+
+To use Amazon Bedrock models, you need valid AWS credentials. There are two main ways to provide them:
+
+1. Environment variables
+
+    You can set the following environment variables directly:
+
+   * `AWS_ACCESS_KEY_ID`
+
+   * `AWS_SECRET_ACCESS_KEY`
+
+    This is sufficient if you only have **one AWS profile** or if you're certain these environment variables
+    correspond to the correct credentials.
+
+2. Named profile (recommended for multiple profiles)
+
+    If you have **multiple profiles** in `~/.aws/credentials` or `~/.aws/config`, it's recommended to explicitly set
+    the credentials_profile_name field to avoid ambiguity. This tells the system exactly which profile to use,
+    even if other credentials are present in the environment.
+
+    If `credentials_profile_name` is not specified:
+
+   * The default profile will be used.
+
+   * On EC2 instance, credentials may be automatically loaded from the Instance Metadata Service (IMDS).
+
+    See the full AWS credential resolution order
+    [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html)
+
+3. Model selection
+
+    In your agent network HOCON file, specify both the model name and the credentials profile (if needed):
+
+    ```hocon
+        "llm_config": {
+
+            "model_name": "bedrock-claude-3-7-sonnet",
+
+            # Optional if using env vars or default profile
+            "credentials_profile_name": "<profile_name>"
+        }
+    ```
+
 ### Gemini
 
 To use Gemini models, set the `GOOGLE_API_KEY` environment variable to your Google Gemini API key
@@ -399,6 +444,7 @@ You can define an LLM directly in `llm_config` using the `class` key in two diff
 
     | LLM Provider  | `class` Value   |
     |:--------------|:----------------|
+    | Amazon Bedrock| `bedrock`       |
     | Anthropic     | `anthropic`     |
     | Azure OpenAI  | `azure_openai`  |
     | Google Gemini | `gemini`        |
