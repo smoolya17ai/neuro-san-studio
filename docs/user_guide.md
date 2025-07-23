@@ -391,7 +391,7 @@ Examples:
 
 * Docker Compose: `<HOST>` → container name (ensure port `11434` is exposed)
 
-Just paste the block and update <HOST> to match your environment.
+Just paste the block and update `<HOST>` to match your environment.
 
 > If you omit the port, and `base_url` starts with
 
