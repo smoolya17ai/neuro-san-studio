@@ -369,7 +369,8 @@ Make sure the model you specify is already downloaded and available in the Ollam
 
 #### Using Ollama in Docker or Remote Server
 
-By default, Ollama listens on `http://127.0.0.1:11434`. However, if you are running Ollama inside Docker or on a remote machine, you need to explicitly set the `base_url` in `llm_config`.
+By default, Ollama listens on `http://127.0.0.1:11434`. However, if you are running Ollama inside Docker or
+on a remote machine, you need to explicitly set the `base_url` in `llm_config`.
 
 You can set `base_url` to any of the following, depending on your setup:
 
@@ -401,7 +402,6 @@ You can set `base_url` to any of the following, depending on your setup:
     ```
 
     Make sure that the port (`11434` by default) is exposed from the Docker container.
-
 
 If you omit the port, and `base_url` starts with
 
