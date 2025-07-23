@@ -307,9 +307,9 @@ To use Amazon Bedrock models, you need valid AWS credentials. There are two main
 
     You can set the following environment variables directly:
 
-    * `AWS_ACCESS_KEY_ID`
+   * `AWS_ACCESS_KEY_ID`
 
-    * `AWS_SECRET_ACCESS_KEY`
+   * `AWS_SECRET_ACCESS_KEY`
 
     This is sufficient if you only have **one AWS profile** or if you're certain these environment variables
     correspond to the correct credentials.
@@ -322,12 +322,12 @@ To use Amazon Bedrock models, you need valid AWS credentials. There are two main
 
     If `credentials_profile_name` is not specified:
 
-    * The default profile will be used.
+   * The default profile will be used.
 
-    * On EC2 instance, credentials may be automatically loaded from the Instance Metadata Service (IMDS).
+   * On EC2 instance, credentials may be automatically loaded from the Instance Metadata Service (IMDS).
 
-    See the full AWS credential resolution order here:
-    https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
+    See the full AWS credential resolution order
+    [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html)
 
 3. Model selection
 
@@ -335,7 +335,7 @@ To use Amazon Bedrock models, you need valid AWS credentials. There are two main
 
     ```hocon
         "llm_config": {
-            
+
             "model_name": "bedrock-claude-3-7-sonnet",
 
             # Optional if using env vars or default profile
