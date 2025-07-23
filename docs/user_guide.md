@@ -412,10 +412,11 @@ see [ChatOllama documentation](https://python.langchain.com/api_reference/ollama
 
 Make sure the model you specify is already downloaded and available in the Ollama server.
 
-> Ollama models may respond slowly depending on model size and hardware.
-If you're encountering timeouts (the default agent executor timeout is 120 seconds),
+> Tip: Ollama models may respond slowly depending on model size and hardware.
+If you're encountering the default 120 seconds timeouts,
 you can increase it by setting the `max_execution_seconds` key in the agent network HOCON.
-See [agent network documentation](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md#max_execution_seconds).
+See [agent network documentation](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md#max_execution_seconds)
+for more details.
 
 #### Using Ollama in Docker or Remote Server
 
