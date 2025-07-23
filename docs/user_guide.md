@@ -367,6 +367,52 @@ see [ChatOllama documentation](https://python.langchain.com/api_reference/ollama
 
 Make sure the model you specify is already downloaded and available in the Ollama server.
 
+#### Using Ollama in Docker or Remote Server
+
+By default, Ollama listens on `http://127.0.0.1:11434`. However, if you are running Ollama inside Docker or on a remote machine, you need to explicitly set the `base_url` in `llm_config`.
+
+You can set `base_url` to any of the following, depending on your setup:
+
+* An IP address:
+
+    ```hocon
+        "llm_config": {
+            "model_name": "qwen3:8b",
+            "base_url": "http://192.168.1.10:11434"
+        }
+    ```
+
+* A hostname or domain:
+
+    ```hocon
+        "llm_config": {
+            "model_name": "qwen3:8b",
+            "base_url": "http://example.com:11434"
+        }
+    ```
+
+* A Docker container name (e.g., when running in Docker Compose):
+
+    ```hocon
+        "llm_config": {
+            "model_name": "qwen3:8b",
+            "base_url": "http://<container_name>:11434"
+        }
+    ```
+
+    Make sure that the port (`11434` by default) is exposed from the Docker container.
+
+
+If you omit the port, and `base_url` starts with
+
+* `http` → port 80
+
+* `https` → port 443
+
+* neither → defaults to `http://<base_url>:11434`
+
+For more information on logic of parsing the `base_url` see [Ollama python SDK](https://github.com/ollama/ollama-python/blob/main/ollama/_client.py#L1173)
+
 #### Example agent network
 
 See the [./examples/music_nerd_pro_local.md](./examples/music_nerd_pro_local.md) for a complete working example.
