@@ -339,7 +339,7 @@ followed by guidance on how to select and configure models.
     ```hocon
         "llm_config": {
 
-            "model_name": "bedrock-claude-3-7-sonnet",
+            "model_name": "bedrock-us-claude-3-7-sonnet",
 
             # Optional if using env vars or default profile
             "credentials_profile_name": "<profile_name>",
