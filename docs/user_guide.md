@@ -315,7 +315,7 @@ followed by guidance on how to select and configure models.
     This is sufficient if you only have **one AWS profile** or if you're certain these environment variables
     correspond to the correct credentials.
 
-2. Named profile (recommended for multiple profiles)
+2. Named profile (**required for multiple profiles**)
 
     If you have **multiple profiles** in `~/.aws/credentials` or `~/.aws/config`, it's recommended to explicitly set
     the credentials_profile_name field to avoid ambiguity. This tells the system exactly which profile to use,
