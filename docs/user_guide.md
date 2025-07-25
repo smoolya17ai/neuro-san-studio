@@ -371,7 +371,7 @@ If these are not available in your account, you can still use other Bedrock mode
 [using the class key](#using-the-class-key).
 
 To find which models are available in your region, refer to the official AWS documentation:
-[Supported models – Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html)    
+[Supported models – Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html)
 
 ### Gemini
 
