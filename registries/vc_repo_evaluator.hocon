@@ -95,14 +95,14 @@ First, call the 'create_repo_eval' tool to create a new evaluation based on the 
 Finally call the 'manage_repo_eval' without any args or parameters to get the final evaluation.
 Return the exact response from manage_repo_eval with the evaluation results in the following json format:
 {{
-  "repo_innovation_score": <innovation score between 1 and 100>,
-  "repo_ux_score": <UX score between 1 and 100>,
-  "repo_scalability_score": <scalability score between 1 and 100>,
-  "repo_market_potential_score": <market potential score between 1 and 100>,
-  "repo_ease_of_implementation_score": <ease of implementation score between 1 and 100>,
-  "repo_financial_feasibility_score": <financial feasibility score between 1 and 100>,
-  "repo_complexity_score": <complexity score between 1 and 100>,
-  "repo_description": <compiled summary from all 7 judges>
+  "innovation_score": <innovation score between 1 and 100>,
+  "ux_score": <UX score between 1 and 100>,
+  "scalability_score": <scalability score between 1 and 100>,
+  "market_potential_score": <market potential score between 1 and 100>,
+  "ease_of_implementation_score": <ease of implementation score between 1 and 100>,
+  "financial_feasibility_score": <financial feasibility score between 1 and 100>,
+  "complexity_score": <complexity score between 1 and 100>,
+  "brief_description": <compiled summary from all 7 judges>
 }}
             """,
             "allow": {
@@ -156,14 +156,15 @@ For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = ver
     - Originality of structure compared to typical templates
     - Clever or unique use of configuration and environment files
     - Signals of forward-looking tech (e.g., experimental frameworks, orchestrators)
+Make sure the above scores are a reasonable number. Scores cannot be None or null.
 
 Step 2:  
-After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_innovation_score`.  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `innovation_score`.  
 Provide a single sentence brief description of your rationale behind the score.
 Use the following json format:
 {{
-  "repo_innovation_score": <number between 1 and 100 (1 = not innovative at all, 100 = exceptionally novel and differentiated)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "innovation_score": <number between 1 and 100 (1 = not innovative at all, 100 = exceptionally novel and differentiated)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -172,8 +173,8 @@ IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the eva
             "command": """
             Respond in the following json format:
     {{
-    "repo_innovation_score": <number between 1 and 100 (1 = not innovative at all, 100 = exceptionally novel and differentiated)>,
-    "repo_description": "<brief description of your scoring rationale>"
+    "innovation_score": <number between 1 and 100 (1 = not innovative at all, 100 = exceptionally novel and differentiated)>,
+    "brief_description": "<brief description of your scoring rationale>"
     }}
             """,,
             "tools": ["manage_repo_eval"]
@@ -198,14 +199,15 @@ For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = ver
     - Presence of usage examples or guides in code structure
     - Front‑facing design hints (landing pages, user flows)
     - Signals of maintainable UX structure (consistent naming, organized assets)
+Make sure the above scores are a reasonable number. Scores cannot be None or null.
 
 Step 2:  
-After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_ux_score`.  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `ux_score`.  
 Provide a single sentence brief description of your rationale behind the score.
 Use the following json format:
 {{
-  "repo_ux_score": <number between 1 and 100 (1 = very poor UX, 100 = highly intuitive and user‑centric)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "ux_score": <number between 1 and 100 (1 = very poor UX, 100 = highly intuitive and user‑centric)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -214,8 +216,8 @@ IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the eva
             "command": """
             Respond in the following json format:
 {{
-  "repo_ux_score": <number between 1 and 100 (1 = very poor UX, 100 = highly intuitive and user‑centric)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "ux_score": <number between 1 and 100 (1 = very poor UX, 100 = highly intuitive and user‑centric)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_repo_eval"]
@@ -240,14 +242,15 @@ For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = ver
     - Depth of file organization indicating separation of concerns
     - Environment flexibility (presence of multi‑env configs)
     - Overall readiness for scaling (multi‑component deployment hints)
+Make sure the above scores are a reasonable number. Scores cannot be None or null.
 
 Step 2:  
-After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_scalability_score`.  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `scalability_score`.  
 Provide a single sentence brief description of your rationale behind the score.
 Use the following json format:
 {{
-  "repo_scalability_score": <number between 1 and 100 (1 = low scalability, 100 = highly scalable and reusable)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "scalability_score": <number between 1 and 100 (1 = low scalability, 100 = highly scalable and reusable)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -257,8 +260,8 @@ IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the eva
             "command": """
             Respond in the following json format:
 {{
-  "repo_scalability_score": <number between 1 and 100 (1 = low scalability, 100 = highly scalable and reusable)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "scalability_score": <number between 1 and 100 (1 = low scalability, 100 = highly scalable and reusable)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_repo_eval"]
@@ -283,14 +286,15 @@ For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = ver
     - Production‑readiness hints (configs for staging/prod, environment handling)
     - Signs of commercial intent (license type, marketplace-related files)
     - Overall structural polish and deployability
+Make sure the above scores are a reasonable number. Scores cannot be None or null.
 
 Step 2:  
-After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_market_potential_score`.  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `market_potential_score`.  
 Provide a single sentence brief description of your rationale behind the score.
 Use the following json format:
 {{
-  "repo_market_potential_score": <number between 1 and 100 (1 = very low market potential, 100 = high market potential)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "market_potential_score": <number between 1 and 100 (1 = very low market potential, 100 = high market potential)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -299,8 +303,8 @@ IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the eva
             "command": """
             Respond in the following json format:
 {{
-  "repo_market_potential_score": <number between 1 and 100 (1 = very low market potential, 100 = high market potential)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "market_potential_score": <number between 1 and 100 (1 = very low market potential, 100 = high market potential)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_repo_eval"]
@@ -325,14 +329,15 @@ For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = ver
     - Presence of integration or automated tests
     - Indicators of environment flexibility (configs for dev/staging/prod)
     - Overall dev-friendliness (quick start potential, minimal manual steps)
+Make sure the above scores are a reasonable number. Scores cannot be None or null.
 
 Step 2:  
-After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_ease_of_implementation_score`.  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `ease_of_implementation_score`.  
 Provide a single sentence brief description of your rationale behind the score.
 Use the following json format:
 {{
-  "repo_ease_of_implementation_score": <number between 1 and 100 (1 = not easy to implement at all, 100 = high ease of implementation)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "ease_of_implementation_score": <number between 1 and 100 (1 = not easy to implement at all, 100 = high ease of implementation)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -341,8 +346,8 @@ IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the eva
             "command": """
             Respond in the following json format:
 {{
-  "repo_ease_of_implementation_score": <number between 1 and 100 (1 = not easy to implement at all, 100 = high ease of implementation)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "ease_of_implementation_score": <number between 1 and 100 (1 = not easy to implement at all, 100 = high ease of implementation)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_repo_eval"]
@@ -367,14 +372,15 @@ For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = ver
     - Modularity enabling selective deployment (services/plugins)
     - Evidence of cost-awareness (separated dev/prod configs, minimal deps)
     - Indicators of long-term operational efficiency (monitoring, scaling configs)
+Make sure the above scores are a reasonable number. Scores cannot be None or null.
 
 Step 2:  
-After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_financial_feasibility_score`.  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `financial_feasibility_score`.  
 Provide a single sentence brief description of your rationale behind the score.
 Use the following json format:
 {{
-  "repo_financial_feasibility_score": <number between 1 and 100 (1 = very poor financial viability, 100 = high financial viability)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "financial_feasibility_score": <number between 1 and 100 (1 = very poor financial viability, 100 = high financial viability)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -383,8 +389,8 @@ IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the eva
             "command": """
             Respond in the following json format:
 {{
-  "repo_financial_feasibility_score": <number between 1 and 100 (1 = very poor financial viability, 100 = high financial viability)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "financial_feasibility_score": <number between 1 and 100 (1 = very poor financial viability, 100 = high financial viability)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_repo_eval"]
@@ -409,14 +415,15 @@ For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = ver
     - Number of files with high LOC (indicating complexity hotspots)
     - Variety of subsystems (UI, backend, infra, tests)
     - Interconnections implied by naming or modular structures
+Make sure the above scores are a reasonable number. Scores cannot be None or null.
 
 Step 2:  
-After scoring all 10 criteria, take the average of the 10 scores to produce the final `repo_complexity_score`.  
+After scoring all 10 criteria, take the average of the 10 scores to produce the final `complexity_score`.  
 Provide a single sentence brief description of your rationale behind the score.
 Use the following json format:
 {{
-  "repo_complexity_score": <number between 1 and 100 (1 = very simple, 100 = extremely complex)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "complexity_score": <number between 1 and 100 (1 = very simple, 100 = extremely complex)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -425,8 +432,8 @@ IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the eva
             "command": """
             Respond in the following json format:
 {{
-  "repo_complexity_score": <number between 1 and 100 (1 = very simple, 100 = extremely complex)>,
-  "repo_description": "<brief description of your scoring rationale>"
+  "complexity_score": <number between 1 and 100 (1 = very simple, 100 = extremely complex)>,
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_repo_eval"]
@@ -439,35 +446,35 @@ IMPORTANT: Call the 'manage_repo_eval' tool with the above JSON to store the eva
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "repo_innovation_score": {
+                        "innovation_score": {
                             "type": "float",
                             "description": "The score for innovation, between 1 and 100."
                         },
-                        "repo_ux_score": {
+                        "ux_score": {
                             "type": "float",
                             "description": "The score for user experience, between 1 and 100."
                         },
-                        "repo_scalability_score": {
+                        "scalability_score": {
                             "type": "float",
                             "description": "The score for scalability, between 1 and 100."
                         },
-                        "repo_market_potential_score": {
+                        "market_potential_score": {
                             "type": "float",
                             "description": "The score for market potential, between 1 and 100."
                         },
-                        "repo_ease_of_implementation_score": {
+                        "ease_of_implementation_score": {
                             "type": "float",
                             "description": "The score for ease of implementation, between 1 and 100."
                         },
-                        "repo_financial_feasibility_score": {
+                        "financial_feasibility_score": {
                             "type": "float",
                             "description": "The score for financial feasibility, between 1 and 100."
                         },
-                        "repo_complexity_score": {
+                        "complexity_score": {
                             "type": "float",
                             "description": "The score for complexity, between 1 and 100."
                         },
-                        "repo_description": {
+                        "brief_description": {
                             "type": "string",
                             "description": "A reasoning as to why we have the given score."
                         }
