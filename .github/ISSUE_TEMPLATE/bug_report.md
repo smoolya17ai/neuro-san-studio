@@ -24,7 +24,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Versions (please complete the following information):**
  - OS: [e.g. Windows, macOS, Unix...]
- - Python version: [e.g. 3.12.9]
+ - Python version: [e.g. 3.13.5]
  - Repo version: [e.g. 0.1.5]
  - or neuro-san version [e.g. 0.5.18]
 
