@@ -301,7 +301,8 @@ Here you can get an Anthropic API [key](https://console.anthropic.com/settings/k
 
 ### Bedrock
 
-To use Amazon Bedrock models, you need valid AWS credentials. There are two main ways to provide them:
+To use Amazon Bedrock models, you need valid AWS credentials. Below are the recommended ways to provide credentials,
+followed by guidance on how to select and configure models.
 
 1. Environment variables
 
@@ -329,19 +330,48 @@ To use Amazon Bedrock models, you need valid AWS credentials. There are two main
     See the full AWS credential resolution order
     [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html)
 
+    > Note: You may also need to specify the `region_name` field if it's not set in your AWS profile.
+
 3. Model selection
 
-    In your agent network HOCON file, specify both the model name and the credentials profile (if needed):
+    In your agent network HOCON file, specify the model name, the credentials profile, and the region (if needed):
 
     ```hocon
         "llm_config": {
 
-            "model_name": "bedrock-claude-3-7-sonnet",
+            "model_name": "bedrock-us-claude-3-7-sonnet",
 
             # Optional if using env vars or default profile
-            "credentials_profile_name": "<profile_name>"
+            "credentials_profile_name": "<profile_name>",
+
+            # Optional, but required if not defined in your profile config
+            "region_name": "us-east-1"
         }
     ```
+
+#### Default Bedrock models
+
+The default supported Bedrock model names currently include:
+
+* `bedrock-us-claude-opus-4`
+
+* `bedrock-us-claude-sonnet-4`
+
+* `bedrock-us-claude-3-7-sonnet`
+
+These models require access to one of the following AWS regions:
+
+* `us-east-1`
+
+* `us-east-2`
+
+* `us-west-2`
+
+If these are not available in your account, you can still use other Bedrock models available to you by
+[using the class key](#using-the-class-key).
+
+To find which models are available in your region, refer to the official AWS documentation:
+[Supported models – Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html)
 
 ### Gemini
 
