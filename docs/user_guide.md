@@ -338,7 +338,9 @@ followed by guidance on how to select and configure models.
 
     ```hocon
         "llm_config": {
-
+            
+            # Bedrock documentation lists both model name and model ID.
+            # Use the **Model ID** as the value for "model_name".
             "model_name": "bedrock-us-claude-3-7-sonnet",
 
             # Optional if using env vars or default profile
