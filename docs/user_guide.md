@@ -347,7 +347,7 @@ followed by guidance on how to select and configure models.
             "credentials_profile_name": "<profile_name>",
 
             # Optional, but required if not defined in your profile config
-            "region_name": "us-east-1"
+            "region_name": "us-west-2"
         }
     ```
 
