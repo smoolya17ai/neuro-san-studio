@@ -102,7 +102,7 @@ Your final response should include the evaluation results in the following json 
   "ease_of_implementation_score": <ease of implementation score between 1 and 100>,
   "financial_feasibility_score": <financial feasibility score between 1 and 100>,
   "complexity_score": <complexity score between 1 and 100>,
-  "idea_description": <compiled summary from all 7 judges>
+  "brief_description": <compiled summary from all 7 judges>
 }}
             """,
             "allow": {
@@ -163,7 +163,7 @@ Provide a single sentence brief description of your rationale.
 Use the following json format:
     {{
     "innovation_score": <number between 1 and 100 (1 = not innovative at all, 100 = exceptionally novel and differentiated)>,
-    "idea_description": "<brief description of your scoring rationale>"
+    "brief_description": "<brief description of your scoring rationale>"
     }}
 
 Step 3:
@@ -173,7 +173,7 @@ IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation r
             Respond in the following json format:
     {{
     "innovation_score": <number between 1 and 100 (1 = not innovative at all, 100 = exceptionally novel and differentiated)>,
-    "idea_description": "<brief description of your scoring rationale>"
+    "brief_description": "<brief description of your scoring rationale>"
     }}
             """,
             "tools": ["manage_eval"]
@@ -205,7 +205,7 @@ Provide a single sentence brief description of your rationale.
 Use the following json format:
 {{
   "ux_score": <number between 1 and 100 (1 = very poor UX, 100 = highly intuitive and user-centric)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -216,7 +216,7 @@ IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluati
             Respond in the following json format:
 {{
   "ux_score": <number between 1 and 100 (1 = very poor UX, 100 = highly intuitive and user-centric)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_eval"]
@@ -248,7 +248,7 @@ Provide a single sentence brief description of your rationale.
 Use the following json format:
 {{
   "scalability_score": <number between 1 and 100 (1 = low scalability, 100 = highly scalable and reusable)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -259,7 +259,7 @@ IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluati
             Respond in the following json format:
 {{
   "scalability_score": <number between 1 and 100 (1 = low scalability, 100 = highly scalable and reusable)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_eval"]
@@ -291,7 +291,7 @@ Provide a single sentence brief description of your rationale.
 Use the following json format:
 {{
   "market_potential_score": <number between 1 and 100 (1 = very low market potential, 100 = high market potential)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -301,7 +301,7 @@ IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluati
             Respond in the following json format:
 {{
   "market_potential_score": <number between 1 and 100 (1 = very low market potential, 100 = high market potential)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_eval"]
@@ -333,7 +333,7 @@ Provide a single sentence brief description of your rationale.
 Use the following json format:
 {{
   "ease_of_implementation_score": <number between 1 and 100 (1 = not easy to implement at all, 100 = high ease of implementation)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -343,7 +343,7 @@ IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluati
             Respond in the following json format:
 {{
   "ease_of_implementation_score": <number between 1 and 100 (1 = not easy to implement at all, 100 = high ease of implementation)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_eval"]
@@ -375,7 +375,7 @@ Provide a single sentence brief description of your rationale.
 Use the following json format:
 {{
   "financial_feasibility_score": <number between 1 and 100 (1 = very poor financial viability, 100 = high financial viability)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -385,7 +385,7 @@ IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluati
             Respond in the following json format:
 {{
   "financial_feasibility_score": <number between 1 and 100 (1 = very poor financial viability, 100 = high financial viability)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_eval"]
@@ -419,7 +419,7 @@ Provide a single sentence brief description of your rationale.
 Use the following json format:
 {{
   "complexity_score": <number between 1 and 100 (1 = very simple, 100 = extremely complex)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
 
 Step 3:  
@@ -429,7 +429,7 @@ IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluati
             Respond in the following json format:
 {{
   "complexity_score": <number between 1 and 100 (1 = very simple, 100 = extremely complex)>,
-  "idea_description": "<brief description of your scoring rationale>"
+  "brief_description": "<brief description of your scoring rationale>"
 }}
             """,
             "tools": ["manage_eval"]
@@ -470,7 +470,7 @@ IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluati
                             "type": "float",
                             "description": "The score for complexity, between 1 and 100."
                         },
-                        "idea_description": {
+                        "brief_description": {
                             "type": "string",
                             "description": "A reasoning as to why we have the given score."
                         }
