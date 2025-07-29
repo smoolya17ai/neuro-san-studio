@@ -101,6 +101,10 @@ class ManageRepoEval(CodedTool):
     
     @staticmethod
     def is_valid_number(value: Union[str, int, float, None]) -> bool:
+        """Checks if a given entity in the lsit is a valid number
+        :param value: An input number
+        :return true/false
+        """
         try:
             if value is None:
                 return False
@@ -113,6 +117,11 @@ class ManageRepoEval(CodedTool):
 
     @staticmethod
     def compute_average(list_of_scores: List[Union[str, int, float, None]]) -> float:
+        """
+        Calculates the average score of a given list of scores"
+        :param list_of_scores: a list of scores originating from each agent
+        :return average of the scores in the list
+        """
         numeric_values = [float(v) for v in list_of_scores if ManageRepoEval.is_valid_number(v)]
         
         if not numeric_values:
