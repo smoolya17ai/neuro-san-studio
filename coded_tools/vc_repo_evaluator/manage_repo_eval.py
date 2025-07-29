@@ -10,6 +10,7 @@
 from typing import Any
 from typing import Dict
 from typing import Union
+from typing import List
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
@@ -80,7 +81,7 @@ class ManageRepoEval(CodedTool):
             for key in self.eval_data:
                 if key in args:
                     # If the key is in args, update the evaluation score
-                    updated_evaluation[key] = args[key]
+                    updated_evaluation[key] = ManageRepoEval.compute_average(args[key])
 
         # we should append to the text in description instead of replacing it with new values
         if "brief_description" in args:
@@ -97,6 +98,27 @@ class ManageRepoEval(CodedTool):
         print(f"{tool_name} response: ", tool_response)
         print(f"========== Done with {tool_name} ==========")
         return tool_response
+    
+    @staticmethod
+    def is_valid_number(value: Union[str, int, float, None]) -> bool:
+        try:
+            if value is None:
+                return False
+            if isinstance(value, str) and value.strip().lower() in {"", "null", "none", "nan"}:
+                return False
+            float(value)  # attempt conversion
+            return True
+        except (ValueError, TypeError):
+            return False
+
+    @staticmethod
+    def compute_average(list_of_scores: List[Union[str, int, float, None]]) -> float:
+        numeric_values = [float(v) for v in list_of_scores if ManageRepoEval.is_valid_number(v)]
+        
+        if not numeric_values:
+            return 0.0
+        
+        return sum(numeric_values) / len(numeric_values)
 
     async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """

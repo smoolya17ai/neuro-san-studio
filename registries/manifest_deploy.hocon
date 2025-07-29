@@ -33,4 +33,5 @@
     # Vibecoding agent networks
     "vibecoding_evaluator.hocon": true,
     "vc_repo_evaluator.hocon": true,
+    "vc_transcript_evaluator.hocon": true
 }
