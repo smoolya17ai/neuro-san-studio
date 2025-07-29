@@ -25,19 +25,18 @@
             Do not mention what you can NOT do. Only mention what you can do.
             """,
             "grounding_instructions": """
-            Follow this rubric to arrive at reasonable scores:
-
-            ## 1–30: Poor or Minimal - Lacks clarity, detail, or seriousness, Highly generic or boilerplate, Fails to meet basic expectations
-            ## 31–50: Below Average - Some effort or relevance, but falls short, Incomplete, unoriginal, or weakly presented
-            ## 51–70: Average to Good - Adequately meets expectations, Some originality, functional execution
-            ## 71–89: Strong - Thoughtfully designed or articulated, Technically sound, strategically solid
-            ## 90–100: Exceptional - Highly novel, ambitious, or impactful, Breakthrough-level execution, Rare level of excellence
-            ## SCORING POLICY
-            - Penalize vague or underspecified responses
-            - Exceptional scores (>90) should be rare.
-            - Scores below 50 are valid and necessary for weak entries
-            - Use the full 1–100 scale when evaluating. Do not cluster scores around 60–80 by default.
-            - Scores cannot be None or null.
+Follow this rubric to arrive at reasonable scores:
+## 1–30: Poor or Minimal - Lacks clarity, detail, or seriousness, Highly generic or boilerplate, Fails to meet basic expectations
+## 31–50: Below Average - Some effort or relevance, but falls short, Incomplete, unoriginal, or weakly presented
+## 51–70: Average to Good - Adequately meets expectations, Some originality, functional execution
+## 71–89: Strong - Thoughtfully designed or articulated, Technically sound, strategically solid
+## 90–100: Exceptional - Highly novel, ambitious, or impactful, Breakthrough-level execution, Rare level of excellence
+## SCORING POLICY
+    - Penalize vague or underspecified responses
+    - Exceptional scores (>90) should be rare.
+    - Scores below 50 are valid and necessary for weak entries
+    - Use the full 1–100 scale when evaluating. Do not cluster scores around 60–80 by default.
+    - Scores cannot be None or null.
             """,
             "aaosa_instructions": """
 When you receive an inquiry, you will:
