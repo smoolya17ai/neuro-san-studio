@@ -400,22 +400,17 @@ Step 1:
 {grounding_instructions}
 
 Evaluate the following aspects:  
-For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
-    - Infrastructure and operational cost clarity
-    - Developer and maintenance cost implications
-    - Return on investment potential or cost savings
-    - Monetization clarity (direct vs. indirect revenue models)
-    - Fixed vs. variable cost scalability
-    - Licensing model suitability (open-source, SaaS, enterprise tiers)
-    - Mention of funding, grants, or financial backing
-    - Customer acquisition cost considerations
-    - Financial risk awareness (uncertainties, constraints)
-    - Customer lifetime value or retention potential
+For each of the following 5 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
+    - Cost Structure Clarity: Infra/dev/maintenance costs, and distinctions between fixed vs. variable costs.
+    - Revenue and Monetization Model: Direct or indirect monetization strategies, pricing clarity, licensing model suitability.
+    - Return on Investment (ROI) Potential: Cost savings, operational efficiency, value delivered per dollar spent.
+    - Market Funding and Acquisition Outlook: Mentions of grants, backing, go-to-market strategy, CAC (Customer Acquisition Cost).
+    - Financial Risk and Retention Awareness: Awareness of uncertainties, constraints, financial sustainability, and long-term customer value.
 
 Step 2:
 Draft the following json dict:
 {{
-  "financial_feasibility_score": <[a list of above 10 scores, all between 1 and 100]>,
+  "financial_feasibility_score": <[a list of above 5 scores, all between 1 and 100]>,
   "brief_description": "<brief description of your scoring rationale. Provide a single sentence brief description of your rationale.>"
 }}
 

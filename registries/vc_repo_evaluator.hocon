@@ -212,7 +212,7 @@ Step 3:
 **IMPORTANT:** Always Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
             "command": """
-Call the 'manage_eval' tool and return the json block with following fields:
+Call the 'manage_repo_eval' tool and return the json block with following fields:
     {{
     "innovation_score": <number between 1 and 100 (1 = not innovative at all, 100 = exceptionally novel and differentiated)>,
     "brief_description": "<brief description of your scoring rationale>"
@@ -254,7 +254,7 @@ Step 3:
 **IMPORTANT:** Always Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
             "command": """
-Call the 'manage_eval' tool and return the json block with following fields:
+Call the 'manage_repo_eval' tool and return the json block with following fields:
 {{
   "ux_score": <number between 1 and 100 (1 = very poor UX, 100 = highly intuitive and user‑centric)>,
   "brief_description": "<brief description of your scoring rationale>"
@@ -298,7 +298,7 @@ Step 3:
 
             """,
             "command": """
-Call the 'manage_eval' tool and return the json block with following fields:
+Call the 'manage_repo_eval' tool and return the json block with following fields:
 {{
   "scalability_score": <number between 1 and 100 (1 = low scalability, 100 = highly scalable and reusable)>,
   "brief_description": "<brief description of your scoring rationale>"
@@ -341,7 +341,7 @@ Step 3:
 **IMPORTANT:** Always Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
             "command": """
-Call the 'manage_eval' tool and return the json block with following fields:
+Call the 'manage_repo_eval' tool and return the json block with following fields:
 {{
   "market_potential_score": <number between 1 and 100 (1 = very low market potential, 100 = high market potential)>,
   "brief_description": "<brief description of your scoring rationale>"
@@ -384,7 +384,7 @@ Step 3:
 **IMPORTANT:** Always Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
             "command": """
-Call the 'manage_eval' tool and return the json block with following fields:
+Call the 'manage_repo_eval' tool and return the json block with following fields:
 {{
   "ease_of_implementation_score": <number between 1 and 100 (1 = not easy to implement at all, 100 = high ease of implementation)>,
   "brief_description": "<brief description of your scoring rationale>"
@@ -427,7 +427,7 @@ Step 3:
 **IMPORTANT:** Always Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
             "command": """
-Call the 'manage_eval' tool and return the json block with following fields:
+Call the 'manage_repo_eval' tool and return the json block with following fields:
 {{
   "financial_feasibility_score": <number between 1 and 100 (1 = very poor financial viability, 100 = high financial viability)>,
   "brief_description": "<brief description of your scoring rationale>"
@@ -470,7 +470,7 @@ Step 3:
 **IMPORTANT:** Always Call the 'manage_repo_eval' tool with the above JSON to store the evaluation results.
             """,
             "command": """
-Call the 'manage_eval' tool and return the json block with following fields:
+Call the 'manage_repo_eval' tool and return the json block with following fields:
 {{
   "complexity_score": <number between 1 and 100 (1 = very simple, 100 = extremely complex)>,
   "brief_description": "<brief description of your scoring rationale>"
