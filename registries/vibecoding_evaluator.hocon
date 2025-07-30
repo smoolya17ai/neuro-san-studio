@@ -133,21 +133,48 @@ Your final response should include the evaluation results in the following json 
             "function": "aaosa_call",
             "instructions": """
 You are the evaluation orchestrator for a vibe-coding idea. 
-ALWAYS call all your tools across 7 key dimensions:
-    - Degree of Innovativeness
-    - User Experience
-    - Scalability / Reusability
-    - Market Potential
-    - Ease of Implementation
-    - Financial Feasibility
+ALWAYS call all your tools across 3 key dimensions:
+    - Technology related
+    - Business related
     - Complexity
 
 Invoke all your tools to evaluate the inputs.
-IMPORTANT: Invoke and call all your tools.
+**IMPORTANT:** Invoke and call all your tools.
             """,
             "command": "Call all your tools to evaluate the vibe coding idea submission.",
-            "tools": ["evaluate_innovation", "evaluate_ux", "evaluate_scalability", "evaluate_market_potential",
-            "evaluate_implementation_ease", "evaluate_financial_feasibility", "evaluate_complexity"]
+            "tools": ["evaluate_tech_dimensions", "evaluate_business_dimensions", "evaluate_complexity"]
+        },
+        // Create evaluation for tech related dimensions
+        {
+            "name": "evaluate_tech_dimensions",
+            "function": "aaosa_call",
+            "instructions": """
+ALWAYS call all your tools to evaluate across 3 key dimensions:
+    - User Experience (UX)
+    - Scalability / Reusability
+    - Ease of Implementation
+
+Invoke all your tools to evaluate the inputs.
+**IMPORTANT:** Invoke and call all your tools.
+            """,
+            "command": "Call all your tools to evaluate the vibe coding idea submission.",
+            "tools": ["evaluate_ux", "evaluate_scalability", "evaluate_implementation_ease"]
+        },
+        // Create evaluation for business related dimensions
+        {
+            "name": "evaluate_business_dimensions",
+            "function": "aaosa_call",
+            "instructions": """
+ALWAYS call all your tools across 3 key dimensions:
+    - Degree of Innovativeness
+    - Market Potential
+    - Financial Feasibility
+
+Invoke all your tools to evaluate the inputs.
+**IMPORTANT:** Invoke and call all your tools.
+            """,
+            "command": "Call all your tools to evaluate the vibe coding idea submission.",
+            "tools": ["evaluate_innovation", "evaluate_market_potential", "evaluate_financial_feasibility"]
         },
         # Evaluate Innovation
         {
@@ -181,7 +208,7 @@ Draft the following json dict:
 }}
 
 Step 3:
-IMPORTANT: Call the 'manage_eval' tool with above json to store the evaluation results.
+**IMPORTANT:** Always Call the 'manage_eval' tool with above json to store the evaluation results.
             """,
             "command": """
             Respond in the following json format:
@@ -223,7 +250,7 @@ Draft the following json dict:
 }}
 
 Step 3:
-IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
+**IMPORTANT:** Always Call the 'manage_eval' tool with the above JSON to store the evaluation results.
 
             """,
             "command": """
@@ -266,7 +293,7 @@ Draft the following json dict:
 }}
 
 Step 3:
-IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
+**IMPORTANT:** Always Call the 'manage_eval' tool with the above JSON to store the evaluation results.
 
             """,
             "command": """
@@ -309,7 +336,7 @@ Draft the following json dict:
 }}
 
 Step 3:
-IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
+**IMPORTANT:** Always Call the 'manage_eval' tool with the above JSON to store the evaluation results.
             """,
             "command": """
             Respond in the following json format:
@@ -351,7 +378,7 @@ Draft the following json dict:
 }}
 
 Step 3:
-IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
+**IMPORTANT:** Always Call the 'manage_eval' tool with the above JSON to store the evaluation results.
             """,
             "command": """
             Respond in the following json format:
@@ -393,7 +420,7 @@ Draft the following json dict:
 }}
 
 Step 3:
-IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
+**IMPORTANT:** Always Call the 'manage_eval' tool with the above JSON to store the evaluation results.
             """,
             "command": """
             Respond in the following json format:
@@ -437,7 +464,7 @@ Draft the following json dict:
 }}
 
 Step 3:  
-IMPORTANT: Call the 'manage_eval' tool with the above JSON to store the evaluation results.
+**IMPORTANT:** Always Call the 'manage_eval' tool with the above JSON to store the evaluation results.
             """,
             "command": """
             Respond in the following json format:

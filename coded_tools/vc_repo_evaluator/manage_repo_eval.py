@@ -122,6 +122,10 @@ class ManageRepoEval(CodedTool):
         :param list_of_scores: a list of scores originating from each agent
         :return average of the scores in the list
         """
+        # Normalize input to a list
+        if not isinstance(list_of_scores, list):
+            list_of_scores = [list_of_scores]
+
         numeric_values = [float(v) for v in list_of_scores if ManageRepoEval.is_valid_number(v)]
         
         if not numeric_values:
