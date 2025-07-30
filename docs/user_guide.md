@@ -334,7 +334,7 @@ followed by guidance on how to select and configure models.
     See the full AWS credential resolution order
     [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html)
 
-    > Note: You may also need to specify environment variable `AWS_REGION` or the `region_name` field if
+    >Note: You may also need to specify environment variable `AWS_REGION` or the `region_name` field if
         region is not set in your AWS profile.
 
 3. Model selection
