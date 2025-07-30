@@ -312,6 +312,10 @@ followed by guidance on how to select and configure models.
 
    * `AWS_SECRET_ACCESS_KEY`
 
+   * `AWS_REGION` or `AWS_DEFAULT_REGION`
+
+    > Note: You may set `region_name` in the `llm_config` of the agent network HOCON file instead
+
     This is sufficient if you only have **one AWS profile** or if you're certain these environment variables
     correspond to the correct credentials.
 
@@ -321,7 +325,7 @@ followed by guidance on how to select and configure models.
     the credentials_profile_name field to avoid ambiguity. This tells the system exactly which profile to use,
     even if other credentials are present in the environment.
 
-    If `credentials_profile_name` is not specified:
+    If `credentials_profile_name` is not specified in the `llm_config` of the HOCON file:
 
    * The default profile will be used.
 
@@ -330,7 +334,8 @@ followed by guidance on how to select and configure models.
     See the full AWS credential resolution order
     [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html)
 
-    > Note: You may also need to specify the `region_name` field if it's not set in your AWS profile.
+    > Note: You may also need to specify environment variable `AWS_REGION` or the `region_name` field
+    if region is not set in your AWS profile.
 
 3. Model selection
 
@@ -347,6 +352,7 @@ followed by guidance on how to select and configure models.
             "credentials_profile_name": "<profile_name>",
 
             # Optional, but required if not defined in your profile config
+            # or with env var AWS_REGION or AWS_DEFAULT_REGION
             "region_name": "us-west-2"
         }
     ```
