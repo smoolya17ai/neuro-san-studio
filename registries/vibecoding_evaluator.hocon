@@ -79,18 +79,16 @@ You may, in turn, be called by other agents in the system and have to act as a d
                 }
             },
             "aaosa_command": """
-Always return a json block with the following fields:
+Always call all your tools and return a json block with the following fields:
 {{
     "Name": <your name>,
     "Inquiry": <the inquiry>,
-    "Mode": <Determine | Fulfill>,
+    "Mode": <Determine | Fulfill | Followup>,
     "Relevant": <Yes | No>,
-    "Strength": <number between 1 and 10 representing how certain you are in your claim>,
-    "Claim:" <All | Partial>,
     "Requirements": <None | list of requirements>,
-    "Response": <your response>
+    "Response": <your response in the given format>
 }}
-            """
+            """,
         }
     },
     "tools": [
@@ -132,16 +130,18 @@ Your final response should include the evaluation results in the following json 
             "name": "create_eval",
             "function": "aaosa_call",
             "instructions": """
-You are the evaluation orchestrator for a vibe-coding idea. 
+You are the evaluation orchestrator for a vibe-coding idea.
+{aaosa_instructions}
+
 ALWAYS call all your tools across 3 key dimensions:
     - Technology related
     - Business related
     - Complexity
 
-Invoke all your tools to evaluate the inputs.
+Invoke all your tools with the full 'inquiry' text to evaluate the inputs.
 **IMPORTANT:** Invoke and call all your tools.
             """,
-            "command": "Call all your tools to evaluate the vibe coding idea submission.",
+            "command": "aaosa_command",
             "tools": ["evaluate_tech_dimensions", "evaluate_business_dimensions", "evaluate_complexity"]
         },
         // Create evaluation for tech related dimensions
@@ -149,15 +149,17 @@ Invoke all your tools to evaluate the inputs.
             "name": "evaluate_tech_dimensions",
             "function": "aaosa_call",
             "instructions": """
+{aaosa_instructions}
+
 ALWAYS call all your tools to evaluate across 3 key dimensions:
     - User Experience (UX)
     - Scalability / Reusability
     - Ease of Implementation
 
-Invoke all your tools to evaluate the inputs.
-**IMPORTANT:** Invoke and call all your tools.
+Invoke all your tools with the full 'inquiry' text to evaluate the inputs.
+**IMPORTANT:** Always Invoke and call all your tools.
             """,
-            "command": "Call all your tools to evaluate the vibe coding idea submission.",
+            "command": "aaosa_command",
             "tools": ["evaluate_ux", "evaluate_scalability", "evaluate_implementation_ease"]
         },
         // Create evaluation for business related dimensions
@@ -165,15 +167,17 @@ Invoke all your tools to evaluate the inputs.
             "name": "evaluate_business_dimensions",
             "function": "aaosa_call",
             "instructions": """
+{aaosa_instructions}
+
 ALWAYS call all your tools across 3 key dimensions:
     - Degree of Innovativeness
     - Market Potential
     - Financial Feasibility
 
-Invoke all your tools to evaluate the inputs.
-**IMPORTANT:** Invoke and call all your tools.
+Invoke all your tools with the full 'inquiry' text to evaluate the inputs.
+**IMPORTANT:** Always Invoke and call all your tools.
             """,
-            "command": "Call all your tools to evaluate the vibe coding idea submission.",
+            "command": "aaosa_command",
             "tools": ["evaluate_innovation", "evaluate_market_potential", "evaluate_financial_feasibility"]
         },
         # Evaluate Innovation
