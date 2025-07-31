@@ -14,6 +14,43 @@
 # https://github.com/cognizant-ai-lab/neuro-san-studio/blob/main/docs/user_guide.md#toolbox
 
 {
+    # ---------- Agent Network Tools ----------
+
+    "call_agent": {
+        "class": "call_agent.CallAgent",
+        "description": "Call the agent to response to inquiry.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "agent_name": {
+                    "type": "string",
+                    "description": "Name of the agent to call. Do not include file extension such as '.hocon' in the name."
+                },
+                "inquiry": {
+                    "type": "string",
+                    "description": "The inquiry"
+                },
+            },
+            "required": ["inquiry"]
+        } 
+    },
+
+    # This tool uses pyvis to generate a html, and open it in chrome browser.
+    "agent_network_html_generator": {
+        "class": "agent_network_html_generator.AgentNetworkHtmlGenerator"
+        "description": "Generate a html file from agent network hocon",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "agent_name": {
+                    "type": "string",
+                    "description": "Name of the agent to create html for. Do not include file extension such as '.hocon' in the name."
+                }
+            },
+            "required": ["agent_name"]
+        }
+    },
+
     # ---------- Gmail Tools ----------
     "gmail_toolkit": {
         # This is the class of the tool to use
@@ -77,6 +114,43 @@
             # The other arguments are optional
         }
     },
+
+    # ---------- OpenAI Tools ----------
+
+    # Requirement to use these tools:
+    # - langchain-openai >= 0.3.26
+    # - OPENAI_API_KEY
+    # See https://platform.openai.com/docs/guides/tools?api-mode=responses and
+    # https://python.langchain.com/docs/integrations/chat/openai/#responses-api
+
+    "openai_search": {
+        "class": "openai_web_search.OpenAIWebSearch",
+        "description": "Tool for searching web from the internet.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The text to search in."
+                },
+            },
+            "required": ["query"]
+        }
+    },
+    "openai_code_interpreter": {
+        "class": "openai_code_interpreter.OpenAICodeInterpreter",
+        "description": "Executes Python code and performs tasks such as plotting, data analysis, or math using the OpenAI Code Interpreter tool.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "A natural language instruction or request to be executed by the code interpreter (e.g., a math problem, plotting instruction, or data transformation)."
+                },
+            },
+            "required": ["query"]
+        }
+    },
         
     # ---------- RAG Tools ----------
 
@@ -119,43 +193,6 @@
         }
     },
 
-    # ---------- Agent Network Tools ----------
-
-    "call_agent": {
-        "class": "call_agent.CallAgent",
-        "description": "Call the agent to response to inquiry.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "agent_name": {
-                    "type": "string",
-                    "description": "Name of the agent to call. Do not include file extension such as '.hocon' in the name."
-                },
-                "inquiry": {
-                    "type": "string",
-                    "description": "The inquiry"
-                },
-            },
-            "required": ["inquiry"]
-        } 
-    },
-
-    # This tool uses pyvis to generate a html, and open it in chrome browser.
-    "agent_network_html_generator": {
-        "class": "agent_network_html_generator.AgentNetworkHtmlGenerator"
-        "description": "Generate a html file from agent network hocon",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "agent_name": {
-                    "type": "string",
-                    "description": "Name of the agent to create html for. Do not include file extension such as '.hocon' in the name."
-                }
-            },
-            "required": ["agent_name"]
-        }
-    },
-
     # ---------- Search Tools ----------
 
     # To use this search tool, obtain an API key from: https://brave.com/search/api/
@@ -176,7 +213,7 @@
             },
             "required": ["search_terms"]
         }
-    }
+    },
 
     # To use this search tool, you must
     #

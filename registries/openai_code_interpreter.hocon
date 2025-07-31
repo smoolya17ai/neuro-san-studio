@@ -39,11 +39,11 @@
         #   1) Cannot use a CodedTool "class" definition
         #   2) Cannot use a Tool "toolbox" definition
         {
-            "name": "searcher",
+            "name": "coder",
 
             "function": {
                 # The description acts as an initial prompt. 
-                "description": "Assist caller with searching an url.",
+                "description": "Assist caller using openai code interpreter.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -57,11 +57,11 @@
             },
 
             "instructions": "Use your tool to respond to the inquiry.",
-            "tools": ["website_search"]
+            "tools": ["code_interpreter"]
         },
         {
-            "name": "website_search",            
-            "toolbox": "openai_search",
+            "name": "code_interpreter",            
+            "toolbox": "openai_code_interpreter",
 
             # --- Optional Arguments ---
             "args": {

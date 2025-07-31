@@ -58,7 +58,13 @@
     "agentic_rag.hocon": false,
     "kwik_agents.hocon": false,
 
-    "openai_web_search.hocon": true
+    # Requirement to use this agent network:
+    # - langchain-openai >= 0.3.26
+    # - OPENAI_API_KEY
+    # See https://platform.openai.com/docs/guides/tools?api-mode=responses and
+    # https://python.langchain.com/docs/integrations/chat/openai/#responses-api
+    "openai_web_search.hocon": true,
+    "openai_code_interpreter.hocon": true,
 
     # To use this agent network, start by installing the required package:
     #     pip install atlassian-python-api
