@@ -20,6 +20,7 @@ from openai import OpenAIError
 DEFAULT_OPENAI_MODEL = "gpt-4o-2024-08-06"
 
 
+# pylint: disable=too-few-public-methods
 class OpenAITool:
     """
     An implementation for invoking OpenAI built-in tools using LangChain's ChatOpenAI.
