@@ -10,6 +10,7 @@
 from typing import Any
 from typing import Dict
 from typing import Union
+from typing import List
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
@@ -30,7 +31,7 @@ class ManageEval(CodedTool):
             "financial_feasibility_score": None,
             "complexity_score": None,
             # we update the description separately
-            # "idea_description": None
+            # "brief_description": None
         }
 
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
@@ -56,7 +57,7 @@ class ManageEval(CodedTool):
             - "ease_of_implementation_score"
             - "financial_feasibility_score"
             - "complexity_score"
-            - "idea_description"
+            - "brief_description"
 
         :return:
             A dictionary containing evaluation scores with the above listed keys.
@@ -80,14 +81,14 @@ class ManageEval(CodedTool):
             for key in self.eval_data:
                 if key in args:
                     # If the key is in args, update the evaluation score
-                    updated_evaluation[key] = args[key]
+                    updated_evaluation[key] = ManageEval.compute_average(args[key])
 
         # we should append to the text in description instead of replacing it with new values
-        if "idea_description" in args:
-            if "idea_description" in updated_evaluation:
-                updated_evaluation["idea_description"] += f"\n{args['idea_description']}"
+        if "brief_description" in args:
+            if "brief_description" in updated_evaluation:
+                updated_evaluation["brief_description"] += f"\n{args['brief_description']}"
             else:
-                updated_evaluation["idea_description"] = args.get("idea_description")
+                updated_evaluation["brief_description"] = args.get("brief_description")
 
         # Finally update the sly_data
         sly_data["evaluation"] = updated_evaluation
@@ -97,6 +98,40 @@ class ManageEval(CodedTool):
         print(f"{tool_name} response: ", tool_response)
         print(f"========== Done with {tool_name} ==========")
         return tool_response
+    
+    @staticmethod
+    def is_valid_number(value: Union[str, int, float, None]) -> bool:
+        """Checks if a given entity in the lsit is a valid number
+        :param value: An input number
+        :return true/false
+        """
+        try:
+            if value is None:
+                return False
+            if isinstance(value, str) and value.strip().lower() in {"", "null", "none", "nan"}:
+                return False
+            float(value)  # attempt conversion
+            return True
+        except (ValueError, TypeError):
+            return False
+
+    @staticmethod
+    def compute_average(list_of_scores: List[Union[str, int, float, None]]) -> float:
+        """
+        Calculates the average score of a given list of scores"
+        :param list_of_scores: a list of scores originating from each agent
+        :return average of the scores in the list
+        """
+        # Normalize input to a list
+        if not isinstance(list_of_scores, list):
+            list_of_scores = [list_of_scores]
+
+        numeric_values = [float(v) for v in list_of_scores if ManageEval.is_valid_number(v)]
+        
+        if not numeric_values:
+            return 0.0
+        
+        return sum(numeric_values) / len(numeric_values)
 
     async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """

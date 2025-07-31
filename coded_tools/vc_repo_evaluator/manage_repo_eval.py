@@ -10,6 +10,7 @@
 from typing import Any
 from typing import Dict
 from typing import Union
+from typing import List
 
 from neuro_san.interfaces.coded_tool import CodedTool
 
@@ -22,15 +23,15 @@ class ManageRepoEval(CodedTool):
 
     def __init__(self):
         self.eval_data: Dict[str, Any] = {
-            "repo_innovation_score": None,
-            "repo_ux_score": None,
-            "repo_scalability_score": None,
-            "repo_market_potential_score": None,
-            "repo_ease_of_implementation_score": None,
-            "repo_financial_feasibility_score": None,
-            "repo_complexity_score": None,
+            "innovation_score": None,
+            "ux_score": None,
+            "scalability_score": None,
+            "market_potential_score": None,
+            "ease_of_implementation_score": None,
+            "financial_feasibility_score": None,
+            "complexity_score": None,
             # we update the description separately
-            # "repo_description": None
+            # "brief_description": None
         }
 
     def invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
@@ -49,14 +50,14 @@ class ManageRepoEval(CodedTool):
             adding the data is not invoke()-ed more than once.
 
             Keys expected for this implementation are essential the evaluation scores:
-            - "repo_innovation_score"
-            - "repo_ux_score"
-            - "repo_scalability_score"
-            - "repo_market_potential_score"
-            - "repo_ease_of_implementation_score"
-            - "repo_financial_feasibility_score"
-            - "repo_complexity_score"
-            - "repo_description"
+            - "innovation_score"
+            - "ux_score"
+            - "scalability_score"
+            - "market_potential_score"
+            - "ease_of_implementation_score"
+            - "financial_feasibility_score"
+            - "complexity_score"
+            - "brief_description"
 
         :return:
             A dictionary containing evaluation scores with the above listed keys.
@@ -80,14 +81,14 @@ class ManageRepoEval(CodedTool):
             for key in self.eval_data:
                 if key in args:
                     # If the key is in args, update the evaluation score
-                    updated_evaluation[key] = args[key]
+                    updated_evaluation[key] = ManageRepoEval.compute_average(args[key])
 
         # we should append to the text in description instead of replacing it with new values
-        if "repo_description" in args:
-            if "repo_description" in updated_evaluation:
-                updated_evaluation["repo_description"] += f"\n{args['repo_description']}"
+        if "brief_description" in args:
+            if "brief_description" in updated_evaluation:
+                updated_evaluation["brief_description"] += f"\n{args['brief_description']}"
             else:
-                updated_evaluation["repo_description"] = args.get("repo_description")
+                updated_evaluation["brief_description"] = args.get("brief_description")
 
         # Finally update the sly_data
         sly_data["evaluation"] = updated_evaluation
@@ -97,6 +98,40 @@ class ManageRepoEval(CodedTool):
         print(f"{tool_name} response: ", tool_response)
         print(f"========== Done with {tool_name} ==========")
         return tool_response
+    
+    @staticmethod
+    def is_valid_number(value: Union[str, int, float, None]) -> bool:
+        """Checks if a given entity in the lsit is a valid number
+        :param value: An input number
+        :return true/false
+        """
+        try:
+            if value is None:
+                return False
+            if isinstance(value, str) and value.strip().lower() in {"", "null", "none", "nan"}:
+                return False
+            float(value)  # attempt conversion
+            return True
+        except (ValueError, TypeError):
+            return False
+
+    @staticmethod
+    def compute_average(list_of_scores: List[Union[str, int, float, None]]) -> float:
+        """
+        Calculates the average score of a given list of scores"
+        :param list_of_scores: a list of scores originating from each agent
+        :return average of the scores in the list
+        """
+        # Normalize input to a list
+        if not isinstance(list_of_scores, list):
+            list_of_scores = [list_of_scores]
+
+        numeric_values = [float(v) for v in list_of_scores if ManageRepoEval.is_valid_number(v)]
+        
+        if not numeric_values:
+            return 0.0
+        
+        return sum(numeric_values) / len(numeric_values)
 
     async def async_invoke(self, args: Dict[str, Any], sly_data: Dict[str, Any]) -> Union[Dict[str, Any], str]:
         """

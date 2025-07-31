@@ -15,6 +15,7 @@
         * [OpenAI](#openai)
         * [AzureOpenAI](#azureopenai)
         * [Anthropic](#anthropic)
+        * [Bedrock](#bedrock)
         * [Gemini](#gemini)
         * [Ollama](#ollama)
     * [Using custom or non-default LLMs](#using-custom-or-non-default-llms)
@@ -298,6 +299,88 @@ and specify which model to use in the `model_name` field of the `llm_config` sec
 
 Here you can get an Anthropic API [key](https://console.anthropic.com/settings/keys)
 
+### Bedrock
+
+To use Amazon Bedrock models, you need valid AWS credentials. Below are the recommended ways to provide credentials,
+followed by guidance on how to select and configure models.
+
+1. Environment variables
+
+    You can set the following environment variables directly:
+
+   * `AWS_ACCESS_KEY_ID`
+
+   * `AWS_SECRET_ACCESS_KEY`
+
+   * `AWS_REGION` or `AWS_DEFAULT_REGION`
+
+    > Note: You may set `region_name` in the `llm_config` of the agent network HOCON file instead
+
+    This is sufficient if you only have **one AWS profile** or if you're certain these environment variables
+    correspond to the correct credentials.
+
+2. Named profile (**required for multiple profiles**)
+
+    If you have **multiple profiles** in `~/.aws/credentials` or `~/.aws/config`, it's recommended to explicitly set
+    the credentials_profile_name field to avoid ambiguity. This tells the system exactly which profile to use,
+    even if other credentials are present in the environment.
+
+    If `credentials_profile_name` is not specified in the `llm_config` of the HOCON file:
+
+   * The default profile will be used.
+
+   * On EC2 instance, credentials may be automatically loaded from the Instance Metadata Service (IMDS).
+
+    See the full AWS credential resolution order
+    [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html)
+
+   > Note: You may also need to specify environment variable `AWS_REGION` or the `region_name` field if
+region is not set in your AWS profile.
+
+3. Model selection
+
+    In your agent network HOCON file, specify the model name, the credentials profile, and the region (if needed):
+
+    ```hocon
+        "llm_config": {
+
+            # Bedrock documentation lists both model name and model ID.
+            # Use the **Model ID** as the value for "model_name".
+            "model_name": "bedrock-us-claude-3-7-sonnet",
+
+            # Optional if using env vars or default profile
+            "credentials_profile_name": "<profile_name>",
+
+            # Optional, but required if not defined in your profile config
+            # or with env var AWS_REGION or AWS_DEFAULT_REGION
+            "region_name": "us-west-2"
+        }
+    ```
+
+#### Default Bedrock models
+
+The default supported Bedrock model names currently include:
+
+* `bedrock-us-claude-opus-4`
+
+* `bedrock-us-claude-sonnet-4`
+
+* `bedrock-us-claude-3-7-sonnet`
+
+These models require access to one of the following AWS regions:
+
+* `us-east-1`
+
+* `us-east-2`
+
+* `us-west-2`
+
+If these are not available in your account, you can still use other Bedrock models available to you by
+[using the class key](#using-the-class-key).
+
+To find which models are available in your region, refer to the official AWS documentation:
+[Supported models – Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html)
+
 ### Gemini
 
 To use Gemini models, set the `GOOGLE_API_KEY` environment variable to your Google Gemini API key
@@ -367,6 +450,48 @@ see [ChatOllama documentation](https://python.langchain.com/api_reference/ollama
 
 Make sure the model you specify is already downloaded and available in the Ollama server.
 
+> Tip: Ollama models may respond slowly depending on model size and hardware.
+If you're encountering the default 120 seconds timeouts,
+you can increase it by setting the `max_execution_seconds` key in the agent network HOCON.
+See [agent network documentation](https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md#max_execution_seconds)
+for more details.
+
+#### Using Ollama in Docker or Remote Server
+
+By default, Ollama listens on `http://127.0.0.1:11434`. However, if you are running Ollama inside Docker or
+on a remote machine, you need to explicitly set the `base_url` in `llm_config`.
+
+Here’s a ready-to-use `llm_config` block—just replace `<HOST>` with your setup:
+
+```hocon
+    "llm_config": {
+        "model_name": "qwen3:8b",
+        "base_url": "http://<HOST>:11434"
+    }
+```
+
+Examples:
+
+* Local (default): omit `base_url` or use `127.0.0.1`
+
+* Remote VM: `<HOST>` → `192.168.1.10`
+
+* Public DNS: `<HOST>` → `example.com`
+
+* Docker Compose: `<HOST>` → container name (ensure port `11434` is exposed)
+
+Just paste the block and update `<HOST>` to match your environment.
+
+> If you omit the port, and `base_url` starts with
+
+* `http` → port 80
+
+* `https` → port 443
+
+* neither → defaults to `http://<base_url>:11434`
+
+For more information on logic of parsing the `base_url` see [Ollama python SDK](https://github.com/ollama/ollama-python/blob/main/ollama/_client.py#L1173)
+
 #### Example agent network
 
 See the [./examples/music_nerd_pro_local.md](./examples/music_nerd_pro_local.md) for a complete working example.
@@ -399,6 +524,7 @@ You can define an LLM directly in `llm_config` using the `class` key in two diff
 
     | LLM Provider  | `class` Value   |
     |:--------------|:----------------|
+    | Amazon Bedrock| `bedrock`       |
     | Anthropic     | `anthropic`     |
     | Azure OpenAI  | `azure_openai`  |
     | Google Gemini | `gemini`        |
