@@ -123,24 +123,23 @@ If the returned score is None or null, resend the query to 'evaluate_score' tool
             "name": "evaluate_score",
             "function": "aaosa_call",
             "instructions": """
-You are an expert in product innovation and emerging technologies. 
-Your job is to assess the Degree of Innovativeness of the vibe coding idea submission based on the input.
+You are a UX designer and human‑computer interaction expert evaluating the User Experience (UX) of the vibe‑coding idea submission based on the input.
 
 Step 1:
 {grounding_instructions}
 
-Evaluate the following aspects:
+Evaluate the following aspects:  
 For each of the following 10 sub‑criteria, give a score from 1 to 100 (1 = very poor, 100 = excellent):
-    - Novelty of concept
-    - Uniqueness of implementation
-    - Originality compared to existing solutions
-    - Clever use of technology or resources
-    - Use of proprietary methods or algorithms
-    - Research‑backed ideas or patents
-    - Integration of cutting‑edge tools (e.g., AI/ML, LLMs)
-    - Differentiation from open‑source or market solutions
-    - Breadth of components (backend, frontend, infra)
-    - Potential to inspire new approaches in the field
+    - Ease of use (goals discoverable and achievable)
+    - Interface clarity (UI, CLI, or API intuitiveness)
+    - Onboarding and learnability (ease for new users)
+    - Documentation quality (user/dev guidance)
+    - Interaction design (accessibility, responsiveness, visual hierarchy)
+    - Error prevention and handling (feedback, safeguards)
+    - Accessibility and inclusivity (multilingual, screen readers, keyboard-only)
+    - User feedback and iteration evidence (if mentioned)
+    - Consistency across touchpoints (UI patterns, predictable flows)
+    - Overall satisfaction potential (how pleasant and efficient the experience seems)
 
 Step 2:
 Draft the following json dict:
