@@ -1,13 +1,13 @@
-# News-Sentiment Analysis Assistant
+# News Sentiment Analysis Assistant
 
-The **News-Sentiment Analysis Assistant** is a modular, multi-agent system that analyzes news articles from major global media outlets, *The New York Times (USA)*, 
+The **News Sentiment Analysis Assistant** is a modular, multi-agent system that analyzes news articles from major global media outlets, *The New York Times (USA)*, 
 *The Guardian (UK)*, and *Al Jazeera (Middle East)*, to reveal how topics, events, or individuals are emotionally framed across diverse geopolitical perspectives. Using keyword-driven sentiment analysis, it generates concise, data-backed insights that highlight variations in tone, polarity, and narrative emphasis.
 
 ---
 
 ## File
 
-[news_sentimental_analysis.hocon](../../registries/news_sentimental_analysis.hocon)
+[news_sentiment_analysis.hocon](../../registries/news_sentiment_analysis.hocon)
 
 ---
 ## Prerequisites
@@ -67,7 +67,7 @@ It orchestrates the execution pipeline by sequentially invoking agents, managing
 ### Human
 
 ```text
-Perform sentimental analysis on news related to space in different sources across the globe.
+Perform sentiment analysis on news related to space in different sources across the globe.
 ```
 
 ### AI

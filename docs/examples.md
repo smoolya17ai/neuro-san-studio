@@ -3,7 +3,6 @@
 Here are a few examples ordered by level of complexity.
 
 <!-- TOC -->
-
 * [Examples](#examples)
   * [🔰 Basic Examples](#-basic-examples)
     * [Music Nerd](#music-nerd)
@@ -32,7 +31,7 @@ Here are a few examples ordered by level of complexity.
     * [Banking Operations](#banking-operations)
     * [Retail Operations and Customer Service Assistant](#retail-operations-and-customer-service-assistant)
     * [Insurance Underwriting Agents](#insurance-underwriting-agents)
-    * [Sentimental Analysis of News Sources](#sentimental-analysis-of-news-sources)
+    * [Sentiment Analysis of News Sources](#sentiment-analysis-of-news-sources)
   * [🧪 Experimental and Research](#-experimental-and-research)
     * [Agent Network Designer](#agent-network-designer)
     * [Agent Network Architect](#agent-network-architect)
@@ -41,7 +40,6 @@ Here are a few examples ordered by level of complexity.
     * [Conscious Assistant](#conscious-assistant)
     * [Log Analyzer](#log-analyzer)
     * [WWAW](#wwaw)
-
 <!-- TOC -->
 
 ## 🔰 Basic Examples
@@ -238,9 +236,9 @@ validation, risk assessment, underwriting decisions, and claims intake. The syst
 
 **Tags:** `AAOSA`
 
-### Sentimental Analysis of News Sources
+### Sentiment Analysis of News Sources
 
-[Sentimental Analysis of News Sources](examples/news_sentimental_analysis.md) is a multi-agent system that analyzes
+[Sentiment Analysis of News Sources](examples/news_sentiment_analysis.md) is a multi-agent system that analyzes
 news coverage from The New York Times, The Guardian, and Al Jazeera to reveal emotional framing across geopolitical
 perspectives. Using keyword-driven sentiment analysis, it automates news retrieval, sentiment scoring, and report
 generation to provide concise, data-backed insights on sentiment polarity, tone variations, and media bias.
