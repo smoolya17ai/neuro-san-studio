@@ -18,7 +18,7 @@
 
     "call_agent": {
         "class": "call_agent.CallAgent",
-        "description": "Call the agent to response to inquiry.",
+        "description": "Call the agent to respond to inquiry.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -125,7 +125,7 @@
 
     "openai_search": {
         "class": "openai_web_search.OpenAIWebSearch",
-        "description": "Tool for searching web from the internet.",
+        "description": "Tool that provides web search capabilities",
         "parameters": {
             "type": "object",
             "properties": {
