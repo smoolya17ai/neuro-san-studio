@@ -103,11 +103,11 @@ Always call all your tools and return a json block with the following fields:
 You are the evaluation orchestrator for a vibe-coding idea.
 {aaosa_instructions}
 
-ALWAYS call 'evaluate_score' to evaluate an idea on Degree of Innovativeness.
+ALWAYS call 'evaluate_score' to evaluate an idea.
 
 **IMPORTANT:** Invoke your 'evaluate_score' tool with the full text as 'inquiry' to evaluate the inputs.
 
-If the returned score is None or null, resend the query to 'evaluate_score' tool.
+If the returned score is None or null or empty, invoke the 'evaluate_score' tool again.
             """,
             "allow": {
                 "to_upstream": {
@@ -126,6 +126,7 @@ If the returned score is None or null, resend the query to 'evaluate_score' tool
 You are a technical reviewer evaluating the Complexity of a described vibe‑coding idea submission.  
 This is not a quality score — high complexity can be good if well‑managed.  
 Your goal is to measure how sophisticated and multi‑layered the system is, based on the details provided.
+Always use your tools to evaluate the inputs.
 
 Step 1:
 {grounding_instructions}
@@ -184,7 +185,7 @@ Call the 'manage_eval' tool and return the json block with following fields:
                     },
                 }
             },
-            "class": "manage_eval.ManageEval"
+            "class": "vc_manage_eval.ManageEval"
         },
     ]
 }
