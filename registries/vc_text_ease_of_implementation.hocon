@@ -183,7 +183,7 @@ Call the 'manage_eval' tool and return the json block with following fields:
                     },
                 }
             },
-            "class": "manage_eval.ManageEval"
+            "class": "vc_manage_eval.ManageEval"
         },
     ]
 }
