@@ -293,7 +293,7 @@ and specify which model to use in the `model_name` field of the `llm_config` sec
 
 ```hocon
     "llm_config": {
-        "model_name": "claude-3-5-haiku",
+        "model_name": "claude-3-7-sonnet",
     }
 ```
 
