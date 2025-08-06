@@ -18,6 +18,7 @@ from anthropic import Anthropic
 from anthropic._response import BinaryAPIResponse 
 from anthropic.types.beta.file_metadata import FileMetadata
 from neuro_san.interfaces.coded_tool import CodedTool
+# pylint: disable=import-error
 from PIL import Image
 from PIL import ImageFile
 
@@ -42,6 +43,7 @@ class AnthropicCodeExecution(CodedTool):
                     - "query" (str): Request from the user prompt.
                 - from user
                     - "anthropic_model" (str): Anthropic model to call the tool. Default to claude-3-7-sonnet-20250219.
+                    - "save_file" (bool): Whether or not to save generated files.
                     - "additional_kwargs" (dict): Any additional arguments for the tool.
 
         :param sly_data: A dictionary whose keys are defined by the agent hierarchy,
