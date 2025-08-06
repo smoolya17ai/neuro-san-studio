@@ -66,6 +66,14 @@
     "openai_web_search.hocon": true,
     "openai_code_interpreter.hocon": true,
 
+    # Requirement to use this agent network:
+    # - langchain-anthropic>=0.3.13
+    # - ANTHROPIC_API_KEY
+    # See https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview and
+    # https://python.langchain.com/docs/integrations/chat/anthropic/#built-in-tools
+    "anthropic_web_search.hocon": true,
+    "anthropic_code_execution.hocon": true,
+
     # To use this agent network, start by installing the required package:
     #     pip install atlassian-python-api
     #
