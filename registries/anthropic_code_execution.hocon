@@ -16,7 +16,6 @@
 # Requirement to use this agent network:
 # - langchain-anthropic>=0.3.13
 # - ANTHROPIC_API_KEY
-# - PIL package for displaying generated figures
 # See https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview and
 # https://python.langchain.com/docs/integrations/chat/anthropic/#built-in-tools
 
@@ -66,7 +65,7 @@
 
             # --- Optional Arguments ---
             "args": {
-                # Anthroopic model calls the built-in web search tool. Default to claude-3-7-sonnet-20250219.
+                # Anthroopic model to call the built-in code execution tool. Default to claude-3-7-sonnet-20250219.
                 "anthropic_model": "claude-opus-4-1-20250805",
 
                 # Save generated files. Default to False.

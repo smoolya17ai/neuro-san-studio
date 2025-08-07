@@ -65,7 +65,7 @@
 
             # --- Optional Arguments ---
             "args": {
-                # Anthroopic model calls the built-in web search tool. Default to claude-3-7-sonnet-20250219.
+                # Anthroopic model to call the built-in web search tool. Default to claude-3-7-sonnet-20250219.
                 "anthropic_model": "claude-opus-4-1-20250805"
             }
         },

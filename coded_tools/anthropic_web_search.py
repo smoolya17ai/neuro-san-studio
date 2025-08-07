@@ -15,6 +15,8 @@ from neuro_san.interfaces.coded_tool import CodedTool
 
 from coded_tools.anthropic_tool import AnthropicTool
 
+WEB_SEARCH_TOOL_TYPE = "web_search_20250305"
+
 
 class AnthropicWebSearch(CodedTool):
     """
@@ -64,7 +66,7 @@ class AnthropicWebSearch(CodedTool):
 
         # User-defined arguments
 
-        # The OpenAI model to use when calling the tool.
+        # The Anthropic model to use when calling the tool.
         anthropic_model: str = args.get("anthropic_model")
 
         # Additional keyword arguments to pass to the selected tool.
@@ -73,7 +75,7 @@ class AnthropicWebSearch(CodedTool):
 
         return await AnthropicTool.arun(
             query=query,
-            tool_type="web_search_20250305",
+            tool_type=WEB_SEARCH_TOOL_TYPE,
             tool_name="web_search",
             anthropic_model=anthropic_model,
             betas=None,

@@ -20,7 +20,6 @@
     # Requirement to use this agent network:
     # - langchain-anthropic>=0.3.13
     # - ANTHROPIC_API_KEY
-    # - PIL package for displaying generated figures
     # See https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview and
     # https://python.langchain.com/docs/integrations/chat/anthropic/#built-in-tools
 

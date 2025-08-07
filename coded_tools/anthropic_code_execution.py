@@ -10,19 +10,21 @@
 #
 # END COPYRIGHT
 
-from io import BytesIO
 import logging
+import os
 from typing import Any
+from pathlib import Path
+import webbrowser
 
 from anthropic import Anthropic
-from anthropic._response import BinaryAPIResponse 
+from anthropic._response import BinaryAPIResponse
 from anthropic.types.beta.file_metadata import FileMetadata
 from neuro_san.interfaces.coded_tool import CodedTool
-# pylint: disable=import-error
-from PIL import Image
-from PIL import ImageFile
 
 from coded_tools.anthropic_tool import AnthropicTool
+
+CODE_EXECUTION_TOOL_TYPE = "code_execution_20250522"
+CODE_EXECUTION_BETA = "code-execution-2025-05-22"
 
 
 class AnthropicCodeExecution(CodedTool):
@@ -85,14 +87,14 @@ class AnthropicCodeExecution(CodedTool):
 
         content: list[dict[str, Any]] = await AnthropicTool.arun(
             query=query,
-            tool_type="code_execution_20250522",
+            tool_type=CODE_EXECUTION_TOOL_TYPE,
             tool_name="code_execution",
             anthropic_model=anthropic_model,
-            betas=["code-execution-2025-05-22"],
+            betas=[CODE_EXECUTION_BETA],
             **additional_kwargs
         )
 
-        # If there are generated files, display them.
+        # If there are generated files and user wants to save them
         file_ids: list[str] = self.extract_file_ids(content)
         if file_ids and save_file:
             self.save_file(file_ids)
@@ -109,7 +111,7 @@ class AnthropicCodeExecution(CodedTool):
         """
         file_ids: list[str] = []
         for item in content:
-            if item.get("type") == 'code_execution_tool_result':
+            if item.get("type") == "code_execution_tool_result":
                 content_item: dict[str, Any] = item.get("content")
                 content: list[dict[str, str]] = content_item.get("content")
                 if content:
@@ -136,14 +138,8 @@ class AnthropicCodeExecution(CodedTool):
             file_content.write_to_file(filename)
             logging.info("Downloaded: %s", filename)
 
-            file_extension: str = filename.split(".")[-1]
-            # If it is image ifle, show the file content as well
-            if file_extension in ["jpeg", "png", "gif", "webp"]:
-                # Read the content into memory as bytes
-                file_binary: bytes = file_content.read()
-
-                # Create a PIL Image from the bytes
-                image: ImageFile = Image.open(BytesIO(file_binary))
-
-                # Display the image in default image viewer
-                image.show()
+            # Creates file:// URL and open it
+            full_path = os.path.abspath(filename)
+            file_url = Path(full_path).as_uri()
+            # Use webbrowser because it works on all platforms
+            webbrowser.open(file_url)
