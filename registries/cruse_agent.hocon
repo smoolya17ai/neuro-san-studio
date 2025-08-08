@@ -96,9 +96,6 @@ Always use your tool to respond. Never respond without calling your tool first. 
         {
             "name": "domain_expert",
             "function": ${aaosa_call},
-            "instructions": """
-In intermediary to its tools, passing user inquiries and context as well as the tool responses back and forth.
-            """,
             "class": "call_agent.CallAgent",
         },
     ]
