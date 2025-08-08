@@ -65,7 +65,7 @@
 
             # --- Optional Arguments ---
             "args": {
-                # Anthroopic model to call the built-in code execution tool. Default to claude-3-7-sonnet-20250219.
+                # Anthropic model to call the built-in code execution tool. Default to claude-3-7-sonnet-20250219.
                 "anthropic_model": "claude-opus-4-1-20250805",
 
                 # Save generated files. Default to False.

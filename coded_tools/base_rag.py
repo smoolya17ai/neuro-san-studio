@@ -11,12 +11,16 @@
 
 import os
 import re
-from abc import ABC, abstractmethod
-from typing import Any, List, Optional
+from abc import ABC
+from abc import abstractmethod
+from typing import Any
+from typing import List
+from typing import Optional
 import logging
 
 from langchain_community.vectorstores import InMemoryVectorStore
 from langchain_core.documents import Document
+from langchain_core.vectorstores import VectorStore
 from langchain_core.vectorstores.base import VectorStoreRetriever
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -25,6 +29,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 INVALID_PATH_PATTERN = r"[<>:\"|?*\x00-\x1F]"
 
 logger = logging.getLogger(__name__)
+
 
 class BaseRag(ABC):
     """
@@ -42,7 +47,7 @@ class BaseRag(ABC):
         Abstract method to load documents from a specific data source.
         """
         raise NotImplementedError
-    
+
     def configure_vector_store_path(self, vector_store_path: Optional[str]):
         """
         Validate the vector store file path and set it as an absolute path.
@@ -63,7 +68,6 @@ class BaseRag(ABC):
             logger.error("vector_store_path must be a .json file, got: '%s'", vector_store_path)
             raise ValueError(f"vector_store_path must be a .json file, got: '{vector_store_path}'")
 
-
         if os.path.isabs(vector_store_path):
             # It's already an absolute path — use it directly
             self.abs_vector_store_path = vector_store_path
@@ -72,11 +76,11 @@ class BaseRag(ABC):
             base_path: str = os.path.dirname(__file__)
             self.abs_vector_store_path = os.path.abspath(os.path.join(base_path, vector_store_path))
 
-    async def generate_vector_store(self, loader_args: Any) -> InMemoryVectorStore:
+    async def generate_vector_store(self, loader_args: Any) -> VectorStore:
         """
         Asynchronously loads documents from a given data source, split them into
         chunks, and build an in-memory vector store using OpenAI embeddings or
-        load vectorstore from memory if it is available. 
+        load vectorstore from memory if it is available.
 
         :param loader_args: Arguments specific to the document loader (e.g., Confluence params or PDF file paths).
         :return: In-memory vector store containing the embedded document chunks
@@ -84,7 +88,7 @@ class BaseRag(ABC):
         # If vector store file path is provided (abs_vector_store_path is not None), try to load vector store first.
         if self.abs_vector_store_path:
             try:
-                vectorstore = InMemoryVectorStore.load(path=self.abs_vector_store_path, embedding=OpenAIEmbeddings())
+                vectorstore: VectorStore = InMemoryVectorStore.load(path=self.abs_vector_store_path, embedding=OpenAIEmbeddings())
                 logger.info("Loaded vector store from: %s", self.abs_vector_store_path)
                 return vectorstore
             except FileNotFoundError:
@@ -111,7 +115,7 @@ class BaseRag(ABC):
 
         return vectorstore
 
-    async def query_vectorstore(self, vectorstore: InMemoryVectorStore, query: str) -> str:
+    async def query_vectorstore(self, vectorstore: VectorStore, query: str) -> str:
         """
         Query the given vector store using the provided query string
         and return the combined content of retrieved documents.
