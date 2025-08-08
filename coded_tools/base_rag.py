@@ -11,12 +11,16 @@
 
 import os
 import re
-from abc import ABC, abstractmethod
-from typing import Any, List, Optional
+from abc import ABC
+from abc import abstractmethod
+from typing import Any
+from typing import List
+from typing import Optional
 import logging
 
 from langchain_community.vectorstores import InMemoryVectorStore
 from langchain_core.documents import Document
+from langchain_core.vectorstores import VectorStore
 from langchain_core.vectorstores.base import VectorStoreRetriever
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -72,7 +76,7 @@ class BaseRag(ABC):
             base_path: str = os.path.dirname(__file__)
             self.abs_vector_store_path = os.path.abspath(os.path.join(base_path, vector_store_path))
 
-    async def generate_vector_store(self, loader_args: Any) -> InMemoryVectorStore:
+    async def generate_vector_store(self, loader_args: Any) -> VectorStore:
         """
         Asynchronously loads documents from a given data source, split them into
         chunks, and build an in-memory vector store using OpenAI embeddings or
@@ -84,7 +88,7 @@ class BaseRag(ABC):
         # If vector store file path is provided (abs_vector_store_path is not None), try to load vector store first.
         if self.abs_vector_store_path:
             try:
-                vectorstore = InMemoryVectorStore.load(path=self.abs_vector_store_path, embedding=OpenAIEmbeddings())
+                vectorstore: VectorStore = InMemoryVectorStore.load(path=self.abs_vector_store_path, embedding=OpenAIEmbeddings())
                 logger.info("Loaded vector store from: %s", self.abs_vector_store_path)
                 return vectorstore
             except FileNotFoundError:
@@ -111,7 +115,7 @@ class BaseRag(ABC):
 
         return vectorstore
 
-    async def query_vectorstore(self, vectorstore: InMemoryVectorStore, query: str) -> str:
+    async def query_vectorstore(self, vectorstore: VectorStore, query: str) -> str:
         """
         Query the given vector store using the provided query string
         and return the combined content of retrieved documents.
