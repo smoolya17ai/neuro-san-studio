@@ -59,7 +59,7 @@ class PostgresConfig:
 
         return (
             f"postgresql+asyncpg://{self.user}:{self.password}@{self.host}"
-            + f":{self.port}/{self.database}"
+            f":{self.port}/{self.database}"
         )
 
 
