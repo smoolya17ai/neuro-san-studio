@@ -270,7 +270,7 @@ class BaseRag(ABC):
         vector_store_type: Literal["in_memory", "postgres"]
     ):
         """Save vector store to file if configured."""
-        should_save = (
+        should_save: bool = (
             self.save_vector_store
             and self.abs_vector_store_path
             and vector_store_type == "in_memory"
