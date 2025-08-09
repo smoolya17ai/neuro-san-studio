@@ -1,0 +1,83 @@
+# Copyright (C) 2023-2025 Cognizant Digital Business, Evolutionary AI.
+# All Rights Reserved.
+# Issued under the Academic Public License.
+#
+# You can be released from the terms, and requirements of the Academic Public
+# License by purchasing a commercial license.
+# Purchase of a commercial license is mandatory for any use of the
+# neuro-san SDK Software in commercial settings.
+#
+# END COPYRIGHT
+{
+    "llm_config": {
+        "model_name": "gpt-4o",
+    },
+    "max_iterations": 4000,
+    "max_execution_seconds": 600,
+    "commondefs": {},
+    "tools": [
+        {
+            "name": "inventory_planner",
+            "function": {
+                "description": "Top-level coordinator for supply chain inventory planning queries.",
+            },
+            "instructions": """You coordinate forecasting, optimization, procurement, warehouse tracking, and reporting to answer user questions about inventory. Gather required details, delegate to specialists, and combine their results into a clear response.""",
+            "tools": ["demand_forecaster", "inventory_optimizer", "procurement_agent", "warehouse_manager", "reporting_agent"]
+        },
+        {
+            "name": "demand_forecaster",
+            "function": {
+                "description": "Predicts product demand from sales history.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "product": {
+                            "type": "string",
+                            "description": "Product to forecast demand for."
+                        }
+                    },
+                    "required": ["product"]
+                }
+            },
+            "instructions": """Estimate upcoming demand for the specified product based on historical data and trends.""",
+            "tools": ["forecast_demand"]
+        },
+        {
+            "name": "inventory_optimizer",
+            "function": {
+                "description": "Balances stock levels, lead times, and carrying costs.",
+            },
+            "instructions": """Recommend reorder quantities and safety stock using demand forecasts and current inventory data.""",
+            "tools": ["optimize_inventory"]
+        },
+        {
+            "name": "procurement_agent",
+            "function": {
+                "description": "Orders from suppliers.",
+            },
+            "instructions": """Create purchase orders to replenish inventory when required.""",
+            "tools": ["create_purchase_order"]
+        },
+        {
+            "name": "warehouse_manager",
+            "function": {
+                "description": "Tracks on-hand quantities.",
+            },
+            "instructions": """Monitor warehouse stock levels and provide availability details.""",
+            "tools": ["check_stock"]
+        },
+        {
+            "name": "reporting_agent",
+            "function": {
+                "description": "Summaries and dashboards for stakeholders.",
+            },
+            "instructions": """Compile inputs from other agents into concise status reports.""",
+            "tools": ["generate_report"]
+        },
+        {"name": "forecast_demand", "toolbox": "forecast_demand"},
+        {"name": "optimize_inventory", "toolbox": "optimize_inventory"},
+        {"name": "create_purchase_order", "toolbox": "create_purchase_order"},
+        {"name": "check_stock", "toolbox": "check_stock"},
+        {"name": "generate_report", "toolbox": "generate_report"}
+    ]
+}

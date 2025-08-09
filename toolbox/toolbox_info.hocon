@@ -284,4 +284,65 @@
         }
     }
 
+    "forecast_demand": {
+        "class": "supply_chain_inventory.ForecastDemand",
+        "description": "Forecast product demand from sales history.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "product": {
+                    "type": "string",
+                    "description": "Product identifier."
+                }
+            },
+            "required": ["product"]
+        }
+    },
+    "optimize_inventory": {
+        "class": "supply_chain_inventory.OptimizeInventory",
+        "description": "Recommend reorder quantities based on demand and current stock.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "forecast": {"type": "number", "description": "Forecasted demand"},
+                "current_stock": {"type": "number", "description": "Current inventory"},
+                "lead_time": {"type": "number", "description": "Lead time"}
+            },
+            "required": ["forecast", "current_stock", "lead_time"]
+        }
+    },
+    "create_purchase_order": {
+        "class": "supply_chain_inventory.CreatePurchaseOrder",
+        "description": "Create a purchase order for a product.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "product": {"type": "string", "description": "Product to order"},
+                "quantity": {"type": "number", "description": "Quantity to order"}
+            },
+            "required": ["product", "quantity"]
+        }
+    },
+    "check_stock": {
+        "class": "supply_chain_inventory.CheckStock",
+        "description": "Check on-hand inventory levels for a product.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "product": {"type": "string", "description": "Product to check"}
+            },
+            "required": ["product"]
+        }
+    },
+    "generate_report": {
+        "class": "supply_chain_inventory.GenerateReport",
+        "description": "Generate simple supply chain reports.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "report_type": {"type": "string", "description": "Type of report"}
+            },
+            "required": ["report_type"]
+        }
+    }
 }
