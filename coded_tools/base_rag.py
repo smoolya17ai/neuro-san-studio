@@ -208,16 +208,15 @@ class BaseRag(ABC):
         """Create a PostgreSQL vector store."""
 
         # Create engine and table
-
         pg_engine = PGEngine.from_connection_string(url=postgres_config.connection_string)
         table_name: str = postgres_config.table_name or DEFAULT_TABLE_NAME
 
         logger.info(
             "PostgreSQL connection details:\n"
-            "  Host: %s\n"
-            "  Port: %s\n"
-            "  Database: %s\n"
-            "  Table: %s\n",
+            + "  Host: %s\n"
+            + "  Port: %s\n"
+            + "  Database: %s\n"
+            + "  Table: %s\n",
             postgres_config.host, postgres_config.port, postgres_config.database, table_name
         )
 
